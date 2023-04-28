@@ -222,7 +222,6 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                                     'product_name' => $row['PRODUCT_NAME'],
                                     'unit_measurement' => $row['UNIT_MEASUREMENT'],
                                     'selling_price' => $row['SELLING_PRICE'],
-                                    'cat_id' => $row['CAT_ID'],
                                     'subcat_id' => $row['SUB_CAT_ID'],
                                     'description' => $row['DESCRIPTION'],
                                     'critical_level' => $row['CRITICAL_LEVEL'],
@@ -266,7 +265,6 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                                     'product_name' => $row['PRODUCT_NAME'],
                                     'unit_measurement' => $row['UNIT_MEASUREMENT'],
                                     'selling_price' => $row['SELLING_PRICE'],
-                                    'cat_id' => $row['CAT_ID'],
                                     'subcat_id' => $row['SUB_CAT_ID'],
                                     'description' => $row['DESCRIPTION'],
                                     'critical_level' => $row['CRITICAL_LEVEL'],
@@ -314,7 +312,6 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                                 'product_name' => $row['PRODUCT_NAME'],
                                 'unit_measurement' => $row['UNIT_MEASUREMENT'],
                                 'selling_price' => $row['SELLING_PRICE'],
-                                'cat_id' => $row['CAT_ID'],
                                 'subcat_id' => $row['SUB_CAT_ID'],
                                 'description' => $row['DESCRIPTION'],
                                 'critical_level' => $row['CRITICAL_LEVEL'],
@@ -353,6 +350,70 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                 header("HTTP/1.0 405 Access Deny");
                 echo json_encode($data);
         }
+    }
+  }
+
+  function addToCart($productID, $custID){
+    global $conn;
+
+    $check_cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = $custID";
+    $check_cust_result = $conn->query($check_cust_sql);
+
+    if($check_cust_result->num_rows > 0)
+    {
+        $cust = $check_cust_result->fetch_assoc();
+
+        $cartID = $cust['CART_ID'];
+
+        $check_pro_exist_sql = "SELECT * FROM products WHERE PRODUCT_ID = $productID";
+        $check_pro_exist_result = $conn->query($check_pro_exist_sql);
+        if($check_pro_exist_result->num_rows > 0)
+        {
+            $product = $check_pro_exist_result->fetch_assoc();
+
+            $amount = $product['SELLING_PRICE'] * 1;
+
+            $cart_insert = "INSERT INTO `cart_items`(`CART_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
+                            VALUES ('$cartID','$productID',1,'$amount')";
+
+            if($conn->query($cart_insert) === TRUE)
+            {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Added To Cart',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                echo json_encode($data);
+            }
+            else
+            {
+                $data = [
+                    'status' => 405,
+                    'message' => 'Wrong Query',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                echo json_encode($data);
+            }
+        }
+        else
+        {
+            $data = [
+                'status' => 405,
+                'message' => 'No product found',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            echo json_encode($data);
+        }
+
+    }
+    else
+    {
+        $data = [
+            'status' => 405,
+            'message' => 'No cust Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        echo json_encode($data);
     }
   }
 ?>
