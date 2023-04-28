@@ -290,14 +290,31 @@ if (isset($_SESSION['id'])) {
                                     <div class="contents-input-container add-product-cat">
                                         <select id="category-select" name="cat">
                                             <?php
+                                            $productID = $product['PRODUCT_ID'];
                                             $categories = "SELECT * FROM category";
                                             $categories_result = $conn->query($categories);
+
+                                            $cur_cat = "SELECT c.CAT_ID, c.CAT_NAME
+                                            FROM CATEGORY c
+                                            INNER JOIN SUB_CATEGORY sc ON c.CAT_ID = sc.CAT_ID
+                                            INNER JOIN products p ON sc.SUB_CAT_ID = p.SUB_CAT_ID
+                                            WHERE p.PRODUCT_ID = $productID";
+
+                                            $cur_cat_result = $conn->query($cur_cat);
+                                            
+                                            if($cur_cat_result->num_rows > 0){
+                                                $current_category = $cur_cat_result->fetch_assoc();
+
+                                                $current_cat_id  = $current_category['CAT_ID'];
+                                            } else {
+                                                $current_cat_id = 0;
+                                            }
 
                                             if ($categories_result->num_rows > 0) {
                                                 while ($row = $categories_result->fetch_assoc()) {
                                             ?>
                                                     <option value="<?php echo $row['CAT_ID'] ?>" <?php
-                                                                                                    if ($row['CAT_ID'] == $product['CAT_ID']) {
+                                                                                                    if ($row['CAT_ID'] == $current_cat_id) {
                                                                                                         echo "selected";
                                                                                                     }
                                                                                                     ?>><?php echo $row['CAT_NAME'] ?></option>

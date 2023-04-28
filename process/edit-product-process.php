@@ -73,7 +73,7 @@ if(isset($_POST['save_change']))
 
     $product_code_final = !empty($product_code) ? $product_code : null;
 
-    $update_product = "UPDATE `products` SET `PRODUCT_CODE`='$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price',`CAT_ID`='$category_id',`SUB_CAT_ID`='$sub_category_id',`DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable' WHERE PRODUCT_ID = $productID";
+    $update_product = "UPDATE `products` SET `PRODUCT_CODE`='$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price', `SUB_CAT_ID`='$sub_category_id',`DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable' WHERE PRODUCT_ID = $productID";
 
     $addDate = $currentDate;
     $addTime = $currentTime;

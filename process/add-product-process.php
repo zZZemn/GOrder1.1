@@ -62,8 +62,8 @@ if(isset($_POST['addProduct']))
     $is_vatable = isset($_POST['vatable']) ? 1 : 0;
 
 
-    $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `CAT_ID`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`, `PRODUCT_STATUS`) 
-                                        VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price','$category_id','$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable', 'active')";
+    $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`, `PRODUCT_STATUS`) 
+                                        VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable', 'active')";
 
     $addDate = $currentDate;
     $addTime = $currentTime;

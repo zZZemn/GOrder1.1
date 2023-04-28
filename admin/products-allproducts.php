@@ -256,12 +256,12 @@ if (isset($_SESSION['id'])) {
                         ?>
 
                                 <option value="<?php echo $row['CAT_ID'] ?>" <?php
-                                                                            if (isset($_GET['CAT_ID'])) {
-                                                                                if ($_GET['CAT_ID'] == $row['CAT_ID']) {
-                                                                                    echo 'selected';
+                                                                                if (isset($_GET['CAT_ID'])) {
+                                                                                    if ($_GET['CAT_ID'] == $row['CAT_ID']) {
+                                                                                        echo 'selected';
+                                                                                    }
                                                                                 }
-                                                                            }
-                                                                            ?>>
+                                                                                ?>>
                                     <?php echo $row['CAT_NAME'] ?></option>
 
                         <?php
@@ -399,7 +399,7 @@ if (isset($_SESSION['id'])) {
                             if (isset($_GET['SUB_CAT_ID']) && is_numeric($_GET['SUB_CAT_ID'])) {
                                 $sub_cat_id = mysqli_real_escape_string($conn, $_GET['SUB_CAT_ID']);
 
-                                $categorizeProduct = "SELECT * FROM products WHERE CAT_ID = $cat_id AND SUB_CAT_ID = $sub_cat_id AND PRODUCT_STATUS = 'active'";
+                                $categorizeProduct = "SELECT * FROM products WHERE SUB_CAT_ID = $sub_cat_id AND PRODUCT_STATUS = 'active'";
                                 $categorizeProduct_Result = $conn->query($categorizeProduct);
 
                                 if ($categorizeProduct_Result->num_rows > 0) {
@@ -428,7 +428,10 @@ if (isset($_SESSION['id'])) {
                                 }
                             } else {
                                 if (isset($_GET['SUB_CAT_ID']) && $_GET['SUB_CAT_ID'] == "all") {
-                                    $categorizeProduct = "SELECT * FROM products WHERE CAT_ID = $cat_id AND PRODUCT_STATUS = 'active'";
+                                    $categorizeProduct = "SELECT p.*
+                                                          FROM products p
+                                                          INNER JOIN SUB_CATEGORY sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID
+                                                          WHERE sc.CAT_ID = $cat_id AND p.PRODUCT_STATUS = 'active';";
                                     $categorizeProduct_Result = $conn->query($categorizeProduct);
                                     if ($categorizeProduct_Result->num_rows > 0) {
                                         while ($row = $categorizeProduct_Result->fetch_assoc()) {
