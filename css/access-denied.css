@@ -1,0 +1,24 @@
+.access-denied {
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+    justify-content: space-around;
+    height: 20vh;
+    margin-top: 30vh;
+
+    font-family: 'poppins', sans-serif;
+}
+
+.access-denied h1 {
+    color: red;
+    font-weight: 600;
+    font-size: 50px; 
+}
+
+.access-denied h5 {
+    color: black;
+    font-size: 15px;
+}

@@ -1,0 +1,279 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+    align-items: center;
+
+    background-color: #1673ff;
+}
+
+.main-container {
+    background-color: white;
+    display: flex;
+    padding: 0;
+
+    height: 580px;
+    width: 40%;
+
+    border-radius: 5px;
+}
+
+.inputs-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.inputs-container img {
+    height: 150px;
+    margin-top: 20px;
+}
+
+.inputs-container .hr-logo {
+    margin-top: 10px;
+    color: rgb(0, 0, 0);
+    height: 1px;
+    width: 300px;
+}
+
+.wrong-email-pass {
+    position: relative;
+    
+    width: 300px;
+    height: 23px;
+
+    display: flex;
+    justify-content: center;
+}
+
+.inputs-container em {
+    position: absolute;
+    font-size: 11px;
+
+    color: red;
+}
+
+.input-field {
+    margin: 10px;
+    position: relative;
+}
+
+.input-field .input {
+    height: 45px;
+    width: 300px;
+    padding: 10px;
+    background-color: white;
+    font-size: 14px;
+
+    outline: none;
+    border: 1px solid rgb(124, 124, 124);
+    border-radius: 3px;
+}
+
+.input-field label {
+    position: absolute;
+    left: 12px;
+    top: 13px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    background-color: white;
+    padding: 0px 5px;
+
+    transition: .3s;
+}
+
+.input-field .input:focus ~ label {
+    top: -11px;
+    font-size: 11px;
+}
+
+.input-field .input:not(:placeholder-shown) ~ label {
+    top: -11px;
+    font-size: 11px;
+}
+
+.input-field .input::placeholder{
+    color: rgba(255, 255, 255, 0);
+}
+
+
+.input-field .submit {
+    letter-spacing: 1px;
+    padding: 6px 0px;
+    width: 300px;
+
+    font-weight: 600;
+}
+
+.forgot-pass {
+    font-size: 13px;
+    margin-top: 5px;
+    text-decoration: none;
+}
+
+.forgot-pass:hover {
+    text-decoration: underline;
+}
+
+.hr-forgot-pass {
+    margin-top: 15px;
+    color: rgb(0, 0, 0);
+    height: 1px;
+    width: 300px;
+}
+
+.create-new-account {
+    background-color: #42b72a;
+    color: white;
+    font-weight: 500;
+}
+
+.create-new-account:hover {
+    background-color: #3aa824;
+    color: rgb(238, 237, 237);
+}
+
+@media (max-width: 1220px) {
+    .main-container {
+        width: 42%;
+        height: 550px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-container {
+        width: 44%;
+    }
+}
+
+@media (max-width: 950px) {
+    .main-container {
+        width: 46%;
+    }
+}
+
+@media (max-width: 850px) {
+    .main-container {
+        width: 48%;
+    }
+}
+
+@media (max-width: 750px) {
+    .main-container {
+        width: 50%;
+    }
+}
+
+@media (max-width: 680px) {
+    .main-container {
+        width: 55%;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-container {
+        width: 60%;
+    }
+}
+
+@media (max-width: 550px) {
+    .main-container {
+        width: 62%;
+    }
+}
+
+@media (max-width: 530px) {
+    .main-container {
+        width: 68%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        width: 75%;
+    }
+}
+
+@media (max-width: 430px) {
+    .main-container {
+        width: 80%;
+    }
+
+    .input-field .input {
+        height: 40px;
+        width: 250px;
+    }
+
+    .input-field label {
+        top: 11px;
+    }
+
+    .input-field .submit {
+        width: 250px;
+        padding: 4px 0px;
+    }
+
+    .create-new-account {
+        font-size: 13px;
+    }
+
+    hr {
+        width: 250px !important;
+    }
+
+}
+
+@media (max-width: 360px) {
+    .main-container {
+        height: 500px;
+    }
+    .input-field .input {
+        height: 35px;
+        width: 200px;
+    }
+
+    .input-field label {
+        font-size: 10px;
+        top: 10px;
+    }
+
+    .input-field .input:focus ~ label {
+        top: -8px;
+        font-size: 8px;
+    }
+    
+    .input-field .input:not(:placeholder-shown) ~ label {
+        top: -8px;
+        font-size: 8px;
+    }
+
+    .input-field .submit {
+        width: 200px;
+        padding: 6px 0px;
+        font-size: 12px;
+    }
+
+    .create-new-account {
+        font-size: 13px;
+    }
+
+    .wrong-email-pass em {
+        font-size: 10px;
+    }
+
+    .forgot-pass {
+        font-size: 10px;
+    }
+
+    hr {
+        width: 200px !important;
+    }
+}

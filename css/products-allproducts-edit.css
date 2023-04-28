@@ -1,0 +1,324 @@
+.edit-product-container {
+    position: relative;
+    background-color: white;
+    padding: 30px;
+    font-family: 'poppins', sans-serif;
+    overflow-y:auto;
+}
+
+.product-edit-back {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    color: rgb(37, 37, 37);
+    font-size: 20px;
+    border-radius: 50%;
+    padding-left: 10px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-edit-back span {
+    font-size: 10px;
+}
+
+.product-edit-back:hover {
+    color: black;
+}
+
+.product-edit-hr {
+    margin-left: 120px;
+    width: 60%;
+
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.f-row {
+    display: flex;
+    align-items: center;
+    padding-left: 150px;
+}  
+
+.f-row img {
+    height: 150px;
+}
+
+.f-row-right {
+    margin-left: 50px;
+}
+
+.f-row-right .product-name-meas,
+.selling-price-crit-level {
+    display: flex;
+
+}
+
+.contents-input-container {
+    position: relative;
+    margin: 10px;
+}
+
+.contents-input-container label {
+    position: absolute;
+    left: 10px;
+    font-size: 10px;
+    background-color: white;
+    transform: translateY(-6px);
+    padding: 0 8px;
+}
+
+.contents-input-container input {
+    font-size: 13px;
+    padding: 5px;
+
+    border: 1px solid rgb(122, 122, 122);
+    outline: none;
+}
+
+.product-code input {
+    width: 100%;
+    text-align: center;
+}
+
+.unit-meas,
+.critical-level {
+    margin-left: 5px;
+}
+
+.unit-meas label {
+    left: 5px;
+}
+
+.unit-meas input {
+    width: 130px;
+    text-align: center;
+}
+
+
+.critical-level label {
+    left: 5px;
+}
+
+.critical-level input {
+    width: 130px;
+    text-align: center;
+}
+
+/*  */
+
+.s-row {
+    display: flex;
+    flex-direction: column;
+    padding-left: 150px;
+    font-size: 13px;
+
+}
+
+.s-row-f textarea {
+    width: 530px;
+    text-align: left;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.s-row-s {
+    display: flex;
+}
+
+.s-row-s-left .pres-vat {
+    height: 30px;
+    width: 150px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 10px;
+    border: 1px solid rgb(122, 122, 122);
+}
+
+.s-row-s-right select {
+    height: 30px;
+    width: 150px;
+}
+
+.upload-pic {
+    margin: 10px;
+    height: 30px;
+    width: 250px;
+    margin-right: 120px;
+}
+
+.save-changes {
+    padding-top: 5px;
+    display: flex;
+    justify-content: right;
+}
+
+.save-changes input {
+    height: 30px !important;
+}
+
+
+@media (max-width: 1115px) { 
+    .f-row {
+        padding-left: 100px;
+    }
+    .s-row {
+        padding-left: 100px;    
+    }
+    .product-edit-hr {
+        margin-left: 70px;
+        width: 80%;
+    }
+}
+
+@media (max-width: 970px) { 
+    .f-row {
+        padding-left: 0px;
+    }
+    .s-row {
+        padding-left: 0px;
+    }
+    .product-edit-hr {
+        margin-left: 0px;
+        width: 90%;
+    }
+}
+
+@media (max-width: 700px) { 
+    .f-row {
+        padding-left: 20px;
+    }
+    .s-row {
+        padding-left: 20px;
+    }
+    .product-edit-hr {
+        margin-left: 20px;
+        width: 90%;
+    }
+}
+
+@media (max-width: 630px) { 
+    .f-row {
+        padding-left: 0px;
+    }
+    .s-row {
+        padding-left: 0px;
+    }
+    .product-edit-hr {
+        margin-left: 0px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) { 
+    .product-edit-back {
+        position: fixed;
+        top: 80px;
+        left: 20px;
+    }
+    .edit-product-container {
+        padding-top: 50px;
+        height: 85vh;
+    }
+    
+    .f-row {
+        flex-direction: column;
+    }
+    
+    .f-row-right {
+        margin: 0;
+        margin-top: 20px;
+    }
+
+    .s-row {
+        align-items: center;
+    }
+
+    .s-row-f {
+        width: 310px;
+    }
+
+    .s-row-f textarea {
+        width: 100%;
+    }
+
+    .s-row-s {
+        width: 310px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .s-row-s-left {
+        width: 310px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        margin-bottom: 20px;
+    }
+
+    .s-row-s-left .pres-vat {
+        width: 290px;
+    }
+
+    .upload-pic {
+        width: 290px;
+        margin: 0;
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+
+    .s-row-s-right {
+        width: 310px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .s-row-s-right select {
+        width: 290px;
+    }
+}
+
+@media (max-width: 360px) { 
+    .f-row-right .product-name-meas,
+    .selling-price-crit-level {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .f-row-right input {
+        width: 200px;
+        height: 35px;
+    }
+
+    .unit-meas label {
+        left: 10px;
+    }
+
+    .critical-level label {
+        left: 10px;
+    }
+
+    .s-row-s-right select {
+        width: 200px;
+    }
+
+    .s-row-s-left .pres-vat {
+        width: 200px;
+    }
+
+    .upload-pic {
+        width: 200px;
+    }
+
+    .s-row-f {
+        width: 220px;
+    }
+}
