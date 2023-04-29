@@ -1,0 +1,96 @@
+body {
+    background-color: white !important;
+    font-family: 'poppins', sans-serif !important; 
+}
+
+.delivery-back {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    color: rgb(37, 37, 37);
+    font-size: 20px;
+    border-radius: 50%;
+    padding-left: 10px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.delivery-back span {
+    font-size: 10px;
+}
+
+.input {
+    position: relative;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.input input,
+select {
+    height: 40px;
+    outline: none;
+    font-size: 13px;
+}
+
+.input select {
+    text-align: center;
+}
+
+.input input {
+    padding-left: 10px;
+}
+
+.input label {
+    position: absolute;
+    left: 10px;
+    font-size: 12px;
+    background-color: white;
+    transform: translateY(-10px);
+    padding: 0 10px;
+}
+
+.delivered-container {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 10px 80px;
+}
+
+.top-left {
+    background-color: white;
+    height: 200px;
+    padding: 20px;
+
+    font-size: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    box-shadow: 1px 1px 5px rgb(202, 202, 202);
+}
+
+.top-right {
+    background-color: white;
+    padding: 20px;
+    height: 200px;
+    width: 600px;
+
+    box-shadow: 1px 1px 5px rgb(202, 202, 202);
+}
+
+.top-right .f-row {
+    display: flex;
+    align-items: center;
+}
+
+.top-right .s-row {
+    display: flex;
+    align-items: center;
+}
+
+.add-btn {
+    margin-top: 20px;
+    margin-left: 40px;
+}
