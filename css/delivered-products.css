@@ -55,6 +55,8 @@ select {
     justify-content: space-between;
 
     padding: 10px 80px;
+
+    border-bottom: 1px solid black;
 }
 
 .top-left {
@@ -93,4 +95,15 @@ select {
 .add-btn {
     margin-top: 20px;
     margin-left: 40px;
+}
+
+.delivered-products-table-container {
+    overflow: auto;
+    height: 70vh;
+}
+
+.delivered-products-table thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
 }

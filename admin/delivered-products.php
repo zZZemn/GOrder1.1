@@ -63,7 +63,7 @@ if (isset($_GET['del_id'])) {
             </div>
 
             <div class="top-right">
-                <form class="add-product-container">
+                <form class="add-product-container" action="../process/delivered-add-process.php" method="post">
                     <h5>Add Product</h5>
                     <div class="f-row">
 
@@ -86,6 +86,8 @@ if (isset($_GET['del_id'])) {
                                 ?>
                             </datalist>
                         </div>
+
+                        <input type="hidden" name="del_id" value="<?php echo $del['DELIVERY_ID'] ?>">
 
                         <div class="input">
                             <input type="date" name="expriration_date" id="expriration_date">
@@ -114,6 +116,238 @@ if (isset($_GET['del_id'])) {
                 </form>
             </div>
 
+        </div>
+
+        <div class="delivered-products-table-container">
+            <table class="delivered-products-table table table-striped">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Supplier Price</th>
+                        <th>Expiration Date</th>
+                        <th>Selling Price</th>
+                        <th>Qty</th>
+                        <th>Del Qty</th>
+                        <th>Batch No.</th>
+                        <th>Mark up</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php 
+                    $delID = $_GET['del_id'];
+                    $del_query = "SELECT * FROM inventory WHERE DELIVERY_ID = $delID";
+                    $del_query_result = $conn->query($del_query);
+                    if($del_query_result->num_rows > 0) {
+                        while($row = $del_query_result->fetch_assoc()){
+                            $pro_id = $row['PRODUCT_ID'];
+                            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
+                            $product_result = $conn->query($product_sql);
+                            $product = $product_result->fetch_assoc();
+                            ?>
+                    <tr>
+                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
+                        <td><?php echo $row['SUPPLIER_PRICE'] ?></td>
+                        <td><?php echo $row['EXP_DATE'] ?></td>
+                        <td><?php echo $product['SELLING_PRICE'] ?></td>
+                        <td><?php echo $row['QUANTITY'] ?></td>
+                        <td><?php echo $row['DEL_QUANTITY'] ?></td>
+                        <td><?php echo $row['BATCH_NO'] ?></td>
+                        <td><?php echo $row['MARK_UP'] ?></td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+
+                            <?php
+                        }
+                    }
+                    ?>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>abcdefg</td>
+                        <td>
+                            <a href="#">Edit</a>
+                            <a href="#">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
 
