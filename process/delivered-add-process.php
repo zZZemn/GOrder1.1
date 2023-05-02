@@ -22,39 +22,46 @@ if(isset($_POST['add_delivered'])) {
         $check_inv_id_result = $conn->query($check_inv_id);
     }
 
-    $del_id = $_POST['del_id'];
-    $product_id = $_POST['product_id'];
-    $expriration_date = $_POST['expriration_date'];
-    $batch_no = $_POST['batch_no'];
-    $supp_price = $_POST['supp_price'];
-    $del_qty = $_POST['del_qty'];
+    $del_id = filter_var($_POST['del_id'], FILTER_SANITIZE_NUMBER_INT);
+    $product_id = filter_var($_POST['product_id'], FILTER_SANITIZE_NUMBER_INT);
+    $expiration_date = filter_var($_POST['expiration_date'], FILTER_SANITIZE_STRING);
+    $supp_price = filter_var($_POST['supp_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+    $del_qty = filter_var($_POST['del_qty'], FILTER_SANITIZE_NUMBER_INT);
+
 
     $qty = $del_qty;
 
-    $check_pro_price = "SELECT SELLING_PRICE FROM products WHERE PRODUCT_ID = $product_id";
-    $check_pro_price_result = $conn->query($check_pro_price);
-    if($check_pro_price_result->num_rows > 0)
-    {
-        $product = $check_pro_price_result->fetch_assoc();
-        $selling_price = $product['SELLING_PRICE'];
+    $check_pro_price = "SELECT * FROM products WHERE PRODUCT_ID = $product_id";
+    // if($conn->query($check_pro_price) === TRUE)
+    // {
+        $check_pro_price_result = $conn->query($check_pro_price);
+        if($check_pro_price_result->num_rows > 0)
+        {
+            $product = $check_pro_price_result->fetch_assoc();
+            $selling_price = $product['SELLING_PRICE'];
 
-        $mark_up = $selling_price - $supp_price; 
-    }
-    else {
-        $mark_up = 0;
-    }
+            $mark_up = $selling_price - $supp_price; 
+        }
+        else {
+            $mark_up = 0;
+        }
 
-    $insert_new_delivered = "INSERT INTO `inventory`(`INV_ID`, `DELIVERY_ID`, `PRODUCT_ID`, `SUPPLIER_PRICE`, `QUANTITY`, `EXP_DATE`, `DEL_QUANTITY`, `BATCH_NO`, `MARK_UP`) 
-                                             VALUES ('$inv_id','$del_id','$product_id','$supp_price','$qty','$expriration_date','$del_qty','$batch_no','$mark_up')";
+        $insert_new_delivered = "INSERT INTO `inventory`(`INV_ID`, `DELIVERY_ID`, `PRODUCT_ID`, `SUPPLIER_PRICE`, `QUANTITY`, `EXP_DATE`, `DEL_QUANTITY`, `MARK_UP`) 
+                                                VALUES ('$inv_id','$del_id','$product_id','$supp_price','$qty','$expiration_date','$del_qty','$mark_up')";
 
-    if($conn->query($insert_new_delivered) === TRUE){
-        header("Location: ../admin/delivered-products.php?del_id=$del_id&status=success");
-        exit;
-    } else {
-        header("Location: ../admin/delivered-products.php?del_id=$del_id&status=failed");
-        exit;
+        if($conn->query($insert_new_delivered) === TRUE){
+            header("Location: ../admin/delivered-products.php?del_id=$del_id&status=success");
+            exit;
+        } else {
+            header("Location: ../admin/delivered-products.php?del_id=$del_id&status=failed");
+            exit;
+        }
     }
-}
+    // else
+    // {
+    //     header("Location: ../admin/delivered-products.php?del_id=$del_id&status=product_id_not_exist");
+    //     exit;
+    // }
 else {
     header("Location: ../admin/delivered-products.php?status=failed");
     exit;

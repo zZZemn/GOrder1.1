@@ -56,7 +56,7 @@ select {
 
     padding: 10px 80px;
 
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.274);
 }
 
 .top-left {
@@ -106,4 +106,21 @@ select {
     position: sticky;
     top: 0;
     background-color: white;
+}
+
+.delivered-products-table thead tr th {
+    font-weight: 600;
+}
+
+.delivered-products-table tbody tr td a {
+    color: black;
+}
+
+
+.delivered-products-table thead { font-size: 13px; }
+
+.delivered-products-table tbody { font-size: 12px; }
+
+.lessThanZeroMarkUp {
+    color: red !important;
 }

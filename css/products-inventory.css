@@ -1,0 +1,16 @@
+body {
+    font-family: 'poppins', sans-serif !important;
+}
+
+.inventory-container thead tr th{
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.inventory-container tbody tr td {
+    font-size: 12px;
+}
+
+.inventory-container tbody tr td a {
+    color: black;
+}

@@ -23,6 +23,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
+    <link rel="stylesheet" href="../css/products-inventory.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
     <title>GOrder</title>
@@ -213,7 +214,7 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
-            <table class="table table-striped">
+            <table class="inventory-container table table-striped">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -225,7 +226,7 @@ if (isset($_SESSION['id'])) {
 
                 <tbody>
                     <?php
-                    $inventory_sql = "SELECT * FROM inventory ORDER BY EXP_DATE ASC";
+                    $inventory_sql = "SELECT * FROM inventory ORDER BY EXP_DATE";
                     $inventory_result = $conn->query($inventory_sql);
                     if ($inventory_result->num_rows > 0) {
                         while ($row = $inventory_result->fetch_assoc()) {
@@ -241,9 +242,8 @@ if (isset($_SESSION['id'])) {
                                 <td><?php echo $row['EXP_DATE'] ?></td>
                                 <td><?php echo $row['QUANTITY'] ?></td>
                                 <td>
-                                    <a href="#">Edit</a>
-                                    <a href="#">Edit</a>
-                                    <a href="#">Edit</a>
+                                    <a href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="#"><i class="fa-solid fa-trash"></i></a>
                                 </td>
 
                             </tr>
