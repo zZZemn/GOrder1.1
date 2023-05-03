@@ -426,6 +426,17 @@ if (isset($_SESSION['id'])) {
                         <?php
                                         }
                                     }
+                                    else {
+                                        ?>
+
+                                        <tr>
+                                            <td colspan="6" class="text-center text-danger p-5" style="font-size: 18px;">
+                                                Empty
+                                            </td>
+                                        </tr>
+
+                                        <?php
+                                    }
                                 }
 
 
