@@ -45,7 +45,7 @@ if (isset($_GET['del_id'])) {
 
         <div class="delivered-container">
             <div class="top-left">
-                <a href="products-deliver.php" class="delivery-back"><i class="fa-solid fa-left-long"></i><span>Delivery</span></a>
+            <a href="javascript:history.back()" class="delivery-back"><i class="fa-solid fa-left-long"></i><span>Back</span></a>
 
                 <p>Delivery ID: <?php echo $del['DELIVERY_ID'] ?></p>
                 <?php

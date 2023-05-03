@@ -221,7 +221,7 @@ if (isset($_SESSION['id'])) {
                         <th>Product</th>
                         <th>Expiration Date</th>
                         <th>Qty</th>
-                        <th>Action</th>
+                        <th>View</th>
                     </tr>
                 </thead>
 
