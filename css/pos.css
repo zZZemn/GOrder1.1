@@ -1,0 +1,104 @@
+.pos-container {
+    display: flex;
+    justify-content: space-between;
+    height: 91vh;
+}
+
+.pos-orders-container {
+    width: 55%;
+    position: relative;
+
+    overflow-y: auto;
+}
+
+.pos-select-item-container {
+    width: 45%;
+    position: relative;
+    border-left: 1px solid rgb(192, 192, 192);
+}
+
+.pos-select-item-container form {
+    padding: 10px;
+}
+
+.pos-select-item-container form input {
+    height: 40px;
+    width: 100%;
+    padding: 5px;
+}
+
+.product-select {
+    display: flex;
+    background-color: white !important;
+    margin: 5px;
+    padding: 0 !important;
+}
+
+.product-select button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 10px;
+
+    background-color: white;
+    border: 1px solid black;
+}
+
+.search-results {
+    height: 82vh;
+    overflow-y: auto;
+}
+
+.table {
+    max-height: 75vh;
+}
+
+.input {
+    position: relative;
+    margin-top: 20px;
+}
+
+.input input {
+    height: 40px;
+    width: 150px;
+}
+
+.input label{
+    position: absolute;
+    left: 10px;
+    padding: 0px 10px;
+    background-color: white;
+    transform: translateY(-10px);
+    font-size: 13px;
+}
+
+.computation {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    border-top: 1px solid rgba(0, 0, 0, 0.356);
+}
+
+.computation div {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+}
+
+.save, .save_print {
+    border: none;
+    width: 120px;
+    font-size: 13px;
+    height: 40px;
+    transform: translateY(20px);
+}
+
+.save {
+    background-color: rgb(0, 170, 0);
+    color: white;
+}
+
+.save_print {
+    background-color: rgb(241, 157, 0);
+    color: white;
+}

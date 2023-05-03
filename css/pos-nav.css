@@ -1,0 +1,22 @@
+.top-navigations {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 240px;
+
+    display: flex;
+    justify-content: space-between;
+    z-index: 100;
+}
+
+.top-navigations a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 20px;
+}
+
+.top-navigations-active {
+    border-radius: 5px;
+    border: 1px solid white;
+}
