@@ -344,7 +344,6 @@ if (isset($_SESSION['id'])) {
         <script src="../js/nav-avatar-dropdown.js"></script>
         <script src="../js/nav-notif-dropdown.js"></script>
         <script src="../js/nav-message-dropdown.js"></script>
-        <script src="../js/side-nav-show.js"></script>
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>

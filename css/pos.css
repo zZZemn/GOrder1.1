@@ -41,7 +41,7 @@
     padding: 5px 10px;
 
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid rgba(0, 0, 0, 0.301);
 }
 
 .search-results {
@@ -101,4 +101,12 @@
 .save_print {
     background-color: rgb(241, 157, 0);
     color: white;
+}
+
+td .order-details-inputs {
+    width: 100px !important;
+}
+
+table thead th{
+    font-weight: 600 !important;
 }
