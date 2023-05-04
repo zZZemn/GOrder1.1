@@ -1,3 +1,5 @@
+var vatRate = document.getElementById('vatRate').value;
+
 $(document).ready(function () {
     $('#search_products').on('input', function () {
         var query = $(this).val();
@@ -28,7 +30,6 @@ $(document).ready(function () {
         var sellingPrice = $(this).find('input[name="selling_price"]').val();
         var quantity_left = $(this).find('input[name="quantity_left"]').val();
         var isVatable = $(this).find('input[name="isVatable"]').val();
-        var vatRate = $(this).find('input[name="vatRate"]').val();
         var quantity = 1;
         var existingOrderItem = $('.pos-orders-container tbody tr[data-product-id="' + productId + '"]');
 
@@ -42,6 +43,7 @@ $(document).ready(function () {
                 // create a new table row and append it to the table's tbody
                 var newRow = '<tr data-product-id="' + productId + '">' +
                     '<td>' + productName + ' ' + unitMeasurement + '</td>' +
+                    '<td><input type="hidden"  name="isVatable" id="isVatable" value=' + isVatable + '></td>' +
                     '<td><input type="number" class="order-details-inputs form-control" name="selling_price" value=' + sellingPrice + ' readonly></td>' +
                     '<td><input type="number" name="quantity" class="order-details-inputs form-control" value="' + quantity + '" min="1"></td>' +
                     '<td><input type="number" name="amount" class="order-details-inputs amount form-control" value=' + sellingPrice + ' readonly></td>' +
@@ -74,23 +76,39 @@ $(document).ready(function () {
         // Get the quantity value and selling price from the current row
         var quantity = $(this).val();
         var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
-
+    
         // Calculate the new amount based on the quantity and selling price
         var amount = quantity * sellingPrice;
-
+    
         // Update the amount column with the new value
         $(this).closest('tr').find('.amount').val(amount);
-
+    
         // Calculate subtotal
         var subtotal = 0;
         $('.pos-orders-container tbody tr').each(function () {
             var amount = $(this).find('.amount').val();
             subtotal += parseFloat(amount);
         });
-
+    
         // Update the subtotal input value
         $('input[name="subtotal"]').val(subtotal);
+
+        $('.pos-orders-container tbody tr').each(function () {
+            vatable_items_amount = 0;
+            var isVatable = $(this).find('#isVatable').val();
+
+            if (isVatable == 1) {
+                vatable_items_amount += parseFloat(amount);
+            }
+        });
+
+        if(vatable_items_amount > 0)
+        {
+            var vat = vatable_items_amount * vatRate; // calculate the VAT value
+            $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
+        }
     });
+    
 
     $('.pos-orders-container').on('click', '.remove-row', function () {
         $(this).closest('tr').remove();

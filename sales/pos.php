@@ -217,6 +217,17 @@ if (isset($_SESSION['id'])) {
                     </tbody>
                 </table>
 
+                <?php
+
+                $vat_rate_sql = "SELECT * FROM tax WHERE TAX_ID = '1'";
+                $vat_rate_result = $conn->query($vat_rate_sql);
+                $vat = $vat_rate_result->fetch_assoc();
+                $vatRate = $vat['TAX_PERCENTAGE'];
+
+                ?>
+
+                <input type="hidden" name="vatRate" id="vatRate" value="<?php echo $vatRate?>">
+
                 <div class="computation">
                     <div class="top">
                         <div class="input">
