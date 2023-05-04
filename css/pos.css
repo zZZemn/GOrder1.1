@@ -110,3 +110,15 @@ td .order-details-inputs {
 table thead th{
     font-weight: 600 !important;
 }
+
+.discount-check {
+    position: absolute !important;
+    margin-left: 60px;
+    transform: translateY(-23px);
+}
+
+.discount-check input {
+    height: 20px;
+    width: 40px !important;
+    z-index: 3;
+}

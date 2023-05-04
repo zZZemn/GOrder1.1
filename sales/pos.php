@@ -224,18 +224,24 @@ if (isset($_SESSION['id'])) {
                 $vat = $vat_rate_result->fetch_assoc();
                 $vatRate = $vat['TAX_PERCENTAGE'];
 
+                $discount_rate_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '1'";
+                $discount_rate_result = $conn->query($discount_rate_sql);
+                $discount = $discount_rate_result->fetch_assoc();
+                $discountRate = $discount['DISCOUNT_PERCENTAGE'];
+
                 ?>
 
-                <input type="hidden" name="vatRate" id="vatRate" value="<?php echo $vatRate?>">
+                <input type="hidden" name="vatRate" id="vatRate" value="<?php echo $vatRate ?>">
+                <input type="hidden" name="discountRate" id="discountRate" value="<?php echo $discountRate ?>">
 
                 <div class="computation">
                     <div class="top">
                         <div class="input">
-                            <input type="number" name="subtotal" id="subtotal" readonly required>
+                            <input type="number" name="subtotal" id="subtotal" readonly required value="0.00">
                             <label for="subtotal">Subtotal</label>
                         </div>
                         <div class="input">
-                            <input type="number" name="total" id="total" readonly required>
+                            <input type="number" name="total" id="total" readonly required value="0.00">
                             <label for="total">Total</label>
                         </div>
                         <div class="input">
@@ -247,17 +253,19 @@ if (isset($_SESSION['id'])) {
 
                     <div class="bot">
                         <div class="input">
-                            <input type="number" name="vat" id="vat" readonly required>
+                            <input type="number" name="vat" id="vat" readonly required value="0.00">
                             <label for="vat">VAT</label>
                         </div>
 
                         <div class="input">
-                            <input type="number" name="discount" id="discount" readonly required>
-                            <label for="discount">Discount</label>
+                            <input type="number" name="discount" id="discount" readonly required value="0.00">
+                            <label for="discount">Discount<div class="form-check form-switch discount-check">
+                                <input class="form-check-input" type="checkbox" id="discount-check">
+                            </div></label>
                         </div>
 
                         <div class="input">
-                            <input type="number" name="Change" id="Change" readonly required>
+                            <input type="number" name="Change" id="Change" readonly required value="0.00">
                             <label for="Change">Change</label>
                         </div>
                         <input type="submit" name="save_print" id="save_print" class="save_print" value="Save and Print">
