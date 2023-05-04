@@ -41,28 +41,37 @@ $(document).ready(function () {
                 existingOrderItem.find('.amount').val(sellingPrice * quantity);
             } else {
                 // create a new table row and append it to the table's tbody
-                var newRow = '<tr data-product-id="' + productId + '">' +
-                    '<td>' + productName + ' ' + unitMeasurement + '</td>' +
-                    '<td><input type="hidden"  name="isVatable" id="isVatable" value=' + isVatable + '></td>' +
-                    '<td><input type="number" class="order-details-inputs form-control" name="selling_price" value=' + sellingPrice + ' readonly></td>' +
-                    '<td><input type="number" name="quantity" class="order-details-inputs form-control" value="' + quantity + '" min="1"></td>' +
-                    '<td><input type="number" name="amount" class="order-details-inputs amount form-control" value=' + sellingPrice + ' readonly></td>' +
-                    '<td><button type="button" class="btn btn-danger btn-sm remove-row"><i class="fas fa-trash"></i></button></td>' +
-                    '<input type="hidden" name="product_id" value=' + productId + '>' +
-                    '</tr>';
+                var newRow = "<tr data-product-id='" + productId + "'>" +
+                    "<td>" + productName + " " + unitMeasurement + "</td>" +
+                    "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
+                    "<td><input type='number' class='order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
+                    "<td><input type='number' name='quantity' class='order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
+                    "<td><input type='number' name='amount' class='order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
+                    "<td><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
+                    "<input type='hidden' name='product_id' value='" + productId + "'>" +
+                    "</tr>";
+
                 $('.pos-orders-container tbody').append(newRow);
             }
 
             // calculate and update subtotal
             var subtotal = 0;
+            var vatableSubtotal = 0;
             $('.pos-orders-container tbody tr').each(function () {
                 var amount = $(this).find('.amount').val();
                 subtotal += parseFloat(amount);
+                var isVatableItem = $(this).find('input[name="isVatable"]').val();
+                if (isVatableItem == 1) {
+                    vatableSubtotal += parseFloat(amount);
+                }
             });
-            $('#subtotal').val(subtotal);
 
+            // Update the subtotal input value
+            $('input[name="subtotal"]').val(subtotal);
+
+            // Update the VAT value if applicable
             if (isVatable == 1) {
-                var vat = subtotal * vatRate; // calculate the VAT value
+                var vat = vatableSubtotal * vatRate; // calculate the VAT value
                 $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
             }
 
@@ -76,39 +85,37 @@ $(document).ready(function () {
         // Get the quantity value and selling price from the current row
         var quantity = $(this).val();
         var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
-    
+        var isVatable = $(this).closest('tr').find('input[name="isVatable"]').val();
+
         // Calculate the new amount based on the quantity and selling price
         var amount = quantity * sellingPrice;
-    
+
         // Update the amount column with the new value
         $(this).closest('tr').find('.amount').val(amount);
-    
-        // Calculate subtotal
+
+        // Calculate subtotal and vatable subtotal
         var subtotal = 0;
+        var vatableSubtotal = 0;
         $('.pos-orders-container tbody tr').each(function () {
             var amount = $(this).find('.amount').val();
             subtotal += parseFloat(amount);
-        });
-    
-        // Update the subtotal input value
-        $('input[name="subtotal"]').val(subtotal);
-
-        $('.pos-orders-container tbody tr').each(function () {
-            vatable_items_amount = 0;
-            var isVatable = $(this).find('#isVatable').val();
-
-            if (isVatable == 1) {
-                vatable_items_amount += parseFloat(amount);
+            var isVatableItem = $(this).find('input[name="isVatable"]').val();
+            if (isVatableItem == 1) {
+                vatableSubtotal += parseFloat(amount);
             }
         });
 
-        if(vatable_items_amount > 0)
-        {
-            var vat = vatable_items_amount * vatRate; // calculate the VAT value
+        // Update the subtotal input value
+        $('input[name="subtotal"]').val(subtotal);
+
+        // Update the VAT value if applicable
+        if (isVatable == 1) {
+            var vat = vatableSubtotal * vatRate; // calculate the VAT value
             $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
         }
     });
-    
+
+
 
     $('.pos-orders-container').on('click', '.remove-row', function () {
         $(this).closest('tr').remove();
