@@ -3,7 +3,7 @@ include('../database/db.php');
 
 if (isset($_POST['query'])) {
     // get the search query from the POST data
-    $query = $_POST['query'];
+    $query = filter_var($_POST['query'], FILTER_SANITIZE_STRING);
 
     // connect to your database here
 
@@ -11,7 +11,12 @@ if (isset($_POST['query'])) {
     $search_sql = "SELECT * FROM products WHERE (PRODUCT_NAME LIKE '%$query%' OR PRODUCT_ID LIKE '%$query%' OR PRODUCT_CODE LIKE '%$query%') AND PRODUCT_STATUS = 'active' LIMIT 15";
     $search_result = $conn->query($search_sql);
     if ($search_result->num_rows > 0) {
+        $vat_rate_sql = "SELECT * FROM tax WHERE TAX_ID = '1'";
+        $vat_rate_result = $conn->query($vat_rate_sql);
+        $vat = $vat_rate_result->fetch_assoc();
+        $vatRate = $vat['TAX_PERCENTAGE'];
         while ($search = $search_result->fetch_assoc()) {
+            $isVatable = ($search['VATABLE'] == 1) ? 1 : 0;
             $pro_qty = 0;
 
             $pro_id = $search['PRODUCT_ID'];
@@ -24,6 +29,9 @@ if (isset($_POST['query'])) {
             }
 
             $result = "<form class='product-select' method='post'>
+                        <input type='hidden' name='vatRate' value='". $vatRate ."'>
+                        <input type='hidden' name='isVatable' value='". $isVatable ."'>
+                        <input type='hidden' name='quantity_left' value='". $pro_qty ."'>
                         <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
                         <input type='hidden' name='product_name' value='" . $search['PRODUCT_NAME'] . "'>
                         <input type='hidden' name='selling_price' value='" . $search['SELLING_PRICE'] . "'>

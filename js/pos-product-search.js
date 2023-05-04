@@ -26,62 +26,84 @@ $(document).ready(function () {
         var productName = $(this).find('input[name="product_name"]').val();
         unitMeasurement = $(this).find('input[name="unit_meas"]').val();
         var sellingPrice = $(this).find('input[name="selling_price"]').val();
-    
-        // create a new table row and append it to the table's tbody
-        var newRow = '<tr>' +
-                '<td>' + productName + ' ' + unitMeasurement + '</td>' +
-                '<td><input type="number" class="order-details-inputs form-control" name="selling_price" value='+ sellingPrice +' readonly></td>' +
-                '<td><input type="number" name="quantity" class="order-details-inputs form-control" value="1" min="1"></td>' +
-                '<td><input type="number" name="amount" class="order-details-inputs amount form-control" value='+ sellingPrice +' readonly></td>' +
-                '<td><button type="button" class="btn btn-danger btn-sm remove-row"><i class="fas fa-trash"></i></button></td>' +
-                '<input type="hidden" name="product_id" value='+ productId + '>';+
-            '</tr>';
-    
-        $('.pos-orders-container tbody').append(newRow);
-    
-        // calculate and update subtotal
+        var quantity_left = $(this).find('input[name="quantity_left"]').val();
+        var isVatable = $(this).find('input[name="isVatable"]').val();
+        var vatRate = $(this).find('input[name="vatRate"]').val();
+        var quantity = 1;
+        var existingOrderItem = $('.pos-orders-container tbody tr[data-product-id="' + productId + '"]');
+
+        if (quantity_left > 0) {
+            if (existingOrderItem.length > 0) {
+                // the product has already been added to the order
+                quantity = parseInt(existingOrderItem.find('input[name="quantity"]').val()) + 1;
+                existingOrderItem.find('input[name="quantity"]').val(quantity);
+                existingOrderItem.find('.amount').val(sellingPrice * quantity);
+            } else {
+                // create a new table row and append it to the table's tbody
+                var newRow = '<tr data-product-id="' + productId + '">' +
+                    '<td>' + productName + ' ' + unitMeasurement + '</td>' +
+                    '<td><input type="number" class="order-details-inputs form-control" name="selling_price" value=' + sellingPrice + ' readonly></td>' +
+                    '<td><input type="number" name="quantity" class="order-details-inputs form-control" value="' + quantity + '" min="1"></td>' +
+                    '<td><input type="number" name="amount" class="order-details-inputs amount form-control" value=' + sellingPrice + ' readonly></td>' +
+                    '<td><button type="button" class="btn btn-danger btn-sm remove-row"><i class="fas fa-trash"></i></button></td>' +
+                    '<input type="hidden" name="product_id" value=' + productId + '>' +
+                    '</tr>';
+                $('.pos-orders-container tbody').append(newRow);
+            }
+
+            // calculate and update subtotal
+            var subtotal = 0;
+            $('.pos-orders-container tbody tr').each(function () {
+                var amount = $(this).find('.amount').val();
+                subtotal += parseFloat(amount);
+            });
+            $('#subtotal').val(subtotal);
+
+            if (isVatable == 1) {
+                var vat = subtotal * vatRate; // calculate the VAT value
+                $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
+            }
+
+        } else {
+            alert('Please enter a quantity greater than 0.'); // show an error message
+        }
+    });
+
+
+    $('.pos-orders-container').on('input', 'input[name="quantity"]', function () {
+        // Get the quantity value and selling price from the current row
+        var quantity = $(this).val();
+        var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
+
+        // Calculate the new amount based on the quantity and selling price
+        var amount = quantity * sellingPrice;
+
+        // Update the amount column with the new value
+        $(this).closest('tr').find('.amount').val(amount);
+
+        // Calculate subtotal
         var subtotal = 0;
         $('.pos-orders-container tbody tr').each(function () {
             var amount = $(this).find('.amount').val();
             subtotal += parseFloat(amount);
         });
-        $('#subtotal').val(subtotal);
-    });    
-});
 
-$('.pos-orders-container').on('keyup', 'input[name="quantity"]', function() {
-    // Get the quantity value and selling price from the current row
-    var quantity = $(this).val();
-    var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
-    
-    // Calculate the new amount based on the quantity and selling price
-    var amount = quantity * sellingPrice;
-    
-    // Update the amount column with the new value
-    $(this).closest('tr').find('.amount').val(amount);
-    
-    // Calculate subtotal
-    var subtotal = 0;
-    $('.pos-orders-container tbody tr').each(function() {
-      var amount = $(this).find('.amount').val();
-      subtotal += parseFloat(amount);
+        // Update the subtotal input value
+        $('input[name="subtotal"]').val(subtotal);
     });
-    
-    // Update the subtotal input value
-    $('input[name="subtotal"]').val(subtotal);
-  });
-  
-  $('.pos-orders-container').on('click', '.remove-row', function() {
-    $(this).closest('tr').remove();
-    
-    // Calculate subtotal
-    var subtotal = 0;
-    $('.pos-orders-container tbody tr').each(function() {
-      var amount = $(this).find('.amount').val();
-      subtotal += parseFloat(amount);
+
+    $('.pos-orders-container').on('click', '.remove-row', function () {
+        $(this).closest('tr').remove();
+
+        // Calculate subtotal
+        var subtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            subtotal += parseFloat(amount);
+        });
+
+        // Update the subtotal input value
+        $('input[name="subtotal"]').val(subtotal);
     });
-    
-    // Update the subtotal input value
-    $('input[name="subtotal"]').val(subtotal);
-  });
-  
+
+});
