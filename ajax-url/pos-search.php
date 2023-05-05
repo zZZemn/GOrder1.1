@@ -43,6 +43,7 @@ if (isset($_POST['query'])) {
         }
     }
     else {
-        echo "<center class='mt-5 text-danger'>No Product Found</center>";
+        $result = "<center class='mt-5 text-danger'>No Product Found</center>";
+        echo $result;
     }
 }
