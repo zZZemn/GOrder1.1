@@ -101,14 +101,15 @@ $(document).ready(function () {
                                     }
 
                                     //discount
-                                    var isDiscounted = $('#discount-check').is(':checked');
+                                    var cust_type = $('#cust_type').val();
+
                                     var subtotal_val = parseFloat($('#subtotal').val());
                                     var vat_val = parseFloat($('#vat').val());
 
                                     var new_subtotal = subtotal_val + vat_val;
 
                                     // Calculate the discount if applicable
-                                    if (isDiscounted) {
+                                    if (cust_type == "pwd" || cust_type == "senior") {
                                         var discountAmount = new_subtotal * discountRate;
                                         $('#discount').val(discountAmount.toFixed(2));
                                     } else {
@@ -122,6 +123,28 @@ $(document).ready(function () {
                                     var total = (subtotal_val + vat_val) - discount_val;
 
                                     $('#total').val(total.toFixed(2)); //set total
+
+                                    var payment = parseFloat($('#payment').val()); //parse input value to float
+                                    var total = parseFloat($('#total').val());
+
+                                    var change = 0.00;
+
+                                    if (total > 0) {
+                                        if (payment >= total) {
+                                            change = payment - total;
+                                            parseFloat($('#change').val(change.toFixed(2)));
+
+                                            $('#save').prop('disabled', false);
+                                            $('#save_print').prop('disabled', false);
+                                        } else {
+                                            parseFloat($('#change').val(change.toFixed(2)));
+
+                                            $('#save').prop('disabled', true);
+                                            $('#save_print').prop('disabled', true);
+                                        }
+                                    } else {
+                                        parseFloat($('#change').val(change.toFixed(2)));
+                                    }
 
                                     $('#search_products').val('');
                                     $('#search_results').html('');
@@ -201,14 +224,15 @@ $(document).ready(function () {
             }
 
             //discount
-            var isDiscounted = $('#discount-check').is(':checked');
+            var cust_type = $('#cust_type').val();
+
             var subtotal_val = parseFloat($('#subtotal').val());
             var vat_val = parseFloat($('#vat').val());
 
             var new_subtotal = subtotal_val + vat_val;
 
             // Calculate the discount if applicable
-            if (isDiscounted) {
+            if (cust_type == "pwd" || cust_type == "senior") {
                 var discountAmount = new_subtotal * discountRate;
                 $('#discount').val(discountAmount.toFixed(2));
             } else {
@@ -222,6 +246,28 @@ $(document).ready(function () {
             var total = (subtotal_val + vat_val) - discount_val;
 
             $('#total').val(total.toFixed(2)); //set total
+
+            var payment = parseFloat($('#payment').val()); //parse input value to float
+            var total = parseFloat($('#total').val());
+
+            var change = 0.00;
+
+            if (total > 0) {
+                if (payment >= total) {
+                    change = payment - total;
+                    parseFloat($('#change').val(change.toFixed(2)));
+
+                    $('#save').prop('disabled', false);
+                    $('#save_print').prop('disabled', false);
+                } else {
+                    parseFloat($('#change').val(change.toFixed(2)));
+
+                    $('#save').prop('disabled', true);
+                    $('#save_print').prop('disabled', true);
+                }
+            } else {
+                parseFloat($('#change').val(change.toFixed(2)));
+            }
 
         } else {
             alert('Please enter a quantity greater than 0.'); // show an error message
@@ -263,14 +309,15 @@ $(document).ready(function () {
         }
 
         //discount
-        var isDiscounted = $('#discount-check').is(':checked');
+        var cust_type = $('#cust_type').val();
+
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
         var new_subtotal = subtotal_val + vat_val;
 
         // Calculate the discount if applicable
-        if (isDiscounted) {
+        if (cust_type == "pwd" || cust_type == "senior") {
             var discountAmount = new_subtotal * discountRate;
             $('#discount').val(discountAmount.toFixed(2));
         } else {
@@ -284,6 +331,28 @@ $(document).ready(function () {
         var total = (subtotal_val + vat_val) - discount_val;
 
         $('#total').val(total.toFixed(2)); //set total
+
+        var payment = parseFloat($('#payment').val()); //parse input value to float
+        var total = parseFloat($('#total').val());
+
+        var change = 0.00;
+
+        if (total > 0) {
+            if (payment >= total) {
+                change = payment - total;
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', false);
+                $('#save_print').prop('disabled', false);
+            } else {
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', true);
+                $('#save_print').prop('disabled', true);
+            }
+        } else {
+            parseFloat($('#change').val(change.toFixed(2)));
+        }
     });
 
 
@@ -310,20 +379,20 @@ $(document).ready(function () {
 
 
         //discount
-        var isDiscounted = $('#discount-check').is(':checked');
+        var cust_type = $('#cust_type').val();
+
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
         var new_subtotal = subtotal_val + vat_val;
 
         // Calculate the discount if applicable
-        if (isDiscounted) {
+        if (cust_type == "pwd" || cust_type == "senior") {
             var discountAmount = new_subtotal * discountRate;
             $('#discount').val(discountAmount.toFixed(2));
         } else {
             $('#discount').val('0.00');
         }
-
 
         //set total
         var subtotal_val = parseFloat($('#subtotal').val());
@@ -333,10 +402,32 @@ $(document).ready(function () {
 
         $('#total').val(total.toFixed(2)); //set total
 
+        var payment = parseFloat($('#payment').val()); //parse input value to float
+        var total = parseFloat($('#total').val());
+
+        var change = 0.00;
+
+        if (total > 0) {
+            if (payment >= total) {
+                change = payment - total;
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', false);
+                $('#save_print').prop('disabled', false);
+            } else {
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', true);
+                $('#save_print').prop('disabled', true);
+            }
+        } else {
+            parseFloat($('#change').val(change.toFixed(2)));
+        }
+
     });
 
-    $('#discount-check').on('change', function () {
-        var isDiscounted = $(this).is(':checked');
+    $('#cust_type').on('change', function () {
+        var cust_type = $(this).val();
 
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
@@ -344,7 +435,7 @@ $(document).ready(function () {
         var new_subtotal = subtotal_val + vat_val;
 
         // Calculate the discount if applicable
-        if (isDiscounted) {
+        if (cust_type == "pwd" || cust_type == "senior") {
             var discountAmount = new_subtotal * discountRate;
             $('#discount').val(discountAmount.toFixed(2));
         } else {
@@ -354,6 +445,30 @@ $(document).ready(function () {
         // Recalculate the total
         var total = (subtotal_val + vat_val) - parseFloat($('#discount').val());
         $('#total').val(total.toFixed(2));
+
+
+        //update change
+        var payment = parseFloat($('#payment').val()); //parse input value to float
+        var total = parseFloat($('#total').val());
+
+        var change = 0.00;
+
+        if (total > 0) {
+            if (payment >= total) {
+                change = payment - total;
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', false);
+                $('#save_print').prop('disabled', false);
+            } else {
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', true);
+                $('#save_print').prop('disabled', true);
+            }
+        } else {
+            parseFloat($('#change').val(change.toFixed(2)));
+        }
     });
 
     $('#payment').on('input', function () {
@@ -362,15 +477,127 @@ $(document).ready(function () {
 
         var change = 0.00;
 
-        if(payment >= total) {
-            change = payment - total;
-            parseFloat($('#change').val(change.toFixed(2)));
+        if (total > 0) {
+            if (payment >= total) {
+                change = payment - total;
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', false);
+                $('#save_print').prop('disabled', false);
+            } else {
+                parseFloat($('#change').val(change.toFixed(2)));
+
+                $('#save').prop('disabled', true);
+                $('#save_print').prop('disabled', true);
+            }
         } else {
             parseFloat($('#change').val(change.toFixed(2)));
         }
-
     });
 
+    $('#cust_id').on('keyup', function () {
+        // Get the value of the input element
+        var custId = $(this).val();
+
+        // Send an AJAX request to the server to check if the customer ID exists
+        $.ajax({
+            url: '../ajax-url/pos-check-cust-id.php',
+            method: 'POST',
+            data: { cust_id: custId },
+            success: function (data) {
+                if (custId == '') {
+                    $('#cust_id').removeClass('outline-danger').addClass('outline-primary');
+
+                    $('#save').prop('disabled', false);
+                    $('#save_print').prop('disabled', false);
+                }
+                else if (data == 'exists') {
+                    // If the customer ID exists, set the border color to blue
+                    $('#cust_id').removeClass('outline-danger').addClass('outline-primary');
+
+                    $('#save').prop('disabled', false);
+                    $('#save_print').prop('disabled', false);
+                } else {
+                    // If the customer ID does not exist, set the border color to red
+                    $('#cust_id').removeClass('outline-primary').addClass('outline-danger');
+
+                    $('#save').prop('disabled', true);
+                    $('#save_print').prop('disabled', true);
+                }
+            }
+        });
+    });
+
+    $('#payment').on('keyup', function () {
+        // Get the total value
+        var total = $('#total').val();
+        var payment = parseFloat($(this).val());
+        // Enable/disable the button based on the total value
+        if (total > 0) {
+            if (payment > total) {
+                $('#save').prop('disabled', false);
+                $('#save_print').prop('disabled', false);
+            } else {
+                $('#save').prop('disabled', true);
+                $('#save_print').prop('disabled', true);
+            }
+        }
+    });
+
+})
+
+$(document).ready(function () {
+    // When the Save button is clicked
+    $('#save').click(function (event) {
+        event.preventDefault();
+
+        // Create an object to store the sales and sales details data
+        var salesData = {
+            sales: {
+                transaction_type: 'POS',
+                cust_type: $('#cust_type').val(),
+                cust_id: $('#cust_id').val(),
+                emp_id: $('#emp_id').val(),
+                subtotal: $('#subtotal').val(),
+                vat: $('#vat').val(),
+                discount: $('#discount').val(),
+                total: $('#total').val(),
+                payment: $('#payment').val(),
+                change: $('#change').val()
+            },
+            salesDetails: []
+        };
+
+        // Loop through each row in the table and add the details to the object
+        $('.pos-orders-container tbody tr').each(function (index, row) {
+            var detailsData = {
+                product_id: $(row).find('[name="product_id"]').val(),
+                quantity: $(row).find('[name="quantity"]').val(),
+                amount: $(row).find('[name="amount"]').val()
+            };
+
+            // Add the details to the salesData object
+            salesData.salesDetails.push(detailsData);
+        });
+
+        // Send the AJAX request to the server
+        $.ajax({
+            type: 'POST',
+            url: '../ajax-url/pos-save-process.php',
+            data: JSON.stringify(salesData),
+            contentType: 'application/json',
+            success: function (response) {
+                // Do something with the response
+                console.log(response);
+
+            },
+            error: function (error) {
+                // Handle errors
+                console.log(error);
+            }
+        });
+    });
 });
+
 
 

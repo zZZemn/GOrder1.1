@@ -201,7 +201,7 @@ if (isset($_SESSION['id'])) {
 
         <div class="pos-container">
 
-            <form class="pos-orders-container">
+            <form class="pos-orders-container" id="order_list">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -234,41 +234,58 @@ if (isset($_SESSION['id'])) {
                 <input type="hidden" name="vatRate" id="vatRate" value="<?php echo $vatRate ?>">
                 <input type="hidden" name="discountRate" id="discountRate" value="<?php echo $discountRate ?>">
 
+                <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $emp['EMP_ID'] ?>">
+
                 <div class="computation">
                     <div class="top">
                         <div class="input">
-                            <input type="number" name="subtotal" id="subtotal" readonly required value="0.00">
+                            <input type="number" name="subtotal" id="subtotal" class="form-control" readonly required value="0.00">
                             <label for="subtotal">Subtotal</label>
                         </div>
                         <div class="input">
-                            <input type="number" name="total" id="total" readonly required value="0.00">
+                            <input type="number" name="total" id="total" class="form-control" readonly required value="0.00">
                             <label for="total">Total</label>
                         </div>
                         <div class="input">
-                            <input type="number" name="payment" id="payment" required>
+                            <input type="number" name="payment" id="payment" class="form-control text-primary" required>
                             <label for="payment">Payment</label>
                         </div>
-                        <input type="submit" name="save" id="save" class="save" value="Save">
+
+                        <div class="input">
+                            <select name="cust_type" id="cust_type" class="form-control cust_type" required>
+                                <option value="regular">Regular</option>
+                                <option value="pwd">PWD</option>
+                                <option value="senior">Senior</option>
+                            </select>
+                            <label for="cust_type">Customer Type</label>
+                        </div>
+
+                        <input type="submit" name="save" id="save" class="btn btn-primary save" value="Save" disabled>
                     </div>
 
                     <div class="bot">
                         <div class="input">
-                            <input type="number" name="vat" id="vat" readonly required value="0.00">
+                            <input type="number" name="vat" id="vat" class="form-control" readonly required value="0.00">
                             <label for="vat">VAT</label>
                         </div>
 
                         <div class="input">
-                            <input type="number" name="discount" id="discount" readonly required value="0.00">
-                            <label for="discount">Discount<div class="form-check form-switch discount-check">
-                                <input class="form-check-input" type="checkbox" id="discount-check">
-                            </div></label>
+                            <input type="number" name="discount" id="discount" class="form-control" readonly required value="0.00">
+                            <label for="discount">Discount</label>
                         </div>
 
                         <div class="input">
-                        <input type="number" name="change" id="change" required min="0" value="0.00" oninput="validity.valid||(value='0');">
+                            <input type="number" name="change" id="change" class="form-control text-success" readonly required min="0" value="0.00" oninput="validity.valid||(value='0');">
                             <label for="Change">Change</label>
                         </div>
-                        <input type="submit" name="save_print" id="save_print" class="save_print" value="Save and Print">
+
+                        <div class="input">
+                            <input type="number" name="cust_id" id="cust_id" class="cust_id form-control" placeholder="Optional">
+                            <label for="cust_id">Customer ID</label>
+                        </div>
+
+                        
+                        <input type="submit" name="save_print" id="save_print" class="btn btn-success save_print" value="Save and Print" disabled>
                     </div>
                 </div>
             </form>
