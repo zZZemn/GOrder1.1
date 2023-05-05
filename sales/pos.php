@@ -265,7 +265,7 @@ if (isset($_SESSION['id'])) {
                         </div>
 
                         <div class="input">
-                            <input type="number" name="Change" id="Change" readonly required value="0.00">
+                        <input type="number" name="change" id="change" required min="0" value="0.00" oninput="validity.valid||(value='0');">
                             <label for="Change">Change</label>
                         </div>
                         <input type="submit" name="save_print" id="save_print" class="save_print" value="Save and Print">
@@ -275,7 +275,7 @@ if (isset($_SESSION['id'])) {
 
             <div class="pos-select-item-container">
                 <form class="search-products">
-                    <input type="text" name="query" id="search_products" placeholder="Search Products...">
+                    <input type="text" class="form-control" name="query" id="search_products" placeholder="Scan / Search Products..." autofocus>
                 </form>
                 <div class="search-results" id="search_results">
 

@@ -25,6 +25,7 @@ if (isset($_POST['query'])) {
             }
 
             $result = "<form class='product-select' method='post'>
+                        <input type='hidden' name='productCode' value='". $search['PRODUCT_CODE'] ."'>
                         <input type='hidden' name='isVatable' value='". $isVatable ."'>
                         <input type='hidden' name='quantity_left' value='". $pro_qty ."'>
                         <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
@@ -42,6 +43,6 @@ if (isset($_POST['query'])) {
         }
     }
     else {
-        echo "";
+        echo "<center class='mt-5 text-danger'>No Product Found</center>";
     }
 }

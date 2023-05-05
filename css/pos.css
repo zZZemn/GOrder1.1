@@ -1,3 +1,7 @@
+body {
+    font-family: 'poppins', sans-serif !important;
+}
+
 .pos-container {
     display: flex;
     justify-content: space-between;
@@ -29,7 +33,6 @@
 
 .product-select {
     display: flex;
-    background-color: white !important;
     margin: 5px;
     padding: 0 !important;
 }
@@ -41,8 +44,12 @@
     padding: 5px 10px;
 
     background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.301);
+
+    border: 1px solid white;
+    border-radius: 5px;
 }
+
+.product-select button:hover {background-color: rgb(228, 228, 228);}
 
 .search-results {
     height: 82vh;
@@ -77,6 +84,7 @@
     bottom: 20px;
     width: 100%;
     border-top: 1px solid rgba(0, 0, 0, 0.356);
+    background-color: white;
 }
 
 .computation div {
