@@ -2,22 +2,31 @@ var vatRate = document.getElementById('vatRate').value;
 var discountRate = document.getElementById('discountRate').value;
 
 $(document).ready(function () {
-    $('#search_products').on('input', function () {
-        var query = $(this).val();
-        if (query.length >= 2) {
-            $.ajax({
-                url: '../ajax-url/pos-search.php',
-                type: 'POST',
-                data: {
-                    query: query
-                },
-                success: function (data) {
-                    $('#search_results').html(data);
-                    console.log(data);
-                }
-            });
-        } else {
-            $('#search_results').empty();
+    $('#search_products').on('keypress', function (event) {
+        // Check if the Enter key was pressed
+        if (event.which === 13) {
+            // Prevent the form from being submitted
+            event.preventDefault();
+
+            // Get the search query from the input field
+            var query = $(this).val();
+
+            // Send the search query to the server and update the search results
+            if (query.length >= 2) {
+                $.ajax({
+                    url: '../ajax-url/pos-search.php',
+                    type: 'POST',
+                    data: {
+                        query: query
+                    },
+                    success: function (data) {
+                        $('#search_results').html(data);
+                        console.log(data);
+                    }
+                });
+            } else {
+                $('#search_results').empty();
+            }
         }
     });
 
