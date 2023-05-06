@@ -69,9 +69,9 @@ $(document).ready(function () {
                                         var newRow = "<tr data-product-id='" + productId + "'>" +
                                             "<td>" + productName + " " + unitMeasurement + "</td>" +
                                             "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
-                                            "<td><input type='number' class='order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
-                                            "<td><input type='number' name='quantity' class='order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
-                                            "<td><input type='number' name='amount' class='order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
+                                            "<td><input type='number' class='no-border order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
+                                            "<td><input type='number' name='quantity' class='no-border order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
+                                            "<td><input type='number' name='amount' class='no-border order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
                                             "<td class='remove-when-print'><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
                                             "<input type='hidden' name='product_id' value='" + productId + "'>" +
                                             "</tr>";
@@ -192,9 +192,9 @@ $(document).ready(function () {
                 var newRow = "<tr data-product-id='" + productId + "'>" +
                     "<td>" + productName + " " + unitMeasurement + "</td>" +
                     "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
-                    "<td><input type='number' class='order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
-                    "<td><input type='number' name='quantity' class='order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
-                    "<td><input type='number' name='amount' class='order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
+                    "<td><input type='number' class='no-border order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
+                    "<td><input type='number' name='quantity' class='no-border order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
+                    "<td><input type='number' name='amount' class='no-border order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
                     "<td class='remove-when-print'><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
                     "<input type='hidden' name='product_id' value='" + productId + "'>" +
                     "</tr>";
@@ -645,15 +645,27 @@ $(document).ready(function () {
                     // Get the date and time from the response
                     var date = responseData.date;
                     var time = responseData.time;
+
+                    $('#receipt-table tr td').addClass('border-0');
+                    // Rest of your code
             
                     // Append the date and time to the HTML element with ID "date-time-print"
-                    $
+                    $('.table').removeClass('table-striped');
                     $('#ggd').append("Golden Gate Drugstore");
                     $('#ggd-add').append("Patubig, Marilao, Bulacan");
                     $('#date-time-print').append(date + '  |  ' + time);
+
+                    $('#receipt-subtotal').append("<p>Subtotal </p> <p>:</p><p>" + $('#subtotal').val() + "</p>");
+                    $('#receipt-vat').append("<p>VAT </p> <p>:</p><p>" + $('#vat').val() + "</p>");
+                    $('#receipt-discount').append("<p>Discount </p> <p>:</p><p>" + $('#discount').val() + "</p>");
+                    $('#receipt-total').append("<p>Total </p> <p>:</p><p>" + $('#total').val() + "</p>");
+                    $('#receipt-payment').append("<p>Payment </p> <p>:</p><p>" + $('#payment').val() + "</p>");
+                    $('#receipt-change').append("<p>Change </p> <p>:</p><p>" + $('#change').val() + "</p>");
+
             
                     // Print the window
                     window.print();
+                    location.reload();
                 } else {
                     // Handle the error response
                     console.log(responseData.error);

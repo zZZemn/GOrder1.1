@@ -138,6 +138,9 @@ table thead th{
     box-shadow: 0 0 0 0.2rem rgba(220, 53, 70, 0.685) !important;
 }
 
+.only-print {
+    display: none;
+}
 
 @media print { 
     @page {
@@ -159,10 +162,37 @@ table thead th{
     .remove-when-print {
         display: none;
     }
-
-    .table {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.37);
+    
+    .only-print {
+        display: block;
     }
+
+    #computation-container-receipt {
+        border-top: 1px solid rgba(0, 0, 0, 0.123);
+    }
+
+    #computation-container-receipt div{
+        display: flex;
+        width: 100%;
+        padding-left: 10px;
+        justify-content: left;
+    }
+
+    #computation-container-receipt div p{
+        width: 30px !important;
+        background-color: red;
+        margin-right: 40%;
+    } 
+
+    #receipt-subtotal {
+        margin-top: 20px !important;
+    }
+
+    .no-border {
+        border: none !important;
+        background-color: none !important;
+    }
+
     
   }
   

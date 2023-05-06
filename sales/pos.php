@@ -207,7 +207,7 @@ if (isset($_SESSION['id'])) {
                     <p id="ggd-add"></p>
                     <p id="date-time-print"></p>
                 </center>
-                <table class="table table-striped">
+                <table class="table table-striped" id="receipt-table">
                     <thead>
                         <tr>
                             <th>Product</th>
@@ -221,8 +221,13 @@ if (isset($_SESSION['id'])) {
 
                     </tbody>
                 </table>
-                <div id="computation-container-receipt">
-                    <div></div>
+                <div id="computation-container-receipt" class="only-print">
+                    <div id="receipt-subtotal"></div>
+                    <div id="receipt-vat"></div>
+                    <div id="receipt-discount"></div>
+                    <div id="receipt-total"></div>
+                    <div id="receipt-payment"></div>
+                    <div id="receipt-change"></div>
                 </div>
 
                 <?php
