@@ -1,0 +1,38 @@
+<!-- receipt-template.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Receipt</title>
+    <style>
+        /* Receipt styles go here */
+    </style>
+</head>
+<body>
+    <div class="receipt">
+        <h2>Receipt</h2>
+        <div class="receipt-details">
+            <p>Transaction Type: <span class="transaction-type"></span></p>
+            <p>Customer Type: <span class="customer-type"></span></p>
+            <p>Customer ID: <span class="customer-id"></span></p>
+            <p>Employee ID: <span class="employee-id"></span></p>
+            <p>Subtotal: <span class="subtotal"></span></p>
+            <p>VAT: <span class="vat"></span></p>
+            <p>Discount: <span class="discount"></span></p>
+            <p>Total: <span class="total"></span></p>
+            <p>Payment: <span class="payment"></span></p>
+            <p>Change: <span class="change"></span></p>
+        </div>
+        <table class="receipt-items">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody class="receipt-items-body">
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

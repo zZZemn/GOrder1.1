@@ -139,3 +139,31 @@ table thead th{
 }
 
 
+@media print { 
+    @page {
+      size: 3in auto !important; /* Set the width to 3 inches */
+    }
+
+    nav {
+        display: none !important;
+    }
+
+    .pos-select-item-container {
+        display: none !important;
+    }
+
+    .pos-orders-container {
+        width: 100%;
+    }
+
+    .remove-when-print {
+        display: none;
+    }
+
+    .table {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.37);
+    }
+    
+  }
+  
+  

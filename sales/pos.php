@@ -202,6 +202,11 @@ if (isset($_SESSION['id'])) {
         <div class="pos-container">
 
             <form class="pos-orders-container" id="order_list">
+                <center class="only-print">
+                    <p id="ggd"></p>
+                    <p id="ggd-add"></p>
+                    <p id="date-time-print"></p>
+                </center>
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -209,13 +214,16 @@ if (isset($_SESSION['id'])) {
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Amount</th>
-                            <th>Action</th>
+                            <th class="remove-when-print">Action</th>
                         </tr>
                     </thead>
                     <tbody>
 
                     </tbody>
                 </table>
+                <div id="computation-container-receipt">
+                    <div></div>
+                </div>
 
                 <?php
 
@@ -236,7 +244,7 @@ if (isset($_SESSION['id'])) {
 
                 <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $emp['EMP_ID'] ?>">
 
-                <div class="computation">
+                <div class="computation remove-when-print">
                     <div class="top">
                         <div class="input">
                             <input type="number" name="subtotal" id="subtotal" class="form-control" readonly required value="0.00">
@@ -298,7 +306,6 @@ if (isset($_SESSION['id'])) {
 
                 </div>
             </div>
-
 
         </div>
 

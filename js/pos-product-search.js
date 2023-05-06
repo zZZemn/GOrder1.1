@@ -72,7 +72,7 @@ $(document).ready(function () {
                                             "<td><input type='number' class='order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
                                             "<td><input type='number' name='quantity' class='order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
                                             "<td><input type='number' name='amount' class='order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
-                                            "<td><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
+                                            "<td class='remove-when-print'><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
                                             "<input type='hidden' name='product_id' value='" + productId + "'>" +
                                             "</tr>";
 
@@ -195,7 +195,7 @@ $(document).ready(function () {
                     "<td><input type='number' class='order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
                     "<td><input type='number' name='quantity' class='order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
                     "<td><input type='number' name='amount' class='order-details-inputs amount form-control' value='" + sellingPrice + "' readonly></td>" +
-                    "<td><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
+                    "<td class='remove-when-print'><button type='button' class='btn btn-danger btn-sm remove-row'><i class='fas fa-trash'></i></button></td>" +
                     "<input type='hidden' name='product_id' value='" + productId + "'>" +
                     "</tr>";
 
@@ -589,7 +589,76 @@ $(document).ready(function () {
             success: function (response) {
                 // Do something with the response
                 console.log(response);
+                location.reload();
+            },
+            error: function (error) {
+                // Handle errors
+                console.log(error);
+            }
+        });
+    });
 
+
+    $('#save_print').click(function (event) {
+        event.preventDefault();
+
+        // Create an object to store the sales and sales details data
+        var salesData = {
+            sales: {
+                transaction_type: 'POS',
+                cust_type: $('#cust_type').val(),
+                cust_id: $('#cust_id').val(),
+                emp_id: $('#emp_id').val(),
+                subtotal: $('#subtotal').val(),
+                vat: $('#vat').val(),
+                discount: $('#discount').val(),
+                total: $('#total').val(),
+                payment: $('#payment').val(),
+                change: $('#change').val()
+            },
+            salesDetails: []
+        };
+
+        // Loop through each row in the table and add the details to the object
+        $('.pos-orders-container tbody tr').each(function (index, row) {
+            var detailsData = {
+                product_id: $(row).find('[name="product_id"]').val(),
+                quantity: $(row).find('[name="quantity"]').val(),
+                amount: $(row).find('[name="amount"]').val()
+            };
+
+            // Add the details to the salesData object
+            salesData.salesDetails.push(detailsData);
+        });
+
+        // Send the AJAX request to the server
+        $.ajax({
+            type: 'POST',
+            url: '../ajax-url/pos-save-process.php',
+            data: JSON.stringify(salesData),
+            contentType: 'application/json',
+            success: function (response) {
+                // Parse the response JSON object
+                console.log(response);
+                var responseData = JSON.parse(response);
+                if (responseData.success) {
+                    // Get the date and time from the response
+                    var date = responseData.date;
+                    var time = responseData.time;
+            
+                    // Append the date and time to the HTML element with ID "date-time-print"
+                    $
+                    $('#ggd').append("Golden Gate Drugstore");
+                    $('#ggd-add').append("Patubig, Marilao, Bulacan");
+                    $('#date-time-print').append(date + '  |  ' + time);
+            
+                    // Print the window
+                    window.print();
+                } else {
+                    // Handle the error response
+                    console.log(responseData.error);
+                }
+            
             },
             error: function (error) {
                 // Handle errors
