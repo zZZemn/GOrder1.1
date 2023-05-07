@@ -534,7 +534,7 @@ $(document).ready(function () {
         var payment = parseFloat($(this).val());
         // Enable/disable the button based on the total value
         if (total > 0) {
-            if (payment > total) {
+            if (payment >= total) {
                 $('#save').prop('disabled', false);
                 $('#save_print').prop('disabled', false);
             } else {
