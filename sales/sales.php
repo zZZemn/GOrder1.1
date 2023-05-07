@@ -3,6 +3,7 @@ session_start();
 
 if (isset($_SESSION['id'])) {
     include('../database/db.php');
+    include('../time-date.php');
 
     $sql = "SELECT * FROM employee WHERE EMP_ID = {$_SESSION['id']}";
     $result  = $conn->query($sql);
@@ -24,10 +25,10 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/pos-nav.css">
-    <link rel="stylesheet" href="../css/pos.css">
+    <link rel="stylesheet" href="../css/sales.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder | POS</title>
+    <title>GOrder | Sales</title>
 </head>
 
 <body>
@@ -39,9 +40,9 @@ if (isset($_SESSION['id'])) {
             <img class="logo" src="../img/ggd-text-logo.png" alt="Golden Gate Drugstore">
 
             <div class="top-navigations">
-                <a href="pos.php" class="top-navigations-active">POS</a>
+                <a href="pos.php">POS</a>
                 <a href="#">Orders</a>
-                <a href="sales.php">Sales</a>
+                <a href="sales.php" class="top-navigations-active">Sales</a>
             </div>
 
             <ul>
@@ -199,119 +200,66 @@ if (isset($_SESSION['id'])) {
 
         </nav>
 
-        <div class="pos-container">
+        </div>
+<div class="table-container">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th colspan="11">
+                        <center><?php echo $currentDate." Sales" ?></center>
+                    </th>
+                </tr>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Transaction Type</th>
+                    <th>Customer Type</th>
+                    <th>Time</th>
+                    <th>Subtotal</th>
+                    <th>VAT</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Payment</th>
+                    <th>Change</th>
+                    <th>Process By</th>
+                </tr>
+            </thead>
 
-            <form class="pos-orders-container" id="order_list">
-                <center class="only-print">
-                    <p id="ggd"></p>
-                    <p id="ggd-add"></p>
-                    <p id="date-time-print"></p>
-                </center>
-                <table class="table table-striped" id="receipt-table">
-                    <thead>
+            <tbody>
+                <?php 
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' ORDER BY TIME DESC";
+                $sales_result = $conn->query($sales_sql);
+                if($sales_result->num_rows > 0) {
+                    while($row = $sales_result->fetch_assoc())
+                    {
+                        ?>
+                            <tr>
+                                <td><?php echo $row['TRANSACTION_ID'] ?></td>
+                                <td><?php echo $row['TRANSACTION_TYPE'] ?></td>
+                                <td><?php echo $row['CUST_TYPE'] ?></td>
+                                <td><?php echo $row['TIME'] ?></td>
+                                <td><?php echo $row['SUBTOTAL'] ?></td>
+                                <td><?php echo $row['VAT'] ?></td>
+                                <td><?php echo $row['DISCOUNT'] ?></td>
+                                <td><?php echo $row['TOTAL'] ?></td>
+                                <td><?php echo $row['PAYMENT'] ?></td>
+                                <td><?php echo $row['CHANGE'] ?></td>
+                                <td><?php echo $row['EMP_ID'] ?></td>
+                            </tr>
+                        <?php
+                    }
+                }
+                else {
+                    ?>
                         <tr>
-                            <th>Product</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
-                            <th class="remove-when-print">Action</th>
+                            <td colspan="11">
+                                <center>Empty Sales for <?php echo $currentDate ?></center>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-                <div id="computation-container-receipt" class="only-print">
-                    <div id="receipt-subtotal"></div>
-                    <div id="receipt-vat"></div>
-                    <div id="receipt-discount"></div>
-                    <div id="receipt-total"></div>
-                    <div id="receipt-payment"></div>
-                    <div id="receipt-change"></div>
-                </div>
-
-                <?php
-
-                $vat_rate_sql = "SELECT * FROM tax WHERE TAX_ID = '1'";
-                $vat_rate_result = $conn->query($vat_rate_sql);
-                $vat = $vat_rate_result->fetch_assoc();
-                $vatRate = $vat['TAX_PERCENTAGE'];
-
-                $discount_rate_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '1'";
-                $discount_rate_result = $conn->query($discount_rate_sql);
-                $discount = $discount_rate_result->fetch_assoc();
-                $discountRate = $discount['DISCOUNT_PERCENTAGE'];
-
+                    <?php
+                }
                 ?>
-
-                <input type="hidden" name="vatRate" id="vatRate" value="<?php echo $vatRate ?>">
-                <input type="hidden" name="discountRate" id="discountRate" value="<?php echo $discountRate ?>">
-
-                <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $emp['EMP_ID'] ?>">
-
-                <div class="computation remove-when-print">
-                    <div class="top">
-                        <div class="input">
-                            <input type="number" name="subtotal" id="subtotal" class="form-control" readonly required value="0.00">
-                            <label for="subtotal">Subtotal</label>
-                        </div>
-                        <div class="input">
-                            <input type="number" name="total" id="total" class="form-control" readonly required value="0.00">
-                            <label for="total">Total</label>
-                        </div>
-                        <div class="input">
-                            <input type="number" name="payment" id="payment" class="form-control text-primary" required>
-                            <label for="payment">Payment</label>
-                        </div>
-
-                        <div class="input">
-                            <select name="cust_type" id="cust_type" class="form-control cust_type" required>
-                                <option value="regular">Regular</option>
-                                <option value="pwd">PWD</option>
-                                <option value="senior">Senior</option>
-                            </select>
-                            <label for="cust_type">Customer Type</label>
-                        </div>
-
-                        <input type="submit" name="save" id="save" class="btn btn-primary save" value="Save" disabled>
-                    </div>
-
-                    <div class="bot">
-                        <div class="input">
-                            <input type="number" name="vat" id="vat" class="form-control" readonly required value="0.00">
-                            <label for="vat">VAT</label>
-                        </div>
-
-                        <div class="input">
-                            <input type="number" name="discount" id="discount" class="form-control" readonly required value="0.00">
-                            <label for="discount">Discount</label>
-                        </div>
-
-                        <div class="input">
-                            <input type="number" name="change" id="change" class="form-control text-success" readonly required min="0" value="0.00" oninput="validity.valid||(value='0');">
-                            <label for="Change">Change</label>
-                        </div>
-
-                        <div class="input">
-                            <input type="number" name="cust_id" id="cust_id" class="cust_id form-control" placeholder="Optional">
-                            <label for="cust_id">Customer ID</label>
-                        </div>
-
-                        
-                        <input type="submit" name="save_print" id="save_print" class="btn btn-success save_print" value="Save and Print" disabled>
-                    </div>
-                </div>
-            </form>
-
-            <div class="pos-select-item-container">
-                <form class="search-products">
-                    <input type="text" class="form-control" name="query" id="search_products" placeholder="Scan / Search Products..." autofocus>
-                </form>
-                <div class="search-results" id="search_results">
-
-                </div>
-            </div>
-
+            </tbody>
+        </table>
         </div>
 
 
