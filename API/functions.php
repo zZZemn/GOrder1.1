@@ -416,4 +416,68 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
         echo json_encode($data);
     }
   }
+
+  function cartItems($custID) {
+    global $conn;
+
+    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$custID'";
+    $cust_result = $conn->query($cust_sql);
+
+    if($cust_result->num_rows > 0) {
+        $customer = $cust_result->fetch_assoc();
+
+        $cartID = $customer['CART_ID'];
+
+        $cart_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cartID'";
+        $cart_result = $conn->query($cart_sql);
+
+        if($cart_result->num_rows > 0) {
+            $cart_items = [];
+
+            while($row = $cart_result->fetch_assoc()) { 
+                $product_id = $row['PRODUCT_ID'];
+                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                $product_result = $conn->query($product_sql);
+                $product = $product_result->fetch_assoc();
+
+                $cart_items[] = [
+                    'product_name' => $product['PRODUCT_NAME'],
+                    'picture' => $product['PRODUCT_IMG'],
+                    'selling_price' => $product['SELLING_PRICE'],
+                    'product_id' => $row['PRODUCT_ID'],
+                    'qty' => $row['QTY'],
+                    'amount' => $row['AMOUNT'],
+                ];
+            }
+            $data = [
+                'status' => 200,
+                'message' => 'Cart Items Fetch Success',
+                'cust_id' => $custID,
+                'cart_id' => $cartID,
+                'data' => $cart_items
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        }
+        else {
+            $data = [
+                'status' => 200,
+                'message' => 'Cart Is Empty',
+                'cust_id' => $custID,
+                'cart_id' => $cartID,
+                'data' => 'Empty'
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        }
+    }
+    else {
+        $data = [
+            'status' => 405,
+            'message' => 'No cust Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        echo json_encode($data);
+    }
+  }
 ?>
