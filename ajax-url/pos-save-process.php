@@ -40,28 +40,28 @@ if (mysqli_query($conn, $sales_sql)) {
             // Get product with nearest expiration date and positive quantity
             $inventory_sql = "SELECT * FROM `inventory` 
                   WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `QUANTITY` > 0
-                  ORDER BY `EXP_DATE` ASC, `QUANTITY` DESC LIMIT 1";
+                  ORDER BY `EXP_DATE` ASC, `PRODUCT_ID` ASC, `QUANTITY` DESC, `INV_ID` ASC LIMIT 1";
             $result = mysqli_query($conn, $inventory_sql);
             $product = mysqli_fetch_assoc($result);
-
+        
             if (!$product) {
                 // No available products left
                 $response = array('success' => false, 'error' => 'Insufficient inventory for product ' . $detail['product_id']);
                 echo json_encode($response);
                 break;
             }
-
+        
             // Calculate quantity to subtract from this product
             $subtracted_quantity = min($detail_quantity, $product['QUANTITY']);
-
+        
             // Subtract quantity from this product
             $inventory_sql = "UPDATE `inventory` 
                   SET `QUANTITY` = `QUANTITY` - $subtracted_quantity
-                  WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `EXP_DATE` = '" . $product['EXP_DATE'] . "'";
+                  WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `EXP_DATE` = '" . $product['EXP_DATE'] . "' AND `INV_ID` = " . $product['INV_ID'];
             mysqli_query($conn, $inventory_sql);
-
+        
             $detail_quantity -= $subtracted_quantity;
-        }
+        }        
     }
     // Return a success response
     $response = array(
