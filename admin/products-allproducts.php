@@ -248,54 +248,62 @@ if (isset($_SESSION['id'])) {
                     $categories = "SELECT * FROM category";
                     $categories_result = $conn->query($categories);
                     ?>
-                    <select id="select1">
-                        <option value="all">All</option>
-                        <?php
-                        if ($categories_result->num_rows > 0) {
-                            while ($row = $categories_result->fetch_assoc()) {
-                        ?>
 
-                                <option value="<?php echo $row['CAT_ID'] ?>" <?php
-                                                                                if (isset($_GET['CAT_ID'])) {
-                                                                                    if ($_GET['CAT_ID'] == $row['CAT_ID']) {
-                                                                                        echo 'selected';
-                                                                                    }
-                                                                                }
-                                                                                ?>>
-                                    <?php echo $row['CAT_NAME'] ?></option>
+                    <div class="contents-input-container category_label">
+                        <select id="select1">
+                            <option value="all">All</option>
+                            <?php
+                            if ($categories_result->num_rows > 0) {
+                                while ($row = $categories_result->fetch_assoc()) {
+                            ?>
 
-                        <?php
-                            }
-                        }
-                        ?>
-                    </select>
-
-                    <select id="select2">
-                        <option value="all">All</option>
-                        <?php
-                        if (isset($_GET['CAT_ID']) && is_numeric($_GET['CAT_ID'])) {
-                            $cat_id = $_GET['CAT_ID'];
-                            $sub_cat_id = "SELECT * FROM sub_category WHERE CAT_ID = $cat_id";
-
-                            $sub_cat_id_result = $conn->query($sub_cat_id);
-                            if ($sub_cat_id_result->num_rows > 0) {
-                                while ($row = $sub_cat_id_result->fetch_assoc()) {
-                        ?>
-                                    <option value="<?php echo $row['SUB_CAT_ID'] ?>" <?php
-                                                                                        if (isset($_GET['SUB_CAT_ID'])) {
-                                                                                            if ($_GET['SUB_CAT_ID'] == $row['SUB_CAT_ID']) {
-                                                                                                echo 'selected';
-                                                                                            }
+                                    <option value="<?php echo $row['CAT_ID'] ?>" <?php
+                                                                                    if (isset($_GET['CAT_ID'])) {
+                                                                                        if ($_GET['CAT_ID'] == $row['CAT_ID']) {
+                                                                                            echo 'selected';
                                                                                         }
-                                                                                        ?>>
-                                        <?php echo $row['SUB_CAT_NAME'] ?></option>
-                        <?php
+                                                                                    }
+                                                                                    ?>>
+                                        <?php echo $row['CAT_NAME'] ?></option>
+
+                            <?php
                                 }
                             }
-                        }
-                        ?>
-                        <!-- Options will be dynamically populated based on the selected value of select1 -->
-                    </select>
+                            ?>
+                        </select>
+                        <label class="product-add-label">Category</label>
+                    </div>
+
+                    <div class="contents-input-container category_label">
+
+                        <select id="select2">
+                            <option value="all">All</option>
+                            <?php
+                            if (isset($_GET['CAT_ID']) && is_numeric($_GET['CAT_ID'])) {
+                                $cat_id = $_GET['CAT_ID'];
+                                $sub_cat_id = "SELECT * FROM sub_category WHERE CAT_ID = $cat_id";
+
+                                $sub_cat_id_result = $conn->query($sub_cat_id);
+                                if ($sub_cat_id_result->num_rows > 0) {
+                                    while ($row = $sub_cat_id_result->fetch_assoc()) {
+                            ?>
+                                        <option value="<?php echo $row['SUB_CAT_ID'] ?>" <?php
+                                                                                            if (isset($_GET['SUB_CAT_ID'])) {
+                                                                                                if ($_GET['SUB_CAT_ID'] == $row['SUB_CAT_ID']) {
+                                                                                                    echo 'selected';
+                                                                                                }
+                                                                                            }
+                                                                                            ?>>
+                                            <?php echo $row['SUB_CAT_NAME'] ?></option>
+                            <?php
+                                    }
+                                }
+                            }
+                            ?>
+                            <!-- Options will be dynamically populated based on the selected value of select1 -->
+                        </select>
+                        <label class="product-add-label">Sub Category</label>
+                    </div>
                 </div>
             </div>
 
@@ -387,6 +395,7 @@ if (isset($_SESSION['id'])) {
                             <th>Product Name</th>
                             <th class="unit-meas">Unit Measurement</th>
                             <th class="selling-price">Selling Price</th>
+                            <th class="">Qty</th>
                             <th>Critical Level</th>
                             <th>Actions</th>
                         </tr>
@@ -404,6 +413,17 @@ if (isset($_SESSION['id'])) {
 
                                 if ($categorizeProduct_Result->num_rows > 0) {
                                     while ($row = $categorizeProduct_Result->fetch_assoc()) {
+                                        $product_id = $row['PRODUCT_ID'];
+                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                            $inv_result = $conn->query($inv_sql);
+                                            $qty = 0;
+                                            if ($inv_result->num_rows > 0) {
+                                                while ($inv_row = $inv_result->fetch_assoc()) {
+                                                    $qty += $inv_row['QUANTITY'];
+                                                }
+                                            } else {
+                                                $qty = 0;
+                                            }
                         ?>
 
                                         <tr>
@@ -411,6 +431,7 @@ if (isset($_SESSION['id'])) {
                                             <td><?php echo $row['PRODUCT_NAME'] ?></td>
                                             <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
                                             <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
+                                            <td><?php echo $qty ?></td>
                                             <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
                                             <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
                                                                                                                                                 ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
@@ -422,7 +443,7 @@ if (isset($_SESSION['id'])) {
                                 } else {
                                     ?>
                                     <tr class="no-pro-found">
-                                        <td colspan="6">No products Found</td>
+                                        <td colspan="7">No products Found</td>
                                     </tr>
                                     <?php
                                 }
@@ -435,12 +456,24 @@ if (isset($_SESSION['id'])) {
                                     $categorizeProduct_Result = $conn->query($categorizeProduct);
                                     if ($categorizeProduct_Result->num_rows > 0) {
                                         while ($row = $categorizeProduct_Result->fetch_assoc()) {
+                                            $product_id = $row['PRODUCT_ID'];
+                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                            $inv_result = $conn->query($inv_sql);
+                                            $qty = 0;
+                                            if ($inv_result->num_rows > 0) {
+                                                while ($inv_row = $inv_result->fetch_assoc()) {
+                                                    $qty += $inv_row['QUANTITY'];
+                                                }
+                                            } else {
+                                                $qty = 0;
+                                            }
                                     ?>
                                             <tr>
                                                 <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
                                                 <td><?php echo $row['PRODUCT_NAME'] ?></td>
                                                 <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
                                                 <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
+                                                <td><?php echo $qty ?></td>
                                                 <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
                                                 <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
                                                                                                                                                     ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
@@ -451,14 +484,14 @@ if (isset($_SESSION['id'])) {
                                     } else {
                                         ?>
                                         <tr class="no-pro-found">
-                                            <td colspan="6">No products Found</td>
+                                            <td colspan="7">No products Found</td>
                                         </tr>
                                     <?php
                                     }
                                 } else {
                                     ?>
                                     <tr class="no-pro-found">
-                                        <td colspan="6">No products Found</td>
+                                        <td colspan="7">No products Found</td>
                                     </tr>
                                 <?php
                                 }
@@ -470,12 +503,24 @@ if (isset($_SESSION['id'])) {
 
                             if ($search_products_result->num_rows > 0) {
                                 while ($row = $search_products_result->fetch_assoc()) {
+                                    $product_id = $row['PRODUCT_ID'];
+                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                            $inv_result = $conn->query($inv_sql);
+                                            $qty = 0;
+                                            if ($inv_result->num_rows > 0) {
+                                                while ($inv_row = $inv_result->fetch_assoc()) {
+                                                    $qty += $inv_row['QUANTITY'];
+                                                }
+                                            } else {
+                                                $qty = 0;
+                                            }
                                 ?>
                                     <tr>
                                         <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
                                         <td><?php echo $row['PRODUCT_NAME'] ?></td>
                                         <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
                                         <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
+                                        <td><?php echo $qty ?></td>
                                         <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
                                         <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
                                                                                                                                             ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
@@ -487,7 +532,7 @@ if (isset($_SESSION['id'])) {
                                 ?>
 
                                 <tr class="no-pro-found">
-                                    <td colspan="6">No products Found</td>
+                                    <td colspan="7">No products Found</td>
                                 </tr>
 
                                 <?php
@@ -499,12 +544,24 @@ if (isset($_SESSION['id'])) {
                                     $categorizeProduct_Result = $conn->query($categorizeProduct);
                                     if ($categorizeProduct_Result->num_rows > 0) {
                                         while ($row = $categorizeProduct_Result->fetch_assoc()) {
+                                            $product_id = $row['PRODUCT_ID'];
+                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                            $inv_result = $conn->query($inv_sql);
+                                            $qty = 0;
+                                            if ($inv_result->num_rows > 0) {
+                                                while ($inv_row = $inv_result->fetch_assoc()) {
+                                                    $qty += $inv_row['QUANTITY'];
+                                                }
+                                            } else {
+                                                $qty = 0;
+                                            }
                                 ?>
                                             <tr>
                                                 <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
                                                 <td><?php echo $row['PRODUCT_NAME'] ?></td>
                                                 <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
                                                 <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
+                                                <td><?php echo $qty ?></td>
                                                 <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
                                                 <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
                                                                                                                                                     ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
@@ -515,14 +572,14 @@ if (isset($_SESSION['id'])) {
                                     } else {
                                         ?>
                                         <tr class="no-pro-found">
-                                            <td colspan="6">No products Found</td>
+                                            <td colspan="7">No products Found</td>
                                         </tr>
                                     <?php
                                     }
                                 } else {
                                     ?>
                                     <tr class="no-pro-found">
-                                        <td colspan="6">No products Found</td>
+                                        <td colspan="7">No products Found</td>
                                     </tr>
                                     <?php
                                 }
@@ -531,12 +588,24 @@ if (isset($_SESSION['id'])) {
                                 $categorizeProduct_Result = $conn->query($categorizeProduct);
                                 if ($categorizeProduct_Result->num_rows > 0) {
                                     while ($row = $categorizeProduct_Result->fetch_assoc()) {
+                                        $product_id = $row['PRODUCT_ID'];
+                                        $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                        $inv_result = $conn->query($inv_sql);
+                                        $qty = 0;
+                                        if ($inv_result->num_rows > 0) {
+                                            while ($inv_row = $inv_result->fetch_assoc()) {
+                                                $qty += $inv_row['QUANTITY'];
+                                            }
+                                        } else {
+                                            $qty = 0;
+                                        }
                                     ?>
                                         <tr>
                                             <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
                                             <td><?php echo $row['PRODUCT_NAME'] ?></td>
                                             <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
                                             <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
+                                            <td><?php echo $qty ?></td>
                                             <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
                                             <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
                                                                                                                                                 ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];

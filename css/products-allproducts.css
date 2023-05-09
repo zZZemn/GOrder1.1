@@ -67,8 +67,29 @@
     border-bottom-right-radius: 3px;
 }
 
+
+.category_label {
+    margin-top: 0 !important;
+
+}
+
+.category_label select{
+    width: 150px !important;
+    font-size: 15px;
+    padding-top: 10px;
+}
+
+.category_label label {
+    left: 0 !important;
+    background-color: rgba(255, 255, 255, 0) !important;
+    transform: translateY(3px) !important;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
 .category-pick {
     position: absolute;
+    display: flex;
     right: 20px;
 }
 

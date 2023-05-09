@@ -64,7 +64,7 @@ if (isset($_GET['del_id'])) {
 
             <div class="top-right">
                 <form class="add-product-container" action="../process/delivered-add-process.php" method="post">
-                    <h5>Add Product</h5>
+                    <h5>Add To Inventory</h5>
                     <div class="f-row">
 
                         <div class="input">
