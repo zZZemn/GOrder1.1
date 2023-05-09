@@ -1,7 +1,7 @@
 <?php 
-$dbservername = "localhost";
-$dbusername = "root";
-$dbpassword = "";
+$dbservername = "mysql.hostinger.com";
+$dbusername = "goldengate";
+$dbpassword = "Pabiligamot10";
 $dbname = "gorder";
 
 // Create connection
