@@ -1,5 +1,5 @@
 <?php 
-$dbservername = "mysql.hostinger.com";
+$dbservername = "https://gorder.website/";
 $dbusername = "goldengate";
 $dbpassword = "Pabiligamot10";
 $dbname = "gorder";
