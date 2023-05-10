@@ -8,7 +8,7 @@
         $username = mysqli_real_escape_string($conn, $_POST['username']);
         $password = mysqli_real_escape_string($conn, $_POST['password']);
 
-        $usernameCheck = "SELECT * FROM employee WHERE USERNAME = '$username' OR EMAIL = '$username'";
+        $usernameCheck = "SELECT * FROM employee WHERE BINARY USERNAME = '$username' OR BINARY EMAIL = '$username'";
         $usernameResult = $conn->query($usernameCheck);
         
         if($usernameResult->num_rows > 0)
