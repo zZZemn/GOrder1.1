@@ -273,7 +273,7 @@ if (isset($_SESSION['id'])) {
                             <label for="cust_type">Customer Type</label>
                         </div>
 
-                        <input type="submit" name="save" id="save" class="btn btn-primary save" value="Save" disabled>
+                        <input type="submit" name="save_print" id="save_print" class="btn btn-primary save_print" value="Pay" disabled>
                     </div>
 
                     <div class="bot">
@@ -298,7 +298,7 @@ if (isset($_SESSION['id'])) {
                         </div>
 
                         
-                        <input type="submit" name="save_print" id="save_print" class="btn btn-success save_print" value="Save and Print" disabled>
+                        <input type="submit" name="reset" id="reset" class="btn btn-danger save_print" value="Reset">
                     </div>
                 </div>
             </form>

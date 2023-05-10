@@ -225,7 +225,12 @@ if (isset($_SESSION['id'])) {
                     <form class="edit-product-container" method="post" action="../process/edit-product-process.php" enctype="multipart/form-data">
                         <a href="products-allproducts.php" class="product-edit-back"><i class="fa-solid fa-left-long"></i><span>All Products</span></a>
                         <div class="f-row">
-                            <img src="../img/products/<?php echo $product['PRODUCT_IMG'] ?>">
+                            <div class="edit-img">
+                                <img src="../img/products/<?php echo $product['PRODUCT_IMG'] ?>">
+                                <div class="upload-pic">
+                                    <input type="file" class="form-control" name="product_image" id="customFile">
+                                </div>
+                            </div>
                             <div class="f-row-right">
                                 <div class="product-code-only">
                                     <div class="contents-input-container product-code">
@@ -281,8 +286,13 @@ if (isset($_SESSION['id'])) {
                                                                                                                     ?>>
                                         <label class="form-check-label" for="vatable">Vatable</label>
                                     </div>
-                                    <div class="upload-pic">
-                                        <input type="file" class="form-control" name="product_image" id="customFile">
+                                    <div class="form-check form-switch pres-vat">
+                                        <input class="form-check-input" type="checkbox" id="discountable" name="discountable" <?php
+                                                                                                                                if ($product['DISCOUNTABLE'] == 1) {
+                                                                                                                                    echo "checked";
+                                                                                                                                }
+                                                                                                                                ?>>
+                                        <label class="form-check-label" for="discountable">Discountable</label>
                                     </div>
                                 </div>
                                 <input type="hidden" id="product_id" name="product_id" value="<?php echo $product['PRODUCT_ID']; ?>">
@@ -301,8 +311,8 @@ if (isset($_SESSION['id'])) {
                                             WHERE p.PRODUCT_ID = $productID";
 
                                             $cur_cat_result = $conn->query($cur_cat);
-                                            
-                                            if($cur_cat_result->num_rows > 0){
+
+                                            if ($cur_cat_result->num_rows > 0) {
                                                 $current_category = $cur_cat_result->fetch_assoc();
 
                                                 $current_cat_id  = $current_category['CAT_ID'];

@@ -376,6 +376,10 @@ if (isset($_SESSION['id'])) {
                             <input class="form-check-input" type="checkbox" id="vatable" name="vatable">
                             <label class="form-check-label" for="vatable">Vatable</label>
                         </div>
+                        <div class="form-check form-switch pres-vat">
+                            <input class="form-check-input" type="checkbox" id="discountable" name="discountable">
+                            <label class="form-check-label" for="vatable">Discountable</label>
+                        </div>
                         <div class="upload-pic">
                             <input type="file" class="form-control" name="product_image" id="customFile">
                         </div>

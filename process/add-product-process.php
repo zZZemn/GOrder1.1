@@ -60,10 +60,11 @@ if(isset($_POST['addProduct']))
     $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
     $is_prescribed = isset($_POST['prescribe']) ? 1 : 0;
     $is_vatable = isset($_POST['vatable']) ? 1 : 0;
+    $is_discountable = isset($_POST['discountable']) ? 1 : 0;
 
 
-    $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`, `PRODUCT_STATUS`) 
-                                        VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable', 'active')";
+    $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
+                                        VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
 
     $addDate = $currentDate;
     $addTime = $currentTime;

@@ -55,6 +55,7 @@ $(document).ready(function () {
                                 var sellingPrice = $(this).find('input[name="selling_price"]').val();
                                 var quantity_left = $(this).find('input[name="quantity_left"]').val();
                                 var isVatable = $(this).find('input[name="isVatable"]').val();
+                                var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
                                 var quantity = 1;
                                 var existingOrderItem = $('.pos-orders-container tbody tr[data-product-id="' + productId + '"]');
 
@@ -68,6 +69,7 @@ $(document).ready(function () {
                                         // create a new table row and append it to the table's tbody
                                         var newRow = "<tr data-product-id='" + productId + "'>" +
                                             "<td>" + productName + " " + unitMeasurement + "</td>" +
+                                            "<input type='hidden' name='isDiscountable' id='isDiscountable' value='" + isDiscountable + "'>" +
                                             "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
                                             "<td><input type='number' class='no-border order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
                                             "<td><input type='number' name='quantity' class='no-border order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
@@ -101,16 +103,23 @@ $(document).ready(function () {
                                     }
 
                                     //discount
+                                    var discoutableSubtotal = 0;
+                                    $('.pos-orders-container tbody tr').each(function () {
+                                        var amount = $(this).find('.amount').val();
+                                        var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+                                        if (isDiscountable == 1) {
+                                            discoutableSubtotal += parseFloat(amount);
+                                        }
+                                    });
+
                                     var cust_type = $('#cust_type').val();
 
                                     var subtotal_val = parseFloat($('#subtotal').val());
                                     var vat_val = parseFloat($('#vat').val());
 
-                                    var new_subtotal = subtotal_val + vat_val;
-
                                     // Calculate the discount if applicable
                                     if (cust_type == "pwd" || cust_type == "senior") {
-                                        var discountAmount = new_subtotal * discountRate;
+                                        var discountAmount = discoutableSubtotal * discountRate;
                                         $('#discount').val(discountAmount.toFixed(2));
                                     } else {
                                         $('#discount').val('0.00');
@@ -178,6 +187,7 @@ $(document).ready(function () {
         var sellingPrice = $(this).find('input[name="selling_price"]').val();
         var quantity_left = $(this).find('input[name="quantity_left"]').val();
         var isVatable = $(this).find('input[name="isVatable"]').val();
+        var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
         var quantity = 1;
         var existingOrderItem = $('.pos-orders-container tbody tr[data-product-id="' + productId + '"]');
 
@@ -191,6 +201,7 @@ $(document).ready(function () {
                 // create a new table row and append it to the table's tbody
                 var newRow = "<tr data-product-id='" + productId + "'>" +
                     "<td>" + productName + " " + unitMeasurement + "</td>" +
+                    "<input type='hidden' name='isDiscountable' id='isDiscountable' value='" + isDiscountable + "'>" +
                     "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
                     "<td><input type='number' class='no-border order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
                     "<td><input type='number' name='quantity' class='no-border order-details-inputs form-control' value='" + quantity + "' min='1' max='" + quantity_left + "' oninput=\"if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;\"></td>" +
@@ -224,16 +235,23 @@ $(document).ready(function () {
             }
 
             //discount
+            var discoutableSubtotal = 0;
+            $('.pos-orders-container tbody tr').each(function () {
+                var amount = $(this).find('.amount').val();
+                var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+                if (isDiscountable == 1) {
+                    discoutableSubtotal += parseFloat(amount);
+                }
+            });
+
             var cust_type = $('#cust_type').val();
 
             var subtotal_val = parseFloat($('#subtotal').val());
             var vat_val = parseFloat($('#vat').val());
 
-            var new_subtotal = subtotal_val + vat_val;
-
             // Calculate the discount if applicable
             if (cust_type == "pwd" || cust_type == "senior") {
-                var discountAmount = new_subtotal * discountRate;
+                var discountAmount = discoutableSubtotal * discountRate;
                 $('#discount').val(discountAmount.toFixed(2));
             } else {
                 $('#discount').val('0.00');
@@ -309,16 +327,23 @@ $(document).ready(function () {
         }
 
         //discount
+        var discoutableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+            if (isDiscountable == 1) {
+                discoutableSubtotal += parseFloat(amount);
+            }
+        });
+
         var cust_type = $('#cust_type').val();
 
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        var new_subtotal = subtotal_val + vat_val;
-
         // Calculate the discount if applicable
         if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = new_subtotal * discountRate;
+            var discountAmount = discoutableSubtotal * discountRate;
             $('#discount').val(discountAmount.toFixed(2));
         } else {
             $('#discount').val('0.00');
@@ -379,16 +404,23 @@ $(document).ready(function () {
 
 
         //discount
+        var discoutableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+            if (isDiscountable == 1) {
+                discoutableSubtotal += parseFloat(amount);
+            }
+        });
+
         var cust_type = $('#cust_type').val();
 
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        var new_subtotal = subtotal_val + vat_val;
-
         // Calculate the discount if applicable
         if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = new_subtotal * discountRate;
+            var discountAmount = discoutableSubtotal * discountRate;
             $('#discount').val(discountAmount.toFixed(2));
         } else {
             $('#discount').val('0.00');
@@ -427,16 +459,23 @@ $(document).ready(function () {
     });
 
     $('#cust_type').on('change', function () {
+        var discoutableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+            if (isDiscountable == 1) {
+                discoutableSubtotal += parseFloat(amount);
+            }
+        });
+
         var cust_type = $(this).val();
 
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        var new_subtotal = subtotal_val + vat_val;
-
         // Calculate the discount if applicable
         if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = new_subtotal * discountRate;
+            var discountAmount = discoutableSubtotal * discountRate;
             $('#discount').val(discountAmount.toFixed(2));
         } else {
             $('#discount').val('0.00');
@@ -547,57 +586,6 @@ $(document).ready(function () {
 })
 
 $(document).ready(function () {
-    // When the Save button is clicked
-    $('#save').click(function (event) {
-        event.preventDefault();
-
-        // Create an object to store the sales and sales details data
-        var salesData = {
-            sales: {
-                transaction_type: 'POS',
-                cust_type: $('#cust_type').val(),
-                cust_id: $('#cust_id').val(),
-                emp_id: $('#emp_id').val(),
-                subtotal: $('#subtotal').val(),
-                vat: $('#vat').val(),
-                discount: $('#discount').val(),
-                total: $('#total').val(),
-                payment: $('#payment').val(),
-                change: $('#change').val()
-            },
-            salesDetails: []
-        };
-
-        // Loop through each row in the table and add the details to the object
-        $('.pos-orders-container tbody tr').each(function (index, row) {
-            var detailsData = {
-                product_id: $(row).find('[name="product_id"]').val(),
-                quantity: $(row).find('[name="quantity"]').val(),
-                amount: $(row).find('[name="amount"]').val()
-            };
-
-            // Add the details to the salesData object
-            salesData.salesDetails.push(detailsData);
-        });
-
-        // Send the AJAX request to the server
-        $.ajax({
-            type: 'POST',
-            url: '../ajax-url/pos-save-process.php',
-            data: JSON.stringify(salesData),
-            contentType: 'application/json',
-            success: function (response) {
-                // Do something with the response
-                console.log(response);
-                location.reload();
-            },
-            error: function (error) {
-                // Handle errors
-                console.log(error);
-            }
-        });
-    });
-
 
     $('#save_print').click(function (event) {
         event.preventDefault();
@@ -648,7 +636,7 @@ $(document).ready(function () {
 
                     $('#receipt-table tr td').addClass('border-0');
                     // Rest of your code
-            
+
                     // Append the date and time to the HTML element with ID "date-time-print"
                     $('.table').removeClass('table-striped');
                     $('#ggd').append("Golden Gate Drugstore");
@@ -662,7 +650,7 @@ $(document).ready(function () {
                     $('#receipt-payment').append("<p>Payment </p> <p>:</p><p>" + $('#payment').val() + "</p>");
                     $('#receipt-change').append("<p>Change </p> <p>:</p><p>" + $('#change').val() + "</p>");
 
-            
+
                     // Print the window
                     window.print();
                     location.reload();
@@ -670,7 +658,7 @@ $(document).ready(function () {
                     // Handle the error response
                     console.log(responseData.error);
                 }
-            
+
             },
             error: function (error) {
                 // Handle errors
@@ -680,5 +668,11 @@ $(document).ready(function () {
     });
 });
 
+$(document).ready(function () { 
+
+    $('#reset').click(function (event) {
+        location.reload();
+    });
+});
 
 

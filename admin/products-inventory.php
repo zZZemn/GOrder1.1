@@ -227,7 +227,7 @@ if (isset($_SESSION['id'])) {
 
                 <tbody>
                     <?php
-                    $inventory_sql = "SELECT * FROM inventory ORDER BY EXP_DATE";
+                    $inventory_sql = "SELECT * FROM inventory WHERE QUANTITY > 0 ORDER BY EXP_DATE";
                     $inventory_result = $conn->query($inventory_sql);
                     if ($inventory_result->num_rows > 0) {
                         while ($row = $inventory_result->fetch_assoc()) {

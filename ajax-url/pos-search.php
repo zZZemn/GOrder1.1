@@ -13,6 +13,8 @@ if (isset($_POST['query'])) {
     if ($search_result->num_rows > 0) {
         while ($search = $search_result->fetch_assoc()) {
             $isVatable = ($search['VATABLE'] == 1) ? 1 : 0;
+            $isPrescribe = ($search['PRESCRIBE'] == 1) ? 1 : 0;
+            $isDiscountable = ($search['DISCOUNTABLE'] == 1) ? 1 : 0;
             $pro_qty = 0;
 
             $pro_id = $search['PRODUCT_ID'];
@@ -26,6 +28,8 @@ if (isset($_POST['query'])) {
 
             $result = "<form class='product-select' method='post'>
                         <input type='hidden' name='productCode' value='". $search['PRODUCT_CODE'] ."'>
+                        <input type='hidden' name='isPrescribe' value='". $isPrescribe ."'>
+                        <input type='hidden' name='isDiscountable' value='". $isDiscountable ."'>
                         <input type='hidden' name='isVatable' value='". $isVatable ."'>
                         <input type='hidden' name='quantity_left' value='". $pro_qty ."'>
                         <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
