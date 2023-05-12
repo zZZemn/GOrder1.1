@@ -192,6 +192,14 @@ if (isset($_SESSION['id'])) {
                     <hr>
                     <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
                     <hr>
+                    <?php 
+                    if($emp['EMP_TYPE'] === 'Admin') {
+                        ?>
+                            <a href="../admin/dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                            <hr>
+                        <?php
+                    }
+                    ?>
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>
