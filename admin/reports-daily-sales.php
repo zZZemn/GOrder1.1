@@ -26,7 +26,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/reports-daily-sales.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder | Daily Sales</title>
+    <title>GOrder | Reports</title>
 </head>
 
 <body>
@@ -301,7 +301,7 @@ if (isset($_SESSION['id'])) {
                     <th>Change</th>
                     <th>Process By</th>
                 </tr>
-            </thead id="sales_response">
+            </thead>
 
             <tbody id="table-response-container">
 
