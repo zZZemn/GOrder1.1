@@ -1,0 +1,40 @@
+.tax-rate-container {
+    background-color: white;
+    width: 400px;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    box-shadow: 1px 1px 5px rgb(199, 199, 199);
+    border-radius: 3px;
+
+    margin: 30px;
+}
+
+.tax-rate-container center {
+    font-size: 25px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.tax-rate-container div {
+    position: relative;
+}
+
+.tax-rate-container div label {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    background-color: white;
+}
+
+.tax-rate-container div input {
+    text-align: center;
+    font-size: 20px;
+    height: 50px;
+    width: 200px;
+}

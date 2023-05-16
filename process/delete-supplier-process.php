@@ -21,6 +21,9 @@
 
                 $sup_name = $supplier['NAME'];
 
+                $delDate = $currentDate;
+                $delTime = $currentTime;
+
                 $sql = "UPDATE `supplier` SET `SUPPLIER_STATUS`= 'deleted' WHERE SUPPLIER_ID = $sup_id";
 
                 $delete_sup_log = "INSERT INTO `emp_log`(`EMP_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) 
