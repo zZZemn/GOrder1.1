@@ -1,0 +1,36 @@
+.cat-center {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.category-container {
+    margin-top: 20px;
+    background-color: white;
+    height: 79vh;
+    overflow: auto;
+
+    display: flex;
+}
+
+.category-container table {
+    background-color: white;
+    margin: 10px;
+    width: 350px !important;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.253);
+}
+
+.category-container table a {
+    color: black;
+}
+
+.cat_name {
+    color: blue;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+td {
+    font-size: 13px;
+}
