@@ -294,6 +294,11 @@ if (isset($_SESSION['id'])) {
                                         </th>
                                         <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <center>Sub Categories</center>
+                                        </td>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                     <?php
