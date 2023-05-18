@@ -295,7 +295,7 @@ if (isset($_SESSION['id'])) {
                                         <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                     </tr>
                                     <tr>
-                                        <td>
+                                        <td colspan="2">
                                             <center>Sub Categories</center>
                                         </td>
                                     </tr>
