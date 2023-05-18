@@ -34,3 +34,13 @@
 td {
     font-size: 13px;
 }
+
+.add-subcat input {
+    font-size: 13px;
+    height: 40px;
+}
+
+.add-subcat button i {
+    padding: 0;
+    width: 25px;
+}

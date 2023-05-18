@@ -311,7 +311,15 @@ if (isset($_SESSION['id'])) {
                                     }
                                     ?>
                                     <tr>
-                                        <td class="add-sub-cat" colspan="2"><i class="fa-solid fa-plus"></i>New Sub Category</td>
+                                        <td class="add-subcat">
+                                            <form method="post" action="../process/add-subcat-process.php">
+                                                <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>">
+                                                <input type="text" name="add_sub_cat" id="add_sub_cat" class="form-control" placeholder="Add Sub-Category">
+                                            </td>
+                                            <td class="add-subcat">
+                                                <input type="submit" name="submit_new_cat" class="btn btn-primary" value="Add">
+                                            </form>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
