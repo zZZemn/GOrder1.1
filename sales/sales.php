@@ -206,7 +206,12 @@ if (isset($_SESSION['id'])) {
             <thead>
                 <tr>
                     <th colspan="11">
-                        <center><?php echo $currentDate." Sales" ?></center>
+                        <center>
+                        <select class="today-this-week-sales form-control" id="sales-filter">
+                            <option value="today">Today</option>
+                            <option value="this-week">This Week</option>
+                        </select>
+                        </center>
                     </th>
                 </tr>
                 <tr>
@@ -224,40 +229,8 @@ if (isset($_SESSION['id'])) {
                 </tr>
             </thead>
 
-            <tbody>
-                <?php 
-                $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' ORDER BY TIME DESC";
-                $sales_result = $conn->query($sales_sql);
-                if($sales_result->num_rows > 0) {
-                    while($row = $sales_result->fetch_assoc())
-                    {
-                        ?>
-                            <tr>
-                                <td><?php echo $row['TRANSACTION_ID'] ?></td>
-                                <td><?php echo $row['TRANSACTION_TYPE'] ?></td>
-                                <td><?php echo $row['CUST_TYPE'] ?></td>
-                                <td><?php echo $row['TIME'] ?></td>
-                                <td><?php echo $row['SUBTOTAL'] ?></td>
-                                <td><?php echo $row['VAT'] ?></td>
-                                <td><?php echo $row['DISCOUNT'] ?></td>
-                                <td><?php echo $row['TOTAL'] ?></td>
-                                <td><?php echo $row['PAYMENT'] ?></td>
-                                <td><?php echo $row['CHANGE'] ?></td>
-                                <td><?php echo $row['EMP_ID'] ?></td>
-                            </tr>
-                        <?php
-                    }
-                }
-                else {
-                    ?>
-                        <tr>
-                            <td colspan="11">
-                                <center>Empty Sales for <?php echo $currentDate ?></center>
-                            </td>
-                        </tr>
-                    <?php
-                }
-                ?>
+            <tbody id="sales-results">
+               
             </tbody>
         </table>
         </div>
@@ -343,7 +316,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/pos-product-search.js"></script>
+        <script src="../js/pos-sales.js"></script>
 
 
     <?php else : ?>
