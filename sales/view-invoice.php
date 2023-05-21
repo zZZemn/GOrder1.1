@@ -32,7 +32,7 @@ if (isset($_SESSION['id'])) {
             </head>
             <div class="access-denied">
                   <h1>Access Denied</h1>
-                  <h5>Invalid to access this page.</h5>
+                  <h5>Invalid to access this page. 1</h5>
               </div>';
 
                     exit();
@@ -44,7 +44,7 @@ if (isset($_SESSION['id'])) {
             </head>
             <div class="access-denied">
                   <h1>Access Denied</h1>
-                  <h5>Invalid to access this page.</h5>
+                  <h5>Invalid to access this page. 2</h5>
               </div>';
 
                 exit();
@@ -89,7 +89,7 @@ if (isset($_SESSION['id'])) {
                             </head>
                             <div class="access-denied">
                                 <h1>Access Denied</h1>
-                                <h5>Invalid to access this page.</h5>
+                                <h5>Invalid to access this page. 3</h5>
                             </div>';
                         exit();
                     }
@@ -149,7 +149,7 @@ if (isset($_SESSION['id'])) {
             </head>
             <div class="access-denied">
                   <h1>Access Denied</h1>
-                  <h5>Invalid to access this page.</h5>
+                  <h5>Invalid to access this page. 4</h5>
               </div>';
         }
     } else {
@@ -159,7 +159,7 @@ if (isset($_SESSION['id'])) {
             </head>
             <div class="access-denied">
                   <h1>Access Denied</h1>
-                  <h5>Invalid to access this page.</h5>
+                  <h5>Invalid to access this page. 5</h5>
               </div>';
     }
 } else {
