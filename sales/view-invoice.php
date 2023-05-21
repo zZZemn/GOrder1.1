@@ -15,10 +15,7 @@ if (isset($_SESSION['id'])) {
         $s_details_result = $conn->query($s_details_sql);
         if ($s_details_result->num_rows > 0) {
             $sales_sql = "SELECT * FROM sales WHERE TRANSACTION_ID = $transactionID";
-            $sales_result = $conn->query($sales_sql);
-            if (!$sales_result) {
-                echo "Query Error: " . $conn->error . "<br>";
-            }            
+            $sales_result = $conn->query($sales_sql);     
             if ($sales_result->num_rows > 0) {
                 $sales = $sales_result->fetch_assoc();
 
