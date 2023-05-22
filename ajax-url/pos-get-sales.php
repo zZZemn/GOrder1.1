@@ -11,7 +11,6 @@ if (isset($_SESSION['id'])) {
 
     if (isset($_POST['value'])) {
         $value = $_POST['value'];
-        $sales = '';
 
         if ($value === 'today') {
             $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' ORDER BY TIME DESC";
@@ -32,6 +31,7 @@ if (isset($_SESSION['id'])) {
                                 <td>" . $row['CHANGE'] . "</td>
                                 <td>" . $row['EMP_ID'] . "</td>
                             </tr>";
+                    echo $sales;
                 }
             } else {
                 $sales = "
@@ -40,6 +40,7 @@ if (isset($_SESSION['id'])) {
                                 <center>Empty Sales for $currentDate</center>
                             </td>
                         </tr>";
+                        echo $sales;
             }
         } elseif ($value === 'this-week') {
             $sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));
@@ -62,6 +63,7 @@ if (isset($_SESSION['id'])) {
                                 <td>" . $row['CHANGE'] . "</td>
                                 <td>" . $row['EMP_ID'] . "</td>
                             </tr>";
+                            echo $sales;
                 }
             } else {
                 $sales = "
@@ -70,16 +72,12 @@ if (isset($_SESSION['id'])) {
                                 <center>No sales transaction 7 days ago until today.</center>
                             </td>
                         </tr>";
+                        echo $sales;
             }
         } else {
         }
     } else {
 
     }
-
-    echo $sales;
 } else {
 }
-
-
-?>

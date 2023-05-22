@@ -68,7 +68,7 @@ $(document).ready(function () {
                                     } else {
                                         // create a new table row and append it to the table's tbody
                                         var newRow = "<tr data-product-id='" + productId + "'>" +
-                                            "<td>" + productName + " " + unitMeasurement + "</td>" +
+                                            "<td class='pro-name-receipt'>" + productName + " " + unitMeasurement + "</td>" +
                                             "<input type='hidden' name='isDiscountable' id='isDiscountable' value='" + isDiscountable + "'>" +
                                             "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
                                             "<td><input type='number' class='no-border order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
@@ -200,7 +200,7 @@ $(document).ready(function () {
             } else {
                 // create a new table row and append it to the table's tbody
                 var newRow = "<tr data-product-id='" + productId + "'>" +
-                    "<td>" + productName + " " + unitMeasurement + "</td>" +
+                    "<td class='pro-name-receipt'>" + productName + " " + unitMeasurement + "</td>" +
                     "<input type='hidden' name='isDiscountable' id='isDiscountable' value='" + isDiscountable + "'>" +
                     "<input type='hidden' name='isVatable' id='isVatable' value='" + isVatable + "'>" +
                     "<td><input type='number' class='no-border order-details-inputs form-control' name='selling_price' value='" + sellingPrice + "' readonly></td>" +
@@ -298,6 +298,12 @@ $(document).ready(function () {
         var quantity = $(this).val();
         var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
         var isVatable = $(this).closest('tr').find('input[name="isVatable"]').val();
+
+        if (quantity === "" || parseFloat(quantity) < 1) {
+            // Set quantity to 1
+            $(this).val(1);
+            quantity = 1; // Update the quantity variable
+        }
 
         // Calculate the new amount based on the quantity and selling price
         var amount = quantity * sellingPrice;
@@ -583,6 +589,8 @@ $(document).ready(function () {
         }
     });
 
+
+
 })
 
 $(document).ready(function () {
@@ -650,25 +658,21 @@ $(document).ready(function () {
                     $('#receipt-payment').append("<p>Payment </p> <p>:</p><p>" + $('#payment').val() + "</p>");
                     $('#receipt-change').append("<p>Change </p> <p>:</p><p>" + $('#change').val() + "</p>");
 
-
-                    // Print the window
                     window.print();
                     location.reload();
                 } else {
-                    // Handle the error response
                     console.log(responseData.error);
                 }
 
             },
             error: function (error) {
-                // Handle errors
                 console.log(error);
             }
         });
     });
 });
 
-$(document).ready(function () { 
+$(document).ready(function () {
 
     $('#reset').click(function (event) {
         location.reload();

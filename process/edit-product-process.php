@@ -61,7 +61,7 @@ if(isset($_POST['save_change']))
 
     $product_name = filter_input(INPUT_POST, 'product_name', FILTER_SANITIZE_STRING);
     $product_code = filter_input(INPUT_POST, 'product_code', FILTER_SANITIZE_STRING);
-    $unit_meas = filter_input(INPUT_POST, 'unit_meas', FILTER_SANITIZE_STRING);
+    $unit_meas = filter_input(INPUT_POST, 'product_meas', FILTER_SANITIZE_STRING);
     $critical_level = filter_input(INPUT_POST, 'critical_level', FILTER_SANITIZE_NUMBER_INT);
     $selling_price = filter_input(INPUT_POST, 'selling_price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $category_id = filter_input(INPUT_POST, 'cat', FILTER_SANITIZE_NUMBER_INT);
@@ -85,7 +85,7 @@ if(isset($_POST['save_change']))
 
 
     if ($conn->query($update_product) === TRUE && $conn->query($edit_pro_log) === TRUE) {
-        header("Location: ../admin/products-allproducts-edit.php?product_id=$productID&status=edited");
+        header("Location: ../admin/products-allproducts-edit.php?product_id=$productID&status=edited&unitmeas=$unit_meas");
         exit();
     } else {
         header("Location: ../admin/products-allproducts-edit.php?product_id=$productID&status=invalid_edit");

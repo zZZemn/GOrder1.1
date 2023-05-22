@@ -225,7 +225,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                                     'subcat_id' => $row['SUB_CAT_ID'],
                                     'description' => $row['DESCRIPTION'],
                                     'critical_level' => $row['CRITICAL_LEVEL'],
-                                    'product_img' => $row['PRODUCT_IMG'],
+                                    'product_img' => 'https://gorder.website/img/products/'.$row['PRODUCT_IMG'],
                                     'prescribe' => $row['PRESCRIBE'],
                                     'vatable' => $row['VATABLE']
                             ];
@@ -268,7 +268,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                                     'subcat_id' => $row['SUB_CAT_ID'],
                                     'description' => $row['DESCRIPTION'],
                                     'critical_level' => $row['CRITICAL_LEVEL'],
-                                    'product_img' => $row['PRODUCT_IMG'],
+                                    'product_img' => 'https://gorder.website/img/products/'.$row['PRODUCT_IMG'],
                                     'prescribe' => $row['PRESCRIBE'],
                                     'vatable' => $row['VATABLE']
                             ];
@@ -315,7 +315,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                                 'subcat_id' => $row['SUB_CAT_ID'],
                                 'description' => $row['DESCRIPTION'],
                                 'critical_level' => $row['CRITICAL_LEVEL'],
-                                'product_img' => $row['PRODUCT_IMG'],
+                                'product_img' => 'https://gorder.website/img/products/'.$row['PRODUCT_IMG'],
                                 'prescribe' => $row['PRESCRIBE'],
                                 'vatable' => $row['VATABLE']
                         ];
@@ -477,7 +477,64 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             'message' => 'No cust Found',
         ];
         header("HTTP/1.0 405 Access Deny");
-        echo json_encode($data);
+        return json_encode($data);
+    }
+  }
+
+  function user($user_id){
+    global $conn;
+    if($user_id['id'] == null)
+    {
+        return error422('Enter Customer ID');
+    }
+    else {
+        $u_id = $user_id['id'];
+        if(is_numeric($u_id)){
+            $userID = filter_var($user_id['id'], FILTER_SANITIZE_NUMBER_INT);
+            $user_sql = "SELECT * FROM customer_user WHERE CUST_ID = $userID LIMIT 1";
+            $user_result = $conn->query($user_sql);
+            if($user_result->num_rows > 0){
+                $user = $user_result->fetch_assoc();
+                $data = [
+                    'status' => 200,
+                    'message' => 'User Found',
+                    'first_name' => $user['FIRST_NAME'],
+                    'last_name' => $user['LAST_NAME'],
+                    'middle_initial' => $user['MIDDLE_INITIAL'],
+                    'suffix' => $user['SUFFIX'],
+                    'sex' => $user['SEX'],
+                    'email' => $user['EMAIL'],
+                    'username' => $user['USERNAME'],
+                    'contact_no' => $user['CONTACT_NO'],
+                    'unit_st' => $user['UNIT_STREET'],
+                    'barangay' => $user['BARANGAY'],
+                    'municipality' => $user['MUNICIPALITY'],
+                    'province' => $user['PROVINCE'],
+                    'region' => $user['REGION'],
+                    'picture' => 'https://gorder.website/img/userprofile/'.$user['PICTURE'],
+                    'bday' => $user['BIRTHDAY'],
+                    'id_picture' => $user['ID_PICTURE'],
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+                
+            }else{
+                $data = [
+                    'status' => 405,
+                    'message' => 'No Customer Found',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            }
+        }
+        else{
+            $data = [
+                'status' => 405,
+                'message' => 'Access Deny',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
     }
   }
 ?>

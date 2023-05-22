@@ -218,7 +218,7 @@ if (isset($_SESSION['id'])) {
                 <table class="table table-striped" id="receipt-table">
                     <thead>
                         <tr>
-                            <th>Product</th>
+                            <th class="product-receipt-header">Product</th>
                             <th>Price</th>
                             <th>Quantity</th>
                             <th>Amount</th>

@@ -36,7 +36,7 @@ if (isset($_POST['query'])) {
                         <input type='hidden' name='product_name' value='" . $search['PRODUCT_NAME'] . "'>
                         <input type='hidden' name='selling_price' value='" . $search['SELLING_PRICE'] . "'>
                         <input type='hidden' name='unit_meas' value='" . $search['UNIT_MEASUREMENT'] . "'>
-                        <button type='submit' name='submit_pro_id'>" . $search['PRODUCT_NAME'] . " " . $search['UNIT_MEASUREMENT'] . "
+                        <button type='submit' name='submit_pro_id'><div>" . $search['PRODUCT_NAME']." <sup>".$search['UNIT_MEASUREMENT']."</sup></div>
                             <div class='details-container'>
                                 <div class='detail'>" . $search['SELLING_PRICE'] . " - " . $pro_qty . "pc/s</div>
                             </div>
