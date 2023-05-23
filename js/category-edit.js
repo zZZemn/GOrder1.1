@@ -48,18 +48,13 @@ $(document).ready(function() {
                     sub_cat_id: sub_cat_id
                 },
                 success: function(response) {
-                    console.log(response);
-                    console.log(toastr)
-                    console.log('het')
                     toastr.success('Subcategory edited successfully');
                 },
                 error: function(xhr, status, error) {
-                    console.error(error);
                     toastr.error('An error occurred while editing the subcategory');
                 }
             });
         } else {
-            console.log('Updated value is empty');
             toastr.error('Updated value is empty');
         }
     });
