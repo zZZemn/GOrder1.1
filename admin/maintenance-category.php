@@ -26,6 +26,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/maintenance-category.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
+    <link rel="stylesheet" href="../toastr-master/toastr.scss">
     <title>GOrder | Maintenance</title>
 </head>
 
@@ -277,6 +278,10 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
             <center class="cat-center">Category</center>
+            <form class="add-new-cat-form" method="post" action="../process/add-cat-process.php">
+                <input type="text" class="form-control" id="txt-add-cat" name="txt_add_cat" placeholder="Add New Category" maxlength="14">
+                <input type="submit" class="btn btn-primary" id="btn-add-cat" name="btn_add_cat" value="Add">
+            </form>
             <div class="category-container">
                 <?php
                 $categories_sql = "SELECT * FROM category";
@@ -290,10 +295,11 @@ if (isset($_SESSION['id'])) {
                                 <thead>
                                     <tr>
                                         <th class="cat_name">
-                                            <?php echo $cat_row['CAT_NAME'] ?>
+                                            <input type="text" class="cat_name_edit form-control" value="<?php echo $cat_row['CAT_NAME'] ?>" maxlength="14">
                                         </th>
-                                        <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                        <td><a href="#" class="cat_name_edit_btn <?php echo $cat_row['CAT_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                     </tr>
+
                                     <tr>
                                         <td colspan="2">
                                             <center>Sub Categories</center>
@@ -308,9 +314,10 @@ if (isset($_SESSION['id'])) {
                                         while ($subcat_row = $subcat_result->fetch_assoc()) {
                                     ?>
                                             <tr>
-                                                <td><?php echo $subcat_row['SUB_CAT_NAME'] ?></td>
-                                                <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                                <td><input type="text" class="sub_cat_edit form-control" value="<?php echo $subcat_row['SUB_CAT_NAME'] ?>"></td>
+                                                <td><a href="#" class="sub_cat_edit_btn <?php echo $subcat_row['SUB_CAT_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                             </tr>
+
                                     <?php
                                         }
                                     }
@@ -320,9 +327,9 @@ if (isset($_SESSION['id'])) {
                                             <form method="post" action="../process/add-subcat-process.php">
                                                 <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>">
                                                 <input type="text" name="add_sub_cat" id="add_sub_cat" class="form-control" placeholder="Add Sub-Category">
-                                            </td>
-                                            <td class="add-subcat">
-                                                <input type="submit" name="submit_new_cat" class="btn btn-primary" value="Add">
+                                        </td>
+                                        <td class="add-subcat">
+                                            <input type="submit" name="submit_new_cat" class="btn btn-primary" value="Add">
                                             </form>
                                         </td>
                                     </tr>
@@ -414,6 +421,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
+        <script src="../js/category-edit.js"></script>
+        <script src="../toastr-master/toastr.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
