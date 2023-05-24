@@ -18,14 +18,19 @@ $(document).ready(function() {
                     cat_id: cat_id
                 },
                 success: function(response) {
-                    toastr.success('Category edited successfully');
+                    console.log('Category edited successfully');
+                    $('.alert-cat').css('opacity', 1);
+
+                    setTimeout(function() {
+                        $('.alert-cat').css('opacity', 0);
+                    }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    toastr.error('An error occurred while editing the category');
+                    console.log('An error occurred while editing the category');
                 }
             });
         } else {
-            toastr.error('Updated value is empty');
+            console.log('Updated value is empty');
         }
     });
 
@@ -39,7 +44,6 @@ $(document).ready(function() {
         if (updatedValue.trim() !== '') {
             var sub_cat_id = $(this).attr('class').split(' ')[1];
 
-            // Make sure to include the Toastr library in your project
             $.ajax({
                 url: '../ajax-url/edit-subcat.php',
                 method: 'POST',
@@ -48,14 +52,19 @@ $(document).ready(function() {
                     sub_cat_id: sub_cat_id
                 },
                 success: function(response) {
-                    toastr.success('Subcategory edited successfully');
+                    console.log('Subcategory edited successfully');
+                    $('.alert-sub-cat').css('opacity', 1);
+
+                    setTimeout(function() {
+                        $('.alert-sub-cat').css('opacity', 0);
+                    }, 1000);
                 },
                 error: function(xhr, status, error) {
-                    toastr.error('An error occurred while editing the subcategory');
+                    console.log('An error occurred while editing the subcategory');
                 }
             });
         } else {
-            toastr.error('Updated value is empty');
+            console.log('Updated value is empty');
         }
     });
 });

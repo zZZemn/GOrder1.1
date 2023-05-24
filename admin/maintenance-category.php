@@ -26,7 +26,6 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/maintenance-category.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <link rel="stylesheet" href="../toastr/toastr.scss">
     <title>GOrder | Maintenance</title>
 </head>
 
@@ -276,6 +275,15 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <div class="alert alert-cat bg-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            The category has been successfully edited.
+        </div>
+        <div class="alert alert-sub-cat bg-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            The sub-category has been successfully edited.
+        </div>
+
         <div class="main">
             <center class="cat-center">Category</center>
             <form class="add-new-cat-form" method="post" action="../process/add-cat-process.php">
@@ -426,7 +434,6 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/category-edit.js"></script>
-        <script src="../toastr/toastr.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

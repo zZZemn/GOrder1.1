@@ -83,3 +83,42 @@ td {
     font-size: 30px;
     color: red;
 }
+
+/* The alert message box */
+.alert {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    color: white !important;
+
+    height: 50px;
+    width: 330px;
+    font-size: 12px;
+
+    z-index: 100000;
+
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+
+  .alert-sub-cat {
+    width: 350px !important;
+  }
+  
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }

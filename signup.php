@@ -154,9 +154,13 @@ if(isset($_POST['create']))
                         <div class="input">
                             <select name="suffix" id="suffix">
                                 <option value=""></option>
+                                <option value="Sr">Sr</option>
                                 <option value="Jr">Jr</option>
-                                <option value="Jr">Jr</option>
-                                <option value="Jr">Jr</option>
+                                <option value="I">I</option>
+                                <option value="II">II</option>
+                                <option value="III">III</option>
+                                <option value="IV">IV</option>
+                                <option value="V">V</option>
                             </select>
                             <label class="suffix-label" for="suffix">Suffix</label>
                         </div>
