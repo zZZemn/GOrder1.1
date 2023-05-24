@@ -207,6 +207,16 @@ if (isset($_SESSION['id'])) {
 
         </nav>
 
+        <div class="alert alert-no-qty-left bg-warning">
+            <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
+            No stock available
+        </div>
+
+        <div class="alert alert-inv-qty-input bg-warning">
+            <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
+            You are unable to input a quantity greater than the available stock.
+        </div>
+
         <div class="pos-container">
 
             <form class="pos-orders-container" id="order_list">

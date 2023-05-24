@@ -204,9 +204,45 @@ table thead th{
     .no-border {
         border: none !important;
         background-color: none !important;
-    }
-
-    
+    }    
   }
   
+  .alert {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    color: black !important;
+
+    height: 50px;
+    width: 200px;
+    font-size: 12px;
+
+    z-index: 100000;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+
+  .alert-inv-qty-input {
+    width: 470px;
+  }
+  
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }
   

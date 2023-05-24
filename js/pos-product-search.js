@@ -159,7 +159,13 @@ $(document).ready(function () {
                                     $('#search_results').html('');
 
                                 } else {
-                                    alert('Please enter a quantity greater than 0.'); // show an error message
+                                    $('.alert-no-qty-left').css('opacity', 1);
+                                    $('.alert-no-qty-left').css('pointer-events', 'auto');
+
+                                    setTimeout(function () {
+                                        $('.alert-no-qty-left').css('opacity', 0);
+                                        $('.alert-no-qty-left').css('pointer-events', 'none');
+                                    }, 2000);
                                     $('#search_products').val('');
                                     $('#search_results').html('');
                                 }
@@ -170,8 +176,6 @@ $(document).ready(function () {
             } else {
                 $('#search_results').empty();
             }
-
-
         }
 
 
@@ -288,14 +292,30 @@ $(document).ready(function () {
             }
 
         } else {
-            alert('Please enter a quantity greater than 0.'); // show an error message
+            $('.alert-no-qty-left').css('opacity', 1);
+            $('.alert-no-qty-left').css('pointer-events', 'auto');
+
+            setTimeout(function () {
+                $('.alert-no-qty-left').css('opacity', 0);
+                $('.alert-no-qty-left').css('pointer-events', 'none');
+            }, 2000);
         }
     });
 
-
     $('.pos-orders-container').on('input', 'input[name="quantity"]', function () {
         // Get the quantity value and selling price from the current row
+        var maximumValue = $(this).attr('max');
         var quantity = $(this).val();
+
+        if (quantity == maximumValue) {
+            $('.alert-inv-qty-input').css('opacity', 1);
+            $('.alert-inv-qty-input').css('pointer-events', 'auto');
+            setTimeout(function () {
+                $('.alert-inv-qty-input').css('opacity', 0);
+                $('.alert-inv-qty-input').css('pointer-events', 'none');
+            }, 1000);
+        }
+
         var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
         var isVatable = $(this).closest('tr').find('input[name="isVatable"]').val();
 
