@@ -279,7 +279,7 @@ if (isset($_SESSION['id'])) {
         <div class="main">
             <center class="cat-center">Category</center>
             <form class="add-new-cat-form" method="post" action="../process/add-cat-process.php">
-                <input type="text" class="form-control" id="txt-add-cat" name="txt_add_cat" placeholder="Add New Category" maxlength="14">
+                <input type="text" class="form-control" id="txt-add-cat" name="txt_add_cat" placeholder="Add New Category" maxlength="20">
                 <input type="submit" class="btn btn-primary" id="btn-add-cat" name="btn_add_cat" value="Add">
             </form>
             <div class="category-container">
@@ -295,7 +295,7 @@ if (isset($_SESSION['id'])) {
                                 <thead>
                                     <tr>
                                         <th class="cat_name">
-                                            <input type="text" class="cat_name_edit form-control" value="<?php echo $cat_row['CAT_NAME'] ?>" maxlength="14">
+                                            <input type="text" class="cat_name_edit form-control" value="<?php echo $cat_row['CAT_NAME'] ?>" maxlength="20">
                                         </th>
                                         <td><a href="#" class="cat_name_edit_btn <?php echo $cat_row['CAT_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                     </tr>
@@ -314,7 +314,7 @@ if (isset($_SESSION['id'])) {
                                         while ($subcat_row = $subcat_result->fetch_assoc()) {
                                     ?>
                                             <tr>
-                                                <td><input type="text" class="sub_cat_edit form-control" value="<?php echo $subcat_row['SUB_CAT_NAME'] ?>"></td>
+                                                <td><input type="text" class="sub_cat_edit form-control" value="<?php echo $subcat_row['SUB_CAT_NAME'] ?>" maxlength="20"></td>
                                                 <td><a href="#" class="sub_cat_edit_btn <?php echo $subcat_row['SUB_CAT_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                             </tr>
 
@@ -326,7 +326,7 @@ if (isset($_SESSION['id'])) {
                                         <td class="add-subcat">
                                             <form method="post" action="../process/add-subcat-process.php">
                                                 <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>">
-                                                <input type="text" name="add_sub_cat" id="add_sub_cat" class="form-control" placeholder="Add Sub-Category">
+                                                <input type="text" name="add_sub_cat" id="add_sub_cat" class="form-control" placeholder="Add Sub-Category" maxlength="20">
                                         </td>
                                         <td class="add-subcat">
                                             <input type="submit" name="submit_new_cat" class="btn btn-primary" value="Add">
@@ -338,6 +338,10 @@ if (isset($_SESSION['id'])) {
                         </div>
                 <?php
                     }
+                }else {
+                    ?>
+                        <center class="no-cat-found"><h5>No Category Found</h5></center>
+                    <?php
                 }
                 ?>
             </div>

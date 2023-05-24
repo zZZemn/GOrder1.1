@@ -71,3 +71,15 @@ td {
 .add-new-cat-form #btn-add-cat {
     height: 40px;
 }
+
+.no-cat-found {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-cat-found h5 {
+    font-size: 30px;
+    color: red;
+}
