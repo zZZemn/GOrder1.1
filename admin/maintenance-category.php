@@ -287,7 +287,7 @@ if (isset($_SESSION['id'])) {
         <div class="main">
             <center class="cat-center">Category</center>
             <form class="add-new-cat-form" method="post" action="../process/add-cat-process.php">
-                <input type="text" class="form-control" id="txt-add-cat" name="txt_add_cat" placeholder="Add New Category" maxlength="20">
+                <input type="text" class="form-control" id="txt-add-cat" name="txt_add_cat" placeholder="Add New Category" maxlength="20" required>
                 <input type="submit" class="btn btn-primary" id="btn-add-cat" name="btn_add_cat" value="Add">
             </form>
             <div class="category-container">

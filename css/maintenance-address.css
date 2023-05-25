@@ -1,0 +1,52 @@
+.main {
+    position: relative;
+}
+
+.cat-center {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.add-new-region-form {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    display: flex;
+    border-radius: 5px;
+    width: 290px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-new-region-form #txt-add-region {
+    width: 200px !important;
+    height: 40px;
+    margin-right: 5px;
+}   
+
+.add-new-region-form #btn-add-region {
+    height: 40px;
+}
+
+.address-container {
+    margin-top: 20px;
+    background-color: white;
+    height: 79vh;
+    overflow: auto;
+
+    display: flex;
+}
+
+.no-cat-found {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.no-cat-found h5 {
+    font-size: 30px;
+    color: red;
+}
