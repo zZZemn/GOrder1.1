@@ -24,7 +24,7 @@
     width: 200px !important;
     height: 40px;
     margin-right: 5px;
-}   
+}
 
 .add-new-region-form #btn-add-region {
     height: 40px;
@@ -34,19 +34,84 @@
     margin-top: 20px;
     background-color: white;
     height: 79vh;
-    overflow: auto;
-
+    width: 100%;
     display: flex;
+    overflow: auto; /* Remove !important from here */
 }
 
-.no-cat-found {
+.address-table {
+    background-color: white;
+    margin: 10px;
+    width: 500px !important;
+    border: 1px solid rgba(0, 0, 0, 0.253);
+    flex-shrink: 0; /* Prevent the table from shrinking */
+}
+
+
+.no-region-found {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.no-cat-found h5 {
+.no-region-found h5 {
     font-size: 30px;
     color: red;
 }
+
+.add-province {
+    display: flex;
+}
+
+.add-province .submit-province {
+    margin-left: 5px !important;
+}
+
+.add-province-tr {
+    height: 10px !important;
+}
+
+.no-province-found center{
+    margin-top: 35% !important;
+}
+
+
+/* The alert message box */
+.alert {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    color: white !important;
+
+    height: 50px;
+    width: 330px;
+    font-size: 12px;
+
+    z-index: 100000;
+
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+
+  .alert-region {
+    width: 260px !important;
+  }
+  
+  /* The close button */
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }

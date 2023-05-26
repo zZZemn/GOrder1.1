@@ -275,74 +275,34 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <div class="alert alert-region bg-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            New region added successfully!
+        </div>
+        <div class="alert alert-region-failed bg-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            Failed to add the region. Please try again.
+        </div>
+
+        <div class="alert alert-province bg-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            New province added successfully!
+        </div>
+
+        <div class="alert alert-province-failed bg-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            Failed to add the province. Please try again.
+        </div>
+
         <div class="main">
             <center class="cat-center">Address</center>
-            <form class="add-new-region-form" method="post" action="../process/add-region-process.php">
+            <form class="add-new-region-form">
                 <input type="text" class="form-control" id="txt-add-region" name="txt_add_region" placeholder="Add New Region" maxlength="12" required>
                 <input type="submit" class="btn btn-primary" id="btn-add-region" name="btn_add_region" value="Add">
             </form>
 
-            <div class="address-container">
-                <?php
-                $regions_sql = "SELECT * FROM region WHERE REGION_STATUS = 'active'";
-                $regions_result = $conn->query($regions_sql);
-                if ($regions_result->num_rows > 0) {
-                    while ($row = $regions_result->fetch_assoc()) {
-                        $region_id = $row['REGION_ID'];
-                ?>
-
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th><input type="text" class="form-control" value="<?php echo $row['REGION'] ?>" maxlength="12"></th>
-                                    <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-
-                                $provinces_sql = "SELECT * FROM province WHERE REGION_ID = '$region_id'";
-                                $provinces_result = $conn->query($provinces_sql);
-                                if ($provinces_result->num_rows > 0) {
-                                ?>
-                                    <tr>
-                                        <?php
-                                        while ($province_row = $provinces_result->fetch_assoc()) {
-                                            $province_id = $province_row['PROVINCE_ID'];
-                                        ?>
-                                            <td><input type="text" class="form-control" value="<?php $province_row['PROVINCE'] ?>"></td>
-                                            <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                        <?php
-                                        }
-                                        ?>
-                                    </tr>
-                                <?php
-                                }
-
-                                ?>
-                                <tr>
-                                    <td>
-                                        <form method="post" action="" class="add-province">
-                                            <input type="text" class="form-control" placeholder="Add new Province in <?php echo $row['REGION'] ?>">
-                                            <input type="submit" class="btn btn-primary">
-                                        </form>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    <?php
-                    }
-                } else {
-                    ?>
-                    <center class="no-cat-found">
-                        <h5>No Address Found</h5>
-                    </center>
-                <?php
-                }
-
-                ?>
-
+            <div class="address-container" id="address_container">
+                
             </div>
 
             <div class="message-container">
@@ -424,6 +384,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
+        <script src="../js/address-realtime.js"></script>
+        <script src="../js/maintenance-add-region.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
