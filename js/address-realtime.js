@@ -12,12 +12,10 @@ function loadXMLDoc() {
 
 window.onload = loadXMLDoc;
 
-document.getElementById("btn-add-region").addEventListener("click", function () {
-    loadXMLDoc();
-});
+$('#btn-add-region').click(function () {
+    setTimeout(loadXMLDoc, 500);
+})
 
-document.addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        loadXMLDoc();
-    }
-});
+$(document).on('click', '.btn-add-province', function () {
+    setTimeout(loadXMLDoc, 500);
+})

@@ -386,6 +386,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/address-realtime.js"></script>
         <script src="../js/maintenance-add-region.js"></script>
+        <script src="../js/maintenance-add-province.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

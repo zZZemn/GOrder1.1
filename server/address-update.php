@@ -30,9 +30,10 @@ if (isset($_SESSION['id'])) {
                     <tbody>
                         <tr class="add-province-tr">
                             <td colspan="2" class="add-province-td">
-                                <form method="post" action="" class="add-province">
-                                    <input type="text" class="form-control" placeholder="Add new Province in <?php echo $row['REGION'] ?>">
-                                    <input type="submit" class="btn btn-primary submit-province">
+                                <form class="add-province">
+                                    <input type="hidden" value="<?php echo $region_id ?>" id="region_id" class="region_id">
+                                    <input type="text" class="form-control txt-add-province" placeholder="Add new Province in <?php echo $row['REGION'] ?>" id="txt-add-province">
+                                    <input type="submit" class="btn btn-primary submit-province btn-add-province" id="btn-add-province">
                                 </form>
                             </td>
                         </tr>
@@ -41,17 +42,18 @@ if (isset($_SESSION['id'])) {
                         $provinces_result = $conn->query($provinces_sql);
                         if ($provinces_result->num_rows > 0) {
                         ?>
-                            <tr>
-                                <?php
-                                while ($province_row = $provinces_result->fetch_assoc()) {
-                                    $province_id = $province_row['PROVINCE_ID'];
-                                ?>
-                                    <td><input type="text" class="form-control" value="<?php $province_row['PROVINCE'] ?>"></td>
+
+                            <?php
+                            while ($province_row = $provinces_result->fetch_assoc()) {
+                                $province_id = $province_row['PROVINCE_ID'];
+                            ?>
+                                <tr>
+                                    <td><input type="text" class="form-control" value="<?php echo $province_row['PROVINCE'] ?>"></td>
                                     <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                <?php
-                                }
-                                ?>
-                            </tr>
+                                </tr>
+                            <?php
+                            }
+                            ?>
                         <?php
                         } else {
                         ?>
