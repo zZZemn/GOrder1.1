@@ -10,8 +10,8 @@ if (isset($_SESSION['id'])) {
     $emp = $result->fetch_assoc();
 
     if (isset($_POST['txt_add_province']) && isset($_POST['region_id'])) {
-        $region_id = filter_var($_POST['region_id'], FILTER_SANITIZE_STRING);
-        $new_province = filter_var($_POST['txt_add_province'], FILTER_SANITIZE_STRING);
+        $region_id = filter_var($_POST['region_id'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $new_province = filter_var($_POST['txt_add_province'], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         $check_province_exist = "SELECT * FROM province WHERE PROVINCE = '$new_province'";
         $check_province_exist_result = $conn->query($check_province_exist);

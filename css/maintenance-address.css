@@ -36,15 +36,16 @@
     height: 79vh;
     width: 100%;
     display: flex;
-    overflow: auto; /* Remove !important from here */
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    overflow: auto;
 }
 
 .address-table {
-    background-color: white;
     margin: 10px;
     width: 500px !important;
     border: 1px solid rgba(0, 0, 0, 0.253);
-    flex-shrink: 0; /* Prevent the table from shrinking */
 }
 
 
@@ -72,10 +73,21 @@
     height: 10px !important;
 }
 
-.no-province-found center{
-    margin-top: 35% !important;
+.provinces-tr-center {
+    height: 10px !important;
 }
 
+.provinces-tr-center center {
+    font-size: 12px;
+}
+
+.add-municipality {
+    display: flex;
+}
+
+.add-municipality .submit-municipality {
+    margin-left: 5px;
+}
 
 /* The alert message box */
 .alert {

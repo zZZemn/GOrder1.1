@@ -37,46 +37,90 @@ if (isset($_SESSION['id'])) {
                                 </form>
                             </td>
                         </tr>
+
                         <?php
                         $provinces_sql = "SELECT * FROM province WHERE REGION_ID = '$region_id'";
                         $provinces_result = $conn->query($provinces_sql);
                         if ($provinces_result->num_rows > 0) {
                         ?>
+                            <tr class="provinces-tr-center">
+                                <td colspan="2" class="bg-success text-light">
+                                    <center>Provinces In <?php echo $row['REGION'] ?></center>
+                                </td>
+                            </tr>
+                            <?php
+                            ?>
 
                             <?php
                             while ($province_row = $provinces_result->fetch_assoc()) {
                                 $province_id = $province_row['PROVINCE_ID'];
                             ?>
-                                <tr>
+                                <tr class="provinces-table">
                                     <td><input type="text" class="form-control" value="<?php echo $province_row['PROVINCE'] ?>"></td>
                                     <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                 </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <form class="add-municipality">
+                                            <input type="hidden" value="<?php echo $province_id ?>" id="province_id" class="province_id">
+                                            <input type="text" class="form-control txt-add-municipality" placeholder="Add new Municipality in <?php echo $province_row['PROVINCE'] ?>" id="txt-add-municipality">
+                                            <input type="submit" class="btn btn-success submit-municipality btn-add-municipality" id="btn-add-municipality">
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php
+                                $municipality_sql = "SELECT * FROM MUNICIPALITY WHERE PROVINCE_ID = '$province_id'";
+                                $municipality_result = $conn->query($municipality_sql);
+                                if ($municipality_result->num_rows > 0) {
+                                    while ($municipality_row = $municipality_result->fetch_assoc()) {
+                                ?>
+                                        <tr class="municipality-table">
+                                            <td><input type="text" class="form-control" value="<?php echo $municipality_row['MUNICIPALITY'] ?>"></td>
+                                            <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                        </tr>
+                                    <?php
+                                    }
+                                } else {
+                                    ?>
+                                    <tr>
+                                        <td colspan="2" class="bg-success">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center>No Municipality Found in <?php echo $province_row['PROVINCE'] ?></center>
+                                        </td>
+                                    </tr>
                             <?php
+                                }
                             }
                             ?>
                         <?php
                         } else {
                         ?>
-                            <tr class="no-province-found-tr">
-                                <td class="no-province-found" colspan="2">
-                                    <center>No Province Found</center>
+                            <tr>
+                                <td colspan="2">
+                                    <center>No Province Found in <?php echo $row['REGION'] ?></center>
                                 </td>
                             </tr>
-                    <?php
+                        <?php
                         }
-                    }
-                } else {
-                    ?>
-                    <center class="no-region-found" colspan="2">
-                        <h5>No Address Found</h5>
-                    </center>
-                <?php
-                }
+                        ?>
 
-                ?>
+                        <?php
+                        ?>
                     </tbody>
                 </table>
-        <?php
+            <?php
+            }
+        } else {
+            ?>
+            <center class="no-region-found" colspan="2">
+                <h5>No Address Found</h5>
+            </center>
+<?php
+        }
     } else {
         echo "
         <head>
@@ -91,4 +135,4 @@ if (isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
 }
-        ?>
+?>
