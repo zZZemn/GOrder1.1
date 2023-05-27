@@ -125,6 +125,9 @@
   .alert-region {
     width: 260px !important;
   }
+  .alert-municipality-failed{
+    width: 350px !important;
+  }
   
   /* The close button */
   .closebtn {

@@ -98,6 +98,48 @@ if (isset($_SESSION['id'])) {
                                             </td>
                                         </tr>
 
+                                        <?php
+                                        $barangay_sql = "SELECT * FROM barangay WHERE MUNICIPALITY_ID = '$municipality_id'";
+                                        $barangay_result = $conn->query($barangay_sql);
+                                        if ($barangay_result->num_rows > 0) {
+                                        ?>
+                                            <tr class="provinces-tr-center">
+                                                <td colspan="2" class="bg-danger text-light">
+                                                    <center>Barangay In <?php echo $municipality_row['MUNICIPALITY'] ?></center>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            while ($barangay_row = $barangay_result->fetch_assoc()) {
+                                            ?>
+                                                <tr class="barangay-table">
+                                                    <td>
+                                                        <input type="text" class="form-control" value="<?php echo $barangay_row['BARANGAY'] ?>">
+                                                        <input type="text" class="form-control" value="<?php echo $barangay_row['DELIVERY_FEE'] ?>">
+                                                    </td>
+                                                    <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                                </tr>
+                                                <tr class="bg-danger">
+                                                    <td colspan="2"></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                            ?>
+                                            <tr class="bg-danger">
+                                                <td colspan="2"></td>
+                                            </tr>
+                                        <?php
+                                        } else {
+                                        ?>
+                                            <td colspan="2">
+                                                <center>No Barangay Found in <?php echo $municipality_row['MUNICIPALITY'] ?></center>
+                                            </td>
+                                        <?php
+                                        }
+
+                                        ?>
+
+
+
                                         <tr>
                                             <td colspan="2" class="bg-warning">
                                             </td>

@@ -21,6 +21,10 @@ $(document).on('click', '.btn-add-province', function () {
 })
 
 
-$(document).on('click', '.btn-add-municipality', function (event) {
+$(document).on('click', '.btn-add-municipality', function () {
+    setTimeout(loadXMLDoc, 500);
+})
+
+$(document).on('click', '.btn-add-barangay', function () {
     setTimeout(loadXMLDoc, 500);
 })

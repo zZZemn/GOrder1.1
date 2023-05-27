@@ -15,17 +15,17 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response === 'inserted') {
-                        $('.txt-add-province').val('');
-                        $('.alert-province').css('opacity', 1);
+                        $('.txt-add-municipality').val('');
+                        $('.alert-municipality').css('opacity', 1);
 
                         setTimeout(function () {
-                            $('.alert-province').css('opacity', 0);
+                            $('.alert-municipality').css('opacity', 0);
                         }, 1000);
                     } else {
-                        $('.alert-province-failed').css('opacity', 1);
+                        $('.alert-municipality-failed').css('opacity', 1);
 
                         setTimeout(function () {
-                            $('.alert-province-failed').css('opacity', 0);
+                            $('.alert-municipality-failed').css('opacity', 0);
                         }, 1000);
                     }
                 },
@@ -35,10 +35,10 @@ $(document).ready(function () {
                 }
             });
         } else {
-            $('.alert-province-failed').css('opacity', 1);
+            $('.alert-municipality-failed').css('opacity', 1);
 
             setTimeout(function () {
-                $('.alert-province-failed').css('opacity', 0);
+                $('.alert-municipality-failed').css('opacity', 0);
             }, 1000);
         }
     });

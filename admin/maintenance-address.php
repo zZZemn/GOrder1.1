@@ -294,6 +294,26 @@ if (isset($_SESSION['id'])) {
             Failed to add the province. Please try again.
         </div>
 
+        <div class="alert alert-municipality bg-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            New municipality added successfully!
+        </div>
+
+        <div class="alert alert-municipality-failed bg-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            Failed to add the municipality. Please try again.
+        </div>
+
+        <div class="alert alert-barangay bg-success">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            New barangay added successfully!
+        </div>
+
+        <div class="alert alert-barangay-failed bg-danger">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+            Failed to add the barangay. Please try again.
+        </div>
+
         <div class="main">
             <center class="cat-center">Address</center>
             <form class="add-new-region-form">
@@ -388,6 +408,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/maintenance-add-region.js"></script>
         <script src="../js/maintenance-add-province.js"></script>
         <script src="../js/maintenance-add-municipality.js"></script>
+        <script src="../js/maintenance-add-barangay.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
