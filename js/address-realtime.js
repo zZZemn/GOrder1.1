@@ -19,3 +19,8 @@ $('#btn-add-region').click(function () {
 $(document).on('click', '.btn-add-province', function () {
     setTimeout(loadXMLDoc, 500);
 })
+
+
+$(document).on('click', '.btn-add-municipality', function (event) {
+    setTimeout(loadXMLDoc, 500);
+})

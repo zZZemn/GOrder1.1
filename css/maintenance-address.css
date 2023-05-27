@@ -51,9 +51,7 @@
 
 .no-region-found {
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin-top: 20%;
 }
 
 .no-region-found h5 {
@@ -65,8 +63,25 @@
     display: flex;
 }
 
+
 .add-province .submit-province {
     margin-left: 5px !important;
+}
+
+.add-barangay {
+    display: flex;
+}
+
+.add-barangay .submit-barangay {
+    margin-left: 5px !important;
+}
+
+.add-barangay .txt-df {
+    margin-left: 5px !important;
+}
+
+.add-barangay input {
+    font-size: 12px;
 }
 
 .add-province-tr {

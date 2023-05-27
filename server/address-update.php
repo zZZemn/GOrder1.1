@@ -59,7 +59,7 @@ if (isset($_SESSION['id'])) {
                                     <td><input type="text" class="form-control" value="<?php echo $province_row['PROVINCE'] ?>"></td>
                                     <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
                                 </tr>
-                                <tr>
+                                <tr class="add-municipality-tr">
                                     <td colspan="2">
                                         <form class="add-municipality">
                                             <input type="hidden" value="<?php echo $province_id ?>" id="province_id" class="province_id">
@@ -72,28 +72,53 @@ if (isset($_SESSION['id'])) {
                                 $municipality_sql = "SELECT * FROM MUNICIPALITY WHERE PROVINCE_ID = '$province_id'";
                                 $municipality_result = $conn->query($municipality_sql);
                                 if ($municipality_result->num_rows > 0) {
-                                    while ($municipality_row = $municipality_result->fetch_assoc()) {
                                 ?>
+                                    <tr class="provinces-tr-center">
+                                        <td colspan="2" class="bg-warning text-light">
+                                            <center>Municipality In <?php echo $province_row['PROVINCE'] ?></center>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    while ($municipality_row = $municipality_result->fetch_assoc()) {
+                                        $municipality_id = $municipality_row['MUNICIPALITY_ID'];
+                                    ?>
                                         <tr class="municipality-table">
                                             <td><input type="text" class="form-control" value="<?php echo $municipality_row['MUNICIPALITY'] ?>"></td>
                                             <td><a href="#"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                        </tr>
+
+                                        <tr class="add-barangay-tr">
+                                            <td colspan="2">
+                                                <form class="add-barangay">
+                                                    <input type="hidden" value="<?php echo $municipality_id ?>" id="municipality_id" class="municipality_id">
+                                                    <input type="text" class="form-control txt-add-barangay" placeholder="Add New Barangay in <?php echo $municipality_row['MUNICIPALITY'] ?>" id="txt-add-barangay">
+                                                    <input type="number" class="form-control txt-df" placeholder="Delivery Fee">
+                                                    <input type="submit" class="btn btn-light submit-barangay btn-add-barangay" id="btn-add-barangay">
+                                                </form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" class="bg-warning">
+                                            </td>
                                         </tr>
                                     <?php
                                     }
                                 } else {
                                     ?>
                                     <tr>
-                                        <td colspan="2" class="bg-success">
-
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td colspan="2">
                                             <center>No Municipality Found in <?php echo $province_row['PROVINCE'] ?></center>
                                         </td>
                                     </tr>
+                                <?php
+                                } ?>
+                                <tr>
+                                    <td colspan="2" class="bg-success">
+
+                                    </td>
+                                </tr>
                             <?php
-                                }
                             }
                             ?>
                         <?php
@@ -106,9 +131,6 @@ if (isset($_SESSION['id'])) {
                             </tr>
                         <?php
                         }
-                        ?>
-
-                        <?php
                         ?>
                     </tbody>
                 </table>
