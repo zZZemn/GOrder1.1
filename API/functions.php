@@ -483,113 +483,114 @@ function user($user_id)
 function placeorder($order)
 {
     global $conn;
-
     $id = $order['id'];
-    $payment_type = $order['payment_type'];
-    $del_type = $order['del_type'];
-    $barangay_id = $order['bgy_id'];
-    $unit_st = $order['unit_st'];
 
-    $payment_type_sql = "SELECT * FROM `payment_type` WHERE TYPE_ID = '$payment_type'";
-    $payment_type_result = $conn->query($payment_type_sql);
-    if ($payment_type_result->num_rows > 0) {
-        $payment = $payment_type_result->fetch_assoc();
-        $final_payment_type = $payment['PAYMENT_TYPE'];
+    $user_details_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$id'";
+    $user_details_result = $conn->query($user_details_sql);
+    if ($user_details_result->num_rows > 0) {
+        $user = $user_details_result->fetch_assoc();
+        if ($user['STATUS'] === 'Active') {
+            $cart_id = $user['CART_ID'];
+            $cust_type = $user['CUSTOMER_TYPE'];
 
-        $user_details_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$id'";
-        $user_details_result = $conn->query($user_details_sql);
-        if ($user_details_result->num_rows > 0) {
-            $user = $user_details_result->fetch_assoc();
-            if ($user['STATUS'] === 'Active') {
-                $cart_id = $user['CART_ID'];
-                $cust_type = $user['CUSTOMER_TYPE'];
-
-                $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
-                $order_items_result = $conn->query($order_items_sql);
-                $order_items_array = [];
-                if ($order_items_result->num_rows > 0) {
-                    while ($order_items_row = $order_items_result->fetch_assoc()) {
-                        $order_item = [
-                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                            'QTY' => $order_items_row['QTY'],
-                            'AMOUNT' => $order_items_row['AMOUNT']
-                        ];
-                        $order_items_array[] = $order_item;
-                    }
-                } else {
-                    $data = [
-                        'status' => 405,
-                        'message' => 'Cart Is Empty',
+            $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
+            $order_items_result = $conn->query($order_items_sql);
+            $order_items_array = [];
+            if ($order_items_result->num_rows > 0) {
+                while ($order_items_row = $order_items_result->fetch_assoc()) {
+                    $order_item = [
+                        'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                        'QTY' => $order_items_row['QTY'],
+                        'AMOUNT' => $order_items_row['AMOUNT']
                     ];
-                    header("HTTP/1.0 405 Access Deny");
-                    return json_encode($data);
-                    exit;
+                    $order_items_array[] = $order_item;
                 }
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'Cart Is Empty',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+                exit;
+            }
 
-                $transaction_id = mt_rand(100000000000000, 999999999999999);
-                $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-                $check_trans_id_result = $conn->query($check_trans_id_sql);
-                while ($check_trans_id_result->num_rows > 0) {
-                    $transaction_id = mt_rand(100000000000000, 999999999999999);
-                    $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-                    $check_trans_id_result = $conn->query($check_trans_id_sql);
+            // $transaction_id = mt_rand(100000000000000, 999999999999999);
+            // $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+            // $check_trans_id_result = $conn->query($check_trans_id_sql);
+            // while ($check_trans_id_result->num_rows > 0) {
+            //     $transaction_id = mt_rand(100000000000000, 999999999999999);
+            //     $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+            //     $check_trans_id_result = $conn->query($check_trans_id_sql);
+            // }
+
+            $subtotal = 0;
+            foreach ($order_items_array as $order_item) {
+                $subtotal += $order_item['AMOUNT'];
+            }
+
+            $vat = 0;
+            $vatable_subtotal = 0;
+            foreach ($order_items_array as $order_item) {
+                $product_id = $order_item['PRODUCT_ID'];
+                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                $product_result = $conn->query($product_sql);
+                $product = $product_result->fetch_assoc();
+
+                $isVatable = $product['VATABLE'];
+
+                if ($isVatable == true) {
+                    $vatable_subtotal += $order_item['AMOUNT'];
                 }
+            }
 
-                $subtotal = 0;
-                foreach ($order_items_array as $order_item) {
-                    $subtotal += $order_item['AMOUNT'];
-                }
+            $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
+            $tax_percentage_result = $conn->query($tax_percentage_sql);
+            $tax = $tax_percentage_result->fetch_assoc();
+            $taxPercentage = $tax['TAX_PERCENTAGE'];
 
-                $vat = 20;
-                $vatable_subtotal = 0;
+            $vat = $vatable_subtotal * $taxPercentage;
+
+            $discount = 0;
+            if ($cust_type != 'Regular') {
+                $discountable_subtotal = 0;
                 foreach ($order_items_array as $order_item) {
                     $product_id = $order_item['PRODUCT_ID'];
                     $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
                     $product_result = $conn->query($product_sql);
                     $product = $product_result->fetch_assoc();
 
-                    $isVatable = $product['VATABLE'];
+                    $isDiscountable = $product['DISCOUNTABLE'];
 
-                    if ($isVatable == true) {
-                        $vatable_subtotal += $order_item['AMOUNT'];
+                    if ($isDiscountable == true) {
+                        $discountable_subtotal += $order_item['AMOUNT'];
                     }
                 }
 
-                $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
-                $tax_percentage_result = $conn->query($tax_percentage_sql);
-                $tax = $tax_percentage_result->fetch_assoc();
-                $taxPercentage = $tax['TAX_PERCENTAGE'];
-                
-                $vat = $vatable_subtotal * $taxPercentage;
-
-                $data = [
-                    'status' => 200,
-                    'message' => 'Debug',
-                    'transaction_id' => $transaction_id,
-                    'del_type' => $del_type,
-                    'payment_type' => $final_payment_type,
-                    'barangay_id' => $barangay_id,
-                    'unit_st' => $unit_st,
-                    'items' => $order_items_array,
-                    'subtotal' => $subtotal,
-                    'vat' => $vat,
-                    'vatable-sub' => $vatable_subtotal,
-                    'tax_percentage' => $taxPercentage
-                ];
-                header("HTTP/1.0 405 Access Deny");
-                return json_encode($data);
-            } else {
-                $data = [
-                    'status' => 405,
-                    'message' => 'User Acount Deactivated',
-                ];
-                header("HTTP/1.0 405 Access Deny");
-                return json_encode($data);
+                $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
+                $discount_percentage_result = $conn->query($discount_percentage_sql);
+                $discount = $discount_percentage_result->fetch_assoc();
+                $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
+                $discount = $discountable_subtotal * $discountPercentage;
             }
+
+            $total = ($subtotal + $vat) - $discount;
+
+            $data = [
+                'status' => 200,
+                'message' => 'Computed Price',
+                'items' => $order_items_array,
+                'subtotal' => $subtotal,
+                'vat' => $vat,
+                'discount' => $discount,
+                'total' => $total
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
         } else {
             $data = [
                 'status' => 405,
-                'message' => 'No User Found',
+                'message' => 'User Acount Deactivated',
             ];
             header("HTTP/1.0 405 Access Deny");
             return json_encode($data);
@@ -597,7 +598,7 @@ function placeorder($order)
     } else {
         $data = [
             'status' => 405,
-            'message' => 'No Payment Type Found',
+            'message' => 'No User Found',
         ];
         header("HTTP/1.0 405 Access Deny");
         return json_encode($data);

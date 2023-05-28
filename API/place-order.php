@@ -1,4 +1,4 @@
-<?php 
+<?php
 header('Acces-Control-Allow-Origin:*');
 header('Content-Type: application/json');
 header('Access-Control-Allow-Method: GET');
@@ -8,63 +8,12 @@ include('functions.php');
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if($requestMethod == "GET")
-{
-    if(isset($_GET['id']))
-    {
-        if(isset($_GET['payment_type']))
-        {
-            if(isset($_GET['del_type']))
-            {
-                if(isset($_GET['bgy_id']))
-                {
-                    if(isset($_GET['unit_st']))
-                    {
-                        $order = placeorder($_GET);
-                        echo $order;
-                    }
-                    else
-                    {
-                        $data = [
-                            'status' => 405,
-                            'message' => 'Access Deny',
-                        ];
-                        header("HTTP/1.0 405 Access Deny");
-                        echo json_encode($data);
-                    }
-                }
-                else
-                {
-                    $data = [
-                        'status' => 405,
-                        'message' => 'Access Deny',
-                    ];
-                    header("HTTP/1.0 405 Access Deny");
-                    echo json_encode($data);
-                }
-            }
-            else
-            {
-                $data = [
-                    'status' => 405,
-                    'message' => 'Access Deny',
-                ];
-                header("HTTP/1.0 405 Access Deny");
-                echo json_encode($data);
-            }
-        }
-        else
-        {
-            $data = [
-                'status' => 405,
-                'message' => 'Access Deny',
-            ];
-            header("HTTP/1.0 405 Access Deny");
-            echo json_encode($data);
-        }
-    }
-    else
-    {
+if ($requestMethod == "GET") {
+    if (isset($_GET['id'])) {
+
+        $order = placeorder($_GET);
+        echo $order;
+    } else {
         $data = [
             'status' => 405,
             'message' => 'Access Deny',
@@ -72,12 +21,10 @@ if($requestMethod == "GET")
         header("HTTP/1.0 405 Access Deny");
         echo json_encode($data);
     }
-}
-else
-{
+} else {
     $data = [
         'status' => 405,
-        'message' => $requestMethod. ' Method Not Allowed',
+        'message' => $requestMethod . ' Method Not Allowed',
     ];
     header("HTTP/1.0 405 Method Not Allowed");
     echo json_encode($data);
