@@ -604,3 +604,49 @@ function placeorder($order)
         return json_encode($data);
     }
 }
+
+
+function paymentType($user)
+{
+    global $conn;
+    $userID = $user['id'];
+
+    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$userID'";
+    $cust_result = $conn->query($cust_sql);
+    if ($cust_result->num_rows > 0) {
+        $payment_type_sql = "SELECT * FROM payment_type";
+        $payment_type_result = $conn->query($payment_type_sql);
+        if ($payment_type_result->num_rows > 0) {
+            $payment_types = [];
+            while ($payment_type_row = $payment_type_result->fetch_assoc()) {
+                $payment = [
+                    'type_id' => $payment_type_row['TYPE_ID'],
+                    'payment_type' => $payment_type_row['PAYMENT_TYPE']
+                ];
+                $payment_types[] = $payment;
+            }
+
+            $data = [
+                'status' => 200,
+                'message' => 'Payment Types',
+                'payment_types' => $payment_types
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'No Payment Type Found'
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'No User Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
