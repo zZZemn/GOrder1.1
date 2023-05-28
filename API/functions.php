@@ -1,12 +1,13 @@
-<?php 
+<?php
 
 require '../database/db.php';
 require '../PHPMailer/src/Exception.php';
 require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
 
-function error422($message) {
-    $data = [ 
+function error422($message)
+{
+    $data = [
         'status' => 422,
         'message' => $message,
     ];
@@ -14,26 +15,21 @@ function error422($message) {
     return json_encode($data);
 }
 
-function login($email, $password){
+function login($email, $password)
+{
 
     global $conn;
 
-    if($email && $password == NULL)
-    {
+    if ($email && $password == NULL) {
         return error422('Enter email and password');
-    }
-    else
-    {
+    } else {
         $sql = "SELECT * FROM customer_user WHERE EMAIL = '$email' OR USERNAME = '$email'";
         $result =  $conn->query($sql);
 
-        if($result->num_rows > 0)
-        {
+        if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            if(password_verify($password, $user['PASSWORD']))
-            {
-                if($user['STATUS'] === 'Active')
-                {
+            if (password_verify($password, $user['PASSWORD'])) {
+                if ($user['STATUS'] === 'Active') {
                     $data = [
                         'status' => 200,
                         'message' => 'Login Success',
@@ -41,9 +37,7 @@ function login($email, $password){
                     ];
                     header("HTTP/1.0 200 OK");
                     return json_encode($data);
-                }
-                else
-                {
+                } else {
                     $data = [
                         'status' => 404,
                         'message' => 'Login Failed',
@@ -51,9 +45,7 @@ function login($email, $password){
                     header("HTTP/1.0 404 Not Found");
                     return json_encode($data);
                 }
-            }
-            else
-            {
+            } else {
                 $data = [
                     'status' => 404,
                     'message' => 'Login Failed',
@@ -61,9 +53,7 @@ function login($email, $password){
                 header("HTTP/1.0 404 Not Found");
                 return json_encode($data);
             }
-        }
-        else
-        {
+        } else {
             $data = [
                 'status' => 404,
                 'message' => 'Login Failed',
@@ -74,88 +64,56 @@ function login($email, $password){
     }
 }
 
-function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password, $contact_no, $unit_street, $barangay, $municipality, $province, $region, $birthday) {
+function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password, $contact_no, $unit_street, $barangay, $municipality, $province, $region, $birthday)
+{
 
     global $conn;
 
-    if($fname == null || $lname == null)
-    {
-        return error422($fname." ".$lname);
-    }
-
-    elseif($email == null)
-    {
+    if ($fname == null || $lname == null) {
+        return error422($fname . " " . $lname);
+    } elseif ($email == null) {
         return error422('Please Enter your Email');
-    }
-    
-    elseif($username == null)
-    {
+    } elseif ($username == null) {
         return error422('Please Enter Username');
-    }
-
-    elseif($password == null)
-    {
+    } elseif ($password == null) {
         return error422('Please Enter Password');
-    }
-
-    elseif($contact_no == null)
-    {
+    } elseif ($contact_no == null) {
         return error422('Please Enter you Contact number');
-    }
-    
-    elseif($contact_no == null)
-    {
+    } elseif ($contact_no == null) {
         return error422('Please Enter you Contact number');
-    }
-
-    elseif($unit_street == null || $barangay == null || $municipality == null || $province == null || $region == null)
-    {
+    } elseif ($unit_street == null || $barangay == null || $municipality == null || $province == null || $region == null) {
         return error422('Please Enter your full address');
-    }
-
-    elseif($birthday == null)
-    {
+    } elseif ($birthday == null) {
         return error422('Please Enter your Birthdate');
-    }
-
-    else
-    {
+    } else {
         $check_email = "SELECT * FROM customer_user WHERE EMAIL = '$email'";
         $check_email_result =  $conn->query($check_email);
 
         $check_username = "SELECT * FROM customer_user WHERE USERNAME = '$username'";
         $check_username_result = $conn->query($check_username);
 
-        if($check_email_result->num_rows > 0)
-        {
+        if ($check_email_result->num_rows > 0) {
             $data = [
                 'status' => 404,
                 'message' => 'Existing email',
             ];
             header("HTTP/1.0 404 Existing email");
             return json_encode($data);
-        }
-
-        elseif($check_username_result->num_rows > 0)
-        {
+        } elseif ($check_username_result->num_rows > 0) {
             $data = [
                 'status' => 404,
                 'message' => 'Existing username',
             ];
             header("HTTP/1.0 404 Existing username");
             return json_encode($data);
-        }
-
-        else
-        {
+        } else {
             $verification_code = rand(100000, 999999);
 
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $cust_id = rand(100000, 999999);
             $cust_id_result = $conn->query("SELECT * FROM customer_user WHERE CUST_ID = $cust_id");
-        
-            while($cust_id_result->num_rows > 0)
-            {
+
+            while ($cust_id_result->num_rows > 0) {
                 $cust_id = rand(100000, 999999);
                 $cust_id_result = $conn->query("SELECT * FROM customer_user WHERE CUST_ID = $cust_id");
             }
@@ -163,17 +121,14 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             $insert_customer = "INSERT INTO `customer_user`(`CUST_ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_INITIAL`, `SUFFIX`, `SEX`, `EMAIL`, `USERNAME`, `PASSWORD`, `CONTACT_NO`, `UNIT_STREET`, `BARANGAY`, `MUNICIPALITY`, `PROVINCE`, `REGION`, `BIRTHDAY`, `CUSTOMER_TYPE`, `STATUS`) 
                                 VALUES ('$cust_id','$fname','$lname','$mi','$suffix','$sex','$email','$username','$hashed_password','$contact_no','$unit_street','$barangay','$municipality','$province','$region','$birthday','Regular','Active')";
 
-            if($conn->query($insert_customer))
-            {
+            if ($conn->query($insert_customer)) {
                 $data = [
                     'status' => 200,
                     'message' => 'Registered!'
                 ];
                 header("HTTP/1.0 200 OK");
                 return json_encode($data);
-            }            
-            else
-            {
+            } else {
                 $data = [
                     'status' => 200,
                     'message' => 'Registration failed!'
@@ -183,28 +138,23 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             }
         }
     }
-  }
+}
 
-  function products($cust_id_search){
+function products($cust_id_search)
+{
     global $conn;
 
-    if($cust_id_search['id'] == null)
-    {
+    if ($cust_id_search['id'] == null) {
         return error422('Enter Customer ID');
-    }
-    else
-    {
+    } else {
         $id = $cust_id_search['id'];
 
         $cheking_cust_id = "SELECT * FROM customer_user WHERE CUST_ID = $id";
         $cheking_cust_id_result = $conn->query($cheking_cust_id);
 
-        if($cheking_cust_id_result->num_rows > 0)
-        {
-            if(isset($cust_id_search['pro_search']))
-            {
-                if($cust_id_search['pro_search'] != null)
-                {
+        if ($cheking_cust_id_result->num_rows > 0) {
+            if (isset($cust_id_search['pro_search'])) {
+                if ($cust_id_search['pro_search'] != null) {
                     //search here
                     $pro_search = $cust_id_search['pro_search'];
                     $product_search = "SELECT * FROM products WHERE PRODUCT_NAME LIKE '%$pro_search%'";
@@ -212,22 +162,20 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
 
                     $product_search_data = [];
 
-                    if($product_search_result->num_rows > 0)
-                    {
-                        while($row = $product_search_result->fetch_assoc())
-                        {
+                    if ($product_search_result->num_rows > 0) {
+                        while ($row = $product_search_result->fetch_assoc()) {
                             $product_search_data[] = [
-                                    'product_id' => $row['PRODUCT_ID'],
-                                    'product_code' => $row['PRODUCT_CODE'],
-                                    'product_name' => $row['PRODUCT_NAME'],
-                                    'unit_measurement' => $row['UNIT_MEASUREMENT'],
-                                    'selling_price' => $row['SELLING_PRICE'],
-                                    'subcat_id' => $row['SUB_CAT_ID'],
-                                    'description' => $row['DESCRIPTION'],
-                                    'critical_level' => $row['CRITICAL_LEVEL'],
-                                    'product_img' => 'https://gorder.website/img/products/'.$row['PRODUCT_IMG'],
-                                    'prescribe' => $row['PRESCRIBE'],
-                                    'vatable' => $row['VATABLE']
+                                'product_id' => $row['PRODUCT_ID'],
+                                'product_code' => $row['PRODUCT_CODE'],
+                                'product_name' => $row['PRODUCT_NAME'],
+                                'unit_measurement' => $row['UNIT_MEASUREMENT'],
+                                'selling_price' => $row['SELLING_PRICE'],
+                                'subcat_id' => $row['SUB_CAT_ID'],
+                                'description' => $row['DESCRIPTION'],
+                                'critical_level' => $row['CRITICAL_LEVEL'],
+                                'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
+                                'prescribe' => $row['PRESCRIBE'],
+                                'vatable' => $row['VATABLE']
                             ];
                         }
                         $data = [
@@ -237,9 +185,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                         ];
                         header("HTTP/1.0 200 OK");
                         return json_encode($data);
-                    }
-                    else
-                    {
+                    } else {
                         $data = [
                             'status' => 404,
                             'message' => 'No product found',
@@ -247,30 +193,26 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                         header("HTTP/1.0 404 No product found");
                         return json_encode($data);
                     }
-                }
-                else
-                {
-                $products = "SELECT * FROM products";
-                $products_result = $conn->query($products);
+                } else {
+                    $products = "SELECT * FROM products";
+                    $products_result = $conn->query($products);
 
-                $products_data = [];
+                    $products_data = [];
 
-                    if($products_result->num_rows > 0)
-                    {
-                        while($row = $products_result->fetch_assoc())
-                        {
+                    if ($products_result->num_rows > 0) {
+                        while ($row = $products_result->fetch_assoc()) {
                             $products_data[] = [
-                                    'product_id' => $row['PRODUCT_ID'],
-                                    'product_code' => $row['PRODUCT_CODE'],
-                                    'product_name' => $row['PRODUCT_NAME'],
-                                    'unit_measurement' => $row['UNIT_MEASUREMENT'],
-                                    'selling_price' => $row['SELLING_PRICE'],
-                                    'subcat_id' => $row['SUB_CAT_ID'],
-                                    'description' => $row['DESCRIPTION'],
-                                    'critical_level' => $row['CRITICAL_LEVEL'],
-                                    'product_img' => 'https://gorder.website/img/products/'.$row['PRODUCT_IMG'],
-                                    'prescribe' => $row['PRESCRIBE'],
-                                    'vatable' => $row['VATABLE']
+                                'product_id' => $row['PRODUCT_ID'],
+                                'product_code' => $row['PRODUCT_CODE'],
+                                'product_name' => $row['PRODUCT_NAME'],
+                                'unit_measurement' => $row['UNIT_MEASUREMENT'],
+                                'selling_price' => $row['SELLING_PRICE'],
+                                'subcat_id' => $row['SUB_CAT_ID'],
+                                'description' => $row['DESCRIPTION'],
+                                'critical_level' => $row['CRITICAL_LEVEL'],
+                                'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
+                                'prescribe' => $row['PRESCRIBE'],
+                                'vatable' => $row['VATABLE']
                             ];
                         }
 
@@ -281,10 +223,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                         ];
                         header("HTTP/1.0 200 OK");
                         return json_encode($data);
-
-                    }
-                    else
-                    {
+                    } else {
                         $data = [
                             'status' => 404,
                             'message' => 'No product found',
@@ -293,31 +232,26 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                         return json_encode($data);
                     }
                 }
-            }
-
-            else
-            {
+            } else {
                 $products = "SELECT * FROM products";
                 $products_result = $conn->query($products);
 
                 $products_data = [];
 
-                if($products_result->num_rows > 0)
-                {
-                    while($row = $products_result->fetch_assoc())
-                    {
+                if ($products_result->num_rows > 0) {
+                    while ($row = $products_result->fetch_assoc()) {
                         $products_data[] = [
-                                'product_id' => $row['PRODUCT_ID'],
-                                'product_code' => $row['PRODUCT_CODE'],
-                                'product_name' => $row['PRODUCT_NAME'],
-                                'unit_measurement' => $row['UNIT_MEASUREMENT'],
-                                'selling_price' => $row['SELLING_PRICE'],
-                                'subcat_id' => $row['SUB_CAT_ID'],
-                                'description' => $row['DESCRIPTION'],
-                                'critical_level' => $row['CRITICAL_LEVEL'],
-                                'product_img' => 'https://gorder.website/img/products/'.$row['PRODUCT_IMG'],
-                                'prescribe' => $row['PRESCRIBE'],
-                                'vatable' => $row['VATABLE']
+                            'product_id' => $row['PRODUCT_ID'],
+                            'product_code' => $row['PRODUCT_CODE'],
+                            'product_name' => $row['PRODUCT_NAME'],
+                            'unit_measurement' => $row['UNIT_MEASUREMENT'],
+                            'selling_price' => $row['SELLING_PRICE'],
+                            'subcat_id' => $row['SUB_CAT_ID'],
+                            'description' => $row['DESCRIPTION'],
+                            'critical_level' => $row['CRITICAL_LEVEL'],
+                            'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
+                            'prescribe' => $row['PRESCRIBE'],
+                            'vatable' => $row['VATABLE']
                         ];
                     }
 
@@ -328,10 +262,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                     ];
                     header("HTTP/1.0 200 OK");
                     return json_encode($data);
-
-                }
-                else
-                {
+                } else {
                     $data = [
                         'status' => 404,
                         'message' => 'No product found',
@@ -340,63 +271,80 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                     return json_encode($data);
                 }
             }
-        }
-        else
-        {
-                $data = [
-                    'status' => 405,
-                    'message' => 'Access Deny',
-                ];
-                header("HTTP/1.0 405 Access Deny");
-                echo json_encode($data);
+        } else {
+            $data = [
+                'status' => 405,
+                'message' => 'Access Deny',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            echo json_encode($data);
         }
     }
-  }
+}
 
-  function addToCart($productID, $custID){
+function addToCart($productID, $custID)
+{
     global $conn;
 
     $check_cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = $custID";
     $check_cust_result = $conn->query($check_cust_sql);
 
-    if($check_cust_result->num_rows > 0)
-    {
+    if ($check_cust_result->num_rows > 0) {
         $cust = $check_cust_result->fetch_assoc();
 
         $cartID = $cust['CART_ID'];
 
         $check_pro_exist_sql = "SELECT * FROM products WHERE PRODUCT_ID = $productID";
         $check_pro_exist_result = $conn->query($check_pro_exist_sql);
-        if($check_pro_exist_result->num_rows > 0)
-        {
+        if ($check_pro_exist_result->num_rows > 0) {
             $product = $check_pro_exist_result->fetch_assoc();
+            $product_selling_price = $product['SELLING_PRICE'];
 
-            $amount = $product['SELLING_PRICE'] * 1;
+            $check_product_exist_cart_sql = "SELECT * FROM cart_items WHERE PRODUCT_ID = '$productID'";
+            $check_product_exist_cart_result = $conn->query($check_product_exist_cart_sql);
+            if ($check_product_exist_cart_result->num_rows > 0) {
+                $update_cart_qty = "UPDATE `cart_items`
+                SET `QTY` = `QTY` + 1,
+                    `AMOUNT` = `AMOUNT` + '$product_selling_price'
+                WHERE CART_ID = '$cartID'";
+                if ($conn->query($update_cart_qty)) {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Cart Updated',
+                    ];
+                    header("HTTP/1.0 405 Access Deny");
+                    echo json_encode($data);
+                } else {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'Wrong Query',
+                    ];
+                    header("HTTP/1.0 405 Access Deny");
+                    echo json_encode($data);
+                }
+            } else {
+                $amount = $product_selling_price * 1;
 
-            $cart_insert = "INSERT INTO `cart_items`(`CART_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
-                            VALUES ('$cartID','$productID',1,'$amount')";
+                $cart_insert = "INSERT INTO `cart_items`(`CART_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
+                                VALUES ('$cartID','$productID',1,'$amount')";
 
-            if($conn->query($cart_insert) === TRUE)
-            {
-                $data = [
-                    'status' => 200,
-                    'message' => 'Added To Cart',
-                ];
-                header("HTTP/1.0 405 Access Deny");
-                echo json_encode($data);
+                if ($conn->query($cart_insert) === TRUE) {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Added To Cart',
+                    ];
+                    header("HTTP/1.0 405 Access Deny");
+                    echo json_encode($data);
+                } else {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'Wrong Query',
+                    ];
+                    header("HTTP/1.0 405 Access Deny");
+                    echo json_encode($data);
+                }
             }
-            else
-            {
-                $data = [
-                    'status' => 405,
-                    'message' => 'Wrong Query',
-                ];
-                header("HTTP/1.0 405 Access Deny");
-                echo json_encode($data);
-            }
-        }
-        else
-        {
+        } else {
             $data = [
                 'status' => 405,
                 'message' => 'No product found',
@@ -404,10 +352,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             header("HTTP/1.0 405 Access Deny");
             echo json_encode($data);
         }
-
-    }
-    else
-    {
+    } else {
         $data = [
             'status' => 405,
             'message' => 'No cust Found',
@@ -415,15 +360,16 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
         header("HTTP/1.0 405 Access Deny");
         echo json_encode($data);
     }
-  }
+}
 
-  function cartItems($custID) {
+function cartItems($custID)
+{
     global $conn;
 
     $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$custID'";
     $cust_result = $conn->query($cust_sql);
 
-    if($cust_result->num_rows > 0) {
+    if ($cust_result->num_rows > 0) {
         $customer = $cust_result->fetch_assoc();
 
         $cartID = $customer['CART_ID'];
@@ -431,10 +377,10 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
         $cart_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cartID'";
         $cart_result = $conn->query($cart_sql);
 
-        if($cart_result->num_rows > 0) {
+        if ($cart_result->num_rows > 0) {
             $cart_items = [];
 
-            while($row = $cart_result->fetch_assoc()) { 
+            while ($row = $cart_result->fetch_assoc()) {
                 $product_id = $row['PRODUCT_ID'];
                 $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
                 $product_result = $conn->query($product_sql);
@@ -458,8 +404,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             ];
             header("HTTP/1.0 200 OK");
             return json_encode($data);
-        }
-        else {
+        } else {
             $data = [
                 'status' => 200,
                 'message' => 'Cart Is Empty',
@@ -470,8 +415,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             header("HTTP/1.0 200 OK");
             return json_encode($data);
         }
-    }
-    else {
+    } else {
         $data = [
             'status' => 405,
             'message' => 'No cust Found',
@@ -479,21 +423,20 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
         header("HTTP/1.0 405 Access Deny");
         return json_encode($data);
     }
-  }
+}
 
-  function user($user_id){
+function user($user_id)
+{
     global $conn;
-    if($user_id['id'] == null)
-    {
+    if ($user_id['id'] == null) {
         return error422('Enter Customer ID');
-    }
-    else {
+    } else {
         $u_id = $user_id['id'];
-        if(is_numeric($u_id)){
+        if (is_numeric($u_id)) {
             $userID = filter_var($user_id['id'], FILTER_SANITIZE_NUMBER_INT);
             $user_sql = "SELECT * FROM customer_user WHERE CUST_ID = $userID LIMIT 1";
             $user_result = $conn->query($user_sql);
-            if($user_result->num_rows > 0){
+            if ($user_result->num_rows > 0) {
                 $user = $user_result->fetch_assoc();
                 $data = [
                     'status' => 200,
@@ -511,14 +454,13 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                     'municipality' => $user['MUNICIPALITY'],
                     'province' => $user['PROVINCE'],
                     'region' => $user['REGION'],
-                    'picture' => 'https://gorder.website/img/userprofile/'.$user['PICTURE'],
+                    'picture' => 'https://gorder.website/img/userprofile/' . $user['PICTURE'],
                     'bday' => $user['BIRTHDAY'],
                     'id_picture' => $user['ID_PICTURE'],
                 ];
                 header("HTTP/1.0 200 OK");
                 return json_encode($data);
-                
-            }else{
+            } else {
                 $data = [
                     'status' => 405,
                     'message' => 'No Customer Found',
@@ -526,8 +468,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
                 header("HTTP/1.0 405 Access Deny");
                 return json_encode($data);
             }
-        }
-        else{
+        } else {
             $data = [
                 'status' => 405,
                 'message' => 'Access Deny',
@@ -536,5 +477,129 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             return json_encode($data);
         }
     }
-  }
-?>
+}
+
+
+function placeorder($order)
+{
+    global $conn;
+
+    $id = $order['id'];
+    $payment_type = $order['payment_type'];
+    $del_type = $order['del_type'];
+    $barangay_id = $order['bgy_id'];
+    $unit_st = $order['unit_st'];
+
+    $payment_type_sql = "SELECT * FROM `payment_type` WHERE TYPE_ID = '$payment_type'";
+    $payment_type_result = $conn->query($payment_type_sql);
+    if ($payment_type_result->num_rows > 0) {
+        $payment = $payment_type_result->fetch_assoc();
+        $final_payment_type = $payment['PAYMENT_TYPE'];
+
+        $user_details_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$id'";
+        $user_details_result = $conn->query($user_details_sql);
+        if ($user_details_result->num_rows > 0) {
+            $user = $user_details_result->fetch_assoc();
+            if ($user['STATUS'] === 'Active') {
+                $cart_id = $user['CART_ID'];
+                $cust_type = $user['CUSTOMER_TYPE'];
+
+                $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
+                $order_items_result = $conn->query($order_items_sql);
+                $order_items_array = [];
+                if ($order_items_result->num_rows > 0) {
+                    while ($order_items_row = $order_items_result->fetch_assoc()) {
+                        $order_item = [
+                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                            'QTY' => $order_items_row['QTY'],
+                            'AMOUNT' => $order_items_row['AMOUNT']
+                        ];
+                        $order_items_array[] = $order_item;
+                    }
+                } else {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'Cart Is Empty',
+                    ];
+                    header("HTTP/1.0 405 Access Deny");
+                    return json_encode($data);
+                    exit;
+                }
+
+                $transaction_id = mt_rand(100000000000000, 999999999999999);
+                $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+                $check_trans_id_result = $conn->query($check_trans_id_sql);
+                while ($check_trans_id_result->num_rows > 0) {
+                    $transaction_id = mt_rand(100000000000000, 999999999999999);
+                    $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+                    $check_trans_id_result = $conn->query($check_trans_id_sql);
+                }
+
+                $subtotal = 0;
+                foreach ($order_items_array as $order_item) {
+                    $subtotal += $order_item['AMOUNT'];
+                }
+
+                $vat = 20;
+                $vatable_subtotal = 0;
+                foreach ($order_items_array as $order_item) {
+                    $product_id = $order_item['PRODUCT_ID'];
+                    $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                    $product_result = $conn->query($product_sql);
+                    $product = $product_result->fetch_assoc();
+
+                    $isVatable = $product['VATABLE'];
+
+                    if ($isVatable == true) {
+                        $vatable_subtotal += $order_item['AMOUNT'];
+                    }
+                }
+
+                $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
+                $tax_percentage_result = $conn->query($tax_percentage_sql);
+                $tax = $tax_percentage_result->fetch_assoc();
+                $taxPercentage = $tax['TAX_PERCENTAGE'];
+                
+                $vat = $vatable_subtotal * $taxPercentage;
+
+                $data = [
+                    'status' => 200,
+                    'message' => 'Debug',
+                    'transaction_id' => $transaction_id,
+                    'del_type' => $del_type,
+                    'payment_type' => $final_payment_type,
+                    'barangay_id' => $barangay_id,
+                    'unit_st' => $unit_st,
+                    'items' => $order_items_array,
+                    'subtotal' => $subtotal,
+                    'vat' => $vat,
+                    'vatable-sub' => $vatable_subtotal,
+                    'tax_percentage' => $taxPercentage
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'User Acount Deactivated',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            }
+        } else {
+            $data = [
+                'status' => 405,
+                'message' => 'No User Found',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'No Payment Type Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
