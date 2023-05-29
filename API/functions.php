@@ -4,6 +4,7 @@ require '../database/db.php';
 require '../PHPMailer/src/Exception.php';
 require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
+require '../time-date.php';
 
 function error422($message)
 {
@@ -520,6 +521,7 @@ function placeorder($order)
     if ($user_details_result->num_rows > 0) {
         $user = $user_details_result->fetch_assoc();
         if ($user['STATUS'] === 'Active') {
+            $bgy_id = $user['BARANGAY_ID'];
             $cart_id = $user['CART_ID'];
             $cust_type = $user['CUSTOMER_TYPE'];
 
@@ -544,15 +546,6 @@ function placeorder($order)
                 return json_encode($data);
                 exit;
             }
-
-            // $transaction_id = mt_rand(100000000000000, 999999999999999);
-            // $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-            // $check_trans_id_result = $conn->query($check_trans_id_sql);
-            // while ($check_trans_id_result->num_rows > 0) {
-            //     $transaction_id = mt_rand(100000000000000, 999999999999999);
-            //     $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-            //     $check_trans_id_result = $conn->query($check_trans_id_sql);
-            // }
 
             $subtotal = 0;
             foreach ($order_items_array as $order_item) {
@@ -605,6 +598,10 @@ function placeorder($order)
             }
 
             $total = ($subtotal + $vat) - $discount;
+            $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+            $df_result = $conn->query($df_sql);
+            $delivery = $df_result->fetch_assoc();
+            $df = $delivery['DELIVERY_FEE'];
 
             $data = [
                 'status' => 200,
@@ -613,7 +610,9 @@ function placeorder($order)
                 'subtotal' => $subtotal,
                 'vat' => $vat,
                 'discount' => $discount,
-                'total' => $total
+                'total' => $total,
+                'delivery_fee' => $df,
+                'total_plus_delivery_fee' => $total + $df,
             ];
             header("HTTP/1.0 405 Access Deny");
             return json_encode($data);
@@ -682,6 +681,210 @@ function paymentType($user)
 }
 
 
+function checkOut($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
+{
+    global $conn;
+    global $currentTime;
+    global $currentDate;
+
+    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$cust_id'";
+    $cust_result = $conn->query($cust_sql);
+    if ($cust_result->num_rows > 0) {
+        $cust = $cust_result->fetch_assoc();
+        if ($cust['STATUS'] === "Active") {
+            $cart_id = $cust['CART_ID'];
+            $cust_type = $cust['CUSTOMER_TYPE'];
+
+            $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+            $bgy_result = $conn->query($bgy_sql);
+            if ($bgy_result->num_rows > 0) {
+                if ($payment_type === 'Cash') {
+                    $transaction_id = mt_rand(10000000, 99999999);
+                    $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+                    $check_trans_id_result = $conn->query($check_trans_id_sql);
+                    while ($check_trans_id_result->num_rows > 0) {
+                        $transaction_id = mt_rand(10000000, 99999999);
+                        $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+                        $check_trans_id_result = $conn->query($check_trans_id_sql);
+                    }
+
+                    $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
+                    $order_items_result = $conn->query($order_items_sql);
+                    $order_items_array = [];
+                    if ($order_items_result->num_rows > 0) {
+                        while ($order_items_row = $order_items_result->fetch_assoc()) {
+                            $order_item = [
+                                'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                                'QTY' => $order_items_row['QTY'],
+                                'AMOUNT' => $order_items_row['AMOUNT']
+                            ];
+                            $order_items_array[] = $order_item;
+                        }
+                    } else {
+                        $data = [
+                            'status' => 405,
+                            'message' => 'Cart Is Empty',
+                        ];
+                        header("HTTP/1.0 405 Access Deny");
+                        return json_encode($data);
+                        exit;
+                    }
+
+                    $subtotal = 0;
+                    foreach ($order_items_array as $order_item) {
+                        $subtotal += $order_item['AMOUNT'];
+                    }
+
+                    $vat = 0;
+                    $vatable_subtotal = 0;
+                    foreach ($order_items_array as $order_item) {
+                        $product_id = $order_item['PRODUCT_ID'];
+                        $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                        $product_result = $conn->query($product_sql);
+                        $product = $product_result->fetch_assoc();
+
+                        $isVatable = $product['VATABLE'];
+
+                        if ($isVatable == true) {
+                            $vatable_subtotal += $order_item['AMOUNT'];
+                        }
+                    }
+
+                    $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
+                    $tax_percentage_result = $conn->query($tax_percentage_sql);
+                    $tax = $tax_percentage_result->fetch_assoc();
+                    $taxPercentage = $tax['TAX_PERCENTAGE'];
+
+                    $vat = $vatable_subtotal * $taxPercentage;
+
+                    $discount = 0;
+                    if ($cust_type != 'Regular') {
+                        $discountable_subtotal = 0;
+                        foreach ($order_items_array as $order_item) {
+                            $product_id = $order_item['PRODUCT_ID'];
+                            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                            $product_result = $conn->query($product_sql);
+                            $product = $product_result->fetch_assoc();
+
+                            $isDiscountable = $product['DISCOUNTABLE'];
+
+                            if ($isDiscountable == true) {
+                                $discountable_subtotal += $order_item['AMOUNT'];
+                            }
+                        }
+
+                        $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
+                        $discount_percentage_result = $conn->query($discount_percentage_sql);
+                        $discount = $discount_percentage_result->fetch_assoc();
+                        $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
+                        $discount = $discountable_subtotal * $discountPercentage;
+                    }
+
+                    $total = ($subtotal + $vat) - $discount;
+
+                    $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                    $df_result = $conn->query($df_sql);
+                    $delivery = $df_result->fetch_assoc();
+                    $df = $delivery['DELIVERY_FEE'];
+
+                    $total += $df;
+
+                    $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`) 
+                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting')";
+
+                    if ($conn->query($insert_order_sql) === TRUE) {
+                        foreach ($order_items_array as $order_item) {
+                            $product_id = $order_item['PRODUCT_ID'];
+                            $qty = $order_item['QTY'];
+                            $amount = $order_item['AMOUNT'];
+
+                            $insert_order_details_sql = "INSERT INTO `order_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
+                                                    VALUES ('$transaction_id', '$product_id', '$qty', '$amount')";
+                            if ($conn->query($insert_order_details_sql) !== TRUE) {
+                                $data = [
+                                    'status' => 200,
+                                    'message' => 'Inserting Error'
+                                ];
+                                header("HTTP/1.0 405 OK");
+                                return json_encode($data);
+                            }
+                        }
+
+                        $delete_cartItems_sql = "DELETE FROM `cart_items` WHERE CART_ID = '$cart_id'";
+                        
+                        if($conn->query($delete_cartItems_sql) !== TRUE){
+                            
+                        }
+
+                        $data = [
+                            'status' => 200,
+                            'message' => 'Order Success',
+                            'order_items' => $order_items_array,
+                            'transaction_id' => $transaction_id,
+                            'cust_id' => $cust_id,
+                            'payment_type' => $payment_type,
+                            'delivery_type' => $delivery_type,
+                            'unit_st' => $unit_st,
+                            'bgy_id' => $bgy_id,
+                            'time' => $currentTime,
+                            'date' => $currentDate,
+                            'subtotal' => $subtotal,
+                            'VAT' => $vat,
+                            'discount' => $discount,
+                            'total' => $total,
+                            'del_status' => 'Waiting',
+                            'df' => $df
+                        ];
+                        header("HTTP/1.0 405 OK");
+                        return json_encode($data);
+                    } else {
+                        $data = [
+                            'status' => 200,
+                            'message' => 'Inserting Error'
+                        ];
+                        header("HTTP/1.0 405 OK");
+                        return json_encode($data);
+                    }
+                } elseif ($payment_type === 'Gcash') {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'Gcash Payment is not available'
+                    ];
+                    header("HTTP/1.0 405 OK");
+                    return json_encode($data);
+                } else {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'Payment is not available'
+                    ];
+                    header("HTTP/1.0 405 OK");
+                    return json_encode($data);
+                }
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'Invalid Barangay ID',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            }
+        } else {
+            $data = [
+                'status' => 405,
+                'message' => 'User Acount Deactivated',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'No User Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
 
 
 //address set
