@@ -41,8 +41,7 @@ if (isset($_SESSION['id'])) {
             exit();
         }
     }
-}else{
+} else {
     header("Location: ../index.php");
     exit();
 }
-

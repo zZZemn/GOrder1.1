@@ -7,6 +7,9 @@ if (isset($_SESSION['id'])) {
     $sql = "SELECT * FROM employee WHERE EMP_ID = {$_SESSION['id']}";
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
+} else {
+    header("Location: ../index.php");
+    exit;
 }
 ?>
 
@@ -31,7 +34,7 @@ if (isset($_SESSION['id'])) {
 </head>
 
 <body>
-    <?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") : ?>
+    <?php if(isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") : ?>
         <nav class="top-nav bg-dark">
 
             <i class="fa-solid fa-bars menu"></i>

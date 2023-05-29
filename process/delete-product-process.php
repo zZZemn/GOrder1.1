@@ -64,14 +64,9 @@
                         <h5>Sorry, you are not authorized to access this page.</h5>
                     </div>";
         }
-    }
-    else
-    {
-        echo "<title>Access Denied</title>
-            <div class='access-denied'>
-                <h1>Access Denied</h1>
-                <h5>Sorry, you are not authorized to access this page.</h5>
-            </div>";
+    } else {
+        header("Location: ../index.php");
+        exit;
     }
 
 ?>

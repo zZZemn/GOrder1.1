@@ -8,7 +8,7 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if(isset($_POST['save_discount_rate'])){
+    if (isset($_POST['save_discount_rate'])) {
         $emp_id = $emp['EMP_ID'];
         $new_discount_rate = $_POST['discount_rate'];
         include('../time-date.php');
@@ -20,14 +20,15 @@ if (isset($_SESSION['id'])) {
         $edit_discount_log = "INSERT INTO `emp_log`(`EMP_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) VALUES 
                     ('$emp_id','Update discount rate to $new_discount_rate.','$addDate','$addTime')";
 
-        if($conn->query($update_discount_rate_sql) === TRUE && $conn->query($edit_discount_log) === TRUE) {
+        if ($conn->query($update_discount_rate_sql) === TRUE && $conn->query($edit_discount_log) === TRUE) {
             header("Location: ../admin/maintenance-discount.php?status=edited");
             exit();
-        }
-        else {
+        } else {
             header("Location: ../admin/maintenance-discount.php?status=invalid_edit");
             exit();
         }
     }
+} else {
+    header("Location: ../index.php");
+    exit;
 }
-

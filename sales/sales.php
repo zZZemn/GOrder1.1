@@ -8,6 +8,9 @@ if (isset($_SESSION['id'])) {
     $sql = "SELECT * FROM employee WHERE EMP_ID = {$_SESSION['id']}";
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
+}else {
+    header("Location: ../index.php");
+    exit;
 }
 ?>
 
