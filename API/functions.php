@@ -438,6 +438,35 @@ function user($user_id)
             $user_result = $conn->query($user_sql);
             if ($user_result->num_rows > 0) {
                 $user = $user_result->fetch_assoc();
+                $bgy_id = $user['BARANGAY_ID'];
+
+                $barangay_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                $barangay_result = $conn->query($barangay_sql);
+                $barangay = $barangay_result->fetch_assoc();
+
+                $barangay_name = $barangay['BARANGAY'];
+                $municipality_id = $barangay['MUNICIPALITY_ID'];
+
+                $municipality_sql = "SELECT * FROM municipality WHERE MUNICIPALITY_ID = '$municipality_id'";
+                $municipality_result = $conn->query($municipality_sql);
+                $municipality = $municipality_result->fetch_assoc();
+
+                $municipality_name = $municipality['MUNICIPALITY'];
+                $province_id = $municipality['PROVINCE_ID'];
+
+                $province_sql = "SELECT * FROM province WHERE PROVINCE_ID = '$province_id'";
+                $province_result = $conn->query($province_sql);
+                $province = $province_result->fetch_assoc();
+
+                $province_name = $province['PROVINCE'];
+                $region_id = $province['REGION_ID'];
+
+                $region_sql = "SELECT * FROM region WHERE REGION_ID = '$region_id'";
+                $region_result = $conn->query($region_sql);
+                $region = $region_result->fetch_assoc();
+
+                $region_name = $region['REGION'];
+
                 $data = [
                     'status' => 200,
                     'message' => 'User Found',
@@ -450,10 +479,11 @@ function user($user_id)
                     'username' => $user['USERNAME'],
                     'contact_no' => $user['CONTACT_NO'],
                     'unit_st' => $user['UNIT_STREET'],
-                    'barangay' => $user['BARANGAY'],
-                    'municipality' => $user['MUNICIPALITY'],
-                    'province' => $user['PROVINCE'],
-                    'region' => $user['REGION'],
+                    'barangay_id' => $bgy_id,
+                    'barangay' => $barangay_name,
+                    'municipality' => $municipality_name,
+                    'province' => $province_name,
+                    'region' => $region_name,
                     'picture' => 'https://gorder.website/img/userprofile/' . $user['PICTURE'],
                     'bday' => $user['BIRTHDAY'],
                     'id_picture' => $user['ID_PICTURE'],
@@ -631,7 +661,7 @@ function paymentType($user)
                 'message' => 'Payment Types',
                 'payment_types' => $payment_types
             ];
-            header("HTTP/1.0 405 Access Deny");
+            header("HTTP/1.0 405 OK");
             return json_encode($data);
         } else {
             $data = [
@@ -647,6 +677,42 @@ function paymentType($user)
             'message' => 'No User Found',
         ];
         header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
+
+
+
+
+//address set
+function regions()
+{
+    global $conn;
+    $regions_sql = "SELECT * FROM region WHERE REGION_STATUS = 'active'";
+    $regions_result = $conn->query($regions_sql);
+    if ($regions_result->num_rows > 0) {
+        $regions = [];
+        while ($region_row = $regions_result->fetch_assoc()) {
+            $regions_data = [
+                'region_id' => $region_row['REGION_ID'],
+                'region' => $region_row['REGION'],
+            ];
+            $regions[] = $regions_data;
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => 'All Regions',
+            'regions' => $regions
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    } else {
+        $data = [
+            'status' => 200,
+            'message' => 'No Region Found',
+        ];
+        header("HTTP/1.0 405 OK");
         return json_encode($data);
     }
 }
