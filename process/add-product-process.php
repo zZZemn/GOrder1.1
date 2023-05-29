@@ -51,16 +51,19 @@ if (isset($_SESSION['id'])) {
         $unit_meas = filter_var($_POST['unit_meas_add'], FILTER_SANITIZE_STRING);
         $critical_level = filter_var($_POST['critical_level_add'], FILTER_SANITIZE_NUMBER_INT);
         $selling_price = filter_var($_POST['selling_price_add'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-        $category_id = filter_var($_POST['cat'], FILTER_SANITIZE_NUMBER_INT);
         $sub_category_id = filter_var($_POST['sub_cat'], FILTER_SANITIZE_NUMBER_INT);
         $description = filter_var($_POST['description'], FILTER_SANITIZE_STRING);
         $is_prescribed = isset($_POST['prescribe']) ? 1 : 0;
         $is_vatable = isset($_POST['vatable']) ? 1 : 0;
         $is_discountable = isset($_POST['discountable']) ? 1 : 0;
 
-
-        $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
-                                        VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
+        if(empty($sub_category_id)){
+            $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
+            VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
+        } else {
+            $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
+            VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
+        }
 
         $addDate = $currentDate;
         $addTime = $currentTime;

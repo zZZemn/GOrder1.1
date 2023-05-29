@@ -67,10 +67,14 @@ if (isset($_SESSION['id'])) {
         $is_vatable = isset($_POST['vatable']) ? 1 : 0;
         $is_discountable = isset($_POST['discountable']) ? 1 : 0;
 
+        if(empty($sub_category_id)){
+            $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price', `DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
+        } else {
+            $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price', `SUB_CAT_ID`='$sub_category_id',`DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
+        }
+
 
         $product_code_final = !empty($product_code) ? $product_code : null;
-
-        $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price', `SUB_CAT_ID`='$sub_category_id',`DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
 
         $addDate = $currentDate;
         $addTime = $currentTime;

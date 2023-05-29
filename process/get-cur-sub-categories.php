@@ -24,7 +24,7 @@ if ($sub_categories_result->num_rows > 0) {
 }
 else
 {
-    $options = "<option value=''>hey</option>";
+    $options = "<option value=''></option>";
 }
 
 // Return the <option> elements as a response
