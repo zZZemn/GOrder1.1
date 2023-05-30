@@ -8,7 +8,7 @@ if (isset($_SESSION['id'])) {
     $sql = "SELECT * FROM employee WHERE EMP_ID = {$_SESSION['id']}";
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
-}else {
+} else {
     header("Location: ../index.php");
     exit;
 }
@@ -186,16 +186,18 @@ if (isset($_SESSION['id'])) {
                 <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
                 <div class="avatar-dropdown-container">
                     <a href="
+                    <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>
+                    <hr>
+                    <a href="<?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-settings.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-gear"></i>Settings</a>
+                    <hr>
                     <?php
                     if ($emp['EMP_TYPE'] === 'Admin') {
-                        echo '../admin/avatar-profile.php';
-                    } elseif ($emp['EMP_TYPE'] === 'PA') {
-                        echo '#';
+                    ?>
+                        <a href="../admin/dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                        <hr>
+                    <?php
                     }
-                    ?>"><i class="fa-solid fa-user"></i>Profile</a>
-                    <hr>
-                    <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
-                    <hr>
+                    ?>
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>
@@ -204,38 +206,38 @@ if (isset($_SESSION['id'])) {
         </nav>
 
         </div>
-<div class="table-container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th colspan="11">
-                        <center>
-                        <select class="today-this-week-sales form-control" id="sales-filter">
-                            <option value="today">Today</option>
-                            <option value="this-week">This Week</option>
-                        </select>
-                        </center>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Transaction Type</th>
-                    <th>Customer Type</th>
-                    <th>Time</th>
-                    <th>Subtotal</th>
-                    <th>VAT</th>
-                    <th>Discount</th>
-                    <th>Total</th>
-                    <th>Payment</th>
-                    <th>Change</th>
-                    <th>Process By</th>
-                </tr>
-            </thead>
+        <div class="table-container">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th colspan="11">
+                            <center>
+                                <select class="today-this-week-sales form-control" id="sales-filter">
+                                    <option value="today">Today</option>
+                                    <option value="this-week">This Week</option>
+                                </select>
+                            </center>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Customer Type</th>
+                        <th>Time</th>
+                        <th>Subtotal</th>
+                        <th>VAT</th>
+                        <th>Discount</th>
+                        <th>Total</th>
+                        <th>Payment</th>
+                        <th>Change</th>
+                        <th>Process By</th>
+                    </tr>
+                </thead>
 
-            <tbody id="sales-results">
-               
-            </tbody>
-        </table>
+                <tbody id="sales-results">
+
+                </tbody>
+            </table>
         </div>
 
 

@@ -33,7 +33,7 @@
                         header("Location: admin/dashboard.php");
                     }
 
-                    elseif($employee['EMP_TYPE'] === 'pa')
+                    elseif($employee['EMP_TYPE'] === 'PA')
                     {
                         header("Location: sales/pos.php");
                     }

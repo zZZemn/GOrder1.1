@@ -186,16 +186,18 @@ if (isset($_SESSION['id'])) {
                 <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
                 <div class="avatar-dropdown-container">
                     <a href="
+                    <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>
+                    <hr>
+                    <a href="<?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-settings.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-gear"></i>Settings</a>
+                    <hr>
                     <?php
                     if ($emp['EMP_TYPE'] === 'Admin') {
-                        echo '../admin/avatar-profile.php';
-                    } elseif ($emp['EMP_TYPE'] === 'PA') {
-                        echo '#';
+                    ?>
+                        <a href="../admin/dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                        <hr>
+                    <?php
                     }
-                    ?>"><i class="fa-solid fa-user"></i>Profile</a>
-                    <hr>
-                    <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
-                    <hr>
+                    ?>
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>

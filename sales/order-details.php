@@ -14,8 +14,8 @@ if (isset($_SESSION['id'])) {
     $emp_type = $emp['EMP_TYPE'];
     $emp_status = $emp['EMP_STATUS'];
 
-    if ($emp_type === 'Admin' || $emp_type === 'PA' && $emp_status === 'active') {
-        if (isset($_GET['filter'])) {
+    if(isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") {
+        if (isset($_GET['transaction_id'])) {
 
         } else {
             echo "

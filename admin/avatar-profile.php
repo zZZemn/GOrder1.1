@@ -262,7 +262,7 @@ if(isset($_SESSION['id']))
 
                     <div class="bottom-contents-container">
                         <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['UNIT_STREET'].", ".$emp['BARANGAY'].", ".$emp['MUNICIPALITY'].", ".$emp['PROVINCE'] ?>" readonly>
+                            <input class="profile-content" value="<?php echo $emp['ADDRESS']?>" readonly>
                             <label class="profile-contents-label">Address</label>
                         </div>
                     </div>

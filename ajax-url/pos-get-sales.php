@@ -17,12 +17,13 @@ if (isset($_SESSION['id'])) {
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
+                    $saleTime = date("h:i A", strtotime($row['TIME']));
                     $sales = "
                             <tr>
                                 <td><a href='view-invoice.php?id=".$row['TRANSACTION_ID']."' target='_blank'>" . $row['TRANSACTION_ID'] . "</a></td>
                                 <td>" . $row['TRANSACTION_TYPE'] . "</td>
                                 <td>" . $row['CUST_TYPE'] . "</td>
-                                <td>" . $row['TIME'] . "</td>
+                                <td>" . $saleTime . "</td>
                                 <td>" . $row['SUBTOTAL'] . "</td>
                                 <td>" . $row['VAT'] . "</td>
                                 <td>" . $row['DISCOUNT'] . "</td>
@@ -49,12 +50,13 @@ if (isset($_SESSION['id'])) {
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
+                    $saleTime = date("h:i A", strtotime($row['TIME']));
                     $sales = "
                             <tr>
                                 <td><a href='view-invoice.php?id=".$row['TRANSACTION_ID']."' target='_blank'>" . $row['TRANSACTION_ID'] . "</a></td>
                                 <td>" . $row['TRANSACTION_TYPE'] . "</td>
                                 <td>" . $row['CUST_TYPE'] . "</td>
-                                <td>" . $row['TIME'] . "</td>
+                                <td>" . $saleTime . "</td>
                                 <td>" . $row['SUBTOTAL'] . "</td>
                                 <td>" . $row['VAT'] . "</td>
                                 <td>" . $row['DISCOUNT'] . "</td>
