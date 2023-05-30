@@ -43,7 +43,7 @@ if (isset($_SESSION['id'])) {
 
             <div class="top-navigations">
                 <a href="pos.php" class="top-navigations-active">POS</a>
-                <a href="#">Orders</a>
+                <a href="orders.php">Orders</a>
                 <a href="sales.php">Sales</a>
             </div>
 

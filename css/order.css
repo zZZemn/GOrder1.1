@@ -1,0 +1,20 @@
+.table-container {
+    height: 91vh;
+    overflow-y: auto;
+}
+
+table thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+table thead tr th{
+    font-size: 13px;
+    font-weight: 600;
+}
+
+table tbody tr td {
+    font-size: 12px;
+    font-weight: 500;
+}
