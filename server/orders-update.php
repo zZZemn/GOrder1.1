@@ -58,8 +58,7 @@ if (isset($_SESSION['id'])) {
 
                     $full_address = $unit_st . ", " . $barangay . ", " . $municipality . ", " . $province . ", " . $region;
 
-                    // $order_on = $order_row['TIME'] . " " . $order_row['DATE'];
-                    $order_on = $order_row['DATE']." - ".date("h:i A", strtotime($order_row['TIME']));
+                    $order_on = $order_row['DATE'] . " - " . date("h:i A", strtotime($order_row['TIME']));
 
 ?>
                     <tr>
