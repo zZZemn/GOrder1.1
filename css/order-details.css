@@ -113,3 +113,15 @@ body {
 #delivered {
     left: 96%;
 }
+
+#accepted-pickup {
+    left: 33%;
+}
+
+#ready-to-pickup {
+    left: 66%;
+}
+
+#picked-up {
+    left: 96%;
+}

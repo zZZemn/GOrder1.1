@@ -56,9 +56,49 @@ if (isset($_SESSION['id'])) {
                         <i class="fa-solid fa-motorcycle bg-primary text-light" id="shipped"></i>
                         <i class="fa-solid fa-house-circle-check bg-primary text-light" id="delivered"></i>
                     </div>
+                <?php
+                } elseif ($order_type === 'Pick Up') {
+                    $progressBar_percentage = 0;
+                    $circle_percentage = 0;
+                    if ($order_status === 'Waiting') {
+                        $progressBar_percentage = 0;
+                        $circle_percentage = 0;
+                    } elseif ($order_status === 'Accepted') {
+                        $progressBar_percentage = 37;
+                        $circle_percentage = 35;
+                    } elseif ($order_status === 'Ready To Pick Up') {
+                        $progressBar_percentage = 70;
+                        $circle_percentage = 68;
+                    } elseif ($order_status === 'Picked Up') {
+                        $progressBar_percentage = 100;
+                        $circle_percentage = 98;
+                    } else {
+                        $progressBar_percentage = 0;
+                        $circle_percentage = 0;
+                    }
+                ?>
+                    <div class="progress" style="height: 8px; width: 600px">
+                        <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress-circle">
+                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo $order_status ?></span></div>
+                    </div>
+                    <div class="progress-photo-container">
+                        <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
+                        <i class="fa-solid fa-check bg-primary text-light" id="accepted-pickup"></i>
+                        <i class="fa-solid fa-box-open bg-primary text-light" id="ready-to-pickup"></i>
+                        <i class="fa-solid fa-user-check bg-primary text-light" id="picked-up"></i>
+                    </div>
 <?php
-                } elseif($order_type === 'Pick Up'){
-                    
+                } else {
+                    echo "
+                    <head>
+                        <link rel='stylesheet' href='../css/access-denied.css'>
+                    </head>
+                    <div class='access-denied'>
+                        <h1>Access Denied</h1>
+                        <h5>Delivery Type not available.</h5>
+                    </div>";
                 }
             } else {
                 echo "
