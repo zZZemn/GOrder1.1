@@ -216,6 +216,8 @@ if (isset($_SESSION['id'])) {
                                     <option value="For-Delivery">For Delivery</option>
                                     <option value="Shipped">Shipped</option>
                                     <option value="Delivered">Delivered</option>
+                                    <option value="Ready To Pick Up">Ready To Pick Up</option>
+                                    <option value="Picked Up">Picked Up</option>
                                 </select>
                             </center>
                         </th>

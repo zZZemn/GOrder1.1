@@ -17,7 +17,17 @@ if (isset($_SESSION['id'])) {
 
             $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='$new_status' WHERE TRANSACTION_ID = '$transaction_id'";
             if ($conn->query($updateOrderStat_sql) === TRUE) {
-                echo 'ok';
+                echo $new_status;
+            } else {
+                echo 'not_ok';
+            }
+        } elseif(isset($_POST['rider']) && isset($_POST['transaction_id'])){
+            $rider = $_POST['rider'];
+            $transaction_id = $_POST['transaction_id'];
+
+            $updateRider_sql = "UPDATE `order` SET `RIDER_ID`='$rider' WHERE TRANSACTION_ID = '$transaction_id'";
+            if ($conn->query($updateRider_sql) === TRUE) {
+                echo $rider;
             } else {
                 echo 'not_ok';
             }

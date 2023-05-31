@@ -9,11 +9,16 @@ body {
     min-height: 180px;
     background-color: white;
     box-shadow: 1px 1px 3px rgb(233, 233, 233);
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 
 .top-contents-container select {
     width: 200px;
     height: 40px;
+    background-color: white !important;
 }
 
 .transaction-id {
@@ -125,3 +130,120 @@ body {
 #picked-up {
     left: 96%;
 }
+
+.second-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0px 20px;
+}
+
+.second-container input{
+    width: 200px;
+}
+
+.third-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0px 20px;
+}
+
+.third-container div {
+    width: 100%;
+}
+
+.fourt-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    padding: 0px 20px;
+}
+
+.fourt-container table tr th{
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.fourt-container table tr td{
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.fourt-container table {
+    border-top: 1px solid rgb(212, 212, 212);
+    box-shadow: 1px 1px 2px rgb(241, 241, 241);
+}
+
+
+.payment-input-th {
+    padding: 0;
+    height: 60px;
+    position: relative;
+}
+
+.payment-input-div {
+    position: absolute;
+    right: 20px;
+    background-color: blue;
+    display: flex;
+    background-color: blue !important;
+    padding: 0 !important;
+    justify-content: right;
+    width: 0px;
+}
+
+.add-payment-text {
+ padding-top: 18px !important;
+}
+
+#payment-submit {
+width: 100px;
+height: 40px;
+}
+
+#payment {
+    height: 40px;
+    width: 150px;
+    margin-right: 10px;
+}
+
+
+.alert {
+    position: fixed !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    color: black !important;
+
+    height: 50px;
+    width: 200px;
+    font-size: 12px;
+
+    z-index: 100000;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+
+  .alert-payment-invalid {
+    width: 450px;
+  }
+
+   /* The close button */
+   .closebtn {
+    margin-left: 15px;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }

@@ -19,6 +19,8 @@ if (isset($_SESSION['id'])) {
                 $order = $orderDetails_result->fetch_assoc();
                 $order_status = $order['STATUS'];
                 $del_type = $order['DELIVERY_TYPE'];
+                $cust_id = $order['CUST_ID'];
+                $cur_rider_id = $order['RIDER_ID'];
 
 ?>
                 <!DOCTYPE html>
@@ -36,8 +38,13 @@ if (isset($_SESSION['id'])) {
                     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
                     <title>GOrder | Order Details</title>
                 </head>
-
                 <body>
+
+                    <div class="alert alert-payment-invalid bg-warning">
+                        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
+                        The payment must be greater than or equal to the total amount.
+                    </div>
+
 
                     <div class="top-contents-container">
                         <div class="order-input-container">
@@ -49,25 +56,143 @@ if (isset($_SESSION['id'])) {
                         </div>
                         <?php if ($del_type === 'Deliver') { ?>
                             <div class="order-input-container">
-                            <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Delivered') ? 'disabled' : '' ?>>
-                                <?php
-                                if ($order_status === 'Delivered') {
-                                ?>
-                                    <option value="Delivered">Delivered</option>
-                                <?php
-                                } else {
-                                ?>
-                                    <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
-                                    <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
-                                    <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
-                                    <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
-                            <?php
-                                }
-                            }
-                            ?>
-                            </select>
-                            <label>Order Status</label>
+                                <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Delivered') ? 'disabled' : '' ?>>
+                                    <?php
+                                    if ($order_status === 'Delivered') {
+                                    ?>
+                                        <option value="Delivered">Delivered</option>
+                                    <?php
+                                    } else {
+                                    ?>
+                                        <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
+                                        <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
+                                        <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
+                                        <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
+                                    <?php
+                                    }
+                                } elseif ($del_type === 'Pick Up') {
+                                    ?>
+                                    <div class="order-input-container">
+                                        <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Picked Up') ? 'disabled' : '' ?>>
+                                            <?php
+                                            if ($order_status === 'Picked Up') {
+                                            ?>
+                                                <option value="Picked Up">Picked Up</option>
+                                            <?php
+                                            } else {
+                                            ?>
+                                                <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
+                                                <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
+                                                <option value="Ready To Pick Up" <?php echo ($order_status === 'Ready To Pick Up') ? 'selected' : '' ?>>Ready To Pick Up</option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                        </select>
+                                        <label>Order Status</label>
+                                    </div>
                             </div>
+                    </div>
+
+                    <div class="second-container">
+                        <?php
+                        $user_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$cust_id'";
+                        $user_result = $conn->query($user_sql);
+                        if ($user_result->num_rows > 0) {
+                            $user = $user_result->fetch_assoc();
+                        ?>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $user['FIRST_NAME'] . " " . $user['LAST_NAME'] ?>">
+                                <label>Order By</label>
+                            </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $order['DELIVERY_TYPE'] ?>">
+                                <label>Delivery Type</label>
+                            </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $order['PAYMENT_TYPE'] ?>">
+                                <label>Payment Type</label>
+                            </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $order['DATE'] ?>">
+                                <label>Order Date</label>
+                            </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo date("h:i a", strtotime($order['TIME'])); ?>">
+                                <label>Order Time</label>
+                            </div>
+                            <?php
+                            if ($del_type === 'Deliver') {
+                            ?>
+                                <div class="order-input-container">
+                                    <select type="text" class="form-control" id="pick-delivery-man" placeholder="Select Rider">
+                                        <option value="" disabled selected style="font-size: 10px;">Select Rider</option>
+                                        <?php
+                                        $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider'";
+                                        $rider_result = $conn->query($rider_sql);
+                                        if ($rider_result->num_rows > 0) {
+                                            while ($rider = $rider_result->fetch_assoc()) {
+                                                $rider_name = $rider['FIRST_NAME'] . " " . $rider['LAST_NAME'];
+                                                $rider_id = $rider['EMP_ID'];
+                                        ?>
+                                                <option value="<?php echo $rider_id ?>" <?php echo ($rider_id === $cur_rider_id) ? 'selected' : '' ?>><?php echo $rider_name ?></option>
+                                        <?php
+                                            }
+                                        }
+                                        ?>
+                                    </select>
+                                    <label>Rider</label>
+                                </div>
+                        <?php
+                            }
+                        } else {
+                        }
+                        ?>
+                    </div>
+
+                    <?php if ($del_type === 'Deliver') {
+                        $unit_st = $order['UNIT_STREET'];
+                        $bgy_id = $order['BARANGAY_ID'];
+
+                        $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                        $bgy_result = $conn->query($bgy_sql);
+                        $bgy = $bgy_result->fetch_assoc();
+
+                        $barangay = $bgy['BARANGAY'];
+                        $muni_id = $bgy['MUNICIPALITY_ID'];
+
+                        $muni_sql = "SELECT * FROM municipality WHERE MUNICIPALITY_ID = '$muni_id'";
+                        $muni_result = $conn->query($muni_sql);
+                        $muni = $muni_result->fetch_assoc();
+
+                        $municipality = $muni['MUNICIPALITY'];
+                        $prov_id = $muni['PROVINCE_ID'];
+
+                        $province_sql = "SELECT * FROM province WHERE PROVINCE_ID = '$prov_id'";
+                        $province_result = $conn->query($province_sql);
+                        $prov = $province_result->fetch_assoc();
+
+                        $province = $prov['PROVINCE'];
+                        $reg_id = $prov['REGION_ID'];
+
+                        $region_sql = "SELECT * FROM region WHERE REGION_ID = '$reg_id'";
+                        $region_result = $conn->query($region_sql);
+                        $reg = $region_result->fetch_assoc();
+
+                        $region = $reg['REGION'];
+
+                        $full_address = $unit_st . ", " . $barangay . ", " . $municipality . ", " . $province . ", " . $region;
+                    ?>
+
+                        <div class="third-container">
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $full_address ?>">
+                                <label>Address</label>
+                            </div>
+                        </div>
+                    <?php } ?>
+                    <div class="fourt-container" id="fourt_container">
+
                     </div>
 
                     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
