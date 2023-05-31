@@ -1,5 +1,17 @@
+.top-contents-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 150px;
+}
+
+.top-contents-container select {
+    width: 200px;
+    height: 40px;
+}
+
 .status-container {
-    width: 400px;
+    width: 600px;
 }
 
 .status-container .progress {
@@ -8,9 +20,8 @@
 
 .progress-circle {
     position: relative;
-    width: 400px;
+    width: 600px !important;
     height: 10px;
-
     transform: translateY(-14px);
 }
 
@@ -40,27 +51,40 @@
 .progress-photo-container {
     position: relative;
     height: 40px;
-    width: 400px;
+    width: 600px;
 }
 
 .progress-photo-container i {
     position: absolute;
     top: 50%;
-    font-size: 20px;
+    font-size: 25px;
+    padding: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#waiting {
+    transform: translateX(-10px);
 }
 
 #accepted {
-    left: 23%;
+    left: 21%;
+    transform: translateX(3px);
 }
 
 #for-delivery {
-    left: 48%;
+    left: 46%;
 }
 
 #shipped {
-    left: 73%;
+    left: 71%;
 }
 
 #delivered {
-    left: 98%;
+    left: 96%;
 }

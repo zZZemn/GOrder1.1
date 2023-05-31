@@ -213,7 +213,7 @@ if (isset($_SESSION['id'])) {
                                 <select class="today-this-week-sales form-control" id="orders_filter">
                                     <option value="Waiting">Waiting</option>
                                     <option value="Accepted">Accepted</option>
-                                    <option value="For Delivery">For Delivery</option>
+                                    <option value="For-Delivery">For Delivery</option>
                                     <option value="Shipped">Shipped</option>
                                     <option value="Delivered">Delivered</option>
                                 </select>
