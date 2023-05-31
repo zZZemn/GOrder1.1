@@ -18,43 +18,48 @@ if (isset($_SESSION['id'])) {
             if ($orders_result->num_rows > 0) {
                 $order = $orders_result->fetch_assoc();
                 $order_status = $order['STATUS'];
+                $order_type = $order['DELIVERY_TYPE'];
 
-                $progressBar_percentage = 0;
-                $circle_percentage = 0;
-                if($order_status === 'Waiting'){
+                if ($order_type === 'Deliver') {
                     $progressBar_percentage = 0;
                     $circle_percentage = 0;
-                } elseif($order_status === 'Accepted') {
-                    $progressBar_percentage = 25;
-                    $circle_percentage = 23;
-                } elseif($order_status === 'For-Delivery') {
-                    $progressBar_percentage = 50;
-                    $circle_percentage = 48;
-                } elseif($order_status === 'Shipped') {
-                    $progressBar_percentage = 75;
-                    $circle_percentage = 73;
-                } elseif($order_status === 'Delivered') {
-                    $progressBar_percentage = 100;
-                    $circle_percentage = 98;
-                } else {
-                    $progressBar_percentage = 0;
-                    $circle_percentage = 0;
-                }
+                    if ($order_status === 'Waiting') {
+                        $progressBar_percentage = 0;
+                        $circle_percentage = 0;
+                    } elseif ($order_status === 'Accepted') {
+                        $progressBar_percentage = 25;
+                        $circle_percentage = 23;
+                    } elseif ($order_status === 'For-Delivery') {
+                        $progressBar_percentage = 50;
+                        $circle_percentage = 48;
+                    } elseif ($order_status === 'Shipped') {
+                        $progressBar_percentage = 75;
+                        $circle_percentage = 73;
+                    } elseif ($order_status === 'Delivered') {
+                        $progressBar_percentage = 100;
+                        $circle_percentage = 98;
+                    } else {
+                        $progressBar_percentage = 0;
+                        $circle_percentage = 0;
+                    }
 ?>
-                <div class="progress" style="height: 8px; width: 600px">
-                    <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-                <div class="progress-circle">
-                    <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo $order_status ?></span></div>
-                </div>
-                <div class="progress-photo-container">
-                    <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
-                    <i class="fa-solid fa-check bg-primary text-light" id="accepted"></i>
-                    <i class="fa-solid fa-box-open bg-primary text-light" id="for-delivery"></i>
-                    <i class="fa-solid fa-motorcycle bg-primary text-light" id="shipped"></i>
-                    <i class="fa-solid fa-house-circle-check bg-primary text-light" id="delivered"></i>
-                </div>
+                    <div class="progress" style="height: 8px; width: 600px">
+                        <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress-circle">
+                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo $order_status ?></span></div>
+                    </div>
+                    <div class="progress-photo-container">
+                        <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
+                        <i class="fa-solid fa-check bg-primary text-light" id="accepted"></i>
+                        <i class="fa-solid fa-box-open bg-primary text-light" id="for-delivery"></i>
+                        <i class="fa-solid fa-motorcycle bg-primary text-light" id="shipped"></i>
+                        <i class="fa-solid fa-house-circle-check bg-primary text-light" id="delivered"></i>
+                    </div>
 <?php
+                } elseif($order_type === 'Pick Up'){
+                    
+                }
             } else {
                 echo "
                     <head>

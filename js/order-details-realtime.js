@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         };
 
-        var id = $('#transaction_id_hidden').val();
+        var id = $('#transaction_id').val();
         console.log(id);
         var url = "../server/order-status-update.php?id=" + encodeURIComponent(id);
         xhttp.open("GET", url, true);
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 $('#update-order-status').change(function () {
     var new_status = $('#update-order-status').val();
-    var transaction_id = $('#transaction_id_hidden').val();
+    var transaction_id = $('#transaction_id').val();
 
     $.ajax({
         url: '../ajax-url/order-status-update.php',

@@ -40,12 +40,15 @@ if (isset($_SESSION['id'])) {
                 <body>
 
                     <div class="top-contents-container">
-                        <p class="transaction-id"><?php echo $order['TRANSACTION_ID'] ?></p>
-                        <input type="hidden" id="transaction_id_hidden" value="<?php echo $order['TRANSACTION_ID'] ?>">
+                        <div class="order-input-container">
+                            <input type="text" readonly class="transaction-id form-control" id="transaction_id" value="<?php echo $order['TRANSACTION_ID'] ?>">
+                            <label>Transaction ID</label>
+                        </div>
                         <div class="status-container" id="status_container">
 
                         </div>
                         <?php if ($del_type === 'Deliver') { ?>
+                            <div class="order-input-container">
                             <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Delivered') ? 'disabled' : '' ?>>
                                 <?php
                                 if ($order_status === 'Delivered') {
@@ -63,6 +66,8 @@ if (isset($_SESSION['id'])) {
                             }
                             ?>
                             </select>
+                            <label>Order Status</label>
+                            </div>
                     </div>
 
                     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
