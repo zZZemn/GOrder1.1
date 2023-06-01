@@ -6,7 +6,7 @@
     font-size: 20px;
     font-weight: 600;
     margin-top: 10px;
-}
+} 
 
 .add-new-region-form {
     position: absolute;
@@ -25,83 +25,142 @@
     height: 40px;
     margin-right: 5px;
 }
-
 .add-new-region-form #btn-add-region {
     height: 40px;
 }
 
+.no-region-found {
+    margin-top: 20% !important;
+} 
+.no-region-found h5 {
+    font-size: 25px;
+}
+
 .address-container {
+    background-color: rgb(255, 255, 255);
     margin-top: 20px;
-    background-color: white;
-    height: 79vh;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    overflow: auto;
+    padding: 10px !important;
+
+    position: relative;
+    height: 81vh;
+
+    overflow-y: auto;
 }
 
 .address-table {
-    margin: 10px;
-    width: 500px !important;
-    border: 1px solid rgba(0, 0, 0, 0.253);
+    margin-bottom: 40px !important;
+    width: 90%;
+    margin: auto;
+
+    border: 1px solid black !important;
+}
+
+/*  */
+
+.edit-region{
+    display: flex;
+    
+}
+.btn-edit-municipality i, .btn-edit-province i, .edit-region-btn i{
+    padding: 0;
 }
 
 
-.no-region-found {
-    width: 100%;
-    margin-top: 20%;
-}
-
-.no-region-found h5 {
-    font-size: 30px;
-    color: red;
+.edit-region a {
+    margin-left: 5px;
 }
 
 .add-province {
+    display: flex !important;
+    width: 300px;
+
+    float: right;
+}
+
+.add-province input {
+    margin-left: 5px;
+}
+
+.txt-add-province {
+    font-size: 13px !important;
+}
+
+.no-province-found center{
+    padding: 50px;
+}
+/*  */
+
+
+/*  */
+
+.province-table {
+    border: 1px solid black !important;
+}
+
+.edit-province {
     display: flex;
-}
-
-
-.add-province .submit-province {
-    margin-left: 5px !important;
-}
-
-.add-barangay {
-    display: flex;
-}
-
-.add-barangay .submit-barangay {
-    margin-left: 5px !important;
-}
-
-.add-barangay .txt-df {
-    margin-left: 5px !important;
-}
-
-.add-barangay input {
-    font-size: 12px;
-}
-
-.add-province-tr {
-    height: 10px !important;
-}
-
-.provinces-tr-center {
-    height: 10px !important;
-}
-
-.provinces-tr-center center {
-    font-size: 12px;
 }
 
 .add-municipality {
     display: flex;
+    width: 300px;
+    float: right;
 }
 
-.add-municipality .submit-municipality {
+.add-municipality input {
+
+}
+
+.add-municipality .txt-add-municipality {
+    font-size: 13px;
+}
+
+.btn-add-municipality, .btn-edit-province {
+    margin-left: 10px;
+}
+
+.municipality-table {
+    border: 1px solid rgb(0, 0, 0) !important;
+}
+
+
+.add-barangay {
+    display: flex;
+    float: right;
+}
+
+.add-barangay input {
+    font-size: 12px;
     margin-left: 5px;
+}
+
+.txt-add-barangay {
+    width: 150px;
+}
+
+.form-edit-municipality {
+    display: flex;
+}
+
+.form-edit-municipality a {
+    margin-left: 5px;
+}
+
+.barangay-table {
+    border: 1px solid black !important;
+}
+
+.bgy-edit-btn a i{
+    padding: 0;
+}
+
+.bgy-edit-btn a {
+    margin-left: 5px;
+}
+
+.address-not-found center{
+    font-size: 20px;
+    padding: 100px;
 }
 
 /* The alert message box */

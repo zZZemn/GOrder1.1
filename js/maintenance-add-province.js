@@ -1,11 +1,11 @@
 $(document).ready(function () {
     $(document).on('click', '.btn-add-province', function (event) {
         event.preventDefault();
-        var tableContainer = $(this).closest('.add-province-tr');
+        var tableContainer = $(this).closest('.add-province-td');
         var region_id = tableContainer.find('.region_id').val();
         var province = tableContainer.find('.txt-add-province').val();
 
-        if (province.trim() !== '') {
+        if (province !== '') {
             var tableContainer = $(this).closest('.table-container');
             $.ajax({
                 url: '../ajax-url/add-province-process.php',

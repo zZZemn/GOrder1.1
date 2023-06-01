@@ -2,7 +2,7 @@ $(document).ready(function () {
     $(document).on('click', '.btn-add-barangay', function (event) {
         console.log('clicked');
         event.preventDefault();
-        var tableContainer = $(this).closest('.add-barangay-tr');
+        var tableContainer = $(this).closest('.add-barangay');
         var municipality_id = tableContainer.find('.municipality_id').val();
         var df = parseFloat(tableContainer.find('.txt-df').val());
         var barangay = tableContainer.find('.txt-add-barangay').val();
@@ -40,7 +40,6 @@ $(document).ready(function () {
                 }
             });
         } else {
-            console.log(response);
             $('.alert-barangay-failed').css('opacity', 1);
 
             setTimeout(function () {

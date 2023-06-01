@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $(document).on('click', '.btn-add-municipality', function (event) {
         event.preventDefault();
-        var tableContainer = $(this).closest('.add-municipality-tr');
+        var tableContainer = $(this).closest('.add-municipality');
         var province_id = tableContainer.find('.province_id').val();
         var municipality = tableContainer.find('.txt-add-municipality').val();
 
