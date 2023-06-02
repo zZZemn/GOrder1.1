@@ -48,16 +48,16 @@ if (mysqli_query($conn, $sales_sql)) {
             mysqli_query($conn, $inventory_sql);
 
             if ($subtracted_quantity > 0) {
-                // $product_id = $detail['product_id'];
-                // $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
-                // $product_result = $conn->query($product_sql);
-                // $product = $product_result->fetch_assoc();
-                // $selling_price = $product['SELLING_PRICE'];
-                // $amount = $selling_price * $subtracted_quantity;
+                $product_id = $detail['product_id'];
+                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                $product_result = $conn->query($product_sql);
+                $product_amount_insert = $product_result->fetch_assoc();
+                $selling_price = $product_amount_insert['SELLING_PRICE'];
+                $amount = $selling_price * $subtracted_quantity;
 
                 // Insert sales detail into the database
                 $sales_details_sql = "INSERT INTO `sales_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QUANTITY`, `AMOUNT`, `INV_ID`) 
-                VALUES ('" . $transaction_id . "','" . $detail['product_id'] . "','" . $subtracted_quantity . "','" . $detail['amount'] . "','" . $product['INV_ID'] . "')";
+                VALUES ('" . $transaction_id . "','" . $detail['product_id'] . "','" . $subtracted_quantity . "','" . $amount . "','" . $product['INV_ID'] . "')";
 
                 mysqli_query($conn, $sales_details_sql);
 
