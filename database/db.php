@@ -1,13 +1,13 @@
 <?php 
-// $dbservername = "localhost";
-// $dbusername = "u711816221_goldengate_f";
-// $dbpassword = "Pabiligamot10";
-// $dbname = "u711816221_gorder_final";
-
 $dbservername = "localhost";
-$dbusername = "root";
-$dbpassword = "";
-$dbname = "gorder";
+$dbusername = "u711816221_goldengate_f";
+$dbpassword = "Pabiligamot10";
+$dbname = "u711816221_gorder_final";
+
+// $dbservername = "localhost";
+// $dbusername = "root";
+// $dbpassword = "";
+// $dbname = "gorder";
 
 // Create connection
 $conn = new mysqli($dbservername, $dbusername, $dbpassword, $dbname);
