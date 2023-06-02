@@ -1096,21 +1096,155 @@ function orders($user)
             ];
             header("HTTP/1.0 405 OK");
             return json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => "You haven't placed any orders yet.",
+            ];
+            header("HTTP/1.0 405 OK");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'No User Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
 
+function order_details($ids)
+{
+    global $conn;
+    $cust_id = $ids['id'];
+    $transaction_id = $ids['transaction_id'];
+
+    $customer_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$cust_id'";
+    $customer_result = $conn->query($customer_sql);
+    if ($customer_result->num_rows > 0) {
+        $orders_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+        $orders_sql_result = $conn->query($orders_sql);
+        if($orders_sql_result->num_rows > 0){
+            $order = $orders_sql_result->fetch_assoc();
+            $order_details_sql = "SELECT * FROM order_details WHERE TRANSACTION_ID = '$transaction_id'";
+            $order_details_result = $conn->query($order_details_sql);
+            if($order_details_result->num_rows > 0){
+                $order_details_array = [];
+                while($order_row = $order_details_result->fetch_assoc()){
+                    $product_id = $order_row['PRODUCT_ID'];
+                    $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                    $product_result = $conn->query($product_sql);
+                    $product = $product_result->fetch_assoc();
+
+                    $order_details = [
+                        'product_name' => $product['PRODUCT_NAME'],
+                        'product_img' => 'https://gorder.website/img/products/'.$product['PRODUCT_IMG'],
+                        'selling_price' => $product['SELLING_PRICE'],
+                        'qty' => $order_row['QTY'],
+                        'amount' => $order_row['AMOUNT']
+                    ];
+                    $order_details_array[] = $order_details;
+                } 
+
+                $unit_st = $order['UNIT_STREET'];
+                $bgy_id = $order['BARANGAY_ID'];
+
+                $barangay = '';
+                $df = 0;
+
+                $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                $bgy_result = $conn->query($bgy_sql);
+                if($bgy_result->num_rows > 0){
+                    $bgy = $bgy_result->fetch_assoc();
+
+                    $barangay = $bgy['BARANGAY'];
+                    $df = $bgy['DELIVERY_FEE'];
+                    $muni_id = $bgy['MUNICIPALITY_ID'];
+
+                    $muni_sql = "SELECT PROVINCE_ID, MUNICIPALITY FROM municipality WHERE MUNICIPALITY_ID = '$muni_id'";
+                    $muni_result = $conn->query($muni_sql);
+                    $muni = $muni_result->fetch_assoc();
+
+                    $municipality = $muni['MUNICIPALITY'];
+                    $prov_id = $muni['PROVINCE_ID'];
+
+                    $prov_sql = "SELECT REGION_ID, PROVINCE FROM province WHERE PROVINCE_ID = '$prov_id'";
+                    $prov_result = $conn->query($prov_sql);
+                    $prov = $prov_result->fetch_assoc();
+
+                    $province = $prov['PROVINCE'];
+                    $reg_id = $prov['REGION_ID'];
+
+                    $reg_sql = "SELECT REGION FROM region WHERE REGION_ID = '$reg_id'";
+                    $reg_result = $conn->query($reg_sql);
+                    $reg = $reg_result->fetch_assoc();
+
+                    $region = $reg['REGION'];
+
+                    $delivery_address =  $unit_st.", ".$barangay.", ".$municipality.", ".$province.", ".$region;
+
+                } else {
+                    $barangay = 'Barangay That You Selected is Not Available For Delivery!';
+                }
+
+                $rider_name = '';
+                $rider_id = $order['RIDER_ID'];
+                $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider' AND EMP_ID = '$rider_id'";
+                $rider_result = $conn->query($rider_sql);
+                if($rider_result->num_rows > 0){
+                    $rider = $rider_result->fetch_assoc();
+                    $rider_name = $rider['FIRST_NAME']." ".$rider['LAST_NAME'];
+                } else {
+                    $rider = 'The rider has not been assigned yet.';
+                }
+
+                $data = [
+                    'status' => 200,
+                    'message' => 'Order Details',
+                    'orders' => $order_details_array,
+                    'transaction_id' => $order['TRANSACTION_ID'],
+                    'payment_type' => $order['PAYMENT_TYPE'],
+                    'del_type' => $order['DELIVERY_TYPE'],
+                    'del_address' => $delivery_address,
+                    'order_time' => $order['TIME'],
+                    'order_date' => $order['DATE'],
+                    'subtotal' => $order['SUBTOTAL'],
+                    'vat' => $order['VAT'],
+                    'discount' => $order['DISCOUNT'],
+                    'delivery_fee' => $df,
+                    'total' => $order['TOTAL'],
+                    'payment' => $order['PAYMENT'],
+                    'change' => $order['CHANGE'],
+                    'prescription' => $order['PRESCRIPTION'],
+                    'rider' => $rider_name,
+                    'order_status' => $order['STATUS']
+                ];
+                header("HTTP/1.0 405 OK");
+                return json_encode($data);
+
+            } else {
+                $data = [
+                    'status' => 200,
+                    'message' => 'No Order Found',
+                ];
+                header("HTTP/1.0 405 OK");
+                return json_encode($data);
+            }
         } else {
             $data = [
                 'status' => 405,
-                'message' => 'No User Found',
+                'message' => 'Invalid Transaction ID',
             ];
             header("HTTP/1.0 405 Access Deny");
             return json_encode($data);
         }
     } else {
         $data = [
-            'status' => 200,
-            'message' => "You haven't placed any orders yet.",
+            'status' => 405,
+            'message' => 'No User Found',
         ];
-        header("HTTP/1.0 405 OK");
+        header("HTTP/1.0 405 Access Deny");
         return json_encode($data);
     }
 }
