@@ -1065,3 +1065,52 @@ function regions()
         return json_encode($data);
     }
 }
+
+
+function orders($user)
+{
+    global $conn;
+    $user_id = $user['id'];
+
+    $customer_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$user_id'";
+    $customer_result = $conn->query($customer_sql);
+    if ($customer_result->num_rows > 0) {
+        $orders_sql = "SELECT * FROM `order` WHERE CUST_ID = '$user_id'";
+        $orders_sql_result = $conn->query($orders_sql);
+        if ($orders_sql_result->num_rows > 0) {
+            $orders = [];
+            while ($order_row = $orders_sql_result->fetch_assoc()) {
+                $order_data = [
+                    'transaction_id' => $order_row['TRANSACTION_ID'],
+                    'order_time' => $order_row['TIME'],
+                    'order_date' => $order_row['DATE'],
+                    'order_status' => $order_row['STATUS']
+                ];
+                $orders[] = $order_data;
+            }
+
+            $data = [
+                'status' => 200,
+                'message' => 'All Order Transactions',
+                'data' => $orders
+            ];
+            header("HTTP/1.0 405 OK");
+            return json_encode($data);
+
+        } else {
+            $data = [
+                'status' => 405,
+                'message' => 'No User Found',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 200,
+            'message' => "You haven't placed any orders yet.",
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    }
+}
