@@ -511,7 +511,7 @@ function user($user_id)
 }
 
 
-function placeorder($order)
+function checkout($order)
 {
     global $conn;
     $id = $order['id'];
@@ -681,7 +681,7 @@ function paymentType($user)
 }
 
 
-function checkOut($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
+function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
 {
     global $conn;
     global $currentTime;

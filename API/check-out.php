@@ -1,34 +1,31 @@
-<?php 
+<?php
 header('Acces-Control-Allow-Origin:*');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+header('Access-Control-Allow-Method: GET');
+header('Access-Control-Allow-Headers: Content-Type, Address-Control-Allow-Headers, Autorization, X-Request-With');
 
 include('functions.php');
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if($requestMethod == "POST")
-{
-    $data = json_decode(file_get_contents("php://input"));
+if ($requestMethod == "GET") {
+    if (isset($_GET['id'])) {
 
-    $cust_id = $data->cust_id;
-    $payment_type = $data->payment_type;
-    $delivery_type = $data->delivery_type;
-    $unit_st = $data->unit_st;
-    $bgy_id = $data->bgy_id;
-
-    $check_out = checkOut($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id);
-    echo $check_out;
-}
-else
-{
+        $order = checkout($_GET);
+        echo $order;
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'Access Deny',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        echo json_encode($data);
+    }
+} else {
     $data = [
         'status' => 405,
-        'message' => $requestMethod. ' Method Not Allowed',
+        'message' => $requestMethod . ' Method Not Allowed',
     ];
     header("HTTP/1.0 405 Method Not Allowed");
     echo json_encode($data);
 }
-
-?>
