@@ -28,41 +28,48 @@ $sales_sql = "INSERT INTO `sales`(`TRANSACTION_ID`, `TRANSACTION_TYPE`, `PAYMENT
 if (mysqli_query($conn, $sales_sql)) {
     // Loop through each sales detail and insert it into the database
     foreach ($data['salesDetails'] as $detail) {
-        $sales_details_sql = "INSERT INTO `sales_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QUANTITY`, `AMOUNT`) 
-                              VALUES ('" . $transaction_id . "','" . $detail['product_id'] . "','" . $detail['quantity'] . "','" . $detail['amount'] . "')";
-        mysqli_query($conn, $sales_details_sql);
-
+        // Get the available inventory with the product
+        $inventory_sql = "SELECT * FROM `inventory` 
+                          WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `QUANTITY` > 0
+                          ORDER BY `EXP_DATE` ASC, `PRODUCT_ID` ASC, `QUANTITY` DESC, `INV_ID` ASC";
+        $result = mysqli_query($conn, $inventory_sql);
 
         $detail_quantity = $detail['quantity'];
 
-        // Subtract quantity from products with nearest expiration dates until fully allocated
-        while ($detail_quantity > 0) {
-            // Get product with nearest expiration date and positive quantity
-            $inventory_sql = "SELECT * FROM `inventory` 
-                  WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `QUANTITY` > 0
-                  ORDER BY `EXP_DATE` ASC, `PRODUCT_ID` ASC, `QUANTITY` DESC, `INV_ID` ASC LIMIT 1";
-            $result = mysqli_query($conn, $inventory_sql);
-            $product = mysqli_fetch_assoc($result);
-        
-            if (!$product) {
-                // No available products left
-                $response = array('success' => false, 'error' => 'Insufficient inventory for product ' . $detail['product_id']);
-                echo json_encode($response);
-                break;
-            }
-        
-            // Calculate quantity to subtract from this product
-            $subtracted_quantity = min($detail_quantity, $product['QUANTITY']);
-        
+        // Allocate quantity from available inventory
+        while ($product = mysqli_fetch_assoc($result)) {
+            $available_quantity = $product['QUANTITY'];
+            $subtracted_quantity = min($detail_quantity, $available_quantity);
+
             // Subtract quantity from this product
             $inventory_sql = "UPDATE `inventory` 
-                  SET `QUANTITY` = `QUANTITY` - $subtracted_quantity
-                  WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `EXP_DATE` = '" . $product['EXP_DATE'] . "' AND `INV_ID` = " . $product['INV_ID'];
+                              SET `QUANTITY` = `QUANTITY` - $subtracted_quantity
+                              WHERE `PRODUCT_ID` = '" . $detail['product_id'] . "' AND `EXP_DATE` = '" . $product['EXP_DATE'] . "' AND `INV_ID` = " . $product['INV_ID'];
             mysqli_query($conn, $inventory_sql);
-        
-            $detail_quantity -= $subtracted_quantity;
-        }        
+
+            if ($subtracted_quantity > 0) {
+                // $product_id = $detail['product_id'];
+                // $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                // $product_result = $conn->query($product_sql);
+                // $product = $product_result->fetch_assoc();
+                // $selling_price = $product['SELLING_PRICE'];
+                // $amount = $selling_price * $subtracted_quantity;
+
+                // Insert sales detail into the database
+                $sales_details_sql = "INSERT INTO `sales_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QUANTITY`, `AMOUNT`, `INV_ID`) 
+                VALUES ('" . $transaction_id . "','" . $detail['product_id'] . "','" . $subtracted_quantity . "','" . $detail['amount'] . "','" . $product['INV_ID'] . "')";
+
+                mysqli_query($conn, $sales_details_sql);
+
+                $detail_quantity -= $subtracted_quantity;
+            }
+
+            if ($detail_quantity <= 0) {
+                break;
+            }
+        }
     }
+
     // Return a success response
     $response = array(
         'success' => true,
@@ -72,7 +79,8 @@ if (mysqli_query($conn, $sales_sql)) {
     );
 
     echo json_encode($response);
-} else {
+}
+ else {
     // Return an error response
     $response = array('success' => false, 'error' => mysqli_error($conn));
     echo json_encode($response);
