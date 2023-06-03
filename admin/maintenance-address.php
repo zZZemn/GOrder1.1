@@ -222,7 +222,6 @@ if (isset($_SESSION['id'])) {
                 <a href="products-inventory.php"><i class="fa-solid fa-boxes-stacked"></i>Inventory</a>
                 <a href="products-deliver.php"><i class="fa-solid fa-truck"></i>Deliver</a>
                 <a href="products-supplier.php"><i class="fa-solid fa-building"></i>Supplier</a>
-                <a href="products-return.php"><i class="fa-solid fa-rotate-left"></i>Returns</a>
                 <a href="products-stock-out.php"><i class="fa-solid fa-layer-group"></i>Stock Out</a>
             </div>
 
@@ -236,6 +235,7 @@ if (isset($_SESSION['id'])) {
                 <a href="reports-daily-sales.php"><i class="fa-solid fa-chart-column"></i>Daily Sales</a>
                 <a href="reports-monthly-sales.php"><i class="fa-solid fa-chart-column"></i>Monthly Sales</a>
                 <a href="reports-yearly-sales.php"><i class="fa-solid fa-chart-column"></i>Yearly Sales</a>
+                <a href="products-return.php"><i class="fa-solid fa-rotate-left"></i>Returns</a>
                 <a href="reports-attendance.php"><i class="fa-solid fa-clipboard-user"></i>Attendance</a>
             </div>
 
