@@ -17,11 +17,7 @@ if (isset($_SESSION['id'])) {
             if ($sales_result->num_rows > 0) {
                 $sales = $sales_result->fetch_assoc();
                 $sales_date = $sales['DATE'];
-
-                $seven_days_ago = strtotime('-7 days');
-                $sales_date_timestamp = strtotime($sales_date);
-                if ($sales_date_timestamp > $seven_days_ago) {
-
+                if ($sales_date >= $sevenDaysAgo) {
                     $sales_details_sql = "SELECT * FROM sales_details WHERE TRANSACTION_ID = '$transaction_id'";
                     $sales_details_result = $conn->query($sales_details_sql);
                     if ($sales_details_result->num_rows > 0) {

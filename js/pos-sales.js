@@ -1,11 +1,19 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var selectedValue = $('#sales-filter').val();
     fetchSalesData(selectedValue);
 });
 
-$('#sales-filter').on('change', function() {
+$('#sales-filter').on('change', function () {
     var selectedValue = $(this).val();
     fetchSalesData(selectedValue);
+
+    var timeDateTh = $('.time-date');
+
+    if (selectedValue === 'today') {
+        timeDateTh.text('Time');
+    } else if (selectedValue === 'this-week') {
+        timeDateTh.text('Date');
+    }
 });
 
 function fetchSalesData(selectedValue) {
@@ -13,11 +21,11 @@ function fetchSalesData(selectedValue) {
         url: '../ajax-url/pos-get-sales.php',
         method: 'POST',
         data: { value: selectedValue },
-        success: function(response) {
+        success: function (response) {
             // Update the sales-results tbody with the fetched data
             $('#sales-results').html(response);
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             // Handle the error if any
             console.log(error);
         }

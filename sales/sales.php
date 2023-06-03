@@ -223,7 +223,7 @@ if (isset($_SESSION['id'])) {
                         <th>Transaction ID</th>
                         <th>Transaction Type</th>
                         <th>Customer Type</th>
-                        <th>Time</th>
+                        <th class="time-date">Time</th>
                         <th>Subtotal</th>
                         <th>VAT</th>
                         <th>Discount</th>
