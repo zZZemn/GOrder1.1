@@ -9,7 +9,7 @@ table thead {
     background-color: white;
 }
 
-table thead tr th{
+table thead tr th {
     font-size: 13px;
     font-weight: 600;
 }
@@ -17,4 +17,13 @@ table thead tr th{
 table tbody tr td {
     font-size: 12px;
     font-weight: 500;
+}
+
+.action-td a {
+    font-size: 12px;
+    padding: 2px 6px;
+}
+
+.action-td a i {
+    padding: 0 !important;
 }

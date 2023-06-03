@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    // Make an AJAX request to fetch the sales data for the initial selected value
     var selectedValue = $('#sales-filter').val();
     fetchSalesData(selectedValue);
 });
