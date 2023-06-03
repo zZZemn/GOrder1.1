@@ -10,3 +10,5 @@ $currentDate = date('Y-m-d');
 $currentTime = date('H:i:s');
 
 $currentDateTime = (new DateTime())->format('Y-m-d H:i:s');
+
+$sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));

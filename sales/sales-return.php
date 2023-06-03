@@ -16,50 +16,65 @@ if (isset($_SESSION['id'])) {
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 $sales = $sales_result->fetch_assoc();
+                $sales_date = $sales['DATE'];
 
-                $sales_details_sql = "SELECT * FROM sales_details WHERE TRANSACTION_ID = '$transaction_id'";
-                $sales_details_result = $conn->query($sales_details_sql);
-                if ($sales_details_result->num_rows > 0) {
+                $seven_days_ago = strtotime('-7 days');
+                $sales_date_timestamp = strtotime($sales_date);
+                if ($sales_date_timestamp > $seven_days_ago) {
+
+                    $sales_details_sql = "SELECT * FROM sales_details WHERE TRANSACTION_ID = '$transaction_id'";
+                    $sales_details_result = $conn->query($sales_details_sql);
+                    if ($sales_details_result->num_rows > 0) {
 ?>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Product Name</th>
-                                <th>Quantity</th>
-                                <th>Amount</th>
-                                <th>Expiration Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            while ($salesD_row = $sales_details_result->fetch_array()) {
-                                $prod_id = $salesD_row['PRODUCT_ID'];
-                                $inv_id = $salesD_row['INV_ID'];
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Expiration Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($salesD_row = $sales_details_result->fetch_array()) {
+                                    $prod_id = $salesD_row['PRODUCT_ID'];
+                                    $inv_id = $salesD_row['INV_ID'];
 
-                                $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$prod_id'";
-                                $product_result = $conn->query($product_sql);
-                                $product = $product_result->fetch_assoc();
-                                $product_name = $product['PRODUCT_NAME'];
+                                    $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$prod_id'";
+                                    $product_result = $conn->query($product_sql);
+                                    $product = $product_result->fetch_assoc();
+                                    $product_name = $product['PRODUCT_NAME'];
 
-                                $inv_sql = "SELECT EXP_DATE FROM inventory WHERE INV_ID = '$inv_id'";
-                                $inv_result = $conn->query($inv_sql);
-                                $inventory = $inv_result->fetch_assoc();
-                                $exp_date = $inventory['EXP_DATE'];
-                            ?>
+                                    $inv_sql = "SELECT EXP_DATE FROM inventory WHERE INV_ID = '$inv_id'";
+                                    $inv_result = $conn->query($inv_sql);
+                                    $inventory = $inv_result->fetch_assoc();
+                                    $exp_date = $inventory['EXP_DATE'];
+                                ?>
 
-                            <tr>
-                                <td><?php echo $product_name ?></td>
-                                <td><?php echo $salesD_row['QUANTITY'] ?></td>
-                                <td><?php echo $salesD_row['AMOUNT'] ?></td>
-                                <td><?php echo $exp_date ?></td>
-                            </tr>
+                                    <tr>
+                                        <td><?php echo $product_name ?></td>
+                                        <td><?php echo $salesD_row['QUANTITY'] ?></td>
+                                        <td><?php echo $salesD_row['AMOUNT'] ?></td>
+                                        <td><?php echo $exp_date ?></td>
+                                    </tr>
 
-                            <?php
-                            }
-                            ?>
-                        </tbody>
-                    </table>
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
 <?php
+                    } else {
+                        echo '
+                        <head>
+                        <link rel="stylesheet" href="../css/access-denied.css">
+                        </head>
+                        <div class="access-denied">
+                              <h1>Access Denied</h1>
+                              <h5>Invalid to access this page. 4</h5>
+                          </div>';
+                    }
                 } else {
                     echo '
             <head>
@@ -67,7 +82,7 @@ if (isset($_SESSION['id'])) {
             </head>
             <div class="access-denied">
                   <h1>Access Denied</h1>
-                  <h5>Invalid to access this page. 4</h5>
+                  <h5>The return process for this transaction has expired.</h5>
               </div>';
                 }
             } else {

@@ -48,19 +48,17 @@ if (isset($_SESSION['id'])) {
                 echo $sales;
             }
         } elseif ($value === 'this-week') {
-            $sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));
-            $currentDate = date('Y-m-d');
+            include('../time-date.php');
             $sales_sql = "SELECT * FROM sales WHERE DATE >= '$sevenDaysAgo' AND DATE <= '$currentDate' ORDER BY DATE DESC, TIME DESC";
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
-                    $saleTime = date("h:i A", strtotime($row['TIME']));
                     $sales = "
                             <tr>
                                 <td>" . $row['TRANSACTION_ID'] . "</td>
                                 <td>" . $row['TRANSACTION_TYPE'] . "</td>
                                 <td>" . $row['CUST_TYPE'] . "</td>
-                                <td>" . $saleTime . "</td>
+                                <td>" . $row['DATE'] . "</td>
                                 <td>" . $row['SUBTOTAL'] . "</td>
                                 <td>" . $row['VAT'] . "</td>
                                 <td>" . $row['DISCOUNT'] . "</td>
