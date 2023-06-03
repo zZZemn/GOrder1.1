@@ -32,8 +32,8 @@ if (isset($_SESSION['id'])) {
                                 <td>" . $row['CHANGE'] . "</td>
                                 <td>" . $row['EMP_ID'] . "</td>
                                 <td class='action-td'>
-                                    <a href='view-invoice.php?id=".$row['TRANSACTION_ID']."' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
-                                    <a href='sales-return.php?id=".$row['TRANSACTION_ID']."' class='btn btn-dark' target='_blank'><i class='fa-solid fa-rotate-left'></i></a>
+                                    <a href='view-invoice.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
+                                    <a href='sales-return.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-dark' target='_blank'><i class='fa-solid fa-rotate-left'></i></a>
                                 </td>
                             </tr>";
                     echo $sales;
@@ -45,7 +45,7 @@ if (isset($_SESSION['id'])) {
                                 <center>Empty Sales for $currentDate</center>
                             </td>
                         </tr>";
-                        echo $sales;
+                echo $sales;
             }
         } elseif ($value === 'this-week') {
             $sevenDaysAgo = date('Y-m-d', strtotime('-7 days'));
@@ -57,7 +57,7 @@ if (isset($_SESSION['id'])) {
                     $saleTime = date("h:i A", strtotime($row['TIME']));
                     $sales = "
                             <tr>
-                                <td><a href='view-invoice.php?id=".$row['TRANSACTION_ID']."' target='_blank'>" . $row['TRANSACTION_ID'] . "</a></td>
+                                <td>" . $row['TRANSACTION_ID'] . "</td>
                                 <td>" . $row['TRANSACTION_TYPE'] . "</td>
                                 <td>" . $row['CUST_TYPE'] . "</td>
                                 <td>" . $saleTime . "</td>
@@ -68,8 +68,12 @@ if (isset($_SESSION['id'])) {
                                 <td>" . $row['PAYMENT'] . "</td>
                                 <td>" . $row['CHANGE'] . "</td>
                                 <td>" . $row['EMP_ID'] . "</td>
+                                <td class='action-td'>
+                                    <a href='view-invoice.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
+                                    <a href='sales-return.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-dark' target='_blank'><i class='fa-solid fa-rotate-left'></i></a>
+                                </td>
                             </tr>";
-                            echo $sales;
+                    echo $sales;
                 }
             } else {
                 $sales = "
@@ -78,12 +82,11 @@ if (isset($_SESSION['id'])) {
                                 <center>No sales transaction 7 days ago until today.</center>
                             </td>
                         </tr>";
-                        echo $sales;
+                echo $sales;
             }
         } else {
         }
     } else {
-
     }
 } else {
 }
