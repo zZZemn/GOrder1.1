@@ -63,17 +63,17 @@ if (isset($_SESSION['id'])) {
             <body>
                 <table class="invoice-container">
                     <tr class="heading">
-                        <td colspan="5">
+                        <td colspan="4">
                             <center>Golden Gate Drugstore</center>
                         </td>
                     </tr>
                     <tr class="heading">
-                        <td colspan="5">
+                        <td colspan="4">
                             <center>Patubig, Marilao, Bulacan</center>
                         </td>
                     </tr>
                     <tr class="heading">
-                        <td colspan="5">
+                        <td colspan="4">
                             <center><?php echo $sales['DATE'] . " | " . $sales['TIME'] ?></center>
                         </td>
                     </tr>
@@ -82,7 +82,6 @@ if (isset($_SESSION['id'])) {
                         <td>Price</td>
                         <td>Quantity</td>
                         <td>Amount</td>
-                        <td>Action</td>
                     </tr>
                     <?php
                     while ($row = $s_details_result->fetch_assoc()) {
@@ -108,7 +107,6 @@ if (isset($_SESSION['id'])) {
                             <td><?php echo $product['SELLING_PRICE'] ?></td>
                             <td class="qty"><?php echo $row['TOTAL_QUANTITY'] ?></td>
                             <td><?php echo $row['TOTAL_AMOUNT'] ?></td>
-                            <td><a href="" class="btn-return"><i class="fa-solid fa-rotate-left"></i></a></td>
                         </tr>
                     <?php
                     }
@@ -121,36 +119,36 @@ if (isset($_SESSION['id'])) {
                     <tr>
                         <td colspan="2">Subtotal</td>
                         <td>:</td>
-                        <td colspan="2" class="computed"><?php echo $sales['SUBTOTAL'] ?></td>
+                        <td colspan="1" class="computed"><?php echo $sales['SUBTOTAL'] ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">VAT</td>
                         <td>:</td>
-                        <td colspan="2" class="computed"><?php echo $sales['VAT'] ?></td>
+                        <td colspan="1" class="computed"><?php echo $sales['VAT'] ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">Discount</td>
                         <td>:</td>
-                        <td colspan="2" class="computed"><?php echo $sales['DISCOUNT'] ?></td>
+                        <td colspan="1" class="computed"><?php echo $sales['DISCOUNT'] ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">Total</td>
                         <td>:</td>
-                        <td colspan="2" class="computed"><?php echo $sales['TOTAL'] ?></td>
+                        <td colspan="1" class="computed"><?php echo $sales['TOTAL'] ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">Payment</td>
                         <td>:</td>
-                        <td colspan="2" class="computed"><?php echo $sales['PAYMENT'] ?></td>
+                        <td colspan="1" class="computed"><?php echo $sales['PAYMENT'] ?></td>
                     </tr>
                     <tr>
                         <td colspan="2">Change</td>
                         <td>:</td>
-                        <td colspan="2" class="computed"><?php echo $sales['CHANGE'] ?></td>
+                        <td colspan="1" class="computed"><?php echo $sales['CHANGE'] ?></td>
                     </tr>
 
                     <tr class="process-by">
-                        <td colspan="5">Process By: <?php echo $emp_name ?> >>>>> Transaction ID: <?php echo $transactionID ?></td>
+                        <td colspan="4">Process By: <?php echo $emp_name ?> >>>>> Transaction ID: <?php echo $transactionID ?></td>
                     </tr>
                 </table>
 
