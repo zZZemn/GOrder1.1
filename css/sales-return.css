@@ -1,0 +1,86 @@
+* {
+    font-family: 'poppins', sans-serif;
+}
+
+body {
+    overflow-y: auto;
+}
+
+table {
+    width: 80% !important;
+    margin: auto;
+    margin-top: 50px;
+}
+
+th {
+    position: relative;
+    font-size: 20px;
+    font-weight: 500;
+    border: 1px solid rgb(0, 0, 0);
+
+    transform: translateY(5px);
+}
+
+label {
+    position: absolute;
+    font-size: 10px;
+    top: 0;
+    font-weight: 700;
+    transform: translateY(-3px);
+}
+
+.sales-details-tr th, .return-products-tr th {
+    transform: translateY(0px);
+    text-align: center;
+}
+
+.sales-details-tr th {
+    border: none !important;
+}
+
+.return-products-tr th{
+    font-size: 25px;
+}
+
+.pl {
+    padding-left: 30px !important;
+}
+
+.pl-b {
+    padding-left: 100px !important;
+}
+
+.btn-add-return-td {
+    text-align: center;
+}
+
+.btn-add-return-td a {
+    width: 150px;
+}
+
+input {
+    text-align: center;
+    width: 150px !important;
+    height: 50px;
+    margin: auto;
+}
+
+.return-details-center-tr th{
+    border: none;
+}
+
+.qty-container-div {
+    position: relative;
+    width: 150px;
+    margin: auto;
+}
+
+.alert-when-reach-maxlevel {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    font-weight: 500;
+    width: 100px;
+    font-size: 10px;
+    opacity: 0;
+}
