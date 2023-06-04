@@ -20,7 +20,7 @@ $(document).ready(function () {
     };
 
     function delayedLoadXMLDoc() {
-        setTimeout(loadXMLDoc, 1000);
+        setTimeout(loadXMLDoc, 2000);
     }
 
 
