@@ -78,7 +78,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function (response) {
                 console.log('Success:', response);
-                loadXMLDoc();
+                setTimeout(loadXMLDoc, 1000);
             },
             error: function (xhr, status, error) {
                 console.log('Error:', error);
