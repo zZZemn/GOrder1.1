@@ -19,6 +19,11 @@ $(document).ready(function () {
         setTimeout(loadXMLDoc, 1000);
     };
 
+    function delayedLoadXMLDoc() {
+        setTimeout(loadXMLDoc, 1000);
+    }
+
+
     var inventory = [
         {
             transaction_id: ''
@@ -78,7 +83,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function (response) {
                 console.log('Success:', response);
-                setTimeout(loadXMLDoc, 1000);
+                delayedLoadXMLDoc();
             },
             error: function (xhr, status, error) {
                 console.log('Error:', error);
