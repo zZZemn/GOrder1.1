@@ -15,7 +15,9 @@ $(document).ready(function () {
         xhttp.send();
     }
 
-    window.onload = loadXMLDoc;
+    window.onload = function () {
+        setTimeout(loadXMLDoc, 1000);
+    };
 
     var inventory = [
         {
@@ -71,16 +73,16 @@ $(document).ready(function () {
 
     function performAjax() {
         $.ajax({
-          url: '../ajax-url/return-process.php',
-          type: 'POST',
-          data: JSON.stringify(inventory),
-          contentType: 'application/json',
-          success: function (response) {
-            console.log('Success:', response);
-          },
-          error: function (xhr, status, error) {
-            console.log('Error:', error);
-          }
+            url: '../ajax-url/return-process.php',
+            type: 'POST',
+            data: JSON.stringify(inventory),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log('Success:', response);
+            },
+            error: function (xhr, status, error) {
+                console.log('Error:', error);
+            }
         });
     }
 
