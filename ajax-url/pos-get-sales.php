@@ -41,7 +41,7 @@ if (isset($_SESSION['id'])) {
             } else {
                 $sales = "
                         <tr>
-                            <td colspan='11'>
+                            <td colspan='12'>
                                 <center>Empty Sales for $currentDate</center>
                             </td>
                         </tr>";
@@ -76,7 +76,7 @@ if (isset($_SESSION['id'])) {
             } else {
                 $sales = "
                         <tr>
-                            <td colspan='11'>
+                            <td colspan='12'>
                                 <center>No sales transaction 7 days ago until today.</center>
                             </td>
                         </tr>";

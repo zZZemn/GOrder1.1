@@ -14,7 +14,7 @@ table {
 
 th {
     position: relative;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: 500;
     border: 1px solid rgb(0, 0, 0);
 
@@ -29,9 +29,9 @@ label {
     transform: translateY(-3px);
 }
 
-.sales-details-tr th, .return-products-tr th {
-    transform: translateY(0px);
-    text-align: center;
+.sales-details-tr th, .return-products-tr th{
+    transform: translateY(0px) !important;
+    text-align: center !important;
 }
 
 .sales-details-tr th {
@@ -39,7 +39,7 @@ label {
 }
 
 .return-products-tr th{
-    font-size: 25px;
+    font-size: 15px;
 }
 
 .pl {
@@ -75,12 +75,36 @@ input {
     margin: auto;
 }
 
-.alert-when-reach-maxlevel {
+.alert {
     position: absolute;
-    top: 5px;
     left: 0px;
     font-weight: 500;
     width: 100px;
     font-size: 10px;
+    top: -15;
     opacity: 0;
+
+    pointer-events: none;
+}
+
+.alert-when-reach-maxlevel {
+    width: 150px;
+    padding: 0px;
+    background-color: rgb(255, 255, 255);
+}
+
+.alert-when-invalid-qty {
+    left: -20px;
+    width: 200px;
+    padding: 0px !important;
+    background-color: rgb(255, 255, 255);
+}
+
+.return-items-tr th {
+    transform: translateY(0);
+    text-align: center;
+}
+
+.return-details-header-tr th {
+    transform: translateY(8px);
 }

@@ -34,28 +34,35 @@ if (isset($_SESSION['id'])) {
                                             VALUES ('$return_id','$transaction_id','$currentDate','$totalAmount')";
 
             if ($conn->query($insert_return) === TRUE) {
-                $successCount = 0;
-                $errors = 0;
+                $sales_update = "UPDATE `sales` SET `UPDATED_TOTAL`= `TOTAL` - $totalAmount WHERE TRANSACTION_ID = '$transaction_id'";
+                if ($conn->query($sales_update) === TRUE) {
+                    $successCount = 0;
+                    $errors = 0;
 
-                foreach ($items as $item) {
-                    $inv_id = $item['id'];
-                    $qty = $item['qty'];
-                    $insert_return_items = "INSERT INTO `return_items`(`RETURN_ID`, `INV_ID`, `QTY`) 
+                    foreach ($items as $item) {
+                        $inv_id = $item['id'];
+                        $qty = $item['qty'];
+                        $amount = $item['amount'];
+                        $insert_return_items = "INSERT INTO `return_items`(`RETURN_ID`, `INV_ID`, `QTY`) 
                                                             VALUES ('$return_id','$inv_id','$qty')";
 
-                    if ($conn->query($insert_return_items) === TRUE) {
-                        $successCount++;
-                    } else {
-                        $errors++;
+                        if ($conn->query($insert_return_items) === TRUE) {
+                            $update_inventory = "UPDATE `inventory` SET `QUANTITY`= `QUANTITY` + '$qty' WHERE INV_ID = '$inv_id'";
+                            if ($conn->query($update_inventory) === TRUE) {
+                                $successCount++;
+                            }
+                        } else {
+                            $errors++;
+                        }
                     }
-                }
 
-                if ($successCount === count($items)) {
-                    $response = array('message' => 'Success: All items inserted');
-                } else {
-                    $response = array('message' => 'Partial Success: Some items failed to insert (' . $errors . ' items)');
+                    if ($successCount === count($items)) {
+                        $response = array('message' => 'Success: All items inserted');
+                    } else {
+                        $response = array('message' => 'Partial Success: Some items failed to insert (' . $errors . ' items)');
+                    }
+                    echo json_encode($response);
                 }
-                echo json_encode($response);
             } else {
                 $response = array('message' => 'Not Success: Failed to insert return record');
                 echo json_encode($response);
@@ -63,4 +70,3 @@ if (isset($_SESSION['id'])) {
         }
     }
 }
-?>

@@ -1,7 +1,25 @@
 $(document).ready(function () {
-    $('#submit_return').on('click', function () {
+    var url;
+    const transaction_id = $('#transaction_id_hidden').val();
+
+    function loadXMLDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("return_container").innerHTML =
+                    this.responseText;
+            }
+        };
+        const url = "../server/sales-return-update.php?id=" + encodeURIComponent(transaction_id);
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+    window.onload = loadXMLDoc;
+
+    $(document).on('click', '#submit_return', function (event) {
+        event.preventDefault();
         var transaction_id = $('#transaction_id').val();
-        var price = parseFloat($('#price').val());
         var inputs = $('input[type="number"]');
 
         var inventory = [
@@ -14,6 +32,7 @@ $(document).ready(function () {
         inputs.each(function () {
             var value = $(this).val();
             var id = $(this).attr('id');
+            var price = parseFloat($(this).closest('tr').find('#price').val());
             var amount = price * value;
 
             if (value != '' && value > 0) {
@@ -41,22 +60,45 @@ $(document).ready(function () {
                     console.log('Error:', error);
                 }
             });
+        } else {
+            console.log('invalid');
         }
+        loadXMLDoc();
     });
 
-    $('.qty-td').on('input', 'input[name="quantity"]', function () {
+    $(document).on('input', 'input[name="quantity"]', function () {
+        var hasNegative = false;
         console.log('input');
         var maximumValue = $(this).attr('max');
         var quantity = $(this).val();
         var alertElement = $(this).closest('.qty-td').find('.alert-when-reach-maxlevel');
+        var alertInvalidQtyInput = $(this).closest('.qty-td').find('.alert-when-invalid-qty');
 
-        if (quantity == maximumValue) {
+        var inputParts = quantity.split("-");
+
+        for (var i = 0; i < inputParts.length; i++) {
+            var numericValue = parseFloat(inputParts[i]);
+            if (isNaN(numericValue) || numericValue < 0) {
+                hasNegative = true;
+                break;
+            }
+        }
+
+        if (hasNegative) {
+            console.log('asd');
+            alertInvalidQtyInput.css('opacity', 1);
+            alertInvalidQtyInput.css('pointer-events', 'auto');
+        } else if (quantity == maximumValue) {
             alertElement.css('opacity', 1);
             alertElement.css('pointer-events', 'auto');
         } else {
             alertElement.css('opacity', 0);
             alertElement.css('pointer-events', 'none');
+
+            alertInvalidQtyInput.css('opacity', 0);
+            alertInvalidQtyInput.css('pointer-events', 'none');
         }
     });
+
 
 });
