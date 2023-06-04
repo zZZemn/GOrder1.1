@@ -62,7 +62,6 @@ $(document).ready(function () {
         $('#confirmModal').modal('hide');
         console.log('submitted');
         performAjax();
-        loadXMLDoc();
     });
 
     $('#cancelAddReturn').on('click', function () {
@@ -79,6 +78,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             success: function (response) {
                 console.log('Success:', response);
+                loadXMLDoc();
             },
             error: function (xhr, status, error) {
                 console.log('Error:', error);
