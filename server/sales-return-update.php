@@ -122,7 +122,7 @@ if (isset($_SESSION['id'])) {
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td class="btn-add-return-td"><a href="#" id="submit_return" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Return</a></td>
+                                        <td class="btn-add-return-td"><a href="#" id="submit_return" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal"><i class="fa-solid fa-plus"></i> Add Return</a></td>
                                     </tr>
                                     <tr>
                                         <td colspan="3">Subtotal</td>

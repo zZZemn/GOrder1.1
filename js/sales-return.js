@@ -17,17 +17,21 @@ $(document).ready(function () {
 
     window.onload = loadXMLDoc;
 
+    var inventory = [
+        {
+            transaction_id: ''
+        },
+        []
+    ];
+
     $(document).on('click', '#submit_return', function (event) {
         event.preventDefault();
+
         var transaction_id = $('#transaction_id').val();
         var inputs = $('input[type="number"]');
 
-        var inventory = [
-            {
-                transaction_id: transaction_id
-            },
-            []
-        ];
+        inventory[0].transaction_id = transaction_id;
+        inventory[1] = [];
 
         inputs.each(function () {
             var value = $(this).val();
@@ -46,25 +50,42 @@ $(document).ready(function () {
         });
 
         if (inventory[1].length > 0) {
-            $.ajax({
-                url: '../ajax-url/return-process.php',
-                type: 'POST',
-                data: JSON.stringify(inventory),
-                contentType: 'application/json',
-                success: function (response) {
-                    // Handle success response
-                    console.log('Success:', response);
-                },
-                error: function (xhr, status, error) {
-                    // Handle error response
-                    console.log('Error:', error);
-                }
-            });
+            $('#confirmModal').modal('show');
         } else {
             console.log('invalid');
         }
+    });
+
+    $('#confirmAddReturn').on('click', function () {
+        $('#confirmModal').modal('hide');
+        console.log('submitted');
+        performAjax();
         loadXMLDoc();
     });
+
+    $('#cancelAddReturn').on('click', function () {
+        $('#confirmModal').modal('hide');
+        console.log('cancelled');
+        loadXMLDoc();
+    });
+
+    function performAjax() {
+        $.ajax({
+          url: '../ajax-url/return-process.php',
+          type: 'POST',
+          data: JSON.stringify(inventory),
+          contentType: 'application/json',
+          success: function (response) {
+            console.log('Success:', response);
+          },
+          error: function (xhr, status, error) {
+            console.log('Error:', error);
+          }
+        });
+    }
+
+
+
 
     $(document).on('input', 'input[name="quantity"]', function () {
         var hasNegative = false;
