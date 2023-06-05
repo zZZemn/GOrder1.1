@@ -284,7 +284,7 @@ if (isset($_SESSION['id'])) {
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th colspan="11">
+                    <th colspan="12">
                         <center><p class="select-date">Daily Sales</p><input type="date" class="form-control" name="sales_date" id="sales_date" value="${DateTime.now().toString().split(' ')[0]}"></center>
                     </th>
                 </tr>
@@ -299,6 +299,7 @@ if (isset($_SESSION['id'])) {
                     <th>Total</th>
                     <th>Payment</th>
                     <th>Change</th>
+                    <th>Updated Total</th>
                     <th>Process By</th>
                 </tr>
             </thead>

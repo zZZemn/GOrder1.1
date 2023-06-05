@@ -210,7 +210,7 @@ if (isset($_SESSION['id'])) {
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th colspan="12">
+                        <th colspan="13">
                             <center>
                                 <select class="today-this-week-sales form-control" id="sales-filter">
                                     <option value="today">Today</option>
@@ -230,6 +230,7 @@ if (isset($_SESSION['id'])) {
                         <th>Total</th>
                         <th>Payment</th>
                         <th>Change</th>
+                        <th>Updated Total</th>
                         <th>Process By</th>
                         <th>Action</th>
                     </tr>

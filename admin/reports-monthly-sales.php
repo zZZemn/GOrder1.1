@@ -285,7 +285,7 @@ if (isset($_SESSION['id'])) {
                                 <center>
                                     <p class="select-date">Monthly Sales</p>
                                     <div class="input">
-                                        <select name="sales_year" id="sales_year">
+                                        <select name="sales_year" id="sales_year" class="form-control">
                                             <?php
                                             $current_year = date("Y");
                                             $year_sql = "SELECT DISTINCT YEAR(DATE) AS year FROM sales";

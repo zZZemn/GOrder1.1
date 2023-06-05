@@ -18,6 +18,7 @@ if(isset($_POST['date'])) {
             <td>".$row['TOTAL']."</td>
             <td>".$row['PAYMENT']."</td>
             <td>".$row['CHANGE']."</td>
+            <td>".$row['UPDATED_TOTAL']."</td>
             <td>".$row['EMP_ID']."</td>
         </tr>";
         }

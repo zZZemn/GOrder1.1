@@ -30,6 +30,7 @@ if (isset($_SESSION['id'])) {
                                 <td>" . $row['TOTAL'] . "</td>
                                 <td>" . $row['PAYMENT'] . "</td>
                                 <td>" . $row['CHANGE'] . "</td>
+                                <td>" . $row['UPDATED_TOTAL'] . "</td>
                                 <td>" . $row['EMP_ID'] . "</td>
                                 <td class='action-td'>
                                     <a href='view-invoice.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
@@ -65,6 +66,7 @@ if (isset($_SESSION['id'])) {
                                 <td>" . $row['TOTAL'] . "</td>
                                 <td>" . $row['PAYMENT'] . "</td>
                                 <td>" . $row['CHANGE'] . "</td>
+                                <td>" . $row['UPDATED_TOTAL'] . "</td>
                                 <td>" . $row['EMP_ID'] . "</td>
                                 <td class='action-td'>
                                     <a href='view-invoice.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
