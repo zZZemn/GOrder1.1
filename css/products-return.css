@@ -1,0 +1,44 @@
+.table-container {
+    font-family: 'poppins', sans-serif;
+    overflow: auto;
+    height: 88vh;
+}
+
+.table-container table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-container table thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.table-container table thead tr th {
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.table-container table tbody tr td {
+    font-size: 12px;
+}
+
+.select-date {
+    font-size: 20px;
+}
+
+.no-trans {
+    text-align: center;
+    padding: 50px !important;
+    font-size: 20px;
+}
+
+.link-to-return i {
+    padding: 0 !important;
+}
+
+.link-to-return {
+    font-size: 10px !important;
+}
