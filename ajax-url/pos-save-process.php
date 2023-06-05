@@ -21,8 +21,8 @@ while ($check_transactionID_result->num_rows > 0) {
 $cust_id = !empty($data['sales']['cust_id']) ? $data['sales']['cust_id'] : null;
 
 // Prepare the SQL statement for inserting into the 'sales' table
-$sales_sql = "INSERT INTO `sales`(`TRANSACTION_ID`, `TRANSACTION_TYPE`, `PAYMENT_TYPE`, `CUST_TYPE`, `CUST_ID`, `TIME`, `DATE`, `EMP_ID`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `PAYMENT`, `CHANGE`) 
-              VALUES ('" . $transaction_id . "','" . $data['sales']['transaction_type'] . "','','" . $data['sales']['cust_type'] . "','" . $cust_id . "','" . $time . "','" . $date . "','" . $data['sales']['emp_id'] . "','" . $data['sales']['subtotal'] . "','" . $data['sales']['vat'] . "','" . $data['sales']['discount'] . "','" . $data['sales']['total'] . "','" . $data['sales']['payment'] . "','" . $data['sales']['change'] . "')";
+$sales_sql = "INSERT INTO `sales`(`TRANSACTION_ID`, `TRANSACTION_TYPE`, `PAYMENT_TYPE`, `CUST_TYPE`, `CUST_ID`, `TIME`, `DATE`, `EMP_ID`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `PAYMENT`, `CHANGE`, `UPDATED_TOTAL`) 
+              VALUES ('" . $transaction_id . "','" . $data['sales']['transaction_type'] . "','','" . $data['sales']['cust_type'] . "','" . $cust_id . "','" . $time . "','" . $date . "','" . $data['sales']['emp_id'] . "','" . $data['sales']['subtotal'] . "','" . $data['sales']['vat'] . "','" . $data['sales']['discount'] . "','" . $data['sales']['total'] . "','" . $data['sales']['payment'] . "','" . $data['sales']['change'] . "','" . $data['sales']['total'] . "')";
 
 // Insert the sales data into the 'sales' table
 if (mysqli_query($conn, $sales_sql)) {
