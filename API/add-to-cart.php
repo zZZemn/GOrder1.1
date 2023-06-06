@@ -1,41 +1,25 @@
-<?php 
+<?php
 header('Acces-Control-Allow-Origin:*');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Method: GET');
+header('Access-Control-Allow-Method: POST');
 header('Access-Control-Allow-Headers: Content-Type, Address-Control-Allow-Headers, Autorization, X-Request-With');
 
 include('functions.php');
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if($requestMethod == "GET")
-{
-    if(isset($_GET['product_id']) && isset($_GET['cust_id']))
-    {
-        $productID = $_GET['product_id'];
-        $custID = $_GET['cust_id'];
+if ($requestMethod == "POST") {
+    $data = json_decode(file_get_contents("php://input"));
+    $productID = $data->product_id;
+    $custID = $data->cust_id;
 
-        $addToCart = addToCart($productID, $custID);
-        echo $addToCart;
-    }
-    else
-    {
-        $data = [
-            'status' => 405,
-            'message' => 'Access Deny',
-        ];
-        header("HTTP/1.0 405 Access Deny");
-        echo json_encode($data);
-    }
-}
-else
-{
+    $addToCart = addToCart($productID, $custID);
+    echo $addToCart;
+} else {
     $data = [
         'status' => 405,
-        'message' => $requestMethod. ' Method Not Allowed',
+        'message' => $requestMethod . ' Method Not Allowed',
     ];
     header("HTTP/1.0 405 Method Not Allowed");
     echo json_encode($data);
 }
-
-?>
