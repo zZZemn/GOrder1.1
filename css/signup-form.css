@@ -449,18 +449,19 @@ select {
 
 /* The alert message box */
 .alert {
-    position: absolute;
-    top: 5px;
+    position: fixed;
+    top: 20px;
     background-color: #f44336; /* Red */
     color: white;
 
-    height: 50px;
+    height: auto;
     width: 250px;
 
     z-index: 1;
 
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.6s;
+    pointer-events: none;
   }
   
   /* The close button */
