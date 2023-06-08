@@ -117,7 +117,7 @@ $(document).ready(function () {
                         if (!containsSpecialChars && !containsOnlyNumbers) {
                             var containsDigit = /\d/.test(password);
                             var containsLetter = /[a-zA-Z]/.test(password);
-                            var containsSpecialSymbol = /[!@]/.test(password);
+                            var containsSpecialSymbol = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
                             if (containsDigit && containsLetter && containsSpecialSymbol && password.length >= 8) {
                                 $.ajax({
                                     url: 'ajax-url/check-existence.php',
