@@ -26,7 +26,7 @@
             }
             $barangays = [
                 [
-                    'barangayID' => null,
+                    'barangayID' => '',
                     'barangay' => 'No Barangay Found in '.$municipality_name
                 ]
             ];

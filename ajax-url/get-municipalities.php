@@ -26,7 +26,7 @@
             }
             $municipalities = [
                 [
-                    'municipalityID' => null,
+                    'municipalityID' => '',
                     'municipality' => 'No Municipality Found in '.$province_name
                 ]
             ];

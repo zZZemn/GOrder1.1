@@ -26,7 +26,7 @@
             }
             $provinces = [
                 [
-                    'provinceID' => null,
+                    'provinceID' => '',
                     'province' => 'No Province Found in '.$region_name
                 ]
             ];

@@ -2,82 +2,102 @@ $(document).ready(function () {
     $('#region').on('change', function () {
         var regionID = $(this).val();
 
-        $.ajax({
-            url: 'ajax-url/get-provinces.php',
-            type: 'POST',
-            data: { regionID: regionID },
-            success: function (data) {
-                var provinces = JSON.parse(data);
+        if (regionID != '') {
+            $.ajax({
+                url: 'ajax-url/get-provinces.php',
+                type: 'POST',
+                data: { regionID: regionID },
+                success: function (data) {
+                    var provinces = JSON.parse(data);
 
-                $('#province').empty();
+                    $('#province').empty();
+                    $('#municipality').empty();
+                    $('#barangay').empty();
 
-                $('#province').append($('<option>', {
-                    value: "",
-                    text: ""
-                }));
-
-                for (var i = 0; i < provinces.length; i++) {
                     $('#province').append($('<option>', {
-                        value: provinces[i].provinceID,
-                        text: provinces[i].province
+                        value: "",
+                        text: ""
                     }));
+
+                    for (var i = 0; i < provinces.length; i++) {
+                        $('#province').append($('<option>', {
+                            value: provinces[i].provinceID,
+                            text: provinces[i].province
+                        }));
+                    }
+                    $('#province option[value=""]').prop('disabled', true);
                 }
-            }
-        });
+            });
+        } else {
+            $('#province').empty();
+            $('#municipality').empty();
+            $('#barangay').empty();
+        }
     });
 
     $('#province').on('change', function () {
         var provinceID = $(this).val();
 
-        $.ajax({
-            url: 'ajax-url/get-municipalities.php',
-            type: 'POST',
-            data: { provinceID: provinceID },
-            success: function (data) {
-                var municipalities = JSON.parse(data);
+        if (provinceID != '') {
+            $.ajax({
+                url: 'ajax-url/get-municipalities.php',
+                type: 'POST',
+                data: { provinceID: provinceID },
+                success: function (data) {
+                    var municipalities = JSON.parse(data);
 
-                $('#municipality').empty();
+                    $('#municipality').empty();
 
-                $('#municipality').append($('<option>', {
-                    value: "",
-                    text: ""
-                }));
-
-                for (var i = 0; i < municipalities.length; i++) {
                     $('#municipality').append($('<option>', {
-                        value: municipalities[i].municipalityID,
-                        text: municipalities[i].municipality
+                        value: "",
+                        text: ""
                     }));
+
+                    for (var i = 0; i < municipalities.length; i++) {
+                        $('#municipality').append($('<option>', {
+                            value: municipalities[i].municipalityID,
+                            text: municipalities[i].municipality
+                        }));
+                    }
+                    $('#municipality option[value=""]').prop('disabled', true);
                 }
-            }
-        });
+            });
+        } else {
+            $('#municipality').empty();
+            $('#barangay').empty();
+        }
     })
 
     $('#municipality').on('change', function () {
         var municipalityID = $(this).val();
 
-        $.ajax({
-            url: 'ajax-url/get-barangay.php',
-            type: 'POST',
-            data: { municipalityID: municipalityID },
-            success: function (data) {
-                var barangays = JSON.parse(data);
+        if (municipalityID != '') {
+            $.ajax({
+                url: 'ajax-url/get-barangay.php',
+                type: 'POST',
+                data: { municipalityID: municipalityID },
+                success: function (data) {
+                    var barangays = JSON.parse(data);
 
-                $('#barangay').empty();
+                    $('#barangay').empty();
 
-                $('#barangay').append($('<option>', {
-                    value: "",
-                    text: ""
-                }));
-
-                for (var i = 0; i < barangays.length; i++) {
                     $('#barangay').append($('<option>', {
-                        value: barangays[i].barangayID,
-                        text: barangays[i].barangay
+                        value: "",
+                        text: ""
                     }));
+
+                    for (var i = 0; i < barangays.length; i++) {
+                        $('#barangay').append($('<option>', {
+                            value: barangays[i].barangayID,
+                            text: barangays[i].barangay
+                        }));
+                    }
+                    $('#barangay option[value=""]').prop('disabled', true);
                 }
-            }
-        });
+            });
+        } else {
+            $('#barangay').empty();
+        }
     })
 
     $('#sign-up-form').on('submit', function (event) {
@@ -106,10 +126,13 @@ $(document).ready(function () {
         var birthDate = new Date(birthday);
         var timeDiff = Date.now() - birthDate.getTime();
         var age = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25));
-
-        if (age >= 16) {
-            if (contact.length === 10) {
-                if (region !== null && province !== "" && municipality !== "" && barangay !== "") {
+        console.log(region);
+        console.log(province);
+        console.log(municipality);
+        console.log(barangay);
+        if (region !== null && province !== null && municipality !== null && barangay !== null) {
+            if (age >= 16) {
+                if (contact.length === 10) {
                     if (username.length > 6) {
                         var containsSpecialChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(username);
                         var containsOnlyNumbers = /^\d+$/.test(username);
@@ -127,11 +150,15 @@ $(document).ready(function () {
                                     },
                                     type: 'POST',
                                     success: function (response) {
-                                        if (response === 'exists') {
-                                            console.log('dhsakjdh');
-                                            $('.username-email-exists').css('opacity', 1).css('pointer-events', 'auto');
+                                        if (response === '1') {
+                                            $('.email-exists').css('opacity', 1).css('pointer-events', 'auto');
                                             setTimeout(function () {
-                                                $('.username-email-exists').css('opacity', 0).css('pointer-events', 'none');
+                                                $('.email-exists').css('opacity', 0).css('pointer-events', 'none');
+                                            }, 2000);
+                                        } else if (response === '2') {
+                                            $('.username-exists').css('opacity', 1).css('pointer-events', 'auto');
+                                            setTimeout(function () {
+                                                $('.username-exists').css('opacity', 0).css('pointer-events', 'none');
                                             }, 2000);
                                         } else {
                                             form.off('submit').submit();
@@ -157,21 +184,21 @@ $(document).ready(function () {
                         }, 2000);
                     }
                 } else {
-                    $('.set-up-add').css('opacity', 1).css('pointer-events', 'auto');
+                    $('.contact_no_min').css('opacity', 1).css('pointer-events', 'auto');
                     setTimeout(function () {
-                        $('.set-up-add').css('opacity', 0).css('pointer-events', 'none');
+                        $('.contact_no_min').css('opacity', 0).css('pointer-events', 'none');
                     }, 2000);
                 }
             } else {
-                $('.contact_no_min').css('opacity', 1).css('pointer-events', 'auto');
+                $('.age_min').css('opacity', 1).css('pointer-events', 'auto');
                 setTimeout(function () {
-                    $('.contact_no_min').css('opacity', 0).css('pointer-events', 'none');
+                    $('.age_min').css('opacity', 0).css('pointer-events', 'none');
                 }, 2000);
             }
         } else {
-            $('.age_min').css('opacity', 1).css('pointer-events', 'auto');
+            $('.set-up-add').css('opacity', 1).css('pointer-events', 'auto');
             setTimeout(function () {
-                $('.age_min').css('opacity', 0).css('pointer-events', 'none');
+                $('.set-up-add').css('opacity', 0).css('pointer-events', 'none');
             }, 2000);
         }
     });

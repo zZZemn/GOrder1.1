@@ -5,12 +5,20 @@ if (isset($_POST['username']) && isset($_POST['email'])) {
     $email = $_POST['email'];
     $username = $_POST['username'];
 
-    $user_sql = "SELECT * FROM customer_user WHERE USERNAME = 'username' OR EMAIL = '$email'";
-    $user_result = $conn->query($user_sql);
-    if($user_result->num_rows > 0){
-        echo 'exists';
+    // Check if email exists
+    $email_sql = "SELECT * FROM customer_user WHERE EMAIL = '$email'";
+    $email_result = $conn->query($email_sql);
+    if ($email_result->num_rows > 0) {
+        echo '1';
     } else {
-        echo 'ok';
+        // Check if username exists
+        $username_sql = "SELECT * FROM customer_user WHERE USERNAME = '$username'";
+        $username_result = $conn->query($username_sql);
+        if ($username_result->num_rows > 0) {
+            echo '2';
+        } else {
+            echo '0';
+        }
     }
 } else {
     header('Location: ../index.php');

@@ -1,94 +1,6 @@
 <?php
 include('database/db.php');
-// $existingEmail = false;
-// $existingUsername = false;
-// $shortPassword = false;
-
-// if(isset($_POST['create']))
-// {
-//     include('database/db.php');
-
-//     $fname = $_POST['first_name'];
-//     $lname = $_POST['last_name'];
-//     $mi = $_POST['mi'];
-//     $suffix = $_POST['suffix'];
-
-//     $bday = $_POST['birthday'];
-//     $sex = $_POST['sex'];
-
-//     $contact_no = $_POST['contact'];
-//     $email = $_POST['email'];
-
-//     $unit = $_POST['unit'];
-//     $region = $_POST['region'];
-//     $province = $_POST['province'];
-//     $municipality = $_POST['municipality'];
-//     $barangay = $_POST['barangay'];
-
-//     $username = $_POST['username']; 
-//     $password = $_POST['password'];
-
-
-//     $checking_email = "SELECT * FROM customer_user WHERE EMAIL = '$email'";
-//     $checking_email_result = $conn->query($checking_email);
-
-//     if($checking_email_result)
-//     {
-//         if($checking_email_result->num_rows > 0)
-//         {
-//             $existingEmail = true;
-//         }
-//         else
-//         {
-//             $checking_username = "SELECT * FROM customer_user WHERE USERNAME = '$username'";
-//             $checking_username_result = $conn->query($checking_username);
-
-//             if($checking_username_result->num_rows > 0)
-//             {
-//                 $existingUsername = true;
-//             }
-//             else
-//             {
-//                 if(strlen($password) < 8)
-//                 {
-//                     $shortPassword = true;
-//                 }
-//                 else
-//                 {
-//                     session_start();
-
-//                     $_SESSION['authorized'] = true;
-
-//                     $_SESSION['fname'] = $fname;
-//                     $_SESSION['lname'] = $lname;
-//                     $_SESSION['mi'] = $mi;
-//                     $_SESSION['suffix'] = $suffix;
-
-//                     $_SESSION['bday'] = $bday;
-//                     $_SESSION['sex'] = $sex;
-
-//                     $_SESSION['contact_no'] = $contact_no;
-//                     $_SESSION['email'] = $email;
-
-//                     $_SESSION['unit'] = $unit;
-//                     $_SESSION['region'] = $region;
-//                     $_SESSION['province'] = $province;
-//                     $_SESSION['municipality'] = $municipality;
-//                     $_SESSION['barangay'] = $barangay;
-
-//                     $_SESSION['username'] = $username;
-//                     $_SESSION['password'] = $password;
-
-//                     header('Location: process/signup-process.php');
-//                 }
-//             }
-//         }
-//     }
-//     else
-//     {
-//         echo $conn->error;
-//     }
-// }
+include('time-date.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -133,9 +45,13 @@ include('database/db.php');
         Password needs to have at least 8 characters, including letters, digits, and a special symbol.
     </div>
     
-    <div class="alert alert-no-qty-left bg-danger username-email-exists">
+    <div class="alert alert-no-qty-left bg-danger email-exists">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        The username or email you entered already exists. Please choose a different username or use a different email address.
+        The email you entered already exists. Please use a different email address.
+    </div>
+    <div class="alert alert-no-qty-left bg-danger username-exists">
+        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
+        The username you entered already exists. Please choose a different username address.
     </div>
 
     <form class="signup-container" id="sign-up-form" method="POST" action="process/signup-process.php">
@@ -158,7 +74,7 @@ include('database/db.php');
 
                 <div class="mi-suff">
                     <div class="input">
-                        <input type="text" name="mi" id="mi" placeholder="A" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');" maxlength="1">
+                        <input type="text" name="mi" id="mi" placeholder="A" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');" maxlength="2">
                         <label for="mi">MI</label>
                     </div>
                     <div class="input">
@@ -181,7 +97,7 @@ include('database/db.php');
             <div class="other-info-container">
                 <div class="bday-sex">
                     <div class="input">
-                        <input type="date" name="birthday" id="birthday" required>
+                        <input type="date" name="birthday" id="birthday" required max="<?php echo date('Y-m-d'); ?>">
                         <label for="birthday">Birthday</label>
                     </div>
                     <div class="input">
