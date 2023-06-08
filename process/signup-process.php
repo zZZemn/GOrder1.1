@@ -133,7 +133,11 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
                 <input type="hidden" name="cust_id" value="<?php echo $cust_id ?>">
                 <input type="hidden" name="cart_id" value="<?php echo $cart_id ?>">
 
-                <h1><?php echo $verification_code ?></h1>
+                <!-- <h1>
+                    <?php 
+                    // echo $verification_code 
+                    ?>
+                </h1> -->
                 <div id="message">
                     Enter Verification Code
                 </div>
