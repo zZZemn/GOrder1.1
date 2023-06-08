@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -98,7 +98,8 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
     </body>
     </html>';
     
-    if ($mail->send()) {
+    if ($mail->send() && !isset($_SESSION['email_sent'])) {
+        $_SESSION['email_sent'] = true;
 ?>
         <!DOCTYPE html>
         <html lang="en">
