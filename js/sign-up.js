@@ -151,14 +151,14 @@ $(document).ready(function () {
                                     type: 'POST',
                                     success: function (response) {
                                         if (response === '1') {
-                                            $('.email-exists').css('opacity', 1).css('pointer-events', 'auto');
+                                            $('.email-exists').css('display', 'block').css('pointer-events', 'auto').css('opacity', 1);
                                             setTimeout(function () {
-                                                $('.email-exists').css('opacity', 0).css('pointer-events', 'none');
+                                                $('.email-exists').css('opacity', 0).css('pointer-events', 'none').css('display', 'none');
                                             }, 2000);
                                         } else if (response === '2') {
-                                            $('.username-exists').css('opacity', 1).css('pointer-events', 'auto');
+                                            $('.username-exists').css('display', 'block').css('pointer-events', 'auto').css('opacity', 1);
                                             setTimeout(function () {
-                                                $('.username-exists').css('opacity', 0).css('pointer-events', 'none');
+                                                $('.username-exists').css('opacity', 0).css('pointer-events', 'none').css('display', 'none');
                                             }, 2000);
                                         } else {
                                             form.off('submit').submit();
