@@ -160,8 +160,10 @@ $(document).ready(function () {
                                             setTimeout(function () {
                                                 $('.username-exists').css('opacity', 0).css('pointer-events', 'none').css('display', 'none');
                                             }, 2000);
-                                        } else {
+                                        } else if(response === '0'){
                                             form.off('submit').submit();
+                                        } else {
+                                            
                                         }
                                     }
                                 });
