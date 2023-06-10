@@ -166,6 +166,11 @@ if (isset($_SESSION['id'])) {
                                                     <?php
                                                     } else {
                                                         //no municipality found
+                                                        ?>
+                                                            <tr>
+                                                                <td>No Municipalilty Found</td>
+                                                            </tr>
+                                                        <?php
                                                     }
                                                     ?>
                                                 </table>
