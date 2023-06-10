@@ -82,9 +82,6 @@ if (isset($_SESSION['id'])) {
                                                     <?php
                                                     $municipality_sql = "SELECT * FROM municipality WHERE PROVINCE_ID = '$province_id'";
                                                     $municipality_result = $conn->query($municipality_sql);
-                                                    if(!$municipality_result){
-                                                        echo "Error: " . $conn->error;
-                                                    }
                                                     if ($municipality_result->num_rows > 0) {
                                                     ?>
                                                         <tr class="provinces-tr-center">
