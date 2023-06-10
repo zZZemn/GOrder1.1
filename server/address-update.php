@@ -82,6 +82,9 @@ if (isset($_SESSION['id'])) {
                                                     <?php
                                                     $municipality_sql = "SELECT * FROM MUNICIPALITY WHERE PROVINCE_ID = '$province_id'";
                                                     $municipality_result = $conn->query($municipality_sql);
+                                                    if(!$municipality_result){
+                                                        echo "Error: " . $conn->error;
+                                                    }
                                                     if ($municipality_result->num_rows > 0) {
                                                     ?>
                                                         <tr class="provinces-tr-center">
@@ -168,7 +171,9 @@ if (isset($_SESSION['id'])) {
                                                         //no municipality found
                                                         ?>
                                                             <tr>
-                                                                <td>No Municipalilty Found</td>
+                                                                <td>
+                                                                    <center>No Municipalilty Found</center>
+                                                                </td>
                                                             </tr>
                                                         <?php
                                                     }
