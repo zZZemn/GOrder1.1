@@ -80,7 +80,7 @@ if (isset($_SESSION['id'])) {
                                                        </td>
                                                     </tr>
                                                     <?php
-                                                    $municipality_sql = "SELECT * FROM MUNICIPALITY WHERE PROVINCE_ID = '$province_id'";
+                                                    $municipality_sql = "SELECT * FROM municipality WHERE PROVINCE_ID = '$province_id'";
                                                     $municipality_result = $conn->query($municipality_sql);
                                                     if(!$municipality_result){
                                                         echo "Error: " . $conn->error;
