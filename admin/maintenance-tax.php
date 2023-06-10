@@ -172,7 +172,10 @@ if (isset($_SESSION['id'])) {
                     ?>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
@@ -281,11 +284,11 @@ if (isset($_SESSION['id'])) {
                 <center>Tax Rate</center>
                 <div>
                     <input type="text" class="form-control" name="tax_rate" id="tax_rate" value="<?php
-                                                                            $tax_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
-                                                                            $tax_result = $conn->query($tax_sql);
-                                                                            $tax = $tax_result->fetch_assoc();
-                                                                            echo $tax['TAX_PERCENTAGE'];
-                                                                            ?>" oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
+                                                                                                    $tax_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
+                                                                                                    $tax_result = $conn->query($tax_sql);
+                                                                                                    $tax = $tax_result->fetch_assoc();
+                                                                                                    echo $tax['TAX_PERCENTAGE'];
+                                                                                                    ?>" oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
                     <label for="tax_rate">%</label>
                 </div>
                 <input type="submit" name="save_tax_rate" value="Save" class="btn btn-primary">

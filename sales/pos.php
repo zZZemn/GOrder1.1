@@ -34,7 +34,7 @@ if (isset($_SESSION['id'])) {
 </head>
 
 <body>
-    <?php if(isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") : ?>
+    <?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") : ?>
         <nav class="top-nav bg-dark">
 
             <i class="fa-solid fa-bars menu"></i>
@@ -182,7 +182,25 @@ if (isset($_SESSION['id'])) {
                     ?>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <?php
+                    if ($emp['EMP_TYPE'] === 'PA') {
+                    ?>
+                        <em class="admin-em" style="font-size: 11px;">
+                            Pharmacy Assistant
+                        </em>
+                    <?php
+                    } else {
+                    ?>
+                        <em class="admin-em">
+                            <?php echo $emp['EMP_TYPE']; ?>
+                        </em>
+                    <?php
+                    }
+                    ?>
+
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="
                     <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>
@@ -312,7 +330,7 @@ if (isset($_SESSION['id'])) {
                             <label for="cust_id">Customer ID</label>
                         </div>
 
-                        
+
                         <input type="submit" name="reset" id="reset" class="btn btn-danger save_print" value="Reset">
                     </div>
                 </div>

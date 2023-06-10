@@ -172,7 +172,10 @@ if (isset($_SESSION['id'])) {
                     ?>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
@@ -322,7 +325,7 @@ if (isset($_SESSION['id'])) {
             </form>
 
             <div class="address-container" id="address_container">
-                
+
             </div>
 
             <div class="message-container">

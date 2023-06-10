@@ -136,24 +136,21 @@ if (isset($_SESSION['id'])) {
                                 while ($pro_id_row = $product_id_sql_result->fetch_assoc()) {
                                     $current_qty += $pro_id_row['QUANTITY'];
                                 }
-                                $critical_level = $row['CRITICAL_LEVEL'];   
-                                if($current_qty = 0) {
-                                    echo "<p class='text-light'>".$row['PRODUCT_NAME']." is out of stock</p>";
-                                }
-                                elseif ($current_qty <= $critical_level) {
-                                    echo "<p class='text-light'>".$row['PRODUCT_NAME']." is on critical level</p>";
+                                $critical_level = $row['CRITICAL_LEVEL'];
+                                if ($current_qty = 0) {
+                                    echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is out of stock</p>";
+                                } elseif ($current_qty <= $critical_level) {
+                                    echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is on critical level</p>";
                                 }
                             } else {
-                                echo "<p class='text-light'>".$row['PRODUCT_NAME']." is out of stock</p>";
+                                echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is out of stock</p>";
                             }
                         }
                     }
                     $inventory_sql = "SELECT * FROM inventory ORDER BY EXP_DATE";
                     $inventory_result = $conn->query($inventory_sql);
-                    if($inventory_result->num_rows > 0)
-                    {
-                        while($inventory_row = $inventory_result->fetch_assoc())
-                        {
+                    if ($inventory_result->num_rows > 0) {
+                        while ($inventory_row = $inventory_result->fetch_assoc()) {
                             $pro_id = $inventory_row['PRODUCT_ID'];
                             $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
 
@@ -164,18 +161,21 @@ if (isset($_SESSION['id'])) {
 
                             $current_date = time();
                             $expiration_date = strtotime($exp_date);
-                        
+
                             $difference = $expiration_date - $current_date;
 
-                            if($difference <= (30 * 24 * 60 * 60)) {
-                                echo "<p class='text-light'>".$inventory_row['INV_ID']." - ".$product['PRODUCT_NAME']." is near to expire</p>";
+                            if ($difference <= (30 * 24 * 60 * 60)) {
+                                echo "<p class='text-light'>" . $inventory_row['INV_ID'] . " - " . $product['PRODUCT_NAME'] . " is near to expire</p>";
                             }
                         }
                     }
                     ?>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
@@ -280,7 +280,7 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
-        <div class="table-container">
+            <div class="table-container">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -307,16 +307,16 @@ if (isset($_SESSION['id'])) {
                                 $emp_id = $row['EMP_ID'];
                                 $emp_sql = "SELECT * FROM employee WHERE EMP_ID = '$emp_id'";
                                 $emp_result = $conn->query($emp_sql);
-                                if($emp_result->num_rows > 0){
+                                if ($emp_result->num_rows > 0) {
                                     $emp = $emp_result->fetch_assoc();
                                 }
                         ?>
-                            <tr>
-                                <td><?php echo $emp['FIRST_NAME']." ".$emp['LAST_NAME'] ?></td>
-                                <td><?php echo $row['LOG_TYPE'] ?></td>
-                                <td><?php echo $row['LOG_DATE'] ?></td>
-                                <td><?php echo $row['LOG_TIME'] ?></td>
-                            </tr>
+                                <tr>
+                                    <td><?php echo $emp['FIRST_NAME'] . " " . $emp['LAST_NAME'] ?></td>
+                                    <td><?php echo $row['LOG_TYPE'] ?></td>
+                                    <td><?php echo $row['LOG_DATE'] ?></td>
+                                    <td><?php echo $row['LOG_TIME'] ?></td>
+                                </tr>
                         <?php
                             }
                         }

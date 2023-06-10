@@ -183,7 +183,25 @@ if (isset($_SESSION['id'])) {
                     ?>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <?php
+                    if ($emp['EMP_TYPE'] === 'PA') {
+                    ?>
+                        <em class="admin-em" style="font-size: 11px;">
+                            Pharmacy Assistant
+                        </em>
+                    <?php
+                    } else {
+                    ?>
+                        <em class="admin-em">
+                            <?php echo $emp['EMP_TYPE']; ?>
+                        </em>
+                    <?php
+                    }
+                    ?>
+
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="
                     <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>

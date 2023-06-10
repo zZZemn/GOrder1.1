@@ -36,7 +36,7 @@ body {
     position: absolute;
     top: 0;
     right: 20px;
-    padding-left: 400px;
+    padding-left: 350px;
 }
 
 .top-nav ul li {
@@ -175,11 +175,20 @@ body {
 
 .avatar-dropdown {
     cursor: pointer;
-
     border: 2px solid #007bff;
-    border-radius: 50%;
 
     border-color: #007bff00;
+    width: 130px !important;
+    background-color: white;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.avatar-dropdown .admin-em {
+    color: black;
 }
 
 .avatar-active {

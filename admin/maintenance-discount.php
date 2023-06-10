@@ -172,7 +172,10 @@ if (isset($_SESSION['id'])) {
                     ?>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
@@ -281,11 +284,11 @@ if (isset($_SESSION['id'])) {
                 <center>Discount Rate</center>
                 <div>
                     <input type="text" class="form-control" name="discount_rate" id="tax_rate" value="<?php
-                                                                            $discount_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
-                                                                            $discount_result = $conn->query($discount_sql);
-                                                                            $discount = $discount_result->fetch_assoc();
-                                                                            echo $discount['DISCOUNT_PERCENTAGE'];
-                                                                            ?>" oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
+                                                                                                        $discount_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
+                                                                                                        $discount_result = $conn->query($discount_sql);
+                                                                                                        $discount = $discount_result->fetch_assoc();
+                                                                                                        echo $discount['DISCOUNT_PERCENTAGE'];
+                                                                                                        ?>" oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
                     <label for="tax_rate">%</label>
                 </div>
                 <input type="submit" name="save_discount_rate" value="Save" class="btn btn-primary">

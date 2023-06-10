@@ -109,7 +109,10 @@ if (isset($_SESSION['id'])) {
                     <center class="text-light">No notification found</center>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
@@ -423,19 +426,18 @@ if (isset($_SESSION['id'])) {
                                             <a href="../admin/products-deliver-delete.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
                                         </td>
                                     </tr>
-                        <?php
+                                <?php
                                         }
-                                    }
-                                    else {
-                                        ?>
+                                    } else {
+                                ?>
 
-                                        <tr>
-                                            <td colspan="6" class="text-center text-danger p-5" style="font-size: 18px;">
-                                                Empty
-                                            </td>
-                                        </tr>
+                                <tr>
+                                    <td colspan="6" class="text-center text-danger p-5" style="font-size: 18px;">
+                                        Empty
+                                    </td>
+                                </tr>
 
-                                        <?php
+                        <?php
                                     }
                                 }
 

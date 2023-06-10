@@ -25,7 +25,7 @@ if(isset($_POST['date'])) {
     }
     else {
         echo "<tr>
-              <td colspan='11'><center class='no-sales-found text-danger'>No Sales Found For ".$date."</center></td>
+              <td colspan='12'><center class='no-sales-found text-danger'>No Sales Found For ".$date."</center></td>
               </tr>";
     }
 }

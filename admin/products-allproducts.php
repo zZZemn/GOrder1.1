@@ -109,7 +109,10 @@ if (isset($_SESSION['id'])) {
                     <center class="text-light">No notification found</center>
                 </div>
 
-                <li class="avatar-dropdown dropdown"><img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>"></li>
+                <li class="avatar-dropdown dropdown">
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
+                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                </li>
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
@@ -418,16 +421,16 @@ if (isset($_SESSION['id'])) {
                                 if ($categorizeProduct_Result->num_rows > 0) {
                                     while ($row = $categorizeProduct_Result->fetch_assoc()) {
                                         $product_id = $row['PRODUCT_ID'];
-                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                            $inv_result = $conn->query($inv_sql);
-                                            $qty = 0;
-                                            if ($inv_result->num_rows > 0) {
-                                                while ($inv_row = $inv_result->fetch_assoc()) {
-                                                    $qty += $inv_row['QUANTITY'];
-                                                }
-                                            } else {
-                                                $qty = 0;
+                                        $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                        $inv_result = $conn->query($inv_sql);
+                                        $qty = 0;
+                                        if ($inv_result->num_rows > 0) {
+                                            while ($inv_row = $inv_result->fetch_assoc()) {
+                                                $qty += $inv_row['QUANTITY'];
                                             }
+                                        } else {
+                                            $qty = 0;
+                                        }
                         ?>
 
                                         <tr>
@@ -508,16 +511,16 @@ if (isset($_SESSION['id'])) {
                             if ($search_products_result->num_rows > 0) {
                                 while ($row = $search_products_result->fetch_assoc()) {
                                     $product_id = $row['PRODUCT_ID'];
-                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                            $inv_result = $conn->query($inv_sql);
-                                            $qty = 0;
-                                            if ($inv_result->num_rows > 0) {
-                                                while ($inv_row = $inv_result->fetch_assoc()) {
-                                                    $qty += $inv_row['QUANTITY'];
-                                                }
-                                            } else {
-                                                $qty = 0;
-                                            }
+                                    $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                    $inv_result = $conn->query($inv_sql);
+                                    $qty = 0;
+                                    if ($inv_result->num_rows > 0) {
+                                        while ($inv_row = $inv_result->fetch_assoc()) {
+                                            $qty += $inv_row['QUANTITY'];
+                                        }
+                                    } else {
+                                        $qty = 0;
+                                    }
                                 ?>
                                     <tr>
                                         <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
