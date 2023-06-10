@@ -1,5 +1,4 @@
 <?php
-phpinfo();
     $invalid = false;
 
     if(isset($_POST['login']))
