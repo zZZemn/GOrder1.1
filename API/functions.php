@@ -533,9 +533,9 @@ function checkout($id)
                     $product_id = $order_items_row['PRODUCT_ID'];
                     $product_check_qty = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
                     $product_result = $conn->query($product_check_qty);
-                    if($product_result->num_rows > 0){
+                    if ($product_result->num_rows > 0) {
                         $qty = 0;
-                        while($product_row = $product_result->fetch_assoc()){
+                        while ($product_row = $product_result->fetch_assoc()) {
                             $qty += $product_row['QUANTITY'];
                         }
                         $order_item = [
@@ -731,11 +731,41 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $order_items_array = [];
                         if ($order_items_result->num_rows > 0) {
                             while ($order_items_row = $order_items_result->fetch_assoc()) {
-                                $order_item = [
-                                    'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                                    'QTY' => $order_items_row['QTY'],
-                                    'AMOUNT' => $order_items_row['AMOUNT']
-                                ];
+
+                                $product_id = $order_items_row['PRODUCT_ID'];
+                                $order_qty = $order_items_row['QTY'];
+                                $inventory_sql = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                $inventory_result = $conn->query($inventory_sql);
+                                if ($inventory_result->num_rows > 0) {
+                                    $pro_qty = 0;
+                                    while ($inventory_row = $inventory_result->fetch_assoc()) {
+                                        $pro_qty += $inventory_row['QUANTITY'];
+                                    }
+                                    if ($pro_qty >= $order_qty) {
+                                        $order_item = [
+                                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                                            'QTY_LEFT' => $pro_qty,
+                                            'QTY' => $order_items_row['QTY'],
+                                            'AMOUNT' => $order_items_row['AMOUNT']
+                                        ];
+                                    } else {
+                                        $data = [
+                                            'status' => 200,
+                                            'message' => 'Please Enter A Valid Quantity',
+                                        ];
+                                        header("HTTP/1.0 405 Access Deny");
+                                        return json_encode($data);
+                                        exit;
+                                    }
+                                } else {
+                                    $data = [
+                                        'status' => 200,
+                                        'message' => 'Please Enter A Valid Quantity',
+                                    ];
+                                    header("HTTP/1.0 405 Access Deny");
+                                    return json_encode($data);
+                                    exit;
+                                }
                                 $order_items_array[] = $order_item;
                             }
                         } else {
@@ -1142,13 +1172,13 @@ function order_details($ids)
     if ($customer_result->num_rows > 0) {
         $orders_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
         $orders_sql_result = $conn->query($orders_sql);
-        if($orders_sql_result->num_rows > 0){
+        if ($orders_sql_result->num_rows > 0) {
             $order = $orders_sql_result->fetch_assoc();
             $order_details_sql = "SELECT * FROM order_details WHERE TRANSACTION_ID = '$transaction_id'";
             $order_details_result = $conn->query($order_details_sql);
-            if($order_details_result->num_rows > 0){
+            if ($order_details_result->num_rows > 0) {
                 $order_details_array = [];
-                while($order_row = $order_details_result->fetch_assoc()){
+                while ($order_row = $order_details_result->fetch_assoc()) {
                     $product_id = $order_row['PRODUCT_ID'];
                     $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
                     $product_result = $conn->query($product_sql);
@@ -1156,13 +1186,13 @@ function order_details($ids)
 
                     $order_details = [
                         'product_name' => $product['PRODUCT_NAME'],
-                        'product_img' => 'https://gorder.website/img/products/'.$product['PRODUCT_IMG'],
+                        'product_img' => 'https://gorder.website/img/products/' . $product['PRODUCT_IMG'],
                         'selling_price' => $product['SELLING_PRICE'],
                         'qty' => $order_row['QTY'],
                         'amount' => $order_row['AMOUNT']
                     ];
                     $order_details_array[] = $order_details;
-                } 
+                }
 
                 $unit_st = $order['UNIT_STREET'];
                 $bgy_id = $order['BARANGAY_ID'];
@@ -1172,7 +1202,7 @@ function order_details($ids)
 
                 $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
                 $bgy_result = $conn->query($bgy_sql);
-                if($bgy_result->num_rows > 0){
+                if ($bgy_result->num_rows > 0) {
                     $bgy = $bgy_result->fetch_assoc();
 
                     $barangay = $bgy['BARANGAY'];
@@ -1199,8 +1229,7 @@ function order_details($ids)
 
                     $region = $reg['REGION'];
 
-                    $delivery_address =  $unit_st.", ".$barangay.", ".$municipality.", ".$province.", ".$region;
-
+                    $delivery_address =  $unit_st . ", " . $barangay . ", " . $municipality . ", " . $province . ", " . $region;
                 } else {
                     $barangay = 'Barangay That You Selected is Not Available For Delivery!';
                 }
@@ -1209,9 +1238,9 @@ function order_details($ids)
                 $rider_id = $order['RIDER_ID'];
                 $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider' AND EMP_ID = '$rider_id'";
                 $rider_result = $conn->query($rider_sql);
-                if($rider_result->num_rows > 0){
+                if ($rider_result->num_rows > 0) {
                     $rider = $rider_result->fetch_assoc();
-                    $rider_name = $rider['FIRST_NAME']." ".$rider['LAST_NAME'];
+                    $rider_name = $rider['FIRST_NAME'] . " " . $rider['LAST_NAME'];
                 } else {
                     $rider = 'The rider has not been assigned yet.';
                 }
@@ -1239,7 +1268,6 @@ function order_details($ids)
                 ];
                 header("HTTP/1.0 405 OK");
                 return json_encode($data);
-
             } else {
                 $data = [
                     'status' => 200,
