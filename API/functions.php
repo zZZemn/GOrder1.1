@@ -30,7 +30,7 @@ function login($email, $password)
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             if (password_verify($password, $user['PASSWORD'])) {
-                if ($user['STATUS'] === 'Active') {
+                if ($user['STATUS'] === 'active') {
                     $data = [
                         'status' => 200,
                         'message' => 'Login Success',
@@ -120,7 +120,7 @@ function signup($fname, $lname, $mi, $suffix, $sex, $email, $username, $password
             }
 
             $insert_customer = "INSERT INTO `customer_user`(`CUST_ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_INITIAL`, `SUFFIX`, `SEX`, `EMAIL`, `USERNAME`, `PASSWORD`, `CONTACT_NO`, `UNIT_STREET`, `BARANGAY`, `MUNICIPALITY`, `PROVINCE`, `REGION`, `BIRTHDAY`, `CUSTOMER_TYPE`, `STATUS`) 
-                                VALUES ('$cust_id','$fname','$lname','$mi','$suffix','$sex','$email','$username','$hashed_password','$contact_no','$unit_street','$barangay','$municipality','$province','$region','$birthday','Regular','Active')";
+                                VALUES ('$cust_id','$fname','$lname','$mi','$suffix','$sex','$email','$username','$hashed_password','$contact_no','$unit_street','$barangay','$municipality','$province','$region','$birthday','regular','active')";
 
             if ($conn->query($insert_customer)) {
                 $data = [
@@ -511,16 +511,15 @@ function user($user_id)
 }
 
 
-function checkout($order)
+function checkout($id)
 {
     global $conn;
-    $id = $order['id'];
 
     $user_details_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$id'";
     $user_details_result = $conn->query($user_details_sql);
     if ($user_details_result->num_rows > 0) {
         $user = $user_details_result->fetch_assoc();
-        if ($user['STATUS'] === 'Active') {
+        if ($user['STATUS'] === 'active') {
             $bgy_id = $user['BARANGAY_ID'];
             $cart_id = $user['CART_ID'];
             $cust_type = $user['CUSTOMER_TYPE'];
@@ -575,7 +574,7 @@ function checkout($order)
             $vat = $vatable_subtotal * $taxPercentage;
 
             $discount = 0;
-            if ($cust_type != 'Regular') {
+            if ($cust_type != 'regular') {
                 $discountable_subtotal = 0;
                 foreach ($order_items_array as $order_item) {
                     $product_id = $order_item['PRODUCT_ID'];
@@ -691,7 +690,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
     $cust_result = $conn->query($cust_sql);
     if ($cust_result->num_rows > 0) {
         $cust = $cust_result->fetch_assoc();
-        if ($cust['STATUS'] === "Active") {
+        if ($cust['STATUS'] === "active") {
             $cart_id = $cust['CART_ID'];
             $cust_type = $cust['CUSTOMER_TYPE'];
 
@@ -759,7 +758,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $vat = $vatable_subtotal * $taxPercentage;
 
                         $discount = 0;
-                        if ($cust_type != 'Regular') {
+                        if ($cust_type != 'regular') {
                             $discountable_subtotal = 0;
                             foreach ($order_items_array as $order_item) {
                                 $product_id = $order_item['PRODUCT_ID'];
@@ -905,7 +904,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $vat = $vatable_subtotal * $taxPercentage;
 
                         $discount = 0;
-                        if ($cust_type != 'Regular') {
+                        if ($cust_type != 'regular') {
                             $discountable_subtotal = 0;
                             foreach ($order_items_array as $order_item) {
                                 $product_id = $order_item['PRODUCT_ID'];
