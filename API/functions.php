@@ -529,11 +529,29 @@ function checkout($id)
             $order_items_array = [];
             if ($order_items_result->num_rows > 0) {
                 while ($order_items_row = $order_items_result->fetch_assoc()) {
-                    $order_item = [
-                        'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                        'QTY' => $order_items_row['QTY'],
-                        'AMOUNT' => $order_items_row['AMOUNT']
-                    ];
+
+                    $product_id = $order_items_row['PRODUCT_ID'];
+                    $product_check_qty = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                    $product_result = $conn->query($product_check_qty);
+                    if($product_result->num_rows > 0){
+                        $qty = 0;
+                        while($product_row = $product_result->fetch_assoc()){
+                            $qty += $product_row['QUANTITY'];
+                        }
+                        $order_item = [
+                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                            'QTY_LEFT' => $qty,
+                            'QTY' => $order_items_row['QTY'],
+                            'AMOUNT' => $order_items_row['AMOUNT']
+                        ];
+                    } else {
+                        $order_item = [
+                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                            'QTY_LEFT' => 0,
+                            'QTY' => $order_items_row['QTY'],
+                            'AMOUNT' => $order_items_row['AMOUNT']
+                        ];
+                    }
                     $order_items_array[] = $order_item;
                 }
             } else {
