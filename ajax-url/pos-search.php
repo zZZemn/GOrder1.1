@@ -26,17 +26,29 @@ if (isset($_POST['query'])) {
                 }
             }
 
+            $order_sql = "SELECT od.*
+                          FROM `order_details` od
+                          JOIN `order` o ON od.TRANSACTION_ID = o.TRANSACTION_ID
+                          WHERE od.PRODUCT_ID = '$pro_id' AND (o.STATUS = 'Waiting' OR o.STATUS = 'Accepted');
+                          ";
+            $order_result = $conn->query($order_sql);
+            if ($order_result->num_rows > 0) {
+                while ($order_row = $order_result->fetch_assoc()) {
+                    $pro_qty -= $order_row['QTY'];
+                }
+            }
+
             $result = "<form class='product-select' method='post'>
-                        <input type='hidden' name='productCode' value='". $search['PRODUCT_CODE'] ."'>
-                        <input type='hidden' name='isPrescribe' value='". $isPrescribe ."'>
-                        <input type='hidden' name='isDiscountable' value='". $isDiscountable ."'>
-                        <input type='hidden' name='isVatable' value='". $isVatable ."'>
-                        <input type='hidden' name='quantity_left' value='". $pro_qty ."'>
+                        <input type='hidden' name='productCode' value='" . $search['PRODUCT_CODE'] . "'>
+                        <input type='hidden' name='isPrescribe' value='" . $isPrescribe . "'>
+                        <input type='hidden' name='isDiscountable' value='" . $isDiscountable . "'>
+                        <input type='hidden' name='isVatable' value='" . $isVatable . "'>
+                        <input type='hidden' name='quantity_left' value='" . $pro_qty . "'>
                         <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
                         <input type='hidden' name='product_name' value='" . $search['PRODUCT_NAME'] . "'>
                         <input type='hidden' name='selling_price' value='" . $search['SELLING_PRICE'] . "'>
                         <input type='hidden' name='unit_meas' value='" . $search['UNIT_MEASUREMENT'] . "'>
-                        <button type='submit' name='submit_pro_id'><div>" . $search['PRODUCT_NAME']." <sup>".$search['UNIT_MEASUREMENT']."</sup></div>
+                        <button type='submit' name='submit_pro_id'><div>" . $search['PRODUCT_NAME'] . " <sup>" . $search['UNIT_MEASUREMENT'] . "</sup></div>
                             <div class='details-container'>
                                 <div class='detail'>" . $search['SELLING_PRICE'] . " - " . $pro_qty . "pc/s</div>
                             </div>
@@ -45,8 +57,7 @@ if (isset($_POST['query'])) {
 
             echo $result;
         }
-    }
-    else {
+    } else {
         $result = "<center class='mt-5 text-danger'>No Product Found</center>";
         echo $result;
     }
