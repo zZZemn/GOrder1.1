@@ -378,6 +378,7 @@ function cartItems($custID)
         $cart_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cartID'";
         $cart_result = $conn->query($cart_sql);
 
+        $total = 0;
         if ($cart_result->num_rows > 0) {
             $cart_items = [];
 
@@ -395,12 +396,15 @@ function cartItems($custID)
                     'qty' => $row['QTY'],
                     'amount' => $row['AMOUNT'],
                 ];
+
+                $total += $row['AMOUNT'];
             }
             $data = [
                 'status' => 200,
                 'message' => 'Cart Items Fetch Success',
                 'cust_id' => $custID,
                 'cart_id' => $cartID,
+                'total' => $total,
                 'data' => $cart_items
             ];
             header("HTTP/1.0 200 OK");
