@@ -295,19 +295,19 @@ function addToCart($productID, $custID)
 
         $cartID = $cust['CART_ID'];
 
-        $check_pro_exist_sql = "SELECT * FROM products WHERE PRODUCT_ID = $productID";
+        $check_pro_exist_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$productID'";
         $check_pro_exist_result = $conn->query($check_pro_exist_sql);
         if ($check_pro_exist_result->num_rows > 0) {
             $product = $check_pro_exist_result->fetch_assoc();
             $product_selling_price = $product['SELLING_PRICE'];
 
-            $check_product_exist_cart_sql = "SELECT * FROM cart_items WHERE PRODUCT_ID = '$productID'";
+            $check_product_exist_cart_sql = "SELECT * FROM cart_items WHERE PRODUCT_ID = '$productID' AND CART_ID = '$cartID'";
             $check_product_exist_cart_result = $conn->query($check_product_exist_cart_sql);
             if ($check_product_exist_cart_result->num_rows > 0) {
                 $update_cart_qty = "UPDATE `cart_items`
                 SET `QTY` = `QTY` + 1,
                     `AMOUNT` = `AMOUNT` + '$product_selling_price'
-                WHERE CART_ID = '$cartID'";
+                WHERE CART_ID = '$cartID' AND PRODUCT_ID = '$productID'";
                 if ($conn->query($update_cart_qty)) {
                     $data = [
                         'status' => 200,

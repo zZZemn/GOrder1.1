@@ -27,7 +27,7 @@ if (isset($_POST['agree'])) {
     $sql_cart = "INSERT INTO `cart`(`CART_ID`) VALUES ('$cart_id')";
     if ($conn->query($sql_cart) === TRUE) {
         $sql = "INSERT INTO `customer_user`(`CUST_ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_INITIAL`, `SUFFIX`, `SEX`, `EMAIL`, `USERNAME`, `PASSWORD`, `CONTACT_NO`, `UNIT_STREET`, `BARANGAY_ID`, `PICTURE`, `BIRTHDAY`, `CUSTOMER_TYPE`, `CART_ID`, `STATUS`) 
-                                VALUES ('$cust_id','$fname','$lname','$mi','$suffix','$sex','$email','$username','$password','$contact_no','$unit','$barangay','$picture','$bday','regular', '$cart_id','active')";
+                                VALUES ('$cust_id','$fname','$lname','$mi','$suffix','$sex','$email','$username','$hashed_password','$contact_no','$unit','$barangay','$picture','$bday','regular', '$cart_id','active')";
         if($conn->query($sql) === TRUE){
             $sql_message = "INSERT INTO `messages`(`MESS_ID`, `LATEST_MESS_TIMESTAMP`) VALUES ('$cust_id','$currentDateTime')";
             if($conn->query($sql_message) === TRUE){
