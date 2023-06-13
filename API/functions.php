@@ -426,6 +426,57 @@ function cartItems($custID)
     }
 }
 
+function deleteCart($cust_id, $product_id)
+{
+    global $conn;
+
+    $cust_query = "SELECT CART_ID FROM customer_user WHERE CUST_ID = '$cust_id'";
+    $cust_result = $conn->query($cust_query);
+    if ($cust_result->num_rows > 0) {
+        $cust = $cust_result->fetch_assoc();
+        $cart_id = $cust['CART_ID'];
+
+        $cart_sql = "DELETE FROM `cart_items` WHERE CART_ID = '$cart_id' AND PRODUCT_ID = '$product_id'";
+        if ($conn->query($cart_sql) === TRUE) {
+            $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$product_id'";
+            $product_result = $conn->query($product_sql);
+            if ($product_result->num_rows > 0) {
+                $product = $product_result->fetch_assoc();
+                $product_name = $product['PRODUCT_NAME'];
+
+                $data = [
+                    'status' => 200,
+                    'message' => $product_name . ' Deleted',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+                
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'No Product Found!',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            }
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'Product Not Removed from Cart',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'No cust Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
+
 function user($user_id)
 {
     global $conn;
