@@ -389,7 +389,7 @@ function cartItems($custID)
 
                 $cart_items[] = [
                     'product_name' => $product['PRODUCT_NAME'],
-                    'picture' => $product['PRODUCT_IMG'],
+                    'picture' => 'gorder.website/img/products/'.$product['PRODUCT_IMG'],
                     'selling_price' => $product['SELLING_PRICE'],
                     'product_id' => $row['PRODUCT_ID'],
                     'qty' => $row['QTY'],
