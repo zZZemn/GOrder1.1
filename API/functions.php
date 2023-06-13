@@ -363,6 +363,81 @@ function addToCart($productID, $custID)
     }
 }
 
+function minusToCart($productID, $custID)
+{
+    global $conn;
+
+    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$custID'";
+    $cust_result = $conn->query($cust_sql);
+
+    if ($cust_result->num_rows > 0) {
+        $customer = $cust_result->fetch_assoc();
+
+        $cartID = $customer['CART_ID'];
+
+        $cart_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cartID' AND PRODUCT_ID = '$productID'";
+        $cart_result = $conn->query($cart_sql);
+        if ($cart_result->num_rows > 0) {
+            $cart = $cart_result->fetch_assoc();
+
+            $cart_qty = $cart['QTY'];
+
+            if ($cart_qty > 1) {
+                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$productID'";
+                $product_result = $conn->query($product_sql);
+                if ($product_result->num_rows > 0) {
+                    $product = $product_result->fetch_assoc();
+                    $selling_price = $product['SELLING_PRICE'];
+                    $cart_items_sql = "UPDATE `cart_items` SET `QTY`= QTY - 1,`AMOUNT`= AMOUNT - $selling_price WHERE 1";
+                    if ($conn->query($cart_items_sql) === TRUE) {
+                        $data = [
+                            'status' => 405,
+                            'message' => 'Cart Updated',
+                        ];
+                        header("HTTP/1.0 405 Access Deny");
+                        return json_encode($data);
+                    } else {
+                        $data = [
+                            'status' => 405,
+                            'message' => 'Not success',
+                        ];
+                        header("HTTP/1.0 405 Access Deny");
+                        return json_encode($data);
+                    }
+                } else {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'No Product Found',
+                    ];
+                    header("HTTP/1.0 405 Access Deny");
+                    return json_encode($data);
+                }
+            } else {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Cart Qt Minimun is 1',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            }
+        } else {
+            $data = [
+                'status' => 405,
+                'message' => 'No item found in cart',
+            ];
+            header("HTTP/1.0 405 Access Deny");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'No cust Found',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        return json_encode($data);
+    }
+}
+
 function cartItems($custID)
 {
     global $conn;
@@ -390,7 +465,7 @@ function cartItems($custID)
 
                 $cart_items[] = [
                     'product_name' => $product['PRODUCT_NAME'],
-                    'picture' => 'gorder.website/img/products/'.$product['PRODUCT_IMG'],
+                    'picture' => 'gorder.website/img/products/' . $product['PRODUCT_IMG'],
                     'selling_price' => $product['SELLING_PRICE'],
                     'product_id' => $row['PRODUCT_ID'],
                     'qty' => $row['QTY'],
@@ -454,7 +529,6 @@ function deleteCart($cust_id, $product_id)
                 ];
                 header("HTTP/1.0 405 Access Deny");
                 return json_encode($data);
-                
             } else {
                 $data = [
                     'status' => 405,
