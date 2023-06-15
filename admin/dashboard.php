@@ -23,6 +23,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
     <title>GOrder</title>
@@ -135,24 +136,21 @@ if (isset($_SESSION['id'])) {
                                 while ($pro_id_row = $product_id_sql_result->fetch_assoc()) {
                                     $current_qty += $pro_id_row['QUANTITY'];
                                 }
-                                $critical_level = $row['CRITICAL_LEVEL'];   
-                                if($current_qty = 0) {
-                                    echo "<p class='text-light'>".$row['PRODUCT_NAME']." is out of stock</p>";
-                                }
-                                elseif ($current_qty <= $critical_level) {
-                                    echo "<p class='text-light'>".$row['PRODUCT_NAME']." is on critical level</p>";
+                                $critical_level = $row['CRITICAL_LEVEL'];
+                                if ($current_qty = 0) {
+                                    echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is out of stock</p>";
+                                } elseif ($current_qty <= $critical_level) {
+                                    echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is on critical level</p>";
                                 }
                             } else {
-                                echo "<p class='text-light'>".$row['PRODUCT_NAME']." is out of stock</p>";
+                                echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is out of stock</p>";
                             }
                         }
                     }
                     $inventory_sql = "SELECT * FROM inventory ORDER BY EXP_DATE";
                     $inventory_result = $conn->query($inventory_sql);
-                    if($inventory_result->num_rows > 0)
-                    {
-                        while($inventory_row = $inventory_result->fetch_assoc())
-                        {
+                    if ($inventory_result->num_rows > 0) {
+                        while ($inventory_row = $inventory_result->fetch_assoc()) {
                             $pro_id = $inventory_row['PRODUCT_ID'];
                             $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
 
@@ -163,11 +161,11 @@ if (isset($_SESSION['id'])) {
 
                             $current_date = time();
                             $expiration_date = strtotime($exp_date);
-                        
+
                             $difference = $expiration_date - $current_date;
 
-                            if($difference <= (30 * 24 * 60 * 60)) {
-                                echo "<p class='text-light'>".$inventory_row['INV_ID']." - ".$product['PRODUCT_NAME']." is near to expire</p>";
+                            if ($difference <= (30 * 24 * 60 * 60)) {
+                                echo "<p class='text-light'>" . $inventory_row['INV_ID'] . " - " . $product['PRODUCT_NAME'] . " is near to expire</p>";
                             }
                         }
                     }
@@ -175,7 +173,7 @@ if (isset($_SESSION['id'])) {
                 </div>
 
                 <li class="avatar-dropdown dropdown">
-                    <em class="admin-em"><?php  echo $emp['EMP_TYPE'] ?></em>
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
                     <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
                 </li>
                 <div class="avatar-dropdown-container">
@@ -282,6 +280,47 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
+
+            <div class="dash-board-container">
+
+                <div class="dashboard-f-row">
+
+                    <div class="f-row-f-content-container content-container">
+                        <div id="f-inv-status-container" class="status-container">
+
+                        </div>
+                        <div class="vdr-container1 vdr-container">
+                            <a href="#">View Detailed Report >>></a>
+                        </div>
+                    </div>
+
+                    <div class="f-row-s-content-container content-container">
+                        <div id="s-inv-status-container" class="status-container">
+
+                        </div>
+                        <div class="vdr-container2 vdr-container">
+                            <a href="#">View Detailed Report >>></a>
+                        </div>
+                    </div>
+
+                    <div class="f-row-t-content-container content-container">
+                        <div id="t-inv-status-container" class="status-container">
+
+                        </div>
+                        <div class="vdr-container3 vdr-container">
+                            <a href="#">View Orders >>></a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="dashboard-s-row">
+
+                </div>
+
+            </div>
+
+
             <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages";
@@ -361,6 +400,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
+        <script src="../js/dashboard.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

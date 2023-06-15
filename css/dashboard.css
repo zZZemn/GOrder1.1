@@ -1,0 +1,78 @@
+.dash-board-container {
+    display: flex;
+}
+
+.content-container {
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+    width: 250px;
+}
+
+.dashboard-f-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.status-container i {
+    padding: 0;
+    font-size: 30px;
+}
+
+.status-container center {
+    padding-top: 20px;
+}
+
+.status-container h4 {
+    margin-top: 20px;
+}
+
+.status-container h5 {
+    margin-top: 10px;
+    font-size: 15px;
+    color: gray;
+}
+
+.vdr-container {
+    background-color: rgb(51,204,0);
+    padding: 5px;
+    border-radius: 7px;
+    text-align: center;
+}
+
+.vdr-container a {
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    color: white;
+    letter-spacing: 1px;
+}
+
+.vdr-container1 {
+    background-color: rgb(51,204,0);
+}
+.vdr-container2 {
+    background-color: rgb(255,204,0);
+}
+.vdr-container3 {
+    background-color: rgb(51,102,255);
+}
+
+.f-row-f-content-container {
+    border: 2px solid rgb(51,204,0);
+} .f-row-f-content-container i{
+    color: rgb(51,204,0);
+}
+
+.f-row-s-content-container {
+    border: 2px solid rgb(255,204,0);
+} .f-row-s-content-container i {
+    color: rgb(255,204,0);
+}
+
+.f-row-t-content-container {
+    border: 2px solid rgb(51,102,255);
+} .f-row-t-content-container i {
+    color: rgb(51,102,255);
+}
