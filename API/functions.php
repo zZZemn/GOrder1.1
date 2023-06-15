@@ -458,29 +458,21 @@ function cartItems($custID)
             $cart_items = [];
 
             while ($row = $cart_result->fetch_assoc()) {
-                $selling_price = 0;
-                $qty = 0;
-                $amount = 0;
-
                 $product_id = $row['PRODUCT_ID'];
                 $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
                 $product_result = $conn->query($product_sql);
                 $product = $product_result->fetch_assoc();
-
-                $selling_price = $product['SELLING_PRICE'];
-                $qty = $row['QTY'];
-                $amount = $row['AMOUNT'];
                 
                 $cart_items[] = [
                     'product_name' => $product['PRODUCT_NAME'],
                     'picture' => 'gorder.website/img/products/' . $product['PRODUCT_IMG'],
-                    'selling_price' => $selling_price,
+                    'selling_price' => floatval($product['SELLING_PRICE']),
                     'product_id' => $row['PRODUCT_ID'],
-                    'qty' => $qty,
-                    'amount' => $amount,
+                    'qty' => intval($row['QTY']),
+                    'amount' => floatval($row['AMOUNT']),
                 ];
 
-                $total += $amount;
+                $total += $row['AMOUNT'];
             }
             $data = [
                 'status' => 200,
