@@ -669,16 +669,16 @@ function checkout($id)
                         }
                         $order_item = [
                             'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                            'QTY_LEFT' => $qty,
-                            'QTY' => $order_items_row['QTY'],
-                            'AMOUNT' => $order_items_row['AMOUNT']
+                            'QTY_LEFT' => intval($qty),
+                            'QTY' => intval($order_items_row['QTY']),
+                            'AMOUNT' => floatval($order_items_row['AMOUNT'])
                         ];
                     } else {
                         $order_item = [
                             'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
                             'QTY_LEFT' => 0,
-                            'QTY' => $order_items_row['QTY'],
-                            'AMOUNT' => $order_items_row['AMOUNT']
+                            'QTY' => intval($order_items_row['QTY']),
+                            'AMOUNT' => floatval($order_items_row['AMOUNT'])
                         ];
                     }
                     $order_items_array[] = $order_item;
@@ -747,7 +747,7 @@ function checkout($id)
             $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
             $df_result = $conn->query($df_sql);
             $delivery = $df_result->fetch_assoc();
-            $df = $delivery['DELIVERY_FEE'];
+            $df = floatval($delivery['DELIVERY_FEE']);
 
             $data = [
                 'status' => 200,
