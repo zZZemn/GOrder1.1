@@ -1,5 +1,10 @@
 .dash-board-container {
     display: flex;
+    flex-direction: column;
+
+    height: 89vh;
+
+    overflow-y: auto;
 }
 
 .content-container {
@@ -75,4 +80,14 @@
     border: 2px solid rgb(51,102,255);
 } .f-row-t-content-container i {
     color: rgb(51,102,255);
+}
+
+.dashboard-s-row {
+    margin-top: 20px;
+    border-top: 1px solid black;
+}
+
+.chartContainer {
+    margin-top: 20px;
+    height: 340px;
 }

@@ -315,7 +315,9 @@ if (isset($_SESSION['id'])) {
                 </div>
 
                 <div class="dashboard-s-row">
+                    <div id="chartContainer" class="chartContainer">
 
+                    </div>
                 </div>
 
             </div>
@@ -401,6 +403,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/dashboard.js"></script>
+        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
