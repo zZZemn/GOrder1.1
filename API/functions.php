@@ -660,6 +660,11 @@ function checkout($id)
                 while ($order_items_row = $order_items_result->fetch_assoc()) {
 
                     $product_id = $order_items_row['PRODUCT_ID'];
+                    $product_result = $conn->query("SELECT PRODUCT_NAME, PRODUCT_IMG FROM products WHERE PRODUCT_ID = '$product_id'");
+                    $product_details = $product_result->fetch_assoc();
+                    $product_name = $product_details['PRODUCT_NAME'];
+                    $product_img = 'https://gorder.website/img/products/'.$product_details['PRODUCT_IMG'];
+
                     $product_check_qty = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
                     $product_result = $conn->query($product_check_qty);
                     if ($product_result->num_rows > 0) {
@@ -669,6 +674,8 @@ function checkout($id)
                         }
                         $order_item = [
                             'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                            'PRODUCT_NAME' => $product_name,
+                            'PRODUCT_IMG' => $product_img,
                             'QTY_LEFT' => intval($qty),
                             'QTY' => intval($order_items_row['QTY']),
                             'AMOUNT' => floatval($order_items_row['AMOUNT'])
@@ -676,6 +683,8 @@ function checkout($id)
                     } else {
                         $order_item = [
                             'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                            'PRODUCT_NAME' => $product_name,
+                            'PRODUCT_IMG' => $product_img,
                             'QTY_LEFT' => 0,
                             'QTY' => intval($order_items_row['QTY']),
                             'AMOUNT' => floatval($order_items_row['AMOUNT'])
