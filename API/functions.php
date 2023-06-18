@@ -462,7 +462,7 @@ function cartItems($custID)
                 $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
                 $product_result = $conn->query($product_sql);
                 $product = $product_result->fetch_assoc();
-                
+
                 $cart_items[] = [
                     'product_name' => $product['PRODUCT_NAME'],
                     'picture' => 'gorder.website/img/products/' . $product['PRODUCT_IMG'],
@@ -600,23 +600,25 @@ function user($user_id)
                 $data = [
                     'status' => 200,
                     'message' => 'User Found',
-                    'first_name' => $user['FIRST_NAME'],
-                    'last_name' => $user['LAST_NAME'],
-                    'middle_initial' => $user['MIDDLE_INITIAL'],
-                    'suffix' => $user['SUFFIX'],
-                    'sex' => $user['SEX'],
-                    'email' => $user['EMAIL'],
-                    'username' => $user['USERNAME'],
-                    'contact_no' => $user['CONTACT_NO'],
-                    'unit_st' => $user['UNIT_STREET'],
-                    'barangay_id' => $bgy_id,
-                    'barangay' => $barangay_name,
-                    'municipality' => $municipality_name,
-                    'province' => $province_name,
-                    'region' => $region_name,
-                    'picture' => 'https://gorder.website/img/userprofile/' . $user['PICTURE'],
-                    'bday' => $user['BIRTHDAY'],
-                    'id_picture' => $user['ID_PICTURE'],
+                    'data' => [
+                        'first_name' => $user['FIRST_NAME'],
+                        'last_name' => $user['LAST_NAME'],
+                        'middle_initial' => $user['MIDDLE_INITIAL'],
+                        'suffix' => $user['SUFFIX'],
+                        'sex' => $user['SEX'],
+                        'email' => $user['EMAIL'],
+                        'username' => $user['USERNAME'],
+                        'contact_no' => $user['CONTACT_NO'],
+                        'unit_st' => $user['UNIT_STREET'],
+                        'barangay_id' => $bgy_id,
+                        'barangay' => $barangay_name,
+                        'municipality' => $municipality_name,
+                        'province' => $province_name,
+                        'region' => $region_name,
+                        'picture' => 'https://gorder.website/img/userprofile/' . $user['PICTURE'],
+                        'bday' => $user['BIRTHDAY'],
+                        'id_picture' => $user['ID_PICTURE']
+                    ]
                 ];
                 header("HTTP/1.0 200 OK");
                 return json_encode($data);
@@ -663,7 +665,7 @@ function checkout($id)
                     $product_result = $conn->query("SELECT PRODUCT_NAME, PRODUCT_IMG FROM products WHERE PRODUCT_ID = '$product_id'");
                     $product_details = $product_result->fetch_assoc();
                     $product_name = $product_details['PRODUCT_NAME'];
-                    $product_img = 'https://gorder.website/img/products/'.$product_details['PRODUCT_IMG'];
+                    $product_img = 'https://gorder.website/img/products/' . $product_details['PRODUCT_IMG'];
 
                     $product_check_qty = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
                     $product_result = $conn->query($product_check_qty);
@@ -855,11 +857,11 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
             if ($bgy_result->num_rows > 0) {
                 if ($payment_type === 'Cash') {
                     if ($delivery_type === 'Deliver') {
-                        $transaction_id = 'ORD-'.mt_rand(10000000, 99999999);
+                        $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
                         $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                         $check_trans_id_result = $conn->query($check_trans_id_sql);
                         while ($check_trans_id_result->num_rows > 0) {
-                            $transaction_id = 'ORD-'.mt_rand(10000000, 99999999);
+                            $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
                             $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                             $check_trans_id_result = $conn->query($check_trans_id_sql);
                         }
