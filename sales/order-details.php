@@ -55,53 +55,10 @@ if (isset($_SESSION['id'])) {
                         <div class="status-container" id="status_container">
 
                         </div>
-                        <?php if ($del_type === 'Deliver') { ?>
-                            <div class="order-input-container">
-                                <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Delivered') ? 'disabled' : '' ?>>
-                                    <?php
-                                    if ($order_status === 'Delivered') {
-                                    ?>
-                                        <option value="Delivered">Delivered</option>
-                                    <?php
-                                    } elseif ($order_status === 'For-Delivery') {
-                                    ?>
-                                        <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
-                                        <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
-                                    <?php
-                                    } elseif ($order_status === 'Shipped') {
-                                    ?>
-                                        <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
-                                        <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
-                                        <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
-                                        <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
-                                    <?php
-                                    }
-                                } elseif ($del_type === 'Pick Up') {
-                                    ?>
-                                    <div class="order-input-container">
-                                        <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Picked Up') ? 'disabled' : '' ?>>
-                                            <?php
-                                            if ($order_status === 'Picked Up') {
-                                            ?>
-                                                <option value="Picked Up">Picked Up</option>
-                                            <?php
-                                            } else {
-                                            ?>
-                                                <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
-                                                <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
-                                                <option value="Ready To Pick Up" <?php echo ($order_status === 'Ready To Pick Up') ? 'selected' : '' ?>>Ready To Pick Up</option>
-                                        <?php
-                                            }
-                                        }
-                                        ?>
-                                        </select>
-                                        <label>Order Status</label>
-                                    </div>
-                            </div>
+                        
+                        <div id="select_status_container">
+
+                        </div>
                     </div>
 
                     <div class="second-container">
