@@ -38,6 +38,7 @@ if (isset($_SESSION['id'])) {
                     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
                     <title>GOrder | Order Details</title>
                 </head>
+
                 <body>
 
                     <div class="alert alert-payment-invalid bg-warning">
@@ -61,6 +62,15 @@ if (isset($_SESSION['id'])) {
                                     if ($order_status === 'Delivered') {
                                     ?>
                                         <option value="Delivered">Delivered</option>
+                                    <?php
+                                    } elseif ($order_status === 'For-Delivery') {
+                                    ?>
+                                        <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
+                                        <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
+                                    <?php
+                                    } elseif ($order_status === 'Shipped') {
+                                    ?>
+                                        <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
                                     <?php
                                     } else {
                                     ?>

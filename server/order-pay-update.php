@@ -22,13 +22,21 @@ if (isset($_SESSION['id'])) {
                 $cust_id = $order['CUST_ID'];
                 $cur_rider_id = $order['RIDER_ID'];
                 $bgy_id = $order['BARANGAY_ID'];
+                $payment_type = $order['PAYMENT_TYPE'];
+
+                $subtotal = $order['SUBTOTAL'];
+                $val = $order['VAT'];
+                $discount = $order['DISCOUNT'];
+                $total = $order['TOTAL'];
+                $payment = $order['PAYMENT'];
+                $change = $order['CHANGE'];
 
                 $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
                 $bgy_result = $conn->query($bgy_sql);
                 $bgy = $bgy_result->fetch_assoc();
                 $del_fee = $bgy['DELIVERY_FEE'];
 ?>
-                <table class="table table-striped">
+                <table class="table table-striped" id="orders-product-table">
                     <thead>
                         <tr>
                             <th>Product</th>
@@ -48,7 +56,10 @@ if (isset($_SESSION['id'])) {
                                 $product_result = $conn->query($product_sql);
                                 $product = $product_result->fetch_assoc();
                         ?>
-                                <tr>
+                                <tr id="products-details">
+                                    <input type="hidden" id="product_id" value="<?php echo $product_id ?>">
+                                    <input type="hidden" id="qty" value="<?php echo $order_row['QTY'] ?>">
+                                    <input type="hidden" id="amount" value="<?php echo $order_row['AMOUNT'] ?>">
                                     <td><?php echo $product['PRODUCT_NAME'] ?></td>
                                     <td><?php echo $product['SELLING_PRICE'] ?></td>
                                     <td><?php echo $order_row['QTY'] ?></td>
@@ -96,20 +107,28 @@ if (isset($_SESSION['id'])) {
                             <th><?php echo ($order['PAYMENT'] != 0) ? $order['CHANGE'] : '<p class="text-danger">Not Paid</p>' ?></th>
                         </tr>
                         <?php if ($del_type === 'Pick Up' && $order_status != 'Picked Up') {
-                            ?>
-                                <tr>
-                                    <th colspan="3" class="text-success add-payment-text">Add Payment</th>
-                                    <th class="payment-input-th">
-                                        <div class="payment-input-div">
-                                            <input type="hidden" id="total_hidden" value="<?php echo $order['TOTAL'] ?>">
-                                            <input type="number" id="payment" class="form-control">
-                                            <a class="btn btn-success" id="payment_submit">Pay</a>
-                                        </div>
-                                    </th>
-                                </tr>
-                            <?php
+                        ?>
+                            <tr>
+                                <th colspan="3" class="text-success add-payment-text">Add Payment</th>
+                                <th class="payment-input-th">
+                                    <div class="payment-input-div">
+                                        <input type="hidden" id="total_hidden" value="<?php echo $order['TOTAL'] ?>">
+                                        <input type="number" id="payment" class="form-control">
+                                        <a class="btn btn-success" id="payment_submit">Pay</a>
+                                    </div>
+                                </th>
+                            </tr>
+                        <?php
                         }
                         ?>
+                        <input type="hidden" id="payment_type" value="<?php echo $payment_type ?>">
+                        <input type="hidden" id="cust_id" value="<?php echo $cust_id ?>">
+                        <input type="hidden" id="subtotal" value="<?php echo $subtotal ?>">
+                        <input type="hidden" id="vat" value="<?php echo $val ?>">
+                        <input type="hidden" id="discount" value="<?php echo $discount ?>">
+                        <input type="hidden" id="total" value="<?php echo $total ?>">
+                        <input type="hidden" id="payment" value="<?php echo $payment ?>">
+                        <input type="hidden" id="change" value="<?php echo $change ?>">
                     </tbody>
                 </table>
 <?php

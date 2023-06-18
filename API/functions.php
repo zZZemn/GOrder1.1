@@ -855,11 +855,11 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
             if ($bgy_result->num_rows > 0) {
                 if ($payment_type === 'Cash') {
                     if ($delivery_type === 'Deliver') {
-                        $transaction_id = mt_rand(10000000, 99999999);
+                        $transaction_id = 'ORD-'.mt_rand(10000000, 99999999);
                         $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                         $check_trans_id_result = $conn->query($check_trans_id_sql);
                         while ($check_trans_id_result->num_rows > 0) {
-                            $transaction_id = mt_rand(10000000, 99999999);
+                            $transaction_id = 'ORD-'.mt_rand(10000000, 99999999);
                             $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                             $check_trans_id_result = $conn->query($check_trans_id_sql);
                         }
@@ -1419,7 +1419,7 @@ function order_details($ids)
                 'status' => 405,
                 'message' => 'Invalid Transaction ID',
             ];
-            header("HTTP/1.0 405 Access Deny");
+            header("HTTP/1.0 405 Access Denied");
             return json_encode($data);
         }
     } else {
