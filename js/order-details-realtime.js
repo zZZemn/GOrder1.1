@@ -23,34 +23,6 @@ $(document).ready(function () {
         var new_status = $('#update-order-status').val();
         var transaction_id = $('#transaction_id').val();
 
-        var salesData = {
-            sales: {
-                transaction_id: transaction_id,
-                transaction_type: 'GOrder',
-                cust_id: $('#cust_id').val(),
-                payment_type: $('#payment_type').val(),
-                subtotal: $('#subtotal').val(),
-                vat: $('#vat').val(),
-                discount: $('#discount').val(),
-                total: $('#total').val(),
-                payment: $('#payment').val(),
-                change: $('#change').val()
-            },
-            salesDetails: []
-        };
-
-        $('#orders-product-table tbody tr#products-details').each(function (index, row) {
-            var detailsData = {
-                product_id: $(row).find('#product_id').val(),
-                quantity: $(row).find('#qty').val(),
-                amount: $(row).find('#amount').val()
-            };
-
-            salesData.salesDetails.push(detailsData);
-        });
-
-        console.log(salesData);
-
         $.ajax({
             url: '../ajax-url/order-status-update.php',
             data: {
@@ -62,6 +34,8 @@ $(document).ready(function () {
                 if (data === 'Picked Up') {
                     $('#update-order-status').prop('disabled', true);
                 }
+
+                console.log(data);
             },
         });
     });
