@@ -299,7 +299,7 @@ if (isset($_SESSION['id'])) {
 
                     <tbody id="table-response-container">
                         <?php
-                        $year_sql = "SELECT YEAR(DATE) AS year, SUM(UPDATED_TOTAL) AS total_sales, SUM(VAT) AS total_vat FROM sales GROUP BY YEAR(DATE)";
+                        $year_sql = "SELECT YEAR(DATE) AS year, SUM(UPDATED_TOTAL) AS total_sales, SUM(VAT) AS total_vat FROM sales WHERE PAYMENT >= TOTAL GROUP BY YEAR(DATE)";
                         $year_result = $conn->query($year_sql);
                         if ($year_result->num_rows > 0) {
                             while ($row = $year_result->fetch_assoc()) {

@@ -3,7 +3,7 @@ if(isset($_POST['date'])) {
     include('../database/db.php');
     $date = $_POST['date'];
 
-    $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' ORDER BY TIME DESC";
+    $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL ORDER BY TIME DESC";
     $sales_sql_result = $conn->query($sales_sql);
     if($sales_sql_result->num_rows > 0) {
         while($row = $sales_sql_result->fetch_assoc()) {

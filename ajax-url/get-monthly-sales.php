@@ -3,7 +3,7 @@ if(isset($_POST['year'])) {
     include('../database/db.php');
     $year = $_POST['year'];
 
-    $sales_sql = "SELECT DATE_FORMAT(DATE, '%M') AS month, SUM(VAT) AS total_vat, SUM(UPDATED_TOTAL) AS total_sales FROM sales WHERE YEAR(DATE) = '$year' GROUP BY MONTH(DATE)";
+    $sales_sql = "SELECT DATE_FORMAT(DATE, '%M') AS month, SUM(VAT) AS total_vat, SUM(UPDATED_TOTAL) AS total_sales FROM sales WHERE YEAR(DATE) = '$year' AND PAYMENT >= TOTAL GROUP BY MONTH(DATE)";
     $sales_sql_result = $conn->query($sales_sql);
     if($sales_sql_result->num_rows > 0) {
         while($row = $sales_sql_result->fetch_assoc()) {

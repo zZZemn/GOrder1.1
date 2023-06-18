@@ -290,7 +290,7 @@ if (isset($_SESSION['id'])) {
 
                         </div>
                         <div class="vdr-container1 vdr-container">
-                            <a href="#">View Detailed Report >>></a>
+                            <a href="reports-daily-sales.php">View Detailed Report >>></a>
                         </div>
                     </div>
 
@@ -299,7 +299,7 @@ if (isset($_SESSION['id'])) {
 
                         </div>
                         <div class="vdr-container2 vdr-container">
-                            <a href="#">View Detailed Report >>></a>
+                            <a href="reports-daily-sales.php">View Detailed Report >>></a>
                         </div>
                     </div>
 
@@ -308,7 +308,7 @@ if (isset($_SESSION['id'])) {
 
                         </div>
                         <div class="vdr-container3 vdr-container">
-                            <a href="#">View Orders >>></a>
+                            <a href="../sales/orders.php">View Orders >>></a>
                         </div>
                     </div>
 

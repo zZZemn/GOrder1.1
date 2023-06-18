@@ -20,6 +20,7 @@ if (isset($_SESSION['id'])) {
         $sql = "SELECT (MONTH(`DATE`) - 1) AS month, SUM(TOTAL) AS total_sales 
                 FROM sales
                 WHERE YEAR(`DATE`) = $year 
+                AND PAYMENT >= TOTAL
                 GROUP BY MONTH(`DATE`)";
 
         $result = $conn->query($sql);

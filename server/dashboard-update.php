@@ -21,7 +21,7 @@ if (isset($_SESSION['id'])) {
                 <i class="fa-solid fa-person"></i>
                 <h4 class="text-dark">
                     <?php
-                    $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate'";
+                    $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' AND PAYMENT >= TOTAL";
                     $sales_result = $conn->query($sales_sql);
                     if ($sales_result->num_rows > 0) {
                         echo $sales_result->num_rows;
@@ -39,7 +39,7 @@ if (isset($_SESSION['id'])) {
                 <i class="fa-solid fa-money-bill"></i>
                 <h4 class="text-dark">
                     <?php
-                    $sales_sql = "SELECT TOTAL FROM sales WHERE DATE = '$currentDate'";
+                    $sales_sql = "SELECT TOTAL FROM sales WHERE DATE = '$currentDate' AND PAYMENT >= TOTAL";
                     $sales_result = $conn->query($sales_sql);
                     $total = 0;
                     if ($sales_result->num_rows > 0) {

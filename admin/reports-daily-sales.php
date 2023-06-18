@@ -288,7 +288,10 @@ if (isset($_SESSION['id'])) {
             <thead>
                 <tr>
                     <th colspan="12">
-                        <center><p class="select-date">Daily Sales</p><input type="date" class="form-control" name="sales_date" id="sales_date" value="${DateTime.now().toString().split(' ')[0]}"></center>
+                        <?php 
+                        include('../time-date.php');
+                        ?>
+                        <center><p class="select-date">Daily Sales</p><input type="date" class="form-control" name="sales_date" id="sales_date" value="<?php echo $currentDate ?>"></center>
                     </th>
                 </tr>
                 <tr>
