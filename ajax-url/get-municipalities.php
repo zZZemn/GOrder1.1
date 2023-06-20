@@ -3,7 +3,7 @@
         include('../database/db.php');
         $provinceID = $_POST['provinceID'];
         
-        $municipality_sql = "SELECT * FROM municipality WHERE PROVINCE_ID = '$provinceID' AND MUNICIPALITY_STATUS = 'active'";
+        $municipality_sql = "SELECT * FROM municipality WHERE PROVINCE_ID = '$provinceID' AND MUNICIPALITY_STATUS = 'active' ORDER BY MUNICIPALITY";
         $municipality_result = $conn->query($municipality_sql);
 
         if($municipality_result->num_rows > 0){
