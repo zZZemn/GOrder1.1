@@ -1033,11 +1033,11 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                             return json_encode($data);
                         }
                     } elseif ($delivery_type === 'Pick Up') {
-                        $transaction_id = mt_rand(10000000, 99999999);
+                        $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
                         $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                         $check_trans_id_result = $conn->query($check_trans_id_sql);
                         while ($check_trans_id_result->num_rows > 0) {
-                            $transaction_id = mt_rand(10000000, 99999999);
+                            $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
                             $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                             $check_trans_id_result = $conn->query($check_trans_id_sql);
                         }
