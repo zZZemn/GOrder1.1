@@ -165,6 +165,17 @@ function products($cust_id_search)
 
                     if ($product_search_result->num_rows > 0) {
                         while ($row = $product_search_result->fetch_assoc()) {
+                            $pro_id = $row['PRODUCT_ID'];
+                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$pro_id'";
+                            $inv_result = $conn->query($inv_sql);
+                            $qty_left = 0;
+                            if ($inv_result->num_rows > 0) {
+                                while ($inv = $inv_result->fetch_assoc()) {
+                                    $qty_left += $inv['QUANTITY'];
+                                }
+                            } else {
+                                $qty_left = 0;
+                            }
                             $product_search_data[] = [
                                 'product_id' => $row['PRODUCT_ID'],
                                 'product_code' => $row['PRODUCT_CODE'],
@@ -176,7 +187,8 @@ function products($cust_id_search)
                                 'critical_level' => $row['CRITICAL_LEVEL'],
                                 'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
                                 'prescribe' => $row['PRESCRIBE'],
-                                'vatable' => $row['VATABLE']
+                                'vatable' => $row['VATABLE'],
+                                'quantity' => $qty_left
                             ];
                         }
                         $data = [
@@ -202,6 +214,17 @@ function products($cust_id_search)
 
                     if ($products_result->num_rows > 0) {
                         while ($row = $products_result->fetch_assoc()) {
+                            $pro_id = $row['PRODUCT_ID'];
+                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$pro_id'";
+                            $inv_result = $conn->query($inv_sql);
+                            $qty_left = 0;
+                            if ($inv_result->num_rows > 0) {
+                                while ($inv = $inv_result->fetch_assoc()) {
+                                    $qty_left += $inv['QUANTITY'];
+                                }
+                            } else {
+                                $qty_left = 0;
+                            }
                             $products_data[] = [
                                 'product_id' => $row['PRODUCT_ID'],
                                 'product_code' => $row['PRODUCT_CODE'],
@@ -213,7 +236,8 @@ function products($cust_id_search)
                                 'critical_level' => $row['CRITICAL_LEVEL'],
                                 'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
                                 'prescribe' => $row['PRESCRIBE'],
-                                'vatable' => $row['VATABLE']
+                                'vatable' => $row['VATABLE'],
+                                'quantity' => $qty_left
                             ];
                         }
 
@@ -241,6 +265,17 @@ function products($cust_id_search)
 
                 if ($products_result->num_rows > 0) {
                     while ($row = $products_result->fetch_assoc()) {
+                        $pro_id = $row['PRODUCT_ID'];
+                        $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$pro_id'";
+                        $inv_result = $conn->query($inv_sql);
+                        $qty_left = 0;
+                        if ($inv_result->num_rows > 0) {
+                            while ($inv = $inv_result->fetch_assoc()) {
+                                $qty_left += $inv['QUANTITY'];
+                            }
+                        } else {
+                            $qty_left = 0;
+                        }
                         $products_data[] = [
                             'product_id' => $row['PRODUCT_ID'],
                             'product_code' => $row['PRODUCT_CODE'],
@@ -252,7 +287,8 @@ function products($cust_id_search)
                             'critical_level' => $row['CRITICAL_LEVEL'],
                             'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
                             'prescribe' => $row['PRESCRIBE'],
-                            'vatable' => $row['VATABLE']
+                            'vatable' => $row['VATABLE'],
+                            'quantity' => $qty_left
                         ];
                     }
 
@@ -1047,11 +1083,41 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $order_items_array = [];
                         if ($order_items_result->num_rows > 0) {
                             while ($order_items_row = $order_items_result->fetch_assoc()) {
-                                $order_item = [
-                                    'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                                    'QTY' => $order_items_row['QTY'],
-                                    'AMOUNT' => $order_items_row['AMOUNT']
-                                ];
+
+                                $product_id = $order_items_row['PRODUCT_ID'];
+                                $order_qty = $order_items_row['QTY'];
+                                $inventory_sql = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                                $inventory_result = $conn->query($inventory_sql);
+                                if ($inventory_result->num_rows > 0) {
+                                    $pro_qty = 0;
+                                    while ($inventory_row = $inventory_result->fetch_assoc()) {
+                                        $pro_qty += $inventory_row['QUANTITY'];
+                                    }
+                                    if ($pro_qty >= $order_qty) {
+                                        $order_item = [
+                                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                                            'QTY_LEFT' => $pro_qty,
+                                            'QTY' => $order_items_row['QTY'],
+                                            'AMOUNT' => $order_items_row['AMOUNT']
+                                        ];
+                                    } else {
+                                        $data = [
+                                            'status' => 200,
+                                            'message' => 'Please Enter A Valid Quantity',
+                                        ];
+                                        header("HTTP/1.0 405 Access Deny");
+                                        return json_encode($data);
+                                        exit;
+                                    }
+                                } else {
+                                    $data = [
+                                        'status' => 200,
+                                        'message' => 'Please Enter A Valid Quantity',
+                                    ];
+                                    header("HTTP/1.0 405 Access Deny");
+                                    return json_encode($data);
+                                    exit;
+                                }
                                 $order_items_array[] = $order_item;
                             }
                         } else {
