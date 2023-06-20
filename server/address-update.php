@@ -41,7 +41,7 @@ if (isset($_SESSION['id'])) {
                     </thead>
                     <tbody>
                         <?php
-                        $provinces_sql = "SELECT * FROM province WHERE REGION_ID = '$region_id'";
+                        $provinces_sql = "SELECT * FROM province WHERE REGION_ID = '$region_id' AND PROVINCE != 'Aurora'";
                         $provinces_result = $conn->query($provinces_sql);
                         if ($provinces_result->num_rows > 0) {
                         ?>
