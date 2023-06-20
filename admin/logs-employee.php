@@ -300,7 +300,7 @@ if (isset($_SESSION['id'])) {
 
                     <tbody id="table-response-container">
                         <?php
-                        $emplog_sql = "SELECT * FROM emp_log";
+                        $emplog_sql = "SELECT * FROM emp_log ORDER BY LOG_DATE DESC, LOG_TIME DESC";
                         $emplog_result = $conn->query($emplog_sql);
                         if ($emplog_result->num_rows > 0) {
                             while ($row = $emplog_result->fetch_assoc()) {
@@ -315,7 +315,7 @@ if (isset($_SESSION['id'])) {
                                     <td><?php echo $emp['FIRST_NAME'] . " " . $emp['LAST_NAME'] ?></td>
                                     <td><?php echo $row['LOG_TYPE'] ?></td>
                                     <td><?php echo $row['LOG_DATE'] ?></td>
-                                    <td><?php echo $row['LOG_TIME'] ?></td>
+                                    <td><?php echo date('h:i A', strtotime($row['LOG_TIME'])); ?></td>
                                 </tr>
                         <?php
                             }
