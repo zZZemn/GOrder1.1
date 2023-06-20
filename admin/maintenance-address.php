@@ -325,7 +325,7 @@ if (isset($_SESSION['id'])) {
             </form>
 
             <div class="address-container" id="address_container">
-
+                    
             </div>
 
             <div class="message-container">
