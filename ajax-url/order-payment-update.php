@@ -20,7 +20,8 @@ if (isset($_SESSION['id'])) {
                 $change =  $payment - $total;
 
                 $order_sql = "UPDATE `order` SET `PAYMENT`='$payment',`CHANGE`='$change', `STATUS`='Picked Up' WHERE TRANSACTION_ID = '$transaction_id'";
-                if ($conn->query($order_sql) === TRUE) {
+                $sales_update_sql = "UPDATE `sales` SET `TOTAL`='$total',`PAYMENT`='$payment',`CHANGE`='$change', `UPDATED_TOTAL`='$total' WHERE ORDER_ID = '$transaction_id'";
+                if ($conn->query($order_sql) === TRUE && $conn->query($sales_update_sql) === TRUE) {
                     echo 'OK';
                 } else {
                     echo 'Not ok';
