@@ -35,30 +35,30 @@ $(document).ready(function () {
         loadXMLDoc();
     }, 1000);
 
-    $('#select_status_container').on('change', '#update-order-status', function() {
+    $('#select_status_container').on('change', '#update-order-status', function () {
         console.log('clicked');
         var new_status = $(this).val();
         var transaction_id = $('#transaction_id').val();
-      
+
         // Rest of your AJAX code
         $.ajax({
-          url: '../ajax-url/order-status-update.php',
-          data: {
-            new_status: new_status,
-            transaction_id: transaction_id
-          },
-          type: 'POST',
-          success: function(data) {
-            if (data === 'Picked Up') {
-              $('#update-order-status').prop('disabled', true);
-            }
-      
-            console.log(data);
-            orderSelect();
-          },
+            url: '../ajax-url/order-status-update.php',
+            data: {
+                new_status: new_status,
+                transaction_id: transaction_id
+            },
+            type: 'POST',
+            success: function (data) {
+                if (data === 'Picked Up') {
+                    $('#update-order-status').prop('disabled', true);
+                }
+
+                console.log(data);
+                orderSelect();
+            },
         });
-      });
-      
+    });
+
 
     $('#pick-delivery-man').change(function () {
         var rider = $('#pick-delivery-man').val();
@@ -79,11 +79,19 @@ $(document).ready(function () {
         });
     });
 
-    function loadOrderDetails() {
+    function loadOrderDetails(response) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("fourt_container").innerHTML = this.responseText;
+                if (response === 'OK') {
+                    setTimeout(function () {
+                        $('.alert-transaction-complete').css('opacity', 1).css('pointer-events', 'auto');
+                        setTimeout(function () {
+                            $('.alert-transaction-complete').css('opacity', 0).css('pointer-events', 'none');
+                        }, 2000);
+                    }, 500);
+                }
             }
         };
 
@@ -110,11 +118,11 @@ $(document).ready(function () {
                     payment: payment,
                     transaction_id: transaction_id
                 },
-                success: function(response) {
+                success: function (response) {
                     console.log('Data logged successfully:', response);
-                    loadOrderDetails();
+                    loadOrderDetails(response);
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     console.error('Error logging data:', error);
                 }
             });

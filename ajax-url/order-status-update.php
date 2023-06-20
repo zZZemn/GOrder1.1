@@ -14,7 +14,7 @@ if (isset($_SESSION['id'])) {
         if (isset($_POST['new_status']) && isset($_POST['transaction_id'])) {
             $new_status = $_POST['new_status'];
             $transaction_id = $_POST['transaction_id'];
-            if ($new_status === 'For-Delivery') {
+            if ($new_status === 'For-Delivery' || $new_status === 'Ready To Pick Up') {
                 $order_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                 $order_result = $conn->query($order_sql);
                 if ($order_result->num_rows > 0) {

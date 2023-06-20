@@ -42,8 +42,10 @@ if (isset($_SESSION['id'])) {
                 <body>
 
                     <div class="alert alert-payment-invalid bg-warning">
-                        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
                         The payment must be greater than or equal to the total amount.
+                    </div>
+                    <div class="alert alert-transaction-complete bg-success">
+                        Transaction Completed.
                     </div>
 
 
@@ -55,7 +57,7 @@ if (isset($_SESSION['id'])) {
                         <div class="status-container" id="status_container">
 
                         </div>
-                        
+
                         <div id="select_status_container">
 
                         </div>

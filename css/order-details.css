@@ -217,7 +217,7 @@ height: 40px;
     color: black !important;
 
     height: 50px;
-    width: 200px;
+    width: auto;
     font-size: 12px;
 
     z-index: 100000;
@@ -227,8 +227,8 @@ height: 40px;
     transition: opacity 0.6s;
   }
 
-  .alert-payment-invalid {
-    width: 450px;
+  .alert-transaction-complete {
+    color: white !important;
   }
 
    /* The close button */

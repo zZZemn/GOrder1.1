@@ -15,14 +15,20 @@ if (isset($_SESSION['id'])) {
             $payment = $_POST['payment'];
             $total = $_POST['total'];
             $transaction_id = $_POST['transaction_id'];
-            $change =  $payment - $total;
 
-            $order_sql = "UPDATE `order` SET `PAYMENT`='$payment',`CHANGE`='$change', `STATUS`='Picked Up' WHERE TRANSACTION_ID = '$transaction_id'";
-            if($conn->query($order_sql) === TRUE){
-                echo 'OK';
-            }else {
-                echo 'Not ok';
+            if ($payment >= $total) {
+                $change =  $payment - $total;
+
+                $order_sql = "UPDATE `order` SET `PAYMENT`='$payment',`CHANGE`='$change', `STATUS`='Picked Up' WHERE TRANSACTION_ID = '$transaction_id'";
+                if ($conn->query($order_sql) === TRUE) {
+                    echo 'OK';
+                } else {
+                    echo 'Not ok';
+                }
+            } else {
+                echo 'Invalid Payment';
             }
+
         } else {
             echo "
                 <head>

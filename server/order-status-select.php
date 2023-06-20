@@ -56,6 +56,15 @@ if (isset($_SESSION['id'])) {
                                     ?>
                                         <option value="Picked Up">Picked Up</option>
                                     <?php
+                                    } elseif ($order_status === 'Ready To Pick Up') {
+                                    ?>
+                                        <option value="Ready To Pick Up">Ready To Pick Up</option>
+                                    <?php
+                                    } elseif ($order_status === 'Accepted') {
+                                    ?>
+                                        <option value="Accepted">Accepted</option>
+                                        <option value="Ready To Pick Up">Ready To Pick Up</option>
+                                    <?php
                                     } else {
                                     ?>
                                         <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
