@@ -46,188 +46,232 @@ if (isset($_SESSION['id'])) {
                     $sales_details_result = $conn->query($sales_details_sql);
                     if ($sales_details_result->num_rows > 0) {
 ?>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr class="return-products-tr">
-                                        <th colspan="5" class="bg-dark text-light">
-                                            PRODUCT RETURN
+                        <table class="table table-striped">
+                            <thead>
+                                <tr class="return-products-tr">
+                                    <th colspan="5" class="bg-dark text-light">
+                                        PRODUCT RETURN
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th colspan="5"><label>Employee</label><?php echo $process_emp_name ?></th>
+                                </tr>
+                                <tr>
+                                    <th><label>Transaction ID</label><?php echo $sales['TRANSACTION_ID'] ?></th>
+                                    <th><label>Transaction Type</label><?php echo $sales['TRANSACTION_TYPE'] ?></th>
+                                    <th><label>Payment Type</label><?php echo $sales['PAYMENT_TYPE'] ?></th>
+                                    <th><label>Customer Name</label><?php echo $cust_name ?></th>
+                                    <th><label>Date and Time</label><?php echo $sales['DATE'] . " - " . date("h:i A", strtotime($sales['TIME'])) ?></th>
+                                </tr>
+                                <tr class="sales-details-tr">
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Amount</th>
+                                    <th>Expiration Date</th>
+                                    <th>Return Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($salesD_row = $sales_details_result->fetch_array()) {
+                                    $prod_id = $salesD_row['PRODUCT_ID'];
+                                    $inv_id = $salesD_row['INV_ID'];
+
+                                    $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$prod_id'";
+                                    $product_result = $conn->query($product_sql);
+                                    $product = $product_result->fetch_assoc();
+                                    $product_name = $product['PRODUCT_NAME'];
+
+                                    $inv_sql = "SELECT EXP_DATE FROM inventory WHERE INV_ID = '$inv_id'";
+                                    $inv_result = $conn->query($inv_sql);
+                                    $inventory = $inv_result->fetch_assoc();
+                                    $exp_date = $inventory['EXP_DATE'];
+
+                                    $amount = $salesD_row['AMOUNT'];
+                                    $qty = $salesD_row['QUANTITY'];
+
+                                    $price_pc = 0;
+                                    if ($qty != 0 && $amount != 0) {
+                                        $price_pc =  $amount / $qty;
+                                    }
+                                ?>
+                                    <input type="hidden" id="transaction_id" value="<?php echo $sales['TRANSACTION_ID'] ?>">
+                                    <tr>
+                                        <td><?php echo $product_name ?></td>
+                                        <td class="text-center"><?php echo $salesD_row['QUANTITY'] ?></td>
+                                        <td class="pl"><?php echo $salesD_row['AMOUNT'] ?></td>
+                                        <td class="text-center"><?php echo $exp_date ?></td>
+                                        <td class="text-center qty-td">
+                                            <?php
+                                            $return_check_sql = "SELECT * FROM `return` WHERE TRANSACTION_ID = '$transaction_id'";
+                                            $return_check_result = $conn->query($return_check_sql);
+                                            ?>
+                                            <div class="qty-container-div">
+                                                <input type="hidden" id="price" value="<?php echo $price_pc ?>" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
+                                                <input type="number" class="form-control" name="quantity" id="<?php echo $salesD_row['INV_ID'] ?>" placeholder="Enter Quantity" min="0" max="<?php echo htmlspecialchars($salesD_row['QUANTITY']) ?>" oninput="if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
+                                                <label class="alert alert-when-invalid-qty text-danger">Invalid inputs will not be save.</label>
+                                                <label class="alert alert-when-reach-maxlevel text-danger">Maximum level.</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="btn-add-return-td"><a href="#" id="submit_return" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal"><i class="fa-solid fa-plus"></i> Add Return</a></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Subtotal</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['SUBTOTAL'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">VAT</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['VAT'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Discount</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['DISCOUNT'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Total</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['TOTAL'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Payment</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['PAYMENT'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Change</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['CHANGE'] ?></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Updated Total</td>
+                                    <td>:</td>
+                                    <td colspan="" class="pl-b"><?php echo $sales['UPDATED_TOTAL'] ?></td>
+                                </tr>
+                                <tr class="return-details-center-tr">
+                                    <th colspan="5" class="bg-dark text-light">
+                                        <center>Return Details</center>
+                                    </th>
+                                </tr>
+                                <?php
+                                if ($return_check_result->num_rows > 0) {
+                                    $return = $return_check_result->fetch_assoc();
+                                    $return_id = $return['RETURN_ID'];
+                                ?>
+                                    <tr class="return-details-header-tr">
+                                        <th colspan="3">
+                                            <label>Date</label>
+                                            <?php echo $return['RETURN_DATE'] ?>
+                                        </th>
+                                        <th colspan="2">
+                                            <label>Return Amount</label>
+                                            <?php echo $return['RETURN_AMOUNT'] ?>
                                         </th>
                                     </tr>
-                                    <tr>
-                                        <th colspan="5"><label>Employee</label><?php echo $process_emp_name ?></th>
-                                    </tr>
-                                    <tr>
-                                        <th><label>Transaction ID</label><?php echo $sales['TRANSACTION_ID'] ?></th>
-                                        <th><label>Transaction Type</label><?php echo $sales['TRANSACTION_TYPE'] ?></th>
-                                        <th><label>Payment Type</label><?php echo $sales['PAYMENT_TYPE'] ?></th>
-                                        <th><label>Customer Name</label><?php echo $cust_name ?></th>
-                                        <th><label>Date and Time</label><?php echo $sales['DATE'] . " - " . date("h:i A", strtotime($sales['TIME'])) ?></th>
-                                    </tr>
-                                    <tr class="sales-details-tr">
-                                        <th>Product Name</th>
-                                        <th>Quantity</th>
-                                        <th>Amount</th>
-                                        <th>Expiration Date</th>
-                                        <th>Return Quantity</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
                                     <?php
-                                    while ($salesD_row = $sales_details_result->fetch_array()) {
-                                        $prod_id = $salesD_row['PRODUCT_ID'];
-                                        $inv_id = $salesD_row['INV_ID'];
-
-                                        $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$prod_id'";
-                                        $product_result = $conn->query($product_sql);
-                                        $product = $product_result->fetch_assoc();
-                                        $product_name = $product['PRODUCT_NAME'];
-
-                                        $inv_sql = "SELECT EXP_DATE FROM inventory WHERE INV_ID = '$inv_id'";
-                                        $inv_result = $conn->query($inv_sql);
-                                        $inventory = $inv_result->fetch_assoc();
-                                        $exp_date = $inventory['EXP_DATE'];
-
-                                        $amount = $salesD_row['AMOUNT'];
-                                        $qty = $salesD_row['QUANTITY'];
-
-                                        $price_pc = 0;
-                                        if ($qty != 0 && $amount != 0) {
-                                            $price_pc =  $amount / $qty;
-                                        }
+                                    $return_items_sql = "SELECT * FROM return_items WHERE RETURN_ID = '$return_id'";
+                                    $return_items_result = $conn->query($return_items_sql);
+                                    if ($return_check_result->num_rows > 0) {
                                     ?>
-                                        <input type="hidden" id="transaction_id" value="<?php echo $sales['TRANSACTION_ID'] ?>">
-                                        <tr>
-                                            <td><?php echo $product_name ?></td>
-                                            <td class="text-center"><?php echo $salesD_row['QUANTITY'] ?></td>
-                                            <td class="pl"><?php echo $salesD_row['AMOUNT'] ?></td>
-                                            <td class="text-center"><?php echo $exp_date ?></td>
-                                            <td class="text-center qty-td">
-                                                <?php
-                                                $return_check_sql = "SELECT * FROM `return` WHERE TRANSACTION_ID = '$transaction_id'";
-                                                $return_check_result = $conn->query($return_check_sql);
-                                                ?>
-                                                <div class="qty-container-div">
-                                                    <input type="hidden" id="price" value="<?php echo $price_pc ?>" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
-                                                    <input type="number" class="form-control" name="quantity" id="<?php echo $salesD_row['INV_ID'] ?>" placeholder="Enter Quantity" min="0" max="<?php echo htmlspecialchars($salesD_row['QUANTITY']) ?>" oninput="if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
-                                                    <label class="alert alert-when-invalid-qty text-danger">Invalid inputs will not be save.</label>
-                                                    <label class="alert alert-when-reach-maxlevel text-danger">Maximum level.</label>
+                                        <tr class="return-items-tr">
+                                            <th colspan="2">Inventory ID</th>
+                                            <th colspan="2">Product Name</th>
+                                            <th>Returned Quantity</th>
+                                        </tr>
+                                        <?php
+                                        while ($row = $return_items_result->fetch_assoc()) {
+                                            $inv_id = $row['INV_ID'];
+                                            $inv_sql = "SELECT PRODUCT_ID FROM inventory WHERE INV_ID = '$inv_id'";
+                                            $inv_result = $conn->query($inv_sql);
+                                            if ($inv_result->num_rows > 0) {
+                                                $inv = $inv_result->fetch_assoc();
+                                                $product_id = $inv['PRODUCT_ID'];
+
+                                                $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$product_id'";
+                                                $product_result = $conn->query($product_sql);
+                                                if ($product_result->num_rows > 0) {
+                                                    $product = $product_result->fetch_assoc();
+                                                    $product_name = $product['PRODUCT_NAME'];
+                                                }
+                                            }
+                                        ?>
+                                            <tr>
+                                                <td colspan="2"><?php echo $row['INV_ID'] ?></td>
+                                                <td colspan="2"><?php echo $product_name ?></td>
+                                                <td class="text-center"><?php echo $row['QTY'] ?></td>
+                                            </tr>
+                                        <?php
+                                        }
+                                        ?>
+                                        <tr class="return-details-center-tr">
+                                            <th colspan="5" class="bg-dark text-light">
+                                                <center>Replace Items</center>
+                                            </th>
+                                        </tr>
+                                        <tr class="replace-tr">
+                                            <th colspan="3" class="">
+                                                <div class="voucher-container">
+                                                    <label class="voucher-label">Voucher</label>
+                                                    <?php echo $return['RETURN_AMOUNT'] ?>
+                                                </div>
+                                            </th>
+
+                                            <td colspan="2">
+                                                <div class="search-container">
+                                                    <input type="text" id="search-product" class="form-control" placeholder="Search Product...">
+                                                </div>
+                                                <div class="search-response-container">
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
+                                                    <form>
+                                                        <button class="btn btn-dark">Sample Product</button>
+                                                    </form>
                                                 </div>
                                             </td>
                                         </tr>
                                     <?php
                                     }
+                                } else {
                                     ?>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="btn-add-return-td"><a href="#" id="submit_return" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal"><i class="fa-solid fa-plus"></i> Add Return</a></td>
+                                        <td colspan="5">
+                                            <center class="p-5 text-danger">No return transaction found.</center>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="3">Subtotal</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['SUBTOTAL'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">VAT</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['VAT'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Discount</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['DISCOUNT'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Total</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['TOTAL'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Payment</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['PAYMENT'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Change</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['CHANGE'] ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">Updated Total</td>
-                                        <td>:</td>
-                                        <td colspan="" class="pl-b"><?php echo $sales['UPDATED_TOTAL'] ?></td>
-                                    </tr>
-                                    <tr class="return-details-center-tr">
-                                        <th colspan="5" class="bg-dark text-light">
-                                            <center>Return Details</center>
-                                        </th>
-                                    </tr>
-                                    <?php
-                                    if ($return_check_result->num_rows > 0) {
-                                        $return = $return_check_result->fetch_assoc();
-                                        $return_id = $return['RETURN_ID'];
-                                    ?>
-                                        <tr class="return-details-header-tr">
-                                            <th colspan="3">
-                                                <label>Date</label>
-                                                <?php echo $return['RETURN_DATE'] ?>
-                                            </th>
-                                            <th colspan="2">
-                                                <label>Return Amount</label>
-                                                <?php echo $return['RETURN_AMOUNT'] ?>
-                                            </th>
-                                        </tr>
-                                        <?php
-                                        $return_items_sql = "SELECT * FROM return_items WHERE RETURN_ID = '$return_id'";
-                                        $return_items_result = $conn->query($return_items_sql);
-                                        if ($return_check_result->num_rows > 0) {
-                                            ?>
-                                                <tr class="return-items-tr">
-                                                    <th colspan="2">Inventory ID</th>
-                                                    <th colspan="2">Product Name</th>
-                                                    <th>Returned Quantity</th>
-                                                </tr>
-                                            <?php
-                                            while ($row = $return_items_result->fetch_assoc()) {
-                                                $inv_id = $row['INV_ID'];
-                                                $inv_sql = "SELECT PRODUCT_ID FROM inventory WHERE INV_ID = '$inv_id'";
-                                                $inv_result = $conn->query($inv_sql);
-                                                if($inv_result->num_rows > 0){
-                                                    $inv = $inv_result->fetch_assoc();
-                                                    $product_id = $inv['PRODUCT_ID'];
+                                <?php
+                                }
+                                ?>
+                            </tbody>
+                        </table>
 
-                                                    $product_sql = "SELECT PRODUCT_NAME FROM products WHERE PRODUCT_ID = '$product_id'";
-                                                    $product_result = $conn->query($product_sql);
-                                                    if($product_result->num_rows > 0){
-                                                        $product = $product_result->fetch_assoc();
-                                                        $product_name = $product['PRODUCT_NAME'];
-                                                    }
-                                                }
-                                            ?>
-                                                <tr>
-                                                    <td colspan="2"><?php echo $row['INV_ID'] ?></td>
-                                                    <td colspan="2"><?php echo $product_name ?></td>
-                                                    <td class="text-center"><?php echo $row['QTY'] ?></td>
-                                                </tr>
-                                            <?php
-                                            }
-                                        }
-                                    } else {
-                                        ?>
-                                        <tr>
-                                            <td colspan="5">
-                                                <center class="p-5 text-danger">No return transaction found.</center>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                    ?>
-                                </tbody>
-                            </table>
 
-                            
 <?php
                     } else {
                         echo '

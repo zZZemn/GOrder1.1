@@ -241,15 +241,8 @@ if (isset($_SESSION['id'])) {
                     <tr>
                         <th>Transaction ID</th>
                         <th>Transaction Type</th>
-                        <th>Customer Type</th>
                         <th class="time-date">Time</th>
-                        <th>Subtotal</th>
-                        <th>VAT</th>
-                        <th>Discount</th>
                         <th>Total</th>
-                        <th>Payment</th>
-                        <th>Change</th>
-                        <th>Updated Total</th>
                         <th>Process By</th>
                         <th>Action</th>
                     </tr>

@@ -108,3 +108,28 @@ input {
 .return-details-header-tr th {
     transform: translateY(8px);
 }
+
+.voucher-label {
+    transform: translateY(1px);
+}
+
+/*  */
+
+.search-container {
+    padding: 10px;
+}
+
+.search-container input{
+    width: 100% !important;
+    height: 40px;
+}
+
+.search-response-container {
+    padding: 10px;
+    height: 300px;
+    overflow-y: auto;
+}
+
+.search-response-container form button{
+    width: 100% !important;
+}

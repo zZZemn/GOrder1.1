@@ -18,23 +18,23 @@ if (isset($_SESSION['id'])) {
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
                     $saleTime = date("h:i A", strtotime($row['TIME']));
+                    $emp_id = $row['EMP_ID'];
+                    $emp_sql = "SELECT FIRST_NAME, LAST_NAME FROM employee WHERE EMP_ID = '$emp_id'";
+                    $emp_result = $conn->query($emp_sql);
+                    $process_by = '';
+                    if($emp_result->num_rows > 0){
+                        $process_emp = $emp_result->fetch_assoc();
+                        $process_by = $process_emp['FIRST_NAME'].' '.$process_emp['LAST_NAME'];
+                    }
                     $sales = "
                             <tr>
                                 <td>" . $row['TRANSACTION_ID'] . "</td>
                                 <td>" . $row['TRANSACTION_TYPE'] . "</td>
-                                <td>" . $row['CUST_TYPE'] . "</td>
                                 <td>" . $saleTime . "</td>
-                                <td>" . $row['SUBTOTAL'] . "</td>
-                                <td>" . $row['VAT'] . "</td>
-                                <td>" . $row['DISCOUNT'] . "</td>
                                 <td>" . $row['TOTAL'] . "</td>
-                                <td>" . $row['PAYMENT'] . "</td>
-                                <td>" . $row['CHANGE'] . "</td>
-                                <td>" . $row['UPDATED_TOTAL'] . "</td>
-                                <td>" . $row['EMP_ID'] . "</td>
+                                <td>" . $process_by . "</td>
                                 <td class='action-td'>
-                                    <a href='view-invoice.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
-                                    <a href='sales-return.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-dark' target='_blank'><i class='fa-solid fa-rotate-left'></i></a>
+                                    <a href='sales-return.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-dark' target='_blank'>Return <i class='fa-solid fa-rotate-left'></i></a>
                                 </td>
                             </tr>";
                     echo $sales;
@@ -58,19 +58,11 @@ if (isset($_SESSION['id'])) {
                             <tr>
                                 <td>" . $row['TRANSACTION_ID'] . "</td>
                                 <td>" . $row['TRANSACTION_TYPE'] . "</td>
-                                <td>" . $row['CUST_TYPE'] . "</td>
                                 <td>" . $row['DATE'] . "</td>
-                                <td>" . $row['SUBTOTAL'] . "</td>
-                                <td>" . $row['VAT'] . "</td>
-                                <td>" . $row['DISCOUNT'] . "</td>
                                 <td>" . $row['TOTAL'] . "</td>
-                                <td>" . $row['PAYMENT'] . "</td>
-                                <td>" . $row['CHANGE'] . "</td>
-                                <td>" . $row['UPDATED_TOTAL'] . "</td>
-                                <td>" . $row['EMP_ID'] . "</td>
+                                <td>" . $process_by . "</td>
                                 <td class='action-td'>
-                                    <a href='view-invoice.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-primary' target='_blank'><i class='fa-solid fa-eye'></i></a>
-                                    <a href='sales-return.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-dark' target='_blank'><i class='fa-solid fa-rotate-left'></i></a>
+                                    <a href='sales-return.php?id=" . $row['TRANSACTION_ID'] . "' class='btn btn-dark' target='_blank'>Return <i class='fa-solid fa-rotate-left'></i></a>
                                 </td>
                             </tr>";
                     echo $sales;
