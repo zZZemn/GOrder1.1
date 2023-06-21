@@ -28,10 +28,10 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/pos-nav.css">
-    <link rel="stylesheet" href="../css/order.css">
+    <link rel="stylesheet" href="../css/sales.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder | Orders</title>
+    <title>GOrder | Product Return</title>
 </head>
 
 <body>
@@ -44,9 +44,9 @@ if (isset($_SESSION['id'])) {
 
             <div class="top-navigations">
                 <a href="pos.php">POS</a>
-                <a href="orders.php" class="top-navigations-active">Orders</a>
+                <a href="orders.php">Orders</a>
                 <a href="sales.php">Sales</a>
-                <a href="return.php">Return</a>
+                <a href="return.php" class="top-navigations-active">Return</a>
             </div>
 
             <ul>
@@ -223,38 +223,40 @@ if (isset($_SESSION['id'])) {
 
 
         </nav>
+
+        </div>
         <div class="table-container">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th colspan="11">
+                        <th colspan="13">
                             <center>
-                                <select class="today-this-week-sales form-control" id="orders_filter">
-                                    <option value="Waiting">Waiting</option>
-                                    <option value="Accepted">Accepted</option>
-                                    <option value="For-Delivery">For Delivery</option>
-                                    <option value="Shipped">Shipped</option>
-                                    <option value="Delivered">Delivered</option>
-                                    <option value="Ready To Pick Up">Ready To Pick Up</option>
-                                    <option value="Picked Up">Picked Up</option>
+                                <select class="today-this-week-sales form-control" id="sales-filter">
+                                    <option value="today">Today</option>
+                                    <option value="this-week">This Week</option>
                                 </select>
                             </center>
                         </th>
                     </tr>
                     <tr>
                         <th>Transaction ID</th>
-                        <th>Customer</th>
-                        <th>Payment Type</th>
-                        <th>Del Type</th>
-                        <th>Address</th>
-                        <th>Order On</th>
+                        <th>Transaction Type</th>
+                        <th>Customer Type</th>
+                        <th class="time-date">Time</th>
+                        <th>Subtotal</th>
+                        <th>VAT</th>
+                        <th>Discount</th>
                         <th>Total</th>
-                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Change</th>
+                        <th>Updated Total</th>
+                        <th>Process By</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
-                <tbody id="orders_result">
-
+                <tbody id="sales-results">
+                    
                 </tbody>
             </table>
         </div>
@@ -340,7 +342,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js//orders.js"></script>
+        <script src="../js/pos-sales.js"></script>
 
 
     <?php else : ?>

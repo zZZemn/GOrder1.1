@@ -45,6 +45,7 @@ if (isset($_SESSION['id'])) {
                 <a href="pos.php" class="top-navigations-active">POS</a>
                 <a href="orders.php">Orders</a>
                 <a href="sales.php">Sales</a>
+                <a href="return.php">Return</a>
             </div>
 
             <ul>

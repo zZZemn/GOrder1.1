@@ -46,6 +46,7 @@ if (isset($_SESSION['id'])) {
                 <a href="pos.php">POS</a>
                 <a href="orders.php">Orders</a>
                 <a href="sales.php" class="top-navigations-active">Sales</a>
+                <a href="return.php">Return</a>
             </div>
 
             <ul>
@@ -229,13 +230,11 @@ if (isset($_SESSION['id'])) {
                 <thead>
                     <tr>
                         <th colspan="13">
-                            <center>
-                                <select class="today-this-week-sales form-control" id="sales-filter">
-                                    <option value="today">Today</option>
-                                    <option value="this-week">This Week</option>
-                                </select>
-                            </center>
+                            <center>Sales Today</center>
                         </th>
+                    </tr>
+                    <tr id="total-sales-today">
+                        
                     </tr>
                     <tr>
                         <th>Transaction ID</th>
@@ -254,8 +253,8 @@ if (isset($_SESSION['id'])) {
                     </tr>
                 </thead>
 
-                <tbody id="sales-results">
-                    
+                <tbody id="sales-results-salesphp">
+
                 </tbody>
             </table>
         </div>

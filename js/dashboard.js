@@ -6,7 +6,6 @@ $(document).ready(function () {
                 if (this.readyState == 4 && this.status == 200) {
                     var responseHTML = document.createElement('div');
                     responseHTML.innerHTML = this.responseText;
-
                     var specificElement = responseHTML.querySelector(data.elementSelector);
                     if (specificElement && specificElement instanceof Node) {
                         var container = document.getElementById(data.containerId);
@@ -58,12 +57,12 @@ $(document).ready(function () {
         var currentYear = new Date().getFullYear();
         var dataPoints = [];
         for (var month in salesData) {
-          var monthIndex = parseInt(month); // Convert month string to integer
-          var xValue = new Date(currentYear, monthIndex);
-          var yValue = salesData[month];
-      
-          var dataPoint = { x: xValue, y: yValue };
-          dataPoints.push(dataPoint);
+            var monthIndex = parseInt(month); // Convert month string to integer
+            var xValue = new Date(currentYear, monthIndex);
+            var yValue = salesData[month];
+
+            var dataPoint = { x: xValue, y: yValue };
+            dataPoints.push(dataPoint);
         }
 
         var options = {
