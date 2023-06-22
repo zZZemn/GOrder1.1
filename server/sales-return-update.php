@@ -220,39 +220,71 @@ if (isset($_SESSION['id'])) {
                                             </th>
                                         </tr>
                                         <tr class="replace-tr">
-                                            <th colspan="3" class="">
-                                                <div class="voucher-container">
-                                                    <label class="voucher-label">Voucher</label>
-                                                    <?php echo $return['RETURN_AMOUNT'] ?>
+                                            <th colspan="3" class="return-replace-item-th">
+                                                <table class="return-replace-item-container pos-orders-container">
+                                                    <thead>
+                                                        <th>Product</th>
+                                                        <th>Price</th>
+                                                        <th>Qty</th>
+                                                        <th>Amt</th>
+                                                        <th>Del</th>
+                                                    </thead>
+                                                    <tbody>
+
+                                                    </tbody>
+                                                </table>
+                                                <div class="computation remove-when-print">
+                                                    <div class="top">
+                                                        <div class="input">
+                                                            <input type="number" name="subtotal" id="subtotal" class="form-control" readonly required value="0.00">
+                                                            <label for="subtotal">Subtotal</label>
+                                                        </div>
+                                                        <div class="input">
+                                                            <input type="number" name="total" id="total" class="form-control" readonly required value="0.00">
+                                                            <label for="total">Total</label>
+                                                        </div>
+                                                        <div class="input">
+                                                            <input type="number" readonly name="voucher" id="voucher" class="form-control text-primary" value="<?php echo $return['RETURN_AMOUNT'] ?>" required>
+                                                            <label for=vouchert">Voucher</label>
+                                                        </div>
+
+                                                        <div>
+                                                            <input type="submit" name="replace" id="replace" class="btn btn-primary replace" value="Replace" disabled>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="bot">
+                                                        <div class="input">
+                                                            <input type="number" name="vat" id="vat" class="form-control" readonly required value="0.00">
+                                                            <label for="vat">VAT</label>
+                                                        </div>
+
+                                                        <div class="input">
+                                                            <input type="number" name="discount" id="discount" class="form-control" readonly required value="0.00">
+                                                            <label for="discount">Discount</label>
+                                                        </div>
+
+                                                        <div class="input">
+                                                            <input type="number" name="payment" id="payment" class="form-control text-primary" required>
+                                                            <label for="payment">Payment</label>
+                                                        </div>
+
+                                                        <div class="input">
+                                                            <input type="number" name="change" id="change" class="form-control text-success" readonly required min="0" value="0.00" oninput="validity.valid||(value='0');">
+                                                            <label for="Change">Change</label>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </th>
 
-                                            <td colspan="2">
+                                            <td colspan="2" class="pos-search-th">
                                                 <div class="search-container">
-                                                    <input type="text" id="search-product" class="form-control" placeholder="Search Product...">
+                                                    <form>
+                                                        <input type="text" id="search-product" class="form-control" placeholder="Search Product...">
+                                                    </form>
                                                 </div>
-                                                <div class="search-response-container">
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
-                                                    <form>
-                                                        <button class="btn btn-dark">Sample Product</button>
-                                                    </form>
+                                                <div id="search-response-container" class="search-response-container">
+
                                                 </div>
                                             </td>
                                         </tr>

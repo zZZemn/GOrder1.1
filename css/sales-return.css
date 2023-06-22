@@ -4,6 +4,7 @@
 
 body {
     overflow-y: auto;
+    padding-bottom: 50px;
 }
 
 table {
@@ -109,10 +110,6 @@ input {
     transform: translateY(8px);
 }
 
-.voucher-label {
-    transform: translateY(1px);
-}
-
 /*  */
 
 .search-container {
@@ -130,6 +127,84 @@ input {
     overflow-y: auto;
 }
 
+.search-response-container form {
+    margin: 5px;
+}
+
 .search-response-container form button{
     width: 100% !important;
+    height: 40px;
+    border: none;
+    font-size: 12px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.return-replace-item-container {
+    width: 100% !important;
+    margin-top: 0 !important;
+    max-height: 280px;
+    overflow-y: scroll;
+}
+
+.return-replace-item-container tr th {
+    padding-left: 5px;
+    padding-bottom: 10px;
+    border: none !important;
+    border-bottom: 1px solid rgb(0, 0, 0) !important;
+}
+
+.return-replace-item-container thead tr th {
+    text-align: center;
+}
+
+.return-replace-item-container tbody tr td, .return-replace-item-container tbody tr td input {
+    font-size: 12px;
+}
+
+.return-replace-item-container tbody tr td input {
+    height: 40px;
+    width: 70px !important;
+}
+
+.return-replace-item-th {
+    padding: 0 !important;
+}
+
+
+.computation {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+}
+
+.top {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
+
+.bot {
+    display: flex;
+    justify-content: space-around;
+}
+
+.input {
+    position: relative;
+}
+
+.input label {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    font-weight: 500;
+    padding: 0px 5px;
+    background-color: white;
+}
+
+.computation input, .computation select{
+    width: 100px !important;
+    height: 40px !important;
 }
