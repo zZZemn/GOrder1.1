@@ -54,6 +54,14 @@ if (isset($_SESSION['id'])) {
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
+                    $emp_id = $row['EMP_ID'];
+                    $emp_sql = "SELECT FIRST_NAME, LAST_NAME FROM employee WHERE EMP_ID = '$emp_id'";
+                    $emp_result = $conn->query($emp_sql);
+                    $process_by = '';
+                    if($emp_result->num_rows > 0){
+                        $process_emp = $emp_result->fetch_assoc();
+                        $process_by = $process_emp['FIRST_NAME'].' '.$process_emp['LAST_NAME'];
+                    }
                     $sales = "
                             <tr>
                                 <td>" . $row['TRANSACTION_ID'] . "</td>
