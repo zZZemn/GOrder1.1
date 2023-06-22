@@ -271,15 +271,9 @@ if (isset($_SESSION['id'])) {
                 $vat = $vat_rate_result->fetch_assoc();
                 $vatRate = $vat['TAX_PERCENTAGE'];
 
-                $discount_rate_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '1'";
-                $discount_rate_result = $conn->query($discount_rate_sql);
-                $discount = $discount_rate_result->fetch_assoc();
-                $discountRate = $discount['DISCOUNT_PERCENTAGE'];
-
                 ?>
 
                 <input type="hidden" name="vatRate" id="vatRate" value="<?php echo $vatRate ?>">
-                <input type="hidden" name="discountRate" id="discountRate" value="<?php echo $discountRate ?>">
 
                 <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $emp['EMP_ID'] ?>">
 
@@ -300,9 +294,17 @@ if (isset($_SESSION['id'])) {
 
                         <div class="input">
                             <select name="cust_type" id="cust_type" class="form-control cust_type" required>
-                                <option value="regular">Regular</option>
-                                <option value="pwd">PWD</option>
-                                <option value="senior">Senior</option>
+                                <option value="0">Regular</option>
+                                <?php
+                                $discount_result = $conn->query("SELECT * FROM discount");
+                                if ($discount_result->num_rows > 0) {
+                                    while ($discount_row = $discount_result->fetch_assoc()) {
+                                ?>
+                                        <option value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"><?php echo $discount_row['DISCOUNT_NAME'] ?></option>
+                                <?php
+                                    }
+                                }
+                                ?>
                             </select>
                             <label for="cust_type">Customer Type</label>
                         </div>

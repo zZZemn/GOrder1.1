@@ -689,7 +689,7 @@ function checkout($id)
         if ($user['STATUS'] === 'active') {
             $bgy_id = $user['BARANGAY_ID'];
             $cart_id = $user['CART_ID'];
-            $cust_type = $user['CUSTOMER_TYPE'];
+            $discount_type = $user['DISCOUNT_TYPE'];
 
             $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
             $order_items_result = $conn->query($order_items_sql);
@@ -768,7 +768,7 @@ function checkout($id)
             $vat = $vatable_subtotal * $taxPercentage;
 
             $discount = 0;
-            if ($cust_type != 'regular') {
+            if ($discount_type != '') {
                 $discountable_subtotal = 0;
                 foreach ($order_items_array as $order_item) {
                     $product_id = $order_item['PRODUCT_ID'];
@@ -783,7 +783,7 @@ function checkout($id)
                     }
                 }
 
-                $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
+                $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
                 $discount_percentage_result = $conn->query($discount_percentage_sql);
                 $discount = $discount_percentage_result->fetch_assoc();
                 $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
@@ -828,12 +828,11 @@ function checkout($id)
 }
 
 
-function paymentType($user)
+function paymentType($id)
 {
     global $conn;
-    $userID = $user['id'];
 
-    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$userID'";
+    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$id'";
     $cust_result = $conn->query($cust_sql);
     if ($cust_result->num_rows > 0) {
         $payment_type_sql = "SELECT * FROM payment_type";
@@ -886,7 +885,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
         $cust = $cust_result->fetch_assoc();
         if ($cust['STATUS'] === "active") {
             $cart_id = $cust['CART_ID'];
-            $cust_type = $cust['CUSTOMER_TYPE'];
+            $discount_type = $cust['DISCOUNT_TYPE'];
 
             $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
             $bgy_result = $conn->query($bgy_sql);
@@ -982,7 +981,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $vat = $vatable_subtotal * $taxPercentage;
 
                         $discount = 0;
-                        if ($cust_type != 'regular') {
+                        if ($discount_type != '') {
                             $discountable_subtotal = 0;
                             foreach ($order_items_array as $order_item) {
                                 $product_id = $order_item['PRODUCT_ID'];
@@ -997,7 +996,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                                 }
                             }
 
-                            $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
+                            $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
                             $discount_percentage_result = $conn->query($discount_percentage_sql);
                             $discount = $discount_percentage_result->fetch_assoc();
                             $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
@@ -1158,7 +1157,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $vat = $vatable_subtotal * $taxPercentage;
 
                         $discount = 0;
-                        if ($cust_type != 'regular') {
+                        if ($discount_type != '') {
                             $discountable_subtotal = 0;
                             foreach ($order_items_array as $order_item) {
                                 $product_id = $order_item['PRODUCT_ID'];
@@ -1173,7 +1172,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                                 }
                             }
 
-                            $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
+                            $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
                             $discount_percentage_result = $conn->query($discount_percentage_sql);
                             $discount = $discount_percentage_result->fetch_assoc();
                             $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];

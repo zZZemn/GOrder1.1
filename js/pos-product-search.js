@@ -1,5 +1,4 @@
 var vatRate = document.getElementById('vatRate').value;
-var discountRate = document.getElementById('discountRate').value;
 
 $(document).ready(function () {
     $('#search_products').on('input', function () {
@@ -112,18 +111,13 @@ $(document).ready(function () {
                                         }
                                     });
 
-                                    var cust_type = $('#cust_type').val();
-
+                                    var discountRate = $('#cust_type').val();
                                     var subtotal_val = parseFloat($('#subtotal').val());
                                     var vat_val = parseFloat($('#vat').val());
 
-                                    // Calculate the discount if applicable
-                                    if (cust_type == "pwd" || cust_type == "senior") {
-                                        var discountAmount = discoutableSubtotal * discountRate;
-                                        $('#discount').val(discountAmount.toFixed(2));
-                                    } else {
-                                        $('#discount').val('0.00');
-                                    }
+                                    var discountAmount = discoutableSubtotal * discountRate;
+                                    $('#discount').val(discountAmount.toFixed(2));
+
 
                                     //set total
                                     var subtotal_val = parseFloat($('#subtotal').val());
@@ -248,18 +242,12 @@ $(document).ready(function () {
                 }
             });
 
-            var cust_type = $('#cust_type').val();
-
+            var discountRate = $('#cust_type').val();
             var subtotal_val = parseFloat($('#subtotal').val());
             var vat_val = parseFloat($('#vat').val());
 
-            // Calculate the discount if applicable
-            if (cust_type == "pwd" || cust_type == "senior") {
-                var discountAmount = discoutableSubtotal * discountRate;
-                $('#discount').val(discountAmount.toFixed(2));
-            } else {
-                $('#discount').val('0.00');
-            }
+            var discountAmount = discoutableSubtotal * discountRate;
+            $('#discount').val(discountAmount.toFixed(2));
 
             //set total
             var subtotal_val = parseFloat($('#subtotal').val());
@@ -362,18 +350,12 @@ $(document).ready(function () {
             }
         });
 
-        var cust_type = $('#cust_type').val();
-
+        var discountRate = $('#cust_type').val();
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        // Calculate the discount if applicable
-        if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = discoutableSubtotal * discountRate;
-            $('#discount').val(discountAmount.toFixed(2));
-        } else {
-            $('#discount').val('0.00');
-        }
+        var discountAmount = discoutableSubtotal * discountRate;
+        $('#discount').val(discountAmount.toFixed(2));
 
         //set total
         var subtotal_val = parseFloat($('#subtotal').val());
@@ -439,18 +421,12 @@ $(document).ready(function () {
             }
         });
 
-        var cust_type = $('#cust_type').val();
-
+        var discountRate = $('#cust_type').val();
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        // Calculate the discount if applicable
-        if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = discoutableSubtotal * discountRate;
-            $('#discount').val(discountAmount.toFixed(2));
-        } else {
-            $('#discount').val('0.00');
-        }
+        var discountAmount = discoutableSubtotal * discountRate;
+        $('#discount').val(discountAmount.toFixed(2));
 
         //set total
         var subtotal_val = parseFloat($('#subtotal').val());
@@ -494,18 +470,12 @@ $(document).ready(function () {
             }
         });
 
-        var cust_type = $(this).val();
-
+        var discountRate = $('#cust_type').val();
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        // Calculate the discount if applicable
-        if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = discoutableSubtotal * discountRate;
-            $('#discount').val(discountAmount.toFixed(2));
-        } else {
-            $('#discount').val('0.00');
-        }
+        var discountAmount = discoutableSubtotal * discountRate;
+        $('#discount').val(discountAmount.toFixed(2));
 
         // Recalculate the total
         var total = (subtotal_val + vat_val) - parseFloat($('#discount').val());
@@ -617,12 +587,12 @@ $(document).ready(function () {
 
     $('#save_print').click(function (event) {
         event.preventDefault();
-
+        var cust_type = $('#cust_type').children("option:selected").text();
         // Create an object to store the sales and sales details data
         var salesData = {
             sales: {
                 transaction_type: 'POS',
-                cust_type: $('#cust_type').val(),
+                cust_type: cust_type,
                 cust_id: $('#cust_id').val(),
                 emp_id: $('#emp_id').val(),
                 subtotal: $('#subtotal').val(),

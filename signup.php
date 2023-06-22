@@ -20,36 +20,36 @@ include('time-date.php');
 
 <body class="">
 
-    <div class="alert alert-no-qty-left bg-danger contact_no_min"">
+    <div class="alert alert-no-qty-left bg-danger contact_no_min">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         Please ensure that the contact number entered contains a minimum of 10 digits.
     </div>
 
-    <div class="alert alert-no-qty-left bg-danger age_min"">
+    <div class="alert alert-no-qty-left bg-danger age_min">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         You're not allowed to sign up for Gorder. Minimum age requirement is 16 years old.
     </div>
 
-    <div class="alert alert-no-qty-left bg-danger set-up-add"">
+    <div class="alert alert-no-qty-left bg-danger set-up-add">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         Please set up your address to proceed with the registration process.
     </div>
 
-    <div class="alert alert-no-qty-left bg-danger username_min_char"">
+    <div class="alert alert-no-qty-left bg-danger username_min_char">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         Invalid username. Please ensure that the username is 7 characters or more, does not contain special characters, and is not comprised only of numbers.
     </div>
 
-    <div class="alert alert-no-qty-left bg-danger password-format"">
+    <div class="alert alert-no-qty-left bg-danger password-format">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         Password needs to have at least 8 characters, including letters, digits, and a special symbol.
     </div>
     
-    <div class="alert alert-no-qty-left bg-danger email-exists"">
+    <div class="alert alert-no-qty-left bg-danger email-exists">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         The email you entered already exists. Please use a different email address.
     </div>
-    <div class="alert alert-no-qty-left bg-danger username-exists"">
+    <div class="alert alert-no-qty-left bg-danger username-exists">
         <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
         The username you entered already exists. Please choose a different username address.
     </div>

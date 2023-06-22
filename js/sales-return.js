@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var tax_percentage = $('#tax').val();
     var url;
     const transaction_id = $('#transaction_id_hidden').val();
 
@@ -113,7 +114,6 @@ $(document).ready(function () {
         }
 
         if (hasNegative) {
-            console.log('asd');
             alertInvalidQtyInput.css('opacity', 1);
             alertInvalidQtyInput.css('pointer-events', 'auto');
         } else if (quantity == maximumValue) {
@@ -200,7 +200,7 @@ $(document).ready(function () {
             $('input[name="subtotal"]').val(subtotal.toFixed(2));
 
             if (isVatable == 1) {
-                var vat = vatableSubtotal * 0.05; // calculate the VAT value
+                var vat = vatableSubtotal * tax_percentage; // calculate the VAT value
                 $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
             }
 
@@ -231,7 +231,7 @@ $(document).ready(function () {
             var discount_val = parseFloat($('#discount').val());
             var total = (subtotal_val + vat_val) - discount_val;
 
-            $('#total').val(total.toFixed(2)); 
+            $('#total').val(total.toFixed(2));
 
 
         } else {

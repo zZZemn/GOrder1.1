@@ -273,6 +273,13 @@ if (isset($_SESSION['id'])) {
                                                             <input type="number" name="change" id="change" class="form-control text-success" readonly required min="0" value="0.00" oninput="validity.valid||(value='0');">
                                                             <label for="Change">Change</label>
                                                         </div>
+                                                        <?php 
+                                                            $tax_result = $conn->query("SELECT TAX_PERCENTAGE FROM tax WHERE TAX_ID = 1");
+                                                            $tax = $tax_result->fetch_assoc();
+                                                            $tax_percent = $tax['TAX_PERCENTAGE'];
+                                                            
+                                                        ?>
+                                                        <input type="hidden" name="tax" id="tax" value="<?php echo $tax_percent ?>">
                                                     </div>
                                                 </div>
                                             </th>

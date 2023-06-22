@@ -126,10 +126,6 @@ $(document).ready(function () {
         var birthDate = new Date(birthday);
         var timeDiff = Date.now() - birthDate.getTime();
         var age = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 365.25));
-        console.log(region);
-        console.log(province);
-        console.log(municipality);
-        console.log(barangay);
         if (region !== null && province !== null && municipality !== null && barangay !== null) {
             if (age >= 16) {
                 if (contact.length === 10) {
