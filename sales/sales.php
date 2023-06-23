@@ -340,7 +340,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/pos-sales.js"></script>
+        <script src="../js/salesupdate.js"></script>
 
 
     <?php else : ?>

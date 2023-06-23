@@ -1,8 +1,6 @@
 $(document).ready(function () {
-    var tax_percentage = $('#tax').val();
     var url;
     const transaction_id = $('#transaction_id_hidden').val();
-
     function loadXMLDoc() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -36,8 +34,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         var transaction_id = $('#transaction_id').val();
-        var inputs = $('input[type="number"]');
-
+        var inputs = $('input[name="rtn_quantity"]');
         inventory[0].transaction_id = transaction_id;
         inventory[1] = [];
 
@@ -151,6 +148,7 @@ $(document).ready(function () {
     //pick product 
     $(document).on('submit', '.product-select', function (e) {
         e.preventDefault();
+        var tax_percentage = $('#tax').val();
         var unitMeasurement = '';
         // extract the product details from the hidden input fields
         var productId = $(this).find('input[name="product_id"]').val();
@@ -232,8 +230,6 @@ $(document).ready(function () {
             var total = (subtotal_val + vat_val) - discount_val;
 
             $('#total').val(total.toFixed(2));
-
-
         } else {
             $('.alert-no-qty-left').css('opacity', 1);
             $('.alert-no-qty-left').css('pointer-events', 'auto');

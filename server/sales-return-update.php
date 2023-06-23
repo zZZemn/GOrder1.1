@@ -108,7 +108,7 @@ if (isset($_SESSION['id'])) {
                                             ?>
                                             <div class="qty-container-div">
                                                 <input type="hidden" id="price" value="<?php echo $price_pc ?>" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
-                                                <input type="number" class="form-control" name="quantity" id="<?php echo $salesD_row['INV_ID'] ?>" placeholder="Enter Quantity" min="0" max="<?php echo htmlspecialchars($salesD_row['QUANTITY']) ?>" oninput="if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
+                                                <input type="number" class="form-control" name="rtn_quantity" id="<?php echo $salesD_row['INV_ID'] ?>" placeholder="Enter Quantity" min="0" max="<?php echo htmlspecialchars($salesD_row['QUANTITY']) ?>" oninput="if(parseInt(this.value) > parseInt(this.max)) this.value = this.max;" <?php echo ($return_check_result->num_rows > 0) ? 'disabled' : '' ?>>
                                                 <label class="alert alert-when-invalid-qty text-danger">Invalid inputs will not be save.</label>
                                                 <label class="alert alert-when-reach-maxlevel text-danger">Maximum level.</label>
                                             </div>
