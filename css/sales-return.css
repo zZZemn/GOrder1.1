@@ -18,7 +18,7 @@ th {
     font-size: 15px;
     font-weight: 500;
     border: 1px solid rgb(0, 0, 0);
-
+    padding: 10px;
     transform: translateY(5px);
 }
 
@@ -127,6 +127,10 @@ input {
     overflow-y: auto;
 }
 
+.pos-search-th {
+    border: 1px solid black;
+}
+
 .search-response-container form {
     margin: 5px;
 }
@@ -147,6 +151,9 @@ input {
     margin-top: 0 !important;
     max-height: 280px;
     overflow-y: scroll;
+
+    position: absolute;
+    top: 0;
 }
 
 .return-replace-item-container tr th {
@@ -178,6 +185,10 @@ input {
     position: absolute;
     bottom: 10px;
     width: 100%;
+
+    background-color: white;
+    padding: 10px 0px;
+    border-top: 1px solid black;
 }
 
 .top {
@@ -202,9 +213,19 @@ input {
     font-weight: 500;
     padding: 0px 5px;
     background-color: white;
+    transform: translateY(-7px);
 }
 
 .computation input, .computation select{
-    width: 100px !important;
+    width: 120px !important;
     height: 40px !important;
 }
+
+.payment-required {
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 8px;
+    background-color: white;
+    transform: translateY(5px);
+} 

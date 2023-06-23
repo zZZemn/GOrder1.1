@@ -46,7 +46,7 @@ if (isset($_SESSION['id'])) {
                     $sales_details_result = $conn->query($sales_details_sql);
                     if ($sales_details_result->num_rows > 0) {
 ?>
-                        <table class="table table-striped">
+                        <table class="">
                             <thead>
                                 <tr class="return-products-tr">
                                     <th colspan="5" class="bg-dark text-light">
@@ -267,6 +267,9 @@ if (isset($_SESSION['id'])) {
                                                         <div class="input">
                                                             <input type="number" name="payment" id="payment" class="form-control text-primary" required>
                                                             <label for="payment">Payment</label>
+                                                            <span class="payment-required text-primary" id="payment-required-span">
+                                                                
+                                                            </span>
                                                         </div>
 
                                                         <div class="input">

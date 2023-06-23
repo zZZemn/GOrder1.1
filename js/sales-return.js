@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    var discountPercentage = $('#discount_percentage').val();
     var url;
     const transaction_id = $('#transaction_id_hidden').val();
     function loadXMLDoc() {
@@ -92,7 +93,7 @@ $(document).ready(function () {
 
 
 
-    $(document).on('input', 'input[name="quantity"]', function () {
+    $(document).on('input', 'input[name="rtn_quantity"]', function () {
         var hasNegative = false;
         console.log('input');
         var maximumValue = $(this).attr('max');
@@ -124,6 +125,9 @@ $(document).ready(function () {
             alertInvalidQtyInput.css('pointer-events', 'none');
         }
     });
+
+
+    // sreplace
 
     $(document).on('input', '#search-product', function (e) {
         e.preventDefault();
@@ -217,7 +221,7 @@ $(document).ready(function () {
             var vat_val = parseFloat($('#vat').val());
 
             if (cust_type == "pwd" || cust_type == "senior") {
-                var discountAmount = discoutableSubtotal * .20;
+                var discountAmount = discoutableSubtotal * discountPercentage;
                 $('#discount').val(discountAmount.toFixed(2));
             } else {
                 $('#discount').val('0.00');
@@ -230,6 +234,24 @@ $(document).ready(function () {
             var total = (subtotal_val + vat_val) - discount_val;
 
             $('#total').val(total.toFixed(2));
+
+            //payment notif
+            var total = parseFloat($('#total').val());
+            var voucher = parseFloat($('#voucher').val());
+
+            var paymentRequired = false;
+            if (total > voucher) {
+                paymentRequired = true
+                console.log(total);
+                console.log(voucher);
+                $('#payment-required-span').text('Payment is required');
+                $('#replace').prop('disabled', true);
+            } else {
+                paymentRequired = false;
+                $('#payment-required-span').text('');
+                $('#replace').prop('disabled', false);
+            }
+
         } else {
             $('.alert-no-qty-left').css('opacity', 1);
             $('.alert-no-qty-left').css('pointer-events', 'auto');
@@ -240,5 +262,168 @@ $(document).ready(function () {
             }, 2000);
         }
     });
+
+    $(document).on('input', 'input[name="quantity"]', function () {
+        var tax_percentage = $('#tax').val();
+        var maximumValue = $(this).attr('max');
+        var quantity = $(this).val();
+
+        if (quantity == maximumValue) {
+            $('.alert-inv-qty-input').css('opacity', 1);
+            $('.alert-inv-qty-input').css('pointer-events', 'auto');
+            setTimeout(function () {
+                $('.alert-inv-qty-input').css('opacity', 0);
+                $('.alert-inv-qty-input').css('pointer-events', 'none');
+            }, 1000);
+        }
+
+        var sellingPrice = $(this).closest('tr').find('input[name="selling_price"]').val();
+        var isVatable = $(this).closest('tr').find('input[name="isVatable"]').val();
+
+        if (quantity === "" || parseFloat(quantity) < 1) {
+            // Set quantity to 1
+            $(this).val(1);
+            quantity = 1; // Update the quantity variable
+        }
+
+        var amount = quantity * sellingPrice;
+
+        $(this).closest('tr').find('.amount').val(amount);
+
+        //subtotal
+        var subtotal = 0;
+        var vatableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            subtotal += parseFloat(amount);
+            var isVatableItem = $(this).find('input[name="isVatable"]').val();
+            if (isVatableItem == 1) {
+                vatableSubtotal += parseFloat(amount);
+            }
+        });
+
+        $('input[name="subtotal"]').val(subtotal.toFixed(2));
+
+        if (isVatable == 1) {
+            var vat = vatableSubtotal * tax_percentage; // calculate the VAT value
+            $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
+        }
+
+        var discoutableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+            if (isDiscountable == 1) {
+                discoutableSubtotal += parseFloat(amount);
+            }
+        });
+
+        // var cust_type = $('#cust_type').val();
+        var cust_type = 'pwd';
+        var subtotal_val = parseFloat($('#subtotal').val());
+        var vat_val = parseFloat($('#vat').val());
+
+        if (cust_type == "pwd" || cust_type == "senior") {
+            var discountAmount = discoutableSubtotal * discountPercentage;
+            $('#discount').val(discountAmount.toFixed(2));
+        } else {
+            $('#discount').val('0.00');
+        }
+
+        //set total
+        var subtotal_val = parseFloat($('#subtotal').val());
+        var vat_val = parseFloat($('#vat').val());
+        var discount_val = parseFloat($('#discount').val());
+        var total = (subtotal_val + vat_val) - discount_val;
+
+        $('#total').val(total.toFixed(2));
+
+
+        //payment notif
+        var total = parseFloat($('#total').val());
+        var voucher = parseFloat($('#voucher').val());
+
+        var paymentRequired = false;
+        if (total > voucher) {
+            paymentRequired = true
+            console.log(total);
+            console.log(voucher);
+            $('#payment-required-span').text('Payment is required');
+            $('#replace').prop('disabled', true);
+        } else {
+            paymentRequired = false;
+            $('#payment-required-span').text('');
+            $('#replace').prop('disabled', false);
+        }
+
+    })
+
+
+    $(document).on('click', '.remove-row', function () {
+        $(this).closest('tr').remove();
+        var tax_percentage = $('#tax').val();
+        //subtotal
+        var subtotal = 0;
+        var vatableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            subtotal += parseFloat(amount);
+            var isVatableItem = $(this).find('input[name="isVatable"]').val();
+            if (isVatableItem == 1) {
+                vatableSubtotal += parseFloat(amount);
+            }
+        });
+
+        $('input[name="subtotal"]').val(subtotal.toFixed(2));
+
+        var vat = vatableSubtotal * tax_percentage; // calculate the VAT value
+        $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
+
+        var discoutableSubtotal = 0;
+        $('.pos-orders-container tbody tr').each(function () {
+            var amount = $(this).find('.amount').val();
+            var isDiscountable = $(this).find('input[name="isDiscountable"]').val();
+            if (isDiscountable == 1) {
+                discoutableSubtotal += parseFloat(amount);
+            }
+        });
+
+        // var cust_type = $('#cust_type').val();
+        var cust_type = 'pwd';
+        var subtotal_val = parseFloat($('#subtotal').val());
+        var vat_val = parseFloat($('#vat').val());
+
+        if (cust_type == "pwd" || cust_type == "senior") {
+            var discountAmount = discoutableSubtotal * discountPercentage;
+            $('#discount').val(discountAmount.toFixed(2));
+        } else {
+            $('#discount').val('0.00');
+        }
+
+        //set total
+        var subtotal_val = parseFloat($('#subtotal').val());
+        var vat_val = parseFloat($('#vat').val());
+        var discount_val = parseFloat($('#discount').val());
+        var total = (subtotal_val + vat_val) - discount_val;
+
+        $('#total').val(total.toFixed(2));
+
+        //payment notif
+            var total = parseFloat($('#total').val());
+            var voucher = parseFloat($('#voucher').val());
+
+            var paymentRequired = false;
+            if (total > voucher) {
+                paymentRequired = true
+                console.log(total);
+                console.log(voucher);
+                $('#payment-required-span').text('Payment is required');
+                $('#replace').prop('disabled', true);
+            } else {
+                paymentRequired = false;
+                $('#payment-required-span').text('');
+                $('#replace').prop('disabled', false);
+            }
+    })
 
 });

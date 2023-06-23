@@ -29,6 +29,26 @@ if (isset($_SESSION['id'])) {
 
             <body>
                 <input type="hidden" id="transaction_id_hidden" value="<?php echo $transaction_id ?>">
+                <?php 
+                $sales_sql = "SELECT CUST_TYPE FROM SALES WHERE TRANSACTION_ID = '$transaction_id'";
+                $sales_result = $conn->query($sales_sql);
+                if($sales_result->num_rows > 0){
+                    $sales = $sales_result->fetch_assoc();
+                    $cust_type = $sales['CUST_TYPE'];
+
+                    $discount_sql = "SELECT DISCOUNT_PERCENTAGE FROM discount WHERE DISCOUNT_NAME = '$cust_type'";
+                    $discount_result = $conn->query($discount_sql);
+                    if($discount_result->num_rows > 0){
+                        $discount = $discount_result->fetch_assoc();
+                        $discount_percentage = $discount['DISCOUNT_PERCENTAGE'];
+                    } else {
+                        $discount_percentage = 0.00;
+                    }
+                } else {
+                    $discount_percentage = 0.00;
+                }
+                ?>
+                <input type="hidden" id="discount_percentage" value="<?php echo $discount_percentage ?>">
                 <div id="return_container">
 
                 </div>
