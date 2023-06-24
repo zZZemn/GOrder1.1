@@ -20,6 +20,11 @@ if (isset($_SESSION['id'])) {
                 $cust_id = $sales['CUST_ID'];
                 $emp_id = $sales['EMP_ID'];
 
+?>
+                <input type="hidden" name="cust_id" id="cust_id" value="<?php echo $cust_id ?>">
+                <input type="hidden" name="emp_id" id="emp_id" value="<?php echo $emp_id ?>">
+                <?php
+
                 $emp_sql = "SELECT FIRST_NAME, LAST_NAME, MIDDLE_INITIAL FROM employee WHERE EMP_ID = '$emp_id'";
                 $emp_result = $conn->query($emp_sql);
                 $process_emp_name = '';
@@ -45,7 +50,7 @@ if (isset($_SESSION['id'])) {
                     $sales_details_sql = "SELECT * FROM sales_details WHERE TRANSACTION_ID = '$transaction_id'";
                     $sales_details_result = $conn->query($sales_details_sql);
                     if ($sales_details_result->num_rows > 0) {
-?>
+                ?>
                         <table class="">
                             <thead>
                                 <tr class="return-products-tr">
@@ -169,6 +174,9 @@ if (isset($_SESSION['id'])) {
                                     $return = $return_check_result->fetch_assoc();
                                     $return_id = $return['RETURN_ID'];
                                 ?>
+                                    <input type="hidden" id="return_id" name="return_id" value="<?php echo $return_id ?>">
+                                    <?php
+                                    ?>
                                     <tr class="return-details-header-tr">
                                         <th colspan="3">
                                             <label>Date</label>
@@ -211,94 +219,136 @@ if (isset($_SESSION['id'])) {
                                                 <td colspan="2"><?php echo $product_name ?></td>
                                                 <td class="text-center"><?php echo $row['QTY'] ?></td>
                                             </tr>
-                                        <?php
+                                            <?php
                                         }
-                                        ?>
-                                        <tr class="return-details-center-tr">
-                                            <th colspan="5" class="bg-dark text-light">
-                                                <center>Replace Items</center>
-                                            </th>
-                                        </tr>
-                                        <tr class="replace-tr">
-                                            <th colspan="3" class="return-replace-item-th">
-                                                <table class="return-replace-item-container pos-orders-container">
-                                                    <thead>
-                                                        <th>Product</th>
+
+                                        $return_sql = "SELECT REPLACE_ID FROM `return` WHERE RETURN_ID = '$return_id'";
+                                        $return_result = $conn->query($return_sql);
+                                        if ($return_result->num_rows > 0) {
+                                            $return2 = $return_result->fetch_assoc();
+                                            $replace_id = $return2['REPLACE_ID'];
+
+                                            if ($replace_id != null) {
+                                                $replace_data_sql = "SELECT * FROM sales_details WHERE TRANSACTION_ID = '$replace_id'";
+                                                $replace_data_result = $conn->query($replace_data_sql);
+                                                if ($replace_data_result->num_rows > 0) {
+                                            ?>
+                                                    <tr class="return-details-center-tr">
+                                                        <th colspan="5" class="bg-dark text-light">
+                                                            <center>Replaced Items</center>
+                                                        </th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th colspan="2">Product Name</th>
                                                         <th>Price</th>
-                                                        <th>Qty</th>
-                                                        <th>Amt</th>
-                                                        <th>Del</th>
-                                                    </thead>
-                                                    <tbody>
+                                                        <th>Quantity</th>
+                                                        <th>Amount</th>
+                                                    </tr>
+                                                    <?php
+                                                    while ($replace = $replace_data_result->fetch_assoc()) {
+                                                        $product_id = $replace['PRODUCT_ID'];
+                                                        $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                                                        $product_result = $conn->query($product_sql);
+                                                        $product = $product_result->fetch_assoc();
+                                                    ?>
+                                                        <tr>
+                                                            <td colspan="2"><?php echo $product['PRODUCT_NAME'].' '.$product['UNIT_MEASUREMENT'] ?></td>
+                                                            <td><?php echo $product['SELLING_PRICE'] ?></td>
+                                                            <td><?php echo $replace['QUANTITY'] ?></td>
+                                                            <td><?php echo $replace['AMOUNT'] ?></td>
+                                                        </tr>
+                                                <?php
+                                                    }
+                                                }
+                                            } else {
+                                                ?>
+                                                <tr class="return-details-center-tr">
+                                                    <th colspan="5" class="bg-dark text-light">
+                                                        <center>Replace Items</center>
+                                                    </th>
+                                                </tr>
+                                                <tr class="replace-tr">
+                                                    <th colspan="3" class="return-replace-item-th">
+                                                        <table class="return-replace-item-container pos-orders-container">
+                                                            <thead>
+                                                                <th>Product</th>
+                                                                <th>Price</th>
+                                                                <th>Qty</th>
+                                                                <th>Amt</th>
+                                                                <th>Del</th>
+                                                            </thead>
+                                                            <tbody>
 
-                                                    </tbody>
-                                                </table>
-                                                <div class="computation remove-when-print">
-                                                    <div class="top">
-                                                        <div class="input">
-                                                            <input type="number" name="subtotal" id="subtotal" class="form-control" readonly required value="0.00">
-                                                            <label for="subtotal">Subtotal</label>
-                                                        </div>
-                                                        <div class="input">
-                                                            <input type="number" name="total" id="total" class="form-control" readonly required value="0.00">
-                                                            <label for="total">Total</label>
-                                                        </div>
-                                                        <div class="input">
-                                                            <input type="number" readonly name="voucher" id="voucher" class="form-control text-primary" value="<?php echo $return['RETURN_AMOUNT'] ?>" required>
-                                                            <label for=vouchert">Voucher</label>
-                                                        </div>
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="computation remove-when-print">
+                                                            <div class="top">
+                                                                <div class="input">
+                                                                    <input type="number" name="subtotal" id="subtotal" class="form-control" readonly required value="0.00">
+                                                                    <label for="subtotal">Subtotal</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <input type="number" name="total" id="total" class="form-control" readonly required value="0.00">
+                                                                    <label for="total">Total</label>
+                                                                </div>
+                                                                <div class="input">
+                                                                    <input type="number" readonly name="voucher" id="voucher" class="form-control text-primary" value="<?php echo $return['RETURN_AMOUNT'] ?>" required>
+                                                                    <label for=vouchert">Voucher</label>
+                                                                </div>
 
-                                                        <div>
-                                                            <input type="submit" name="replace" id="replace" class="btn btn-primary replace" value="Replace" disabled>
+                                                                <div>
+                                                                    <input type="submit" name="replace" id="replace" class="btn btn-primary replace" value="Replace" disabled>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="bot">
+                                                                <div class="input">
+                                                                    <input type="number" name="vat" id="vat" class="form-control" readonly required value="0.00">
+                                                                    <label for="vat">VAT</label>
+                                                                </div>
+
+                                                                <div class="input">
+                                                                    <input type="number" name="discount" id="discount" class="form-control" readonly required value="0.00">
+                                                                    <label for="discount">Discount</label>
+                                                                </div>
+
+                                                                <div class="input">
+                                                                    <input type="number" name="payment" id="payment" class="form-control text-primary" required disabled>
+                                                                    <label for="payment">Payment</label>
+                                                                    <span class="payment-required text-primary" id="payment-required-span">
+
+                                                                    </span>
+                                                                </div>
+
+                                                                <div class="input">
+                                                                    <input type="number" name="change" id="change" class="form-control text-success" readonly required min="0" value="0.00" oninput="validity.valid||(value='0');">
+                                                                    <label for="Change">Change</label>
+                                                                </div>
+                                                                <?php
+                                                                $tax_result = $conn->query("SELECT TAX_PERCENTAGE FROM tax WHERE TAX_ID = 1");
+                                                                $tax = $tax_result->fetch_assoc();
+                                                                $tax_percent = $tax['TAX_PERCENTAGE'];
+
+                                                                ?>
+                                                                <input type="hidden" name="tax" id="tax" value="<?php echo $tax_percent ?>">
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </th>
 
-                                                    <div class="bot">
-                                                        <div class="input">
-                                                            <input type="number" name="vat" id="vat" class="form-control" readonly required value="0.00">
-                                                            <label for="vat">VAT</label>
+                                                    <td colspan="2" class="pos-search-th">
+                                                        <div class="search-container">
+                                                            <form>
+                                                                <input type="text" id="search-product" class="form-control" placeholder="Search Product...">
+                                                            </form>
                                                         </div>
+                                                        <div id="search-response-container" class="search-response-container">
 
-                                                        <div class="input">
-                                                            <input type="number" name="discount" id="discount" class="form-control" readonly required value="0.00">
-                                                            <label for="discount">Discount</label>
                                                         </div>
-
-                                                        <div class="input">
-                                                            <input type="number" name="payment" id="payment" class="form-control text-primary" required>
-                                                            <label for="payment">Payment</label>
-                                                            <span class="payment-required text-primary" id="payment-required-span">
-                                                                
-                                                            </span>
-                                                        </div>
-
-                                                        <div class="input">
-                                                            <input type="number" name="change" id="change" class="form-control text-success" readonly required min="0" value="0.00" oninput="validity.valid||(value='0');">
-                                                            <label for="Change">Change</label>
-                                                        </div>
-                                                        <?php 
-                                                            $tax_result = $conn->query("SELECT TAX_PERCENTAGE FROM tax WHERE TAX_ID = 1");
-                                                            $tax = $tax_result->fetch_assoc();
-                                                            $tax_percent = $tax['TAX_PERCENTAGE'];
-                                                            
-                                                        ?>
-                                                        <input type="hidden" name="tax" id="tax" value="<?php echo $tax_percent ?>">
-                                                    </div>
-                                                </div>
-                                            </th>
-
-                                            <td colspan="2" class="pos-search-th">
-                                                <div class="search-container">
-                                                    <form>
-                                                        <input type="text" id="search-product" class="form-control" placeholder="Search Product...">
-                                                    </form>
-                                                </div>
-                                                <div id="search-response-container" class="search-response-container">
-
-                                                </div>
-                                            </td>
-                                        </tr>
+                                                    </td>
+                                                </tr>
                                     <?php
+                                            }
+                                        }
                                     }
                                 } else {
                                     ?>

@@ -48,6 +48,7 @@ if (isset($_SESSION['id'])) {
                     $discount_percentage = 0.00;
                 }
                 ?>
+                <input type="hidden" id="cust_type" value="<?php echo $cust_type ?>">
                 <input type="hidden" id="discount_percentage" value="<?php echo $discount_percentage ?>">
                 <div id="return_container">
 

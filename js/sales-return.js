@@ -1,5 +1,6 @@
 $(document).ready(function () {
     var discountPercentage = $('#discount_percentage').val();
+    var cust_type = $('#cust_type').val();
     var url;
     const transaction_id = $('#transaction_id_hidden').val();
     function loadXMLDoc() {
@@ -140,7 +141,6 @@ $(document).ready(function () {
                     query: query
                 },
                 success: function (data) {
-                    console.log(data);
                     $('#search-response-container').html(data);
                 }
             });
@@ -215,17 +215,11 @@ $(document).ready(function () {
                 }
             });
 
-            // var cust_type = $('#cust_type').val();
-            var cust_type = 'pwd';
             var subtotal_val = parseFloat($('#subtotal').val());
             var vat_val = parseFloat($('#vat').val());
 
-            if (cust_type == "pwd" || cust_type == "senior") {
-                var discountAmount = discoutableSubtotal * discountPercentage;
-                $('#discount').val(discountAmount.toFixed(2));
-            } else {
-                $('#discount').val('0.00');
-            }
+            var discountAmount = discoutableSubtotal * discountPercentage;
+            $('#discount').val(discountAmount.toFixed(2));
 
             //set total
             var subtotal_val = parseFloat($('#subtotal').val());
@@ -242,14 +236,38 @@ $(document).ready(function () {
             var paymentRequired = false;
             if (total > voucher) {
                 paymentRequired = true
-                console.log(total);
-                console.log(voucher);
                 $('#payment-required-span').text('Payment is required');
                 $('#replace').prop('disabled', true);
             } else {
                 paymentRequired = false;
                 $('#payment-required-span').text('');
                 $('#replace').prop('disabled', false);
+            }
+
+            var total = parseFloat($('#total').val());
+            var voucher = parseFloat($('#voucher').val());
+
+            if (voucher < total) {
+                $('#payment').prop('disabled', false);
+
+                var payment = parseFloat($('#payment').val());
+                payment = isNaN(payment) ? 0 : parseFloat($('#payment').val());
+                var paymentAndVoucherSum = payment + voucher;
+                if (total > paymentAndVoucherSum) {
+                    $('#replace').prop('disabled', true);
+                    $('#change').val('');
+                    var minimum = total - voucher;
+                    $('#payment-required-span').text('Minimum: ' + minimum);
+                } else {
+                    var change = paymentAndVoucherSum - total;
+                    $('#change').val(change);
+                    $('#replace').prop('disabled', false);
+                    $('#payment-required-span').text('');
+                }
+            } else {
+                $('#payment').val('');
+                $('#change').val('');
+                $('#payment').prop('disabled', true);
             }
 
         } else {
@@ -318,17 +336,11 @@ $(document).ready(function () {
             }
         });
 
-        // var cust_type = $('#cust_type').val();
-        var cust_type = 'pwd';
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = discoutableSubtotal * discountPercentage;
-            $('#discount').val(discountAmount.toFixed(2));
-        } else {
-            $('#discount').val('0.00');
-        }
+        var discountAmount = discoutableSubtotal * discountPercentage;
+        $('#discount').val(discountAmount.toFixed(2));
 
         //set total
         var subtotal_val = parseFloat($('#subtotal').val());
@@ -346,8 +358,6 @@ $(document).ready(function () {
         var paymentRequired = false;
         if (total > voucher) {
             paymentRequired = true
-            console.log(total);
-            console.log(voucher);
             $('#payment-required-span').text('Payment is required');
             $('#replace').prop('disabled', true);
         } else {
@@ -356,6 +366,31 @@ $(document).ready(function () {
             $('#replace').prop('disabled', false);
         }
 
+        var total = parseFloat($('#total').val());
+        var voucher = parseFloat($('#voucher').val());
+
+        if (voucher < total) {
+            $('#payment').prop('disabled', false);
+
+            var payment = parseFloat($('#payment').val());
+            payment = isNaN(payment) ? 0 : parseFloat($('#payment').val());
+            var paymentAndVoucherSum = payment + voucher;
+            if (total > paymentAndVoucherSum) {
+                $('#replace').prop('disabled', true);
+                $('#change').val('');
+                var minimum = total - voucher;
+                $('#payment-required-span').text('Minimum: ' + minimum);
+            } else {
+                var change = paymentAndVoucherSum - total;
+                $('#change').val(change);
+                $('#replace').prop('disabled', false);
+                $('#payment-required-span').text('');
+            }
+        } else {
+            $('#payment').val('');
+            $('#change').val('');
+            $('#payment').prop('disabled', true);
+        }
     })
 
 
@@ -388,17 +423,11 @@ $(document).ready(function () {
             }
         });
 
-        // var cust_type = $('#cust_type').val();
-        var cust_type = 'pwd';
         var subtotal_val = parseFloat($('#subtotal').val());
         var vat_val = parseFloat($('#vat').val());
 
-        if (cust_type == "pwd" || cust_type == "senior") {
-            var discountAmount = discoutableSubtotal * discountPercentage;
-            $('#discount').val(discountAmount.toFixed(2));
-        } else {
-            $('#discount').val('0.00');
-        }
+        var discountAmount = discoutableSubtotal * discountPercentage;
+        $('#discount').val(discountAmount.toFixed(2));
 
         //set total
         var subtotal_val = parseFloat($('#subtotal').val());
@@ -409,21 +438,132 @@ $(document).ready(function () {
         $('#total').val(total.toFixed(2));
 
         //payment notif
-            var total = parseFloat($('#total').val());
-            var voucher = parseFloat($('#voucher').val());
+        var total = parseFloat($('#total').val());
+        var voucher = parseFloat($('#voucher').val());
 
-            var paymentRequired = false;
-            if (total > voucher) {
-                paymentRequired = true
-                console.log(total);
-                console.log(voucher);
-                $('#payment-required-span').text('Payment is required');
-                $('#replace').prop('disabled', true);
-            } else {
-                paymentRequired = false;
-                $('#payment-required-span').text('');
-                $('#replace').prop('disabled', false);
-            }
+        var paymentRequired = false;
+        if (total > voucher) {
+            paymentRequired = true
+            $('#payment-required-span').text('Payment is required');
+            $('#replace').prop('disabled', true);
+        } else {
+            paymentRequired = false;
+            $('#payment-required-span').text('');
+            $('#replace').prop('disabled', false);
+        }
+
+        if(total < 1){
+            $('#replace').prop('disabled', true);
+        }
     })
 
+    $(document).on('input', 'input[name="payment"]', function () {
+        var total = parseFloat($('#total').val());
+        var voucher = parseFloat($('#voucher').val());
+        var payment = parseFloat($('#payment').val());
+        payment = isNaN(payment) ? 0 : parseFloat($('#payment').val());
+        var paymentAndVoucherSum = payment + voucher;
+
+        if (total > voucher) {
+            if (total > paymentAndVoucherSum) {
+                $('#replace').prop('disabled', true);
+                $('#change').val('');
+                var minimum = total - voucher;
+                $('#payment-required-span').text('Minimum: ' + minimum);
+            } else {
+                var change = paymentAndVoucherSum - total;
+                $('#change').val(change);
+                $('#replace').prop('disabled', false);
+                $('#payment-required-span').text('');
+            }
+        } else {
+            $('#payment').val('');
+            $('#change').val('');
+            $('#payment').prop('disabled', true);
+        }
+
+        if (paymentAndVoucherSum < total) {
+            $('#replace').prop('disabled', true);
+        }
+    })
+
+    $(document).on('click', '#replace', function (event) {
+        event.preventDefault();
+
+        var returnID = $('#return_id').val();
+        var voucher = $('#voucher').val();
+        var payment = $('#payment').val();
+        payment = payment === "" ? 0 : parseFloat(payment);
+        final_payment = parseFloat(voucher) + payment;
+
+        var salesData = {
+            sales: {
+                return_id: returnID,
+                transaction_type: 'Replace',
+                cust_type: cust_type,
+                cust_id: $('#cust_id').val(),
+                emp_id: $('#emp_id').val(),
+                subtotal: $('#subtotal').val(),
+                vat: $('#vat').val(),
+                discount: $('#discount').val(),
+                total: $('#total').val(),
+                payment: final_payment,
+                change: $('#change').val()
+            },
+            salesDetails: []
+        };
+
+        $('.pos-orders-container tbody tr').each(function (index, row) {
+            var detailsData = {
+                product_id: $(row).find('[name="product_id"]').val(),
+                quantity: $(row).find('[name="quantity"]').val(),
+                amount: $(row).find('[name="amount"]').val()
+            };
+
+            // Add the details to the salesData object
+            salesData.salesDetails.push(detailsData);
+        });
+
+        console.log(salesData);
+
+        $.ajax({
+            type: 'POST',
+            url: '../ajax-url/replace-process.php',
+            data: JSON.stringify(salesData),
+            contentType: 'application/json',
+            success: function (response) {
+                var responseData = JSON.parse(response);
+                if (responseData.success) {
+                    console.log(responseData);
+                    // Get the date and time from the response
+                    // var date = responseData.date;
+                    // var time = responseData.time;
+
+                    // $('#receipt-table tr td').addClass('border-0');
+                    // // Rest of your code
+
+                    // // Append the date and time to the HTML element with ID "date-time-print"
+                    // $('.table').removeClass('table-striped');
+                    // $('#ggd').append("Golden Gate Drugstore");
+                    // $('#ggd-add').append("Patubig, Marilao, Bulacan");
+                    // $('#date-time-print').append(date + '  |  ' + time);
+
+                    // $('#receipt-subtotal').append("<p>Subtotal </p> <p>:</p><p>" + $('#subtotal').val() + "</p>");
+                    // $('#receipt-vat').append("<p>VAT </p> <p>:</p><p>" + $('#vat').val() + "</p>");
+                    // $('#receipt-discount').append("<p>Discount </p> <p>:</p><p>" + $('#discount').val() + "</p>");
+                    // $('#receipt-total').append("<p>Total </p> <p>:</p><p>" + $('#total').val() + "</p>");
+                    // $('#receipt-payment').append("<p>Payment </p> <p>:</p><p>" + $('#payment').val() + "</p>");
+                    // $('#receipt-change').append("<p>Change </p> <p>:</p><p>" + $('#change').val() + "</p>");
+
+                    // window.print();
+                    location.reload();
+                } else {
+                    console.log(responseData.error);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    })
 });
