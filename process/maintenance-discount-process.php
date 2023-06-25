@@ -8,25 +8,26 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($_POST['save_discount_rate'])) {
+    if (isset($_POST['id']) && isset($_POST['value'])) {
         $emp_id = $emp['EMP_ID'];
-        $new_discount_rate = $_POST['discount_rate'];
+        $new_discount_rate = $_POST['value'];
+        $discount_id = $_POST['id'];
         include('../time-date.php');
         $addDate = $currentDate;
         $addTime = $currentTime;
 
-        $update_discount_rate_sql = "UPDATE `discount` SET `DISCOUNT_PERCENTAGE`='$new_discount_rate' WHERE 1";
+        $update_discount_rate_sql = "UPDATE `discount` SET `DISCOUNT_PERCENTAGE`='$new_discount_rate' WHERE DISCOUNT_ID = '$discount_id'";
 
         $edit_discount_log = "INSERT INTO `emp_log`(`EMP_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) VALUES 
                     ('$emp_id','Update discount rate to $new_discount_rate.','$addDate','$addTime')";
 
         if ($conn->query($update_discount_rate_sql) === TRUE && $conn->query($edit_discount_log) === TRUE) {
-            header("Location: ../admin/maintenance-discount.php?status=edited");
-            exit();
+            echo 'edited';
         } else {
-            header("Location: ../admin/maintenance-discount.php?status=invalid_edit");
-            exit();
+            echo 'error';
         }
+    } else {
+        echo 'error';
     }
 } else {
     header("Location: ../index.php");

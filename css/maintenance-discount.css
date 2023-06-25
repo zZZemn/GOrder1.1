@@ -1,0 +1,124 @@
+.discount-center {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.add-discount-open{
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: blue;
+    padding: 5px;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.add-discount {
+    position: absolute;
+    z-index: 5;
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    box-shadow: 1px 1px 5px rgb(185, 185, 185);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    opacity: 0;
+    pointer-events: none;
+}
+
+.add-discount .input {
+    position: relative;
+    width: 200px !important;
+}
+
+.add-discount .input label {
+    position: absolute;
+    top: 0;
+    left: 5px;
+    font-size: 10px;
+    background-color: white;
+    transform: translateY(-8px);
+    padding: 0px 10px;
+}
+
+.close-add-discount {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    color: black;
+}
+
+.table-container {
+    margin-top: 20px;
+    height: 80vh;
+    overflow-y: auto;
+}
+
+.table {
+    background-color: white;
+}
+
+.table thead {
+    position: sticky;
+    top: 0;
+    background-color: white !important;
+    z-index: 1;
+}
+
+.table thead tr th {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.table tbody tr td, .table tbody tr td input {
+    font-size: 13px;
+}
+
+.discount-input {
+    width: 100px !important;
+    text-align: center;
+}
+
+.td-discount-input {
+    position: relative;
+}
+
+.td-discount-input span {
+    position: absolute;
+    left: 12px;
+    top: 15px;
+    background-color: white;
+    padding: 0px 5px;
+}
+
+.alert {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    color: rgb(255, 255, 255) !important;
+
+    height: 50px;
+    width: 100px;
+    font-size: 15px;
+
+    z-index: 100000;
+
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.6s;
+    text-align: center;
+  }
+
+  .alert-invalid-decimal {
+    width: auto;
+    font-size: 12px;
+  }

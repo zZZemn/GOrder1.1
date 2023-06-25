@@ -23,7 +23,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
-    <link rel="stylesheet" href="../css/maintenance-tax.css">
+    <link rel="stylesheet" href="../css/maintenance-discount.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
     <title>GOrder | Maintenance</title>
@@ -278,21 +278,64 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
-        <div class="main">
+        <div class="alert alert-edited bg-success">
+            Edited
+        </div>
+        <div class="alert alert-inserted bg-success">
+            Inserted
+        </div>
+        <div class="alert alert-invalid-edit bg-danger">
+            Invalid
+        </div>
+        <div class="alert alert-invalid-decimal bg-danger">
+            Please enter a valid discount value with two decimal places.
+        </div>
 
-            <form class="tax-rate-container" method="post" action="../process/maintenance-discount-process.php">
-                <center>Discount Rate</center>
-                <div>
-                    <input type="text" class="form-control" name="discount_rate" id="tax_rate" value="<?php
-                                                                                                        $discount_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = 1";
-                                                                                                        $discount_result = $conn->query($discount_sql);
-                                                                                                        $discount = $discount_result->fetch_assoc();
-                                                                                                        echo $discount['DISCOUNT_PERCENTAGE'];
-                                                                                                        ?>" oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
-                    <label for="tax_rate">%</label>
-                </div>
-                <input type="submit" name="save_discount_rate" value="Save" class="btn btn-primary">
-            </form>
+        <div class="add-discount">
+            <center>Add Discount</center>
+            <a href="#" class="close-add-discount"><i class="fa-solid fa-xmark"></i></a>
+            <div class="input">
+                <input type="text" name="new_discount_name" id="new_discount_name" class="form-control">
+                <label>Discount Name</label>
+            </div>
+            <div class="input">
+                <input type="number" name="new_discount_percentage" id="new_discount_percentage" class="form-control">
+                <label>Discount Percentage</label>
+            </div>
+            <input type="submit" id="add_new_discount" value="Add" class="btn btn-primary">
+        </div>
+
+        <div class="main">
+            <center class="discount-center">Discount</center>
+            <a class="add-discount-open btn btn-primary" href="#">New Discount</a>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Discount Name</th>
+                            <th>Discount Percentage</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $discount_sql = "SELECT * FROM discount";
+                        $discount_result = $conn->query($discount_sql);
+                        if ($discount_result->num_rows > 0) {
+                            while ($discount_row = $discount_result->fetch_assoc()) {
+                        ?>
+                                <tr>
+                                    <td><?php echo $discount_row['DISCOUNT_NAME'] ?></td>
+                                    <td class="td-discount-input"><span>%</span><input type="number" class="form-control discount-input" value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"></td>
+                                    <td><input type="submit" class="save-discount btn btn-primary" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Save"></td>
+                                </tr>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="message-container">
                 <?php
@@ -373,6 +416,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
+        <script src="../js/discount-edit.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
