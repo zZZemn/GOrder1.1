@@ -32,11 +32,18 @@ if (isset($_SESSION['id'])) {
                         $change = $order['CHANGE'];
                         $emp_id = $emp['EMP_ID'];
 
-                        $cust_sql = "SELECT CUSTOMER_TYPE FROM customer_user WHERE CUST_ID = $cust_id";
+                        $cust_sql = "SELECT DISCOUNT_TYPE FROM customer_user WHERE CUST_ID = $cust_id";
                         $cust_result = $conn->query($cust_sql);
                         if ($cust_result->num_rows > 0) {
                             $cust = $cust_result->fetch_assoc();
-                            $cust_type = $cust['CUSTOMER_TYPE'];
+                            $discount_type = $cust['DISCOUNT_TYPE'];
+                            
+                            $discount_sql = "SELECT DISCOUNT_NAME FROM discount WHERE DISCOUNT_ID = '$discount_type'";
+                            $discount_result = $conn->query($discount_sql);
+                            if($discount_result->num_rows > 0){
+                                $discount = $discount_result->fetch_assoc();
+                                $discount_name = $discount['DISCOUNT_NAME'];
+                            }
                         } else {
                             $cust_type = '';
                         }
@@ -51,7 +58,7 @@ if (isset($_SESSION['id'])) {
                         }
 
                         $insert_sales_sql = "INSERT INTO `sales`(`TRANSACTION_ID`, `TRANSACTION_TYPE`, `ORDER_ID`, `PAYMENT_TYPE`, `CUST_TYPE`, `CUST_ID`, `TIME`, `DATE`, `EMP_ID`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `PAYMENT`, `CHANGE`, `UPDATED_TOTAL`) 
-                                                        VALUES ('$new_transaction_id','GOrder','$order_id','$payment_type','$cust_type','$cust_id','$currentTime','$currentDate','$emp_id','$subtotal','$vat','$discount','$total','$payment','$change','$total')";
+                                                        VALUES ('$new_transaction_id','GOrder','$order_id','$payment_type','$discount_name','$cust_id','$currentTime','$currentDate','$emp_id','$subtotal','$vat','$discount','$total','$payment','$change','$total')";
 
                         if ($conn->query($insert_sales_sql)) {
                             $products_order_sql = "SELECT * FROM order_details WHERE TRANSACTION_ID = '$order_id'";

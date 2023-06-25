@@ -264,3 +264,65 @@ function deliverDetails($rider_id, $order_id)
         return json_encode($data);
     }
 }
+
+function scanQR($transaction_id, $rider_id, $payment)
+{
+    global $currentDate;
+    global $currentTime;
+    global $conn;
+    $orders_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id' AND RIDER_ID = '$rider_id'";
+    $sales_sql = "SELECT * FROM `sales` WHERE ORDER_ID = '$transaction_id'";
+
+    if (($orders_result = $conn->query($orders_sql)) !== false && ($sales_result = $conn->query($sales_sql)) !== false) {
+        if ($orders_result->num_rows > 0 && $sales_result->num_rows > 0) {
+            $orders = $orders_result->fetch_assoc();
+            $sales = $sales_result->fetch_assoc();
+
+            $total = $orders['TOTAL'];
+            if ($total > $payment) {
+                $data = [
+                    'status' => 404,
+                    'message' => 'Invalid Payment',
+                ];
+                header("HTTP/1.0 404 Not Found");
+                return json_encode($data);
+                exit;
+            } else {
+                $change = $payment - $total;
+            }
+
+            $order_update_sql = "UPDATE `order` SET `PAYMENT`='$payment',`CHANGE`='$change',`STATUS`='Delivered' WHERE TRANSACTION_ID = '$transaction_id'";
+            $sales_update_sql = "UPDATE `sales` SET `TIME`='$currentTime',`DATE`='$currentDate', `PAYMENT`='$payment',`CHANGE`='$change' WHERE ORDER_ID = '$transaction_id'";
+
+            if ($conn->query($order_update_sql) && ($conn->query($sales_update_sql) === TRUE)) {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Transaction Completed',
+                ];
+                header("HTTP/1.0 404 OK");
+                return json_encode($data);
+            } else {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Transaction Not Complete',
+                ];
+                header("HTTP/1.0 404 OK");
+                return json_encode($data);
+            }
+        } else {
+            $data = [
+                'status' => 404,
+                'message' => 'Access Denied 1',
+            ];
+            header("HTTP/1.0 404 Not Found");
+            return json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 404,
+            'message' => 'Access Denied 2',
+        ];
+        header("HTTP/1.0 404 Not Found");
+        return json_encode($data);
+    }
+}
