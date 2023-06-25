@@ -125,6 +125,7 @@ function toDeliver($id)
 
                     $orders = [
                         'transaction_id' => $transaction_id,
+                        'order_status' => $order['STATUS'],
                         'cust_id' => $cust_id,
                         'cust_name' => $fullname,
                         'payment_type' => $order['PAYMENT_TYPE'],
