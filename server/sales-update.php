@@ -32,7 +32,6 @@ if (isset($_SESSION['id'])) {
                     }
                 ?>
                     <tr>
-                        <td>ashdgahdgs</td>
                         <td><?php echo $sales['TRANSACTION_ID'] ?></td>
                         <td><?php echo $sales['TRANSACTION_TYPE'] ?></td>
                         <td><?php echo $sales['CUST_TYPE'] ?></td>
