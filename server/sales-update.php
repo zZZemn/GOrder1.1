@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
                         <td><?php echo $sales['TRANSACTION_ID'] ?></td>
                         <td><?php echo $sales['TRANSACTION_TYPE'] ?></td>
                         <td><?php echo $sales['CUST_TYPE'] ?></td>
-                        <td><?php echo $sales['TIME'] ?></td>
+                        <td><?php echo date("h:i A", strtotime($sales['TIME'])); ?></td>
                         <td><?php echo $sales['SUBTOTAL'] ?></td>
                         <td><?php echo $sales['VAT'] ?></td>
                         <td><?php echo $sales['DISCOUNT'] ?></td>
