@@ -1,5 +1,24 @@
 $(document).ready(function () {
-    $(".delete-discount").click(function () {
+    function discountUpdate() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("discounts-container").innerHTML =
+                    this.responseText;
+            }
+        };
+        xhttp.open("GET", "../server/maintenance-discount-realtime.php", true);
+        xhttp.send();
+    }
+
+    window.onload = discountUpdate;
+
+    // $('#btn-add-region').click(function () {
+    //     setTimeout(loadXMLDoc, 500);
+    // })
+
+
+    $(document).on("click", ".delete-discount", function () {
         var discountID = $(this).attr("id");
 
         $.ajax({
@@ -17,6 +36,7 @@ $(document).ready(function () {
                         $('.alert-disabled').css('opacity', 0);
                         $('.alert-disabled').css('pointer-events', 'none');
                     }, 1000);
+                    discountUpdate();
                 } else {
                     $('.alert-invalid-edit').css('opacity', 1);
                     $('.alert-invalid-edit').css('pointer-events', 'auto');
@@ -29,7 +49,38 @@ $(document).ready(function () {
         });
     })
 
-    $(".save-discount").click(function () {
+    $(document).on("click", ".enable-discount", function () {
+        var discountID = $(this).attr("id");
+
+        $.ajax({
+            type: "POST",
+            url: "../process/maintenance-discount-process-enable.php",
+            data: {
+                id: discountID
+            },
+            success: function (response) {
+                console.log(response);
+                if (response === 'edited') {
+                    $('.alert-enabled').css('opacity', 1);
+                    $('.alert-enabled').css('pointer-events', 'auto');
+                    setTimeout(function () {
+                        $('.alert-enabled').css('opacity', 0);
+                        $('.alert-enabled').css('pointer-events', 'none');
+                    }, 1000);
+                    discountUpdate();
+                } else {
+                    $('.alert-invalid-edit').css('opacity', 1);
+                    $('.alert-invalid-edit').css('pointer-events', 'auto');
+                    setTimeout(function () {
+                        $('.alert-invalid-edit').css('opacity', 0);
+                        $('.alert-invalid-edit').css('pointer-events', 'none');
+                    }, 1000);
+                }
+            }
+        });
+    })
+
+    $(document).on("click", ".save-discount", function () {
         var discountID = $(this).attr("id");
         var discountValue = $(this).parent().prev().children("input").val();
 
@@ -57,6 +108,7 @@ $(document).ready(function () {
                             $('.alert-edited').css('opacity', 0);
                             $('.alert-edited').css('pointer-events', 'none');
                         }, 1000);
+                        discountUpdate();
                     } else {
                         $('.alert-invalid-edit').css('opacity', 1);
                         $('.alert-invalid-edit').css('pointer-events', 'auto');
@@ -118,13 +170,14 @@ $(document).ready(function () {
                             "opacity": 0,
                             "pointer-events": "none"
                         });
-                        
+
                         $('.alert-inserted').css('opacity', 1);
                         $('.alert-inserted').css('pointer-events', 'auto');
                         setTimeout(function () {
                             $('.alert-inserted').css('opacity', 0);
                             $('.alert-inserted').css('pointer-events', 'none');
                         }, 1000);
+                        discountUpdate();
                     } else {
                         $('.alert-invalid-edit').css('opacity', 1);
                         $('.alert-invalid-edit').css('pointer-events', 'auto');

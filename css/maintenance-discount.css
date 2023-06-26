@@ -118,7 +118,7 @@
     text-align: center;
   }
 
-  .alert-invalid-decimal, .alert-disabled {
+  .alert-invalid-decimal, .alert-disabled, .alert-enabled {
     width: auto;
     font-size: 12px;
   }
