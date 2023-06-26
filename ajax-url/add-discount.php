@@ -30,7 +30,7 @@ if (isset($_SESSION['id'])) {
         $emp_id = isset($emp['EMP_ID']) ? $emp['EMP_ID'] : null;
 
         $add_discount_log = "INSERT INTO `emp_log`(`EMP_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) VALUES 
-                                        ('$emp_id','Add $discount_name in discount.','$addDate','$addTime')";
+                                        ('$emp_id','Add " . $discount_name . " in discount.','$addDate','$addTime')";
 
         if ($conn->query($insert_discount_sql) === TRUE && $conn->query($add_discount_log) === TRUE) {
             echo "inserted";
