@@ -290,6 +290,9 @@ if (isset($_SESSION['id'])) {
         <div class="alert alert-invalid-decimal bg-danger">
             Please enter a valid discount value with two decimal places.
         </div>
+        <div class="alert alert-disabled bg-danger">
+            Discount Disabled.
+        </div>
 
         <div class="add-discount">
             <center>Add Discount</center>
@@ -319,7 +322,7 @@ if (isset($_SESSION['id'])) {
                     </thead>
                     <tbody>
                         <?php
-                        $discount_sql = "SELECT * FROM discount";
+                        $discount_sql = "SELECT * FROM discount WHERE DISCOUNT_STATUS = 'active'";
                         $discount_result = $conn->query($discount_sql);
                         if ($discount_result->num_rows > 0) {
                             while ($discount_row = $discount_result->fetch_assoc()) {
@@ -327,10 +330,21 @@ if (isset($_SESSION['id'])) {
                                 <tr>
                                     <td><?php echo $discount_row['DISCOUNT_NAME'] ?></td>
                                     <td class="td-discount-input"><span>%</span><input type="number" class="form-control discount-input" value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"></td>
-                                    <td><input type="submit" class="save-discount btn btn-primary" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Save"></td>
+                                    <td>
+                                        <input type="submit" class="save-discount btn btn-primary" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Save">
+                                        <input type="submit" class="delete-discount btn btn-danger" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Disable">
+                                    </td>
                                 </tr>
                         <?php
                             }
+                        } else {
+                            ?>
+                                <tr>
+                                    <td colspan="3">
+                                        <center class="text-danger p-5">No Discount Found</center>
+                                    </td>
+                                </tr>
+                            <?php
                         }
                         ?>
                     </tbody>

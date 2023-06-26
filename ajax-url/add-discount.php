@@ -22,8 +22,8 @@ if (isset($_SESSION['id'])) {
             $discount_result = $conn->query($discount_sql);
         }
 
-        $insert_discount_sql = "INSERT INTO `discount`(`DISCOUNT_ID`, `DISCOUNT_NAME`, `DISCOUNT_PERCENTAGE`) 
-                                                    VALUES ('$discount_id','$discount_name','$discount_percentage')";
+        $insert_discount_sql = "INSERT INTO `discount`(`DISCOUNT_ID`, `DISCOUNT_NAME`, `DISCOUNT_PERCENTAGE`, `DISCOUNT_STATUS`) 
+                                                    VALUES ('$discount_id','$discount_name','$discount_percentage', 'active')";
 
         $addDate = $currentDate;
         $addTime = $currentTime;

@@ -1,4 +1,33 @@
 $(document).ready(function () {
+    $(".delete-discount").click(function () {
+        var discountID = $(this).attr("id");
+
+        $.ajax({
+            type: "POST",
+            url: "../process/maintenance-discount-process-disable.php",
+            data: {
+                id: discountID
+            },
+            success: function (response) {
+                console.log(response);
+                if (response === 'edited') {
+                    $('.alert-disabled').css('opacity', 1);
+                    $('.alert-disabled').css('pointer-events', 'auto');
+                    setTimeout(function () {
+                        $('.alert-disabled').css('opacity', 0);
+                        $('.alert-disabled').css('pointer-events', 'none');
+                    }, 1000);
+                } else {
+                    $('.alert-invalid-edit').css('opacity', 1);
+                    $('.alert-invalid-edit').css('pointer-events', 'auto');
+                    setTimeout(function () {
+                        $('.alert-invalid-edit').css('opacity', 0);
+                        $('.alert-invalid-edit').css('pointer-events', 'none');
+                    }, 1000);
+                }
+            }
+        });
+    })
 
     $(".save-discount").click(function () {
         var discountID = $(this).attr("id");
