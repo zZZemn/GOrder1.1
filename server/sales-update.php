@@ -16,7 +16,7 @@ if (isset($_SESSION['id'])) {
     $emp_status = $emp['EMP_STATUS'];
 
     if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") {
-        $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' AND PAYMENT >= TOTAL ORDER BY DATE, TIME";
+        $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' AND PAYMENT >= TOTAL ORDER BY DATE, TIME DESC";
         $sales_result = $conn->query($sales_sql);
         if ($sales_result->num_rows > 0) {
 ?>
