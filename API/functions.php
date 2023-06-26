@@ -800,12 +800,14 @@ function checkout($id)
                 'status' => 200,
                 'message' => 'Computed Price',
                 'items' => $order_items_array,
-                'subtotal' => $subtotal,
-                'vat' => $vat,
-                'discount' => $discount,
-                'total' => $total,
-                'delivery_fee' => $df,
-                'total_plus_delivery_fee' => $total + $df,
+                'order_details' => [
+                    'subtotal' => $subtotal,
+                    'vat' => $vat,
+                    'discount' => $discount,
+                    'total' => $total,
+                    'delivery_fee' => $df,
+                    'total_plus_delivery_fee' => $total + $df,
+                ]
             ];
             header("HTTP/1.0 405 Access Deny");
             return json_encode($data);
