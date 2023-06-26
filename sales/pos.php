@@ -296,7 +296,7 @@ if (isset($_SESSION['id'])) {
                             <select name="cust_type" id="cust_type" class="form-control cust_type" required>
                                 <option value="0">Regular</option>
                                 <?php
-                                $discount_result = $conn->query("SELECT * FROM discount");
+                                $discount_result = $conn->query("SELECT * FROM discount WHERE DISCOUNT_STATUS = 'active'");
                                 if ($discount_result->num_rows > 0) {
                                     while ($discount_row = $discount_result->fetch_assoc()) {
                                 ?>
