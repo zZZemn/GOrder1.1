@@ -103,13 +103,14 @@ $(document).ready(function () {
             }, 1000);
         } else {
             $.ajax({
-                url: "../ajax-url/add-discount.php", // Replace with your actual form processing URL
+                url: "../ajax-url/add-discount.php",
                 type: "POST",
                 data: {
                     discountName: discountName,
                     discountPercentage: discountPercentage
                 },
                 success: function (response) {
+                    console.log(response);
                     if (response === 'inserted') {
                         $('#new_discount_name').val('');
                         $('#new_discount_percentage').val('');
