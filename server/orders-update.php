@@ -17,7 +17,7 @@ if (isset($_SESSION['id'])) {
     if(isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") {
         if (isset($_GET['filter'])) {
             $filter = $_GET['filter'];
-            $orders_sql = "SELECT * FROM `order` WHERE STATUS = '$filter'";
+            $orders_sql = "SELECT * FROM `order` WHERE STATUS = '$filter' ORDER BY DATE AND TIME";
             $orders_result = $conn->query($orders_sql);
             if ($orders_result->num_rows > 0) {
                 while ($order_row = $orders_result->fetch_assoc()) {
