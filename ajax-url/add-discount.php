@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
         if ($conn->query($insert_discount_sql) === TRUE && $conn->query($add_discount_log) === TRUE) {
             echo "inserted";
         } else {
-            echo "invalid";
+            echo "invalid 1";
         }
     } else {
         echo "invalid";
