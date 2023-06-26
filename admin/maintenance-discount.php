@@ -296,6 +296,9 @@ if (isset($_SESSION['id'])) {
         <div class="alert alert-enabled bg-success">
             Discount Enabled.
         </div>
+        <div class="alert alert-disc-exist bg-danger">
+            Discount Name Already Exist.
+        </div>
 
         <div class="add-discount">
             <center>Add Discount</center>

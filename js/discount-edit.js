@@ -178,6 +178,13 @@ $(document).ready(function () {
                             $('.alert-inserted').css('pointer-events', 'none');
                         }, 1000);
                         discountUpdate();
+                    } else if(response === 'exisiting'){
+                        $('.alert-disc-exist').css('opacity', 1);
+                        $('.alert-disc-exist').css('pointer-events', 'auto');
+                        setTimeout(function () {
+                            $('.alert-disc-exist').css('opacity', 0);
+                            $('.alert-disc-exist').css('pointer-events', 'none');
+                        }, 1000);
                     } else {
                         $('.alert-invalid-edit').css('opacity', 1);
                         $('.alert-invalid-edit').css('pointer-events', 'auto');
