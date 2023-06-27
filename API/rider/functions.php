@@ -74,7 +74,7 @@ function login($email, $password)
     }
 }
 
-function toDeliver($id)
+function toDeliver($id, $status)
 {
     global $conn;
 
@@ -84,7 +84,7 @@ function toDeliver($id)
         $rider = $rider_result->fetch_assoc();
         if ($rider['EMP_TYPE'] === 'Rider') {
 
-            $order_sql = "SELECT * FROM `order` WHERE RIDER_ID = '$id' AND DELIVERY_TYPE = 'Deliver' AND (STATUS = 'For-Delivery' OR STATUS = 'Shipped')";
+            $order_sql = "SELECT * FROM `order` WHERE RIDER_ID = '$id' AND DELIVERY_TYPE = 'Deliver' AND STATUS = '$status'";
             $order_result = $conn->query($order_sql);
             if ($order_result->num_rows > 0) {
                 $orderlist = [];

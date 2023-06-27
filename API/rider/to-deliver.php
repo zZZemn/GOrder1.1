@@ -10,11 +10,12 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 if($requestMethod == "GET")
 {
-    if(isset($_GET['id']))
+    if(isset($_GET['id']) && isset($_GET['status']))
     {
+        $status = $_GET['status'];
         $id = $_GET['id'];
 
-        $toDeliver = toDeliver($id);
+        $toDeliver = toDeliver($id, $status);
         echo $toDeliver;
     }
     else
