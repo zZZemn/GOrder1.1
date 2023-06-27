@@ -1,0 +1,101 @@
+.main {
+    background-color: white;
+}
+
+.table-container {
+    font-family: 'poppins', sans-serif;
+    overflow: auto;
+    height: 75vh;
+    margin-top: 10px;
+}
+
+.table-container table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-container table thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.table-container table thead tr th {
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.table-container table tbody tr td {
+    font-size: 12px;
+}
+
+.employee-title {
+    font-size: 20px !important;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.search-filter-container {
+    margin-top: 10px;
+    position: relative;
+    height: 40px;
+}
+
+
+.input {
+    position: absolute;
+    right: 0; 
+}
+
+.input label {
+    position: absolute;
+    background-color: white;
+    font-size: 10px;
+    font-weight: 400;
+    top: 0;
+    left: 10px;
+    padding: 0px 10px;
+    transform: translateY(-7px);
+}
+
+.input select {
+    right: 0;
+    width: 200px;
+    height: 40px;
+}
+
+/*  */
+
+.search-container {
+    position: absolute;
+    left: 0px;
+    width: 450px;
+    display: flex;
+}
+
+.search-container input {
+    width: 400px;
+    height: 40px;
+    border: 1px solid rgb(112, 112, 112);
+    padding: 5px;
+    font-size: 15px;
+    font-weight: 500;
+    border-right: none !important;
+    outline: none;
+    color: rgb(43, 43, 43)
+}
+
+.search-container button {
+    width: 50px;
+    border: 1px solid #00000000;
+    border-radius: none !important;
+    background-color: #0d6efd;
+    color: white;
+    border-left: none;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+    transform: translateX(-50px);
+} .search-container i {
+    padding: 0;
+}
