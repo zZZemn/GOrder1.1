@@ -9,8 +9,8 @@ if(isset($_POST['updatedValue']) && isset($_POST['cat_id'])){
     $cat_sql = "UPDATE `category` SET `CAT_NAME`='$updated_cat_value' WHERE CAT_ID = $cat_id";
 
     if($conn->query($cat_sql) === TRUE){
-        echo 'Edited';
+        echo 'edited';
     }else{
-        echo 'Edit Not Success';
+        echo 'invalid';
     }
 }

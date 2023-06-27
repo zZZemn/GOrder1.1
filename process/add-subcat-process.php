@@ -10,9 +10,9 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($_POST['submit_new_cat'])) {
+    if (isset($_POST['cat_id']) && isset($_POST['new_sub_cat'])) {
         $cat_id = $_POST['cat_id'];
-        $new_sub_cat = filter_var($_POST['add_sub_cat'], FILTER_SANITIZE_STRING);
+        $new_sub_cat = filter_var($_POST['new_sub_cat'], FILTER_SANITIZE_STRING);
 
         $new_sub_cat_id = rand(10000, 99999);
         $sub_cat_id_sql = "SELECT * FROM sub_category WHERE SUB_CAT_ID = $new_sub_cat_id";
@@ -34,11 +34,9 @@ if (isset($_SESSION['id'])) {
                 ('$emp_id','Add $new_sub_cat in sub category list.','$addDate','$addTime')";
 
         if ($conn->query($insert_new_subcat) === TRUE && $conn->query($add_subcat_log) === TRUE) {
-            header("Location: ../admin/maintenance-category.php?status=success");
-            exit();
+            echo 'added';
         } else {
-            header("Location: ../admin/maintenance-category.php?status=invalid_add");
-            exit();
+            echo 'invalid';
         }
     }
 } else {

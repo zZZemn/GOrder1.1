@@ -279,84 +279,41 @@ if (isset($_SESSION['id'])) {
         </div>
 
         <div class="alert alert-cat bg-success">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             The category has been successfully edited.
         </div>
         <div class="alert alert-sub-cat bg-success">
-            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
             The sub-category has been successfully edited.
+        </div>
+        <div class="alert alert-invalid-cat bg-danger">
+            Invalid Category Name!
+        </div>
+        <div class="alert alert-invalid-subcat bg-danger">
+            Invalid Sub-Category Name!
+        </div>
+        <div class="alert alert-cat-added bg-success">
+            Category Added Successfully
+        </div>
+        <div class="alert alert-sub-cat-added bg-success">
+            Sub-Category Added Successfully
+        </div>
+        <div class="alert alert-cat-not-added bg-danger">
+            Category Not Added Successfully
+        </div>
+        <div class="alert alert-cat-not-edit bg-danger">
+            Category Not Edited Successfully
+        </div>
+        <div class="alert alert-sub-cat-not-added bg-danger">
+            Sub-Category Not Added Successfully
         </div>
 
         <div class="main">
             <center class="cat-center">Category</center>
-            <form class="add-new-cat-form" method="post" action="../process/add-cat-process.php">
+            <form class="add-new-cat-form">
                 <input type="text" class="form-control" id="txt-add-cat" name="txt_add_cat" placeholder="Add New Category" maxlength="20" required>
                 <input type="submit" class="btn btn-primary" id="btn-add-cat" name="btn_add_cat" value="Add">
             </form>
-            <div class="category-container">
-                <?php
-                $categories_sql = "SELECT * FROM category";
-                $categories_result = $conn->query($categories_sql);
-                if ($categories_result->num_rows > 0) {
-                    while ($cat_row = $categories_result->fetch_assoc()) {
-                        $cat_id = $cat_row['CAT_ID'];
-                ?>
-                        <div>
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="cat_name">
-                                            <input type="text" class="cat_name_edit form-control" value="<?php echo $cat_row['CAT_NAME'] ?>" maxlength="20">
-                                        </th>
-                                        <td><a href="#" class="cat_name_edit_btn <?php echo $cat_row['CAT_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                    </tr>
+            <div class="category-container" id="category-container">
 
-                                    <tr>
-                                        <td colspan="2">
-                                            <center>Sub Categories</center>
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $subcat_sql = "SELECT * FROM sub_category WHERE CAT_ID = $cat_id";
-                                    $subcat_result = $conn->query($subcat_sql);
-                                    if ($subcat_result->num_rows > 0) {
-                                        while ($subcat_row = $subcat_result->fetch_assoc()) {
-                                    ?>
-                                            <tr>
-                                                <td><input type="text" class="sub_cat_edit form-control" value="<?php echo $subcat_row['SUB_CAT_NAME'] ?>" maxlength="20"></td>
-                                                <td><a href="#" class="sub_cat_edit_btn <?php echo $subcat_row['SUB_CAT_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                            </tr>
-
-                                    <?php
-                                        }
-                                    }
-                                    ?>
-                                    <tr>
-                                        <td class="add-subcat">
-                                            <form method="post" action="../process/add-subcat-process.php">
-                                                <input type="hidden" name="cat_id" value="<?php echo $cat_id ?>">
-                                                <input type="text" name="add_sub_cat" id="add_sub_cat" class="form-control" placeholder="Add Sub-Category" maxlength="20">
-                                        </td>
-                                        <td class="add-subcat">
-                                            <input type="submit" name="submit_new_cat" class="btn btn-primary" value="Add">
-                                            </form>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php
-                    }
-                } else {
-                    ?>
-                    <center class="no-cat-found">
-                        <h5>No Category Found</h5>
-                    </center>
-                <?php
-                }
-                ?>
             </div>
 
             <div class="message-container">

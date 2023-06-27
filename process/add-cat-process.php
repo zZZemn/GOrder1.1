@@ -10,8 +10,8 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($_POST['btn_add_cat'])) {
-        $new_cat = filter_var($_POST['txt_add_cat'], FILTER_SANITIZE_STRING);
+    if (isset($_POST['new_cat'])) {
+        $new_cat = filter_var($_POST['new_cat'], FILTER_SANITIZE_STRING);
 
         $new_cat_id = rand(1000, 9999);
         $cat_id_sql = "SELECT * FROM category WHERE CAT_ID = $new_cat_id";
@@ -33,11 +33,9 @@ if (isset($_SESSION['id'])) {
                 ('$emp_id','Add $new_cat in  category list.','$addDate','$addTime')";
 
         if ($conn->query($insert_new_cat) === TRUE && $conn->query($add_cat_log) === TRUE) {
-            header("Location: ../admin/maintenance-category.php?status=success");
-            exit();
+            echo 'added';
         } else {
-            header("Location: ../admin/maintenance-category.php?status=invalid_add");
-            exit();
+            echo 'invalid';
         }
     }
 }
