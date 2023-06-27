@@ -54,7 +54,7 @@ if (isset($_SESSION['id'])) {
         ?>
             <tr>
                 <td colspan="13">
-                    <center class="text-danger">No sales found</center>
+                    <center>No sales found</center>
                 </td>
             </tr>
 <?php

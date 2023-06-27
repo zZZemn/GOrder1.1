@@ -11,10 +11,15 @@ table thead {
 
 table thead tr th{
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 table tbody tr td {
     font-size: 12px;
     font-weight: 500;
+}
+
+table tbody tr th {
+    font-size: 12px;
+    font-weight: 500 !important;
 }
