@@ -8,7 +8,7 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($emp) && ($emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA") && $emp['EMP_STATUS'] == "active") {
+    if (isset($emp) && ($emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists") && $emp['EMP_STATUS'] == "active") {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
             $return_data = json_decode(file_get_contents('php://input'), true);
 

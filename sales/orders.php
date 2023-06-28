@@ -35,7 +35,7 @@ if (isset($_SESSION['id'])) {
 </head>
 
 <body>
-    <?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") : ?>
+<?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") : ?>
         <nav class="top-nav bg-dark">
 
             <i class="fa-solid fa-bars menu"></i>

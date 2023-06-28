@@ -23,8 +23,8 @@ if (isset($_SESSION['id'])) {
         $username = $_POST['username'];
         $password = $_POST['password'];
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $first_letter = ucfirst($f_name);
-        $picture = $first_letter.'.png';
+        $first_letter = ucfirst(substr($f_name, 0, 1));
+        $picture = $first_letter . '.png';
 
         $new_emp_id = mt_rand(10000, 99999);
         $check_id_sql = "SELECT * FROM employee WHERE EMP_ID = '$new_emp_id'";

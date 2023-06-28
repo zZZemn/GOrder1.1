@@ -9,7 +9,7 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") {
+    if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") {
         if (isset($_GET['id'])) {
             $transaction_id = filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT);
             $sales_sql = "SELECT * FROM sales WHERE TRANSACTION_ID = '$transaction_id'";
