@@ -228,7 +228,7 @@ $(document).ready(function () {
 
             // Update the VAT value if applicable
             if (isVatable == 1) {
-                var vat = vatableSubtotal * 0.05; // calculate the VAT value
+                var vat = vatableSubtotal * vatRate; // calculate the VAT value
                 $('#vat').val(vat.toFixed(2)); // set the VAT input value to 2 decimal places
             }
 
