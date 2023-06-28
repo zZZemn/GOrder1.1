@@ -35,8 +35,8 @@ if (isset($_SESSION['id'])) {
                 while ($emp_row = $emp_result->fetch_assoc()) {
 ?>
                     <tr>
-                        <td><?php echo $emp_row['EMP_ID'] ?></td>
                         <td><?php echo $emp_row['LAST_NAME'] . ', ' . $emp_row['FIRST_NAME'] . ' ' . $emp_row['MIDDLE_INITIAL']; ?></td>
+                        <td><?php echo $emp_row['EMP_TYPE'] ?></td>
                         <td><?php echo $emp_row['CONTACT_NO'] ?></td>
                         <td><?php echo $emp_row['EMAIL'] ?></td>
                         <td><?php echo $emp_row['ADDRESS'] ?></td>
