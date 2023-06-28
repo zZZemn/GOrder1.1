@@ -45,7 +45,7 @@ if (isset($_GET['del_id'])) {
 
         <div class="delivered-container">
             <div class="top-left">
-            <a href="products-deliver.php" class="delivery-back"><i class="fa-solid fa-left-long"></i><span>Deliver</span></a>
+                <a href="products-deliver.php" class="delivery-back"><i class="fa-solid fa-left-long"></i><span>Deliver</span></a>
 
                 <p>Delivery ID: <?php echo $del['DELIVERY_ID'] ?></p>
                 <?php
@@ -78,7 +78,9 @@ if (isset($_GET['del_id'])) {
                                 if ($products_result->num_rows > 0) {
                                     while ($row = $products_result->fetch_assoc()) {
                                 ?>
-                                        <option value="<?php echo $row['PRODUCT_ID'] ?>"><?php echo $row['PRODUCT_NAME'] ?></option>
+                                        <option value="<?php echo $row['PRODUCT_ID'] ?>">
+                                            <?php echo $row['PRODUCT_NAME'].' - ₱ '.$row['SELLING_PRICE'] ?>
+                                        </option>
                                 <?php
                                     }
                                 }
@@ -105,7 +107,7 @@ if (isset($_GET['del_id'])) {
                         </div>
 
                         <div class="">
-                            <input type="submit" name="add_delivered" id="add_delivered" value="Add" class="add-btn btn btn-primary"> 
+                            <input type="submit" name="add_delivered" id="add_delivered" value="Add" class="add-btn btn btn-primary">
                         </div>
                     </div>
                 </form>
@@ -128,32 +130,33 @@ if (isset($_GET['del_id'])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
+                    <?php
                     $delID = $_GET['del_id'];
                     $del_query = "SELECT * FROM inventory WHERE DELIVERY_ID = $delID ORDER BY EXP_DATE";
                     $del_query_result = $conn->query($del_query);
-                    if($del_query_result->num_rows > 0) {
-                        while($row = $del_query_result->fetch_assoc()){
+                    if ($del_query_result->num_rows > 0) {
+                        while ($row = $del_query_result->fetch_assoc()) {
                             $pro_id = $row['PRODUCT_ID'];
                             $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
                             $product_result = $conn->query($product_sql);
                             $product = $product_result->fetch_assoc();
-                            ?>
-                    <tr>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $row['SUPPLIER_PRICE'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $product['SELLING_PRICE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td><?php echo $row['DEL_QUANTITY'] ?></td>
-                        <td class="<?php $row_mark_up = $row['MARK_UP']; echo ($row_mark_up < 0) ? 'lessThanZeroMarkUp' : ''; ?>"><?php echo $row_mark_up; ?></td>
-                        <td>
-                            <a href="#"><i class="fa-regular fa-pen-to-square"></i></a>
-                            <a href="#"><i class="fa-solid fa-trash"></i></a>
-                        </td>
-                    </tr>
+                    ?>
+                            <tr>
+                                <td><?php echo $product['PRODUCT_NAME'] ?></td>
+                                <td><?php echo $row['SUPPLIER_PRICE'] ?></td>
+                                <td><?php echo $row['EXP_DATE'] ?></td>
+                                <td><?php echo $product['SELLING_PRICE'] ?></td>
+                                <td><?php echo $row['QUANTITY'] ?></td>
+                                <td><?php echo $row['DEL_QUANTITY'] ?></td>
+                                <td class="<?php $row_mark_up = $row['MARK_UP'];
+                                            echo ($row_mark_up < 0) ? 'lessThanZeroMarkUp' : ''; ?>"><?php echo $row_mark_up; ?></td>
+                                <td>
+                                    <a href="#"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="#"><i class="fa-solid fa-trash"></i></a>
+                                </td>
+                            </tr>
 
-                            <?php
+                    <?php
                         }
                     }
                     ?>
