@@ -104,8 +104,7 @@
 
 .btn-add-employee {
     position: absolute;
-    right: 20px;
-    bottom: 20px;
+    bottom: 5px;
     font-size: 15px;
     padding: 5px;
 }
@@ -193,6 +192,15 @@
 .emp-form-fi-row {
     display: flex;
     justify-content: center;
+}
+
+.emp_actions {
+    display: flex;
+} .emp_actions a {
+    font-size: 12px;
+    margin: 5px;
+} .emp_actions a i{
+    padding: 0 !important;
 }
 
 .alert {

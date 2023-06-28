@@ -71,7 +71,7 @@ $(document).ready(function () {
                 text: "Golden Gate Drugstore Total Sales This Year"
             },
             axisY: {
-                title: "Revenue in PHP",
+                title: "2023",
                 prefix: "₱",
             },
             data: [{

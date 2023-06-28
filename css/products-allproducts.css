@@ -171,7 +171,7 @@
 #addingProduct-form {
     position: absolute;
 
-    height: 600px;
+    height: 520px;
     width: 40%;
     z-index: 10;
 
@@ -182,7 +182,8 @@
     transform: translate(-50%, -50%);
 
     background-color: rgb(255, 255, 255);
-    box-shadow: 1px 1px 5px rgb(114, 114, 114);
+    box-shadow: 1px 1px 5px rgb(192, 192, 192);
+    padding: 20px;
 
     display: none;
 }
@@ -190,6 +191,7 @@
 #closeAddProduct {
     position: absolute;
     right: 0;
+    top: 0;
     border: none;
     background-color: #00000000;
 }
@@ -204,8 +206,7 @@
 
 .add-product-label {
     text-align: center;
-    padding: 30px 0px;
-    border-bottom: 1px solid rgb(230, 230, 230);
+    font-size: 20px;
 }
 
 .contents-input-container {
@@ -213,23 +214,26 @@
     margin: 10px;
 }
 
-.contents-input-container input{
-    font-size: 12px;
+.contents-input-container input, select{
+    font-size: 15px;
+    width: 200px;
+    height: 40px;
     padding: 3px 0px;
     padding-left: 5px;
 }
 
 .contents-input-container label {
     position: absolute;
+    top: 0;
     left: 10px;
     font-size: 10px;
     background-color: white;
-    transform: translateY(-6px);
+    transform: translateY(-7px);
     padding: 0 8px;
 }
 
 .add-product-f-row {
-    width: 90%;
+    width: 100%;
     margin: auto;
 
     display: flex;
@@ -238,7 +242,7 @@
 }
 
 .add-product-s-row {
-    width: 90%;
+    width: 100%;
     margin: auto;
 
     display: flex;
@@ -254,7 +258,7 @@
 }
 
 .add-product-t-row {
-    width: 90%;
+    width: 100%;
     margin: auto;
 
     display: flex;
@@ -265,7 +269,6 @@
 
 .add-product-t-row select {
     width: 200px;
-
     font-size: 12px;
     padding: 3px 0px;
     padding-left: 5px;
@@ -273,7 +276,7 @@
 
 .add-product-fth-row {
     position: relative;
-    width: 90%;
+    width: 100%;
     margin: auto;
 
     display: flex;
@@ -296,8 +299,9 @@
 
 .btns {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
+    margin-top: 10px;
+    bottom: 10px;
+    right: 10px;
 }
 
 .pres-vat {

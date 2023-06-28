@@ -317,31 +317,31 @@ if (isset($_SESSION['id'])) {
                 <h1 class="add-product-label">New Product</h1>
                 <div class="add-product-f-row">
                     <div class="contents-input-container product-name">
-                        <input type="text" name="product_name" maxlength="49" required>
+                        <input class="form-control" type="text" name="product_name" maxlength="49" required>
                         <label class="product-add-label">Product Name</label>
                     </div>
                     <div class="contents-input-container product-code">
-                        <input type="number" name="product_code" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="29" />
+                        <input class="form-control" type="number" name="product_code" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="29" />
                         <label class="product-add-label">Product Code</label>
                     </div>
                 </div>
                 <div class="add-product-s-row">
                     <div class="contents-input-container unit-meas-add">
-                        <input type="text" name="unit_meas_add" maxlength="9">
+                        <input class="form-control" ype="text" name="unit_meas_add" maxlength="9">
                         <label class="product-add-label">Unit Measurement</label>
                     </div>
                     <div class="contents-input-container critical-level-add">
-                        <input type="number" name="critical_level_add" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" />
+                        <input class="form-control" type="number" name="critical_level_add" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" />
                         <label class="product-add-label">Critical Level</label>
                     </div>
                     <div class="contents-input-container selling-price-add">
-                        <input type="number" name="selling_price_add" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" />
+                        <input class="form-control" type="number" name="selling_price_add" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" />
                         <label class="product-add-label">Selling Price</label>
                     </div>
                 </div>
                 <div class="add-product-t-row">
                     <div class="contents-input-container add-product-cat">
-                        <select id="category-select" name="cat">
+                        <select class="form-control" id="category-select" name="cat">
                             <?php
                             $categories = "SELECT * FROM category";
                             $categories_result = $conn->query($categories);
@@ -359,7 +359,7 @@ if (isset($_SESSION['id'])) {
                     </div>
 
                     <div class="contents-input-container add-product-sub-cat">
-                        <select id="sub-category-select" name="sub_cat">
+                        <select class="form-control" id="sub-category-select" name="sub_cat">
 
                         </select>
                         <label class="product-add-label">Sub Category</label>
@@ -367,7 +367,7 @@ if (isset($_SESSION['id'])) {
                 </div>
                 <div class="add-product-fth-row">
                     <div class="contents-input-container description">
-                        <textarea name="description" maxlength="99"></textarea>
+                        <textarea class="form-control" name="description" maxlength="99"></textarea>
                         <label class="product-add-label">Description</label>
                     </div>
                     <div class="add-product-fth-row-right">

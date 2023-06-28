@@ -17,13 +17,13 @@ if (isset($_SESSION['id'])) {
             $search = $_GET['search'];
 
             if ($search !== '') {
-                if($filter === 'all'){
+                if ($filter === 'all') {
                     $emp_sql = "SELECT * FROM employee WHERE (FIRST_NAME LIKE '%$search%' OR LAST_NAME LIKE '%$search%' OR EMP_ID LIKE '%$search%' OR ADDRESS LIKE '%$search%') AND EMP_STATUS = 'active'";
                 } else {
                     $emp_sql = "SELECT * FROM employee WHERE EMP_TYPE = '$filter' AND (FIRST_NAME LIKE '%$search%' OR LAST_NAME LIKE '%$search%' OR EMP_ID LIKE '%$search%' OR ADDRESS LIKE '%$search%') AND EMP_STATUS = 'active'";
                 }
             } else {
-                if($filter === 'all'){
+                if ($filter === 'all') {
                     $emp_sql = "SELECT * FROM employee WHERE EMP_STATUS = 'active'";
                 } else {
                     $emp_sql = "SELECT * FROM employee WHERE EMP_TYPE = '$filter' AND EMP_STATUS = 'active'";
@@ -40,7 +40,12 @@ if (isset($_SESSION['id'])) {
                         <td><?php echo $emp_row['CONTACT_NO'] ?></td>
                         <td><?php echo $emp_row['EMAIL'] ?></td>
                         <td><?php echo $emp_row['ADDRESS'] ?></td>
-                        <td>actions</td>
+                        <td class="emp_actions">
+                            <a href="#" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <a href="#" class="btn btn-danger">
+                                Deactivate
+                            </a>
+                        </td>
                     </tr>
                 <?php
                 }
