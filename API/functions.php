@@ -1338,7 +1338,8 @@ function orders($user)
                     'transaction_id' => $order_row['TRANSACTION_ID'],
                     'order_time' => $order_row['TIME'],
                     'order_date' => $order_row['DATE'],
-                    'order_status' => $order_row['STATUS']
+                    'order_status' => $order_row['STATUS'],
+                    'price' => $order_row['TOTAL']
                 ];
                 $orders[] = $order_data;
             }
