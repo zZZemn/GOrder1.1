@@ -6,6 +6,21 @@ require '../PHPMailer/src/PHPMailer.php';
 require '../PHPMailer/src/SMTP.php';
 require '../time-date.php';
 
+function randomTransaction_id()
+{
+    global $conn;
+    $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
+    $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+    $check_trans_id_result = $conn->query($check_trans_id_sql);
+    while ($check_trans_id_result->num_rows > 0) {
+        $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
+        $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
+        $check_trans_id_result = $conn->query($check_trans_id_sql);
+    }
+
+    return $transaction_id;
+}
+
 function error422($message)
 {
     $data = [
@@ -702,7 +717,7 @@ function checkout($id)
                     $product_result = $conn->query("SELECT PRODUCT_NAME, PRODUCT_IMG, PRESCRIBE FROM products WHERE PRODUCT_ID = '$product_id'");
                     $product_details = $product_result->fetch_assoc();
                     $isPrescibe = $product_details['PRESCRIBE'];
-                    if($isPrescibe == 1){
+                    if ($isPrescibe == 1) {
                         $prescribe_products++;
                     }
                     $product_name = $product_details['PRODUCT_NAME'];
@@ -722,7 +737,7 @@ function checkout($id)
                             'QTY_LEFT' => intval($qty),
                             'QTY' => intval($order_items_row['QTY']),
                             'AMOUNT' => floatval($order_items_row['AMOUNT']),
-                            'PRESCRIBE'=> ($isPrescibe == 1) ? true : false
+                            'PRESCRIBE' => ($isPrescibe == 1) ? true : false
                         ];
                     } else {
                         $order_item = [
@@ -731,7 +746,8 @@ function checkout($id)
                             'PRODUCT_IMG' => $product_img,
                             'QTY_LEFT' => 0,
                             'QTY' => intval($order_items_row['QTY']),
-                            'AMOUNT' => floatval($order_items_row['AMOUNT'])
+                            'AMOUNT' => floatval($order_items_row['AMOUNT']),
+                            'PRESCRIBE' => ($isPrescibe == 1) ? true : false
                         ];
                     }
                     $order_items_array[] = $order_item;
@@ -881,7 +897,7 @@ function paymentType($id)
     }
 }
 
-
+//Placeorder cash no prescribe products
 function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
 {
     global $conn;
@@ -896,383 +912,200 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
             $cart_id = $cust['CART_ID'];
             $discount_type = $cust['DISCOUNT_TYPE'];
 
-            $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
-            $bgy_result = $conn->query($bgy_sql);
-            if ($bgy_result->num_rows > 0) {
-                if ($payment_type === 'Cash') {
-                    if ($delivery_type === 'Deliver') {
-                        $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
-                        $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-                        $check_trans_id_result = $conn->query($check_trans_id_sql);
-                        while ($check_trans_id_result->num_rows > 0) {
-                            $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
-                            $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-                            $check_trans_id_result = $conn->query($check_trans_id_sql);
+            $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
+            $order_items_result = $conn->query($order_items_sql);
+            $order_items_array = [];
+            if ($order_items_result->num_rows > 0) {
+                while ($order_items_row = $order_items_result->fetch_assoc()) {
+
+                    $product_id = $order_items_row['PRODUCT_ID'];
+                    $order_qty = $order_items_row['QTY'];
+                    $inventory_sql = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                    $inventory_result = $conn->query($inventory_sql);
+                    if ($inventory_result->num_rows > 0) {
+                        $pro_qty = 0;
+                        while ($inventory_row = $inventory_result->fetch_assoc()) {
+                            $pro_qty += $inventory_row['QUANTITY'];
                         }
-
-                        $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
-                        $order_items_result = $conn->query($order_items_sql);
-                        $order_items_array = [];
-                        if ($order_items_result->num_rows > 0) {
-                            while ($order_items_row = $order_items_result->fetch_assoc()) {
-
-                                $product_id = $order_items_row['PRODUCT_ID'];
-                                $order_qty = $order_items_row['QTY'];
-                                $inventory_sql = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                $inventory_result = $conn->query($inventory_sql);
-                                if ($inventory_result->num_rows > 0) {
-                                    $pro_qty = 0;
-                                    while ($inventory_row = $inventory_result->fetch_assoc()) {
-                                        $pro_qty += $inventory_row['QUANTITY'];
-                                    }
-                                    if ($pro_qty >= $order_qty) {
-                                        $order_item = [
-                                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                                            'QTY_LEFT' => $pro_qty,
-                                            'QTY' => $order_items_row['QTY'],
-                                            'AMOUNT' => $order_items_row['AMOUNT']
-                                        ];
-                                    } else {
-                                        $data = [
-                                            'status' => 200,
-                                            'message' => 'Please Enter A Valid Quantity',
-                                        ];
-                                        header("HTTP/1.0 405 Access Deny");
-                                        return json_encode($data);
-                                        exit;
-                                    }
-                                } else {
-                                    $data = [
-                                        'status' => 200,
-                                        'message' => 'Please Enter A Valid Quantity',
-                                    ];
-                                    header("HTTP/1.0 405 Access Deny");
-                                    return json_encode($data);
-                                    exit;
-                                }
-                                $order_items_array[] = $order_item;
-                            }
+                        if ($pro_qty >= $order_qty) {
+                            $order_item = [
+                                'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                                'QTY_LEFT' => $pro_qty,
+                                'QTY' => $order_items_row['QTY'],
+                                'AMOUNT' => $order_items_row['AMOUNT']
+                            ];
                         } else {
                             $data = [
-                                'status' => 405,
-                                'message' => 'Cart Is Empty',
+                                'status' => 200,
+                                'message' => 'Please Enter A Valid Quantity',
                             ];
                             header("HTTP/1.0 405 Access Deny");
                             return json_encode($data);
                             exit;
-                        }
-
-                        $subtotal = 0;
-                        foreach ($order_items_array as $order_item) {
-                            $subtotal += $order_item['AMOUNT'];
-                        }
-
-                        $vat = 0;
-                        $vatable_subtotal = 0;
-                        foreach ($order_items_array as $order_item) {
-                            $product_id = $order_item['PRODUCT_ID'];
-                            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
-                            $product_result = $conn->query($product_sql);
-                            $product = $product_result->fetch_assoc();
-
-                            $isVatable = $product['VATABLE'];
-
-                            if ($isVatable == true) {
-                                $vatable_subtotal += $order_item['AMOUNT'];
-                            }
-                        }
-
-                        $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
-                        $tax_percentage_result = $conn->query($tax_percentage_sql);
-                        $tax = $tax_percentage_result->fetch_assoc();
-                        $taxPercentage = $tax['TAX_PERCENTAGE'];
-
-                        $vat = $vatable_subtotal * $taxPercentage;
-
-                        $discount = 0;
-                        if ($discount_type != '') {
-                            $discountable_subtotal = 0;
-                            foreach ($order_items_array as $order_item) {
-                                $product_id = $order_item['PRODUCT_ID'];
-                                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
-                                $product_result = $conn->query($product_sql);
-                                $product = $product_result->fetch_assoc();
-
-                                $isDiscountable = $product['DISCOUNTABLE'];
-
-                                if ($isDiscountable == true) {
-                                    $discountable_subtotal += $order_item['AMOUNT'];
-                                }
-                            }
-
-                            $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
-                            $discount_percentage_result = $conn->query($discount_percentage_sql);
-                            $discount = $discount_percentage_result->fetch_assoc();
-                            $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
-                            $discount = $discountable_subtotal * $discountPercentage;
-                        }
-
-                        $total = ($subtotal + $vat) - $discount;
-
-                        $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
-                        $df_result = $conn->query($df_sql);
-                        $delivery = $df_result->fetch_assoc();
-                        $df = $delivery['DELIVERY_FEE'];
-
-                        $total += $df;
-
-                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`) 
-                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting')";
-
-                        if ($conn->query($insert_order_sql) === TRUE) {
-                            foreach ($order_items_array as $order_item) {
-                                $product_id = $order_item['PRODUCT_ID'];
-                                $qty = $order_item['QTY'];
-                                $amount = $order_item['AMOUNT'];
-
-                                $insert_order_details_sql = "INSERT INTO `order_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
-                                                    VALUES ('$transaction_id', '$product_id', '$qty', '$amount')";
-                                if ($conn->query($insert_order_details_sql) !== TRUE) {
-                                    $data = [
-                                        'status' => 200,
-                                        'message' => 'Inserting Error'
-                                    ];
-                                    header("HTTP/1.0 405 OK");
-                                    return json_encode($data);
-                                }
-                            }
-
-                            $delete_cartItems_sql = "DELETE FROM `cart_items` WHERE CART_ID = '$cart_id'";
-
-                            if ($conn->query($delete_cartItems_sql) !== TRUE) {
-                            }
-
-                            $data = [
-                                'status' => 200,
-                                'message' => 'Order Success',
-                                'order_items' => $order_items_array,
-                                'transaction_id' => $transaction_id,
-                                'cust_id' => $cust_id,
-                                'payment_type' => $payment_type,
-                                'delivery_type' => $delivery_type,
-                                'unit_st' => $unit_st,
-                                'bgy_id' => $bgy_id,
-                                'time' => $currentTime,
-                                'date' => $currentDate,
-                                'subtotal' => $subtotal,
-                                'VAT' => $vat,
-                                'discount' => $discount,
-                                'total' => $total,
-                                'del_status' => 'Waiting',
-                                'df' => $df
-                            ];
-                            header("HTTP/1.0 405 OK");
-                            return json_encode($data);
-                        } else {
-                            $data = [
-                                'status' => 200,
-                                'message' => 'Inserting Error'
-                            ];
-                            header("HTTP/1.0 405 OK");
-                            return json_encode($data);
-                        }
-                    } elseif ($delivery_type === 'Pick Up') {
-                        $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
-                        $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-                        $check_trans_id_result = $conn->query($check_trans_id_sql);
-                        while ($check_trans_id_result->num_rows > 0) {
-                            $transaction_id = 'ORD-' . mt_rand(10000000, 99999999);
-                            $check_trans_id_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
-                            $check_trans_id_result = $conn->query($check_trans_id_sql);
-                        }
-
-                        $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
-                        $order_items_result = $conn->query($order_items_sql);
-                        $order_items_array = [];
-                        if ($order_items_result->num_rows > 0) {
-                            while ($order_items_row = $order_items_result->fetch_assoc()) {
-
-                                $product_id = $order_items_row['PRODUCT_ID'];
-                                $order_qty = $order_items_row['QTY'];
-                                $inventory_sql = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                $inventory_result = $conn->query($inventory_sql);
-                                if ($inventory_result->num_rows > 0) {
-                                    $pro_qty = 0;
-                                    while ($inventory_row = $inventory_result->fetch_assoc()) {
-                                        $pro_qty += $inventory_row['QUANTITY'];
-                                    }
-                                    if ($pro_qty >= $order_qty) {
-                                        $order_item = [
-                                            'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
-                                            'QTY_LEFT' => $pro_qty,
-                                            'QTY' => $order_items_row['QTY'],
-                                            'AMOUNT' => $order_items_row['AMOUNT']
-                                        ];
-                                    } else {
-                                        $data = [
-                                            'status' => 200,
-                                            'message' => 'Please Enter A Valid Quantity',
-                                        ];
-                                        header("HTTP/1.0 405 Access Deny");
-                                        return json_encode($data);
-                                        exit;
-                                    }
-                                } else {
-                                    $data = [
-                                        'status' => 200,
-                                        'message' => 'Please Enter A Valid Quantity',
-                                    ];
-                                    header("HTTP/1.0 405 Access Deny");
-                                    return json_encode($data);
-                                    exit;
-                                }
-                                $order_items_array[] = $order_item;
-                            }
-                        } else {
-                            $data = [
-                                'status' => 405,
-                                'message' => 'Cart Is Empty',
-                            ];
-                            header("HTTP/1.0 405 Access Deny");
-                            return json_encode($data);
-                            exit;
-                        }
-
-                        $subtotal = 0;
-                        foreach ($order_items_array as $order_item) {
-                            $subtotal += $order_item['AMOUNT'];
-                        }
-
-                        $vat = 0;
-                        $vatable_subtotal = 0;
-                        foreach ($order_items_array as $order_item) {
-                            $product_id = $order_item['PRODUCT_ID'];
-                            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
-                            $product_result = $conn->query($product_sql);
-                            $product = $product_result->fetch_assoc();
-
-                            $isVatable = $product['VATABLE'];
-
-                            if ($isVatable == true) {
-                                $vatable_subtotal += $order_item['AMOUNT'];
-                            }
-                        }
-
-                        $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
-                        $tax_percentage_result = $conn->query($tax_percentage_sql);
-                        $tax = $tax_percentage_result->fetch_assoc();
-                        $taxPercentage = $tax['TAX_PERCENTAGE'];
-
-                        $vat = $vatable_subtotal * $taxPercentage;
-
-                        $discount = 0;
-                        if ($discount_type != '') {
-                            $discountable_subtotal = 0;
-                            foreach ($order_items_array as $order_item) {
-                                $product_id = $order_item['PRODUCT_ID'];
-                                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
-                                $product_result = $conn->query($product_sql);
-                                $product = $product_result->fetch_assoc();
-
-                                $isDiscountable = $product['DISCOUNTABLE'];
-
-                                if ($isDiscountable == true) {
-                                    $discountable_subtotal += $order_item['AMOUNT'];
-                                }
-                            }
-
-                            $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
-                            $discount_percentage_result = $conn->query($discount_percentage_sql);
-                            $discount = $discount_percentage_result->fetch_assoc();
-                            $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
-                            $discount = $discountable_subtotal * $discountPercentage;
-                        }
-
-                        $total = ($subtotal + $vat) - $discount;
-
-                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`) 
-                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting')";
-
-                        if ($conn->query($insert_order_sql) === TRUE) {
-                            foreach ($order_items_array as $order_item) {
-                                $product_id = $order_item['PRODUCT_ID'];
-                                $qty = $order_item['QTY'];
-                                $amount = $order_item['AMOUNT'];
-
-                                $insert_order_details_sql = "INSERT INTO `order_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
-                                                    VALUES ('$transaction_id', '$product_id', '$qty', '$amount')";
-                                if ($conn->query($insert_order_details_sql) !== TRUE) {
-                                    $data = [
-                                        'status' => 200,
-                                        'message' => 'Inserting Error'
-                                    ];
-                                    header("HTTP/1.0 405 OK");
-                                    return json_encode($data);
-                                }
-                            }
-
-                            $delete_cartItems_sql = "DELETE FROM `cart_items` WHERE CART_ID = '$cart_id'";
-
-                            if ($conn->query($delete_cartItems_sql) !== TRUE) {
-                            }
-
-                            $data = [
-                                'status' => 200,
-                                'message' => 'Order Success',
-                                'order_items' => $order_items_array,
-                                'transaction_id' => $transaction_id,
-                                'cust_id' => $cust_id,
-                                'payment_type' => $payment_type,
-                                'delivery_type' => $delivery_type,
-                                'unit_st' => $unit_st,
-                                'bgy_id' => $bgy_id,
-                                'time' => $currentTime,
-                                'date' => $currentDate,
-                                'subtotal' => $subtotal,
-                                'VAT' => $vat,
-                                'discount' => $discount,
-                                'total' => $total,
-                                'del_status' => 'Waiting',
-                            ];
-                            header("HTTP/1.0 405 OK");
-                            return json_encode($data);
-                        } else {
-                            $data = [
-                                'status' => 200,
-                                'message' => 'Inserting Error'
-                            ];
-                            header("HTTP/1.0 405 OK");
-                            return json_encode($data);
                         }
                     } else {
                         $data = [
-                            'status' => 405,
-                            'message' => 'Delivery Type Not Available'
+                            'status' => 200,
+                            'message' => 'Please Enter A Valid Quantity',
                         ];
-                        header("HTTP/1.0 405 OK");
+                        header("HTTP/1.0 405 Access Deny");
                         return json_encode($data);
+                        exit;
                     }
-                } elseif ($payment_type === 'Gcash') {
-                    $data = [
-                        'status' => 405,
-                        'message' => 'Gcash Payment is not available'
-                    ];
-                    header("HTTP/1.0 405 OK");
-                    return json_encode($data);
-                } else {
-                    $data = [
-                        'status' => 405,
-                        'message' => 'Payment is not available'
-                    ];
-                    header("HTTP/1.0 405 OK");
-                    return json_encode($data);
+                    $order_items_array[] = $order_item;
                 }
             } else {
                 $data = [
                     'status' => 405,
-                    'message' => 'Invalid Barangay ID',
+                    'message' => 'Cart Is Empty',
                 ];
                 header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+                exit;
+            }
+
+            $subtotal = 0;
+            foreach ($order_items_array as $order_item) {
+                $subtotal += $order_item['AMOUNT'];
+            }
+
+            $vat = 0;
+            $vatable_subtotal = 0;
+            foreach ($order_items_array as $order_item) {
+                $product_id = $order_item['PRODUCT_ID'];
+                $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                $product_result = $conn->query($product_sql);
+                $product = $product_result->fetch_assoc();
+
+                $isVatable = $product['VATABLE'];
+
+                if ($isVatable == true) {
+                    $vatable_subtotal += $order_item['AMOUNT'];
+                }
+            }
+
+            $tax_percentage_sql = "SELECT * FROM tax WHERE TAX_ID = 1";
+            $tax_percentage_result = $conn->query($tax_percentage_sql);
+            $tax = $tax_percentage_result->fetch_assoc();
+            $taxPercentage = $tax['TAX_PERCENTAGE'];
+
+            $vat = $vatable_subtotal * $taxPercentage;
+
+            $discount = 0;
+            if ($discount_type != '') {
+                $discountable_subtotal = 0;
+                foreach ($order_items_array as $order_item) {
+                    $product_id = $order_item['PRODUCT_ID'];
+                    $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
+                    $product_result = $conn->query($product_sql);
+                    $product = $product_result->fetch_assoc();
+
+                    $isDiscountable = $product['DISCOUNTABLE'];
+
+                    if ($isDiscountable == true) {
+                        $discountable_subtotal += $order_item['AMOUNT'];
+                    }
+                }
+
+                $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
+                $discount_percentage_result = $conn->query($discount_percentage_sql);
+                $discount = $discount_percentage_result->fetch_assoc();
+                $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
+                $discount = $discountable_subtotal * $discountPercentage;
+            }
+
+            $total = ($subtotal + $vat) - $discount;
+
+            if ($delivery_type === 'Deliver') {
+                $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                $df_result = $conn->query($df_sql);
+                $delivery = $df_result->fetch_assoc();
+                $df = $delivery['DELIVERY_FEE'];
+
+                $total += $df;
+            }
+
+            $transaction_id = randomTransaction_id();
+
+            $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`) 
+                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting')";
+
+            if ($conn->query($insert_order_sql) === TRUE) {
+                foreach ($order_items_array as $order_item) {
+                    $product_id = $order_item['PRODUCT_ID'];
+                    $qty = $order_item['QTY'];
+                    $amount = $order_item['AMOUNT'];
+
+                    $insert_order_details_sql = "INSERT INTO `order_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
+                                                    VALUES ('$transaction_id', '$product_id', '$qty', '$amount')";
+                    if ($conn->query($insert_order_details_sql) !== TRUE) {
+                        $data = [
+                            'status' => 200,
+                            'message' => 'Inserting Error'
+                        ];
+                        header("HTTP/1.0 405 OK");
+                        return json_encode($data);
+                    }
+                }
+
+                $delete_cartItems_sql = "DELETE FROM `cart_items` WHERE CART_ID = '$cart_id'";
+
+                if ($conn->query($delete_cartItems_sql) !== TRUE) {
+                }
+
+                if ($delivery_type === 'Deliver') {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Order Success',
+                        'order_items' => $order_items_array,
+                        'transaction_id' => $transaction_id,
+                        'cust_id' => $cust_id,
+                        'payment_type' => $payment_type,
+                        'delivery_type' => $delivery_type,
+                        'unit_st' => $unit_st,
+                        'bgy_id' => $bgy_id,
+                        'time' => $currentTime,
+                        'date' => $currentDate,
+                        'subtotal' => $subtotal,
+                        'VAT' => $vat,
+                        'discount' => $discount,
+                        'total' => $total,
+                        'del_status' => 'Waiting',
+                        'df' => $df
+                    ];
+                    header("HTTP/1.0 405 OK");
+                    return json_encode($data);
+                } elseif ($delivery_type === 'Pick Up') {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Order Success',
+                        'order_items' => $order_items_array,
+                        'transaction_id' => $transaction_id,
+                        'cust_id' => $cust_id,
+                        'payment_type' => $payment_type,
+                        'delivery_type' => $delivery_type,
+                        'unit_st' => $unit_st,
+                        'bgy_id' => $bgy_id,
+                        'time' => $currentTime,
+                        'date' => $currentDate,
+                        'subtotal' => $subtotal,
+                        'VAT' => $vat,
+                        'discount' => $discount,
+                        'total' => $total,
+                        'del_status' => 'Waiting'
+                    ];
+                    header("HTTP/1.0 405 OK");
+                    return json_encode($data);
+                } else {
+                    $message = 'Invalid Delivery Type';
+                    return error422($message);
+                }
+            } else {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Inserting Error'
+                ];
+                header("HTTP/1.0 405 OK");
                 return json_encode($data);
             }
         } else {
@@ -1292,6 +1125,232 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
         return json_encode($data);
     }
 }
+
+//placeorder no prescribe products with POF
+function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id, $pof)
+{
+    global $conn;
+    global $currentTime;
+    global $currentDate;
+
+    $cust_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$cust_id'";
+    $cust_result = $conn->query($cust_sql);
+    if ($cust_result->num_rows > 0) {
+        $cust = $cust_result->fetch_assoc();
+        if ($cust['STATUS'] === "active") {
+            $cart_id = $cust['CART_ID'];
+            $discount_type = $cust['DISCOUNT_TYPE'];
+            $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
+            $order_items_result = $conn->query($order_items_sql);
+            $order_items_array = [];
+            if ($order_items_result->num_rows > 0) {
+                while ($order_items_row = $order_items_result->fetch_assoc()) {
+                    $product_id = $order_items_row['PRODUCT_ID'];
+                    $order_qty = $order_items_row['QTY'];
+                    $inventory_sql = "SELECT SUM(QUANTITY) AS total_quantity FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                    $inventory_result = $conn->query($inventory_sql);
+                    if ($inventory_result->num_rows > 0) {
+                        $inventory_qty = $inventory_result->fetch_assoc();
+                        $pro_qty = $inventory_qty['total_quantity'];
+                        if ($pro_qty >= $order_qty) {
+                            $order_item = [
+                                'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
+                                'QTY_LEFT' => $pro_qty,
+                                'QTY' => $order_items_row['QTY'],
+                                'AMOUNT' => $order_items_row['AMOUNT']
+                            ];
+                        } else {
+                            $message = 'Please Enter A Valid Quantity';
+                            return error422($message);
+                        }
+                    } else {
+                        $message = 'Please Enter A Valid Quantity';
+                        return error422($message);
+                    }
+                }
+                $order_items_array[] = $order_item;
+            } else {
+                $message = 'Cart Is Empty';
+                return error422($message);
+            }
+
+            $subtotal = 0;
+            foreach ($order_items_array as $order_item) {
+                $subtotal += $order_item['AMOUNT'];
+            }
+
+            $vat = 0;
+            $vatable_subtotal = 0;
+            foreach ($order_items_array as $order_item) {
+                $product_id = $order_item['PRODUCT_ID'];
+                $product_sql = "SELECT VATABLE FROM products WHERE PRODUCT_ID = '$product_id'";
+                $product_result = $conn->query($product_sql);
+                $product = $product_result->fetch_assoc();
+
+                $isVatable = $product['VATABLE'];
+
+                if ($isVatable == true) {
+                    $vatable_subtotal += $order_item['AMOUNT'];
+                }
+            }
+
+            $tax_percentage_sql = "SELECT TAX_PERCENTAGE FROM tax WHERE TAX_ID = 1";
+            $tax_percentage_result = $conn->query($tax_percentage_sql);
+            $tax = $tax_percentage_result->fetch_assoc();
+            $taxPercentage = $tax['TAX_PERCENTAGE'];
+
+            $vat = $vatable_subtotal * $taxPercentage;
+
+            $discount = 0;
+            if ($discount_type != '') {
+                $discountable_subtotal = 0;
+                foreach ($order_items_array as $order_item) {
+                    $product_id = $order_item['PRODUCT_ID'];
+                    $product_sql = "SELECT DISCOUNTABLE FROM products WHERE PRODUCT_ID = '$product_id'";
+                    $product_result = $conn->query($product_sql);
+                    $product = $product_result->fetch_assoc();
+
+                    $isDiscountable = $product['DISCOUNTABLE'];
+
+                    if ($isDiscountable == true) {
+                        $discountable_subtotal += $order_item['AMOUNT'];
+                    }
+                }
+
+                $discount_percentage_sql = "SELECT * FROM discount WHERE DISCOUNT_ID = '$discount_type'";
+                $discount_percentage_result = $conn->query($discount_percentage_sql);
+                $discount = $discount_percentage_result->fetch_assoc();
+                $discountPercentage = $discount['DISCOUNT_PERCENTAGE'];
+                $discount = $discountable_subtotal * $discountPercentage;
+            }
+
+            $total = ($subtotal + $vat) - $discount;
+
+            if ($delivery_type === 'Deliver') {
+                $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                $df_result = $conn->query($df_sql);
+                $delivery = $df_result->fetch_assoc();
+                $df = $delivery['DELIVERY_FEE'];
+
+                $total += $df;
+            }
+
+
+            //pof handling
+            if (!empty($_FILES['pof']['size'])) {
+                $file_name = $pof['name'];
+                $file_tmp = $pof['tmp_name'];
+                $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+                if ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'png') {
+
+                    $new_file_name = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 13) . '.' . $extension;
+                    $check_file_name = "SELECT PROOF_OF_PAYMENT FROM `order` WHERE PROOF_OF_PAYMENT = '$new_file_name'";
+                    $check_file_result = $conn->query($check_file_name);
+                    while ($check_file_result->num_rows > 0) {
+                        $new_file_name = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 13) . '.' . $extension;
+                        $check_file_name = "SELECT PROOF_OF_PAYMENT FROM `order` WHERE PROOF_OF_PAYMENT = '$new_file_name'";
+                        $check_file_result = $conn->query($check_file_name);
+                    }
+
+                    $destination = "../img/pofs/" . $new_file_name;
+                    if (move_uploaded_file($file_tmp, $destination)) {
+                        $transaction_id = randomTransaction_id();
+
+                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`, `PROOF_OF_PAYMENT`) 
+                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting', '$new_file_name')";
+
+                        if ($conn->query($insert_order_sql) === TRUE) {
+                            foreach ($order_items_array as $order_item) {
+                                $product_id = $order_item['PRODUCT_ID'];
+                                $qty = $order_item['QTY'];
+                                $amount = $order_item['AMOUNT'];
+
+                                $insert_order_details_sql = "INSERT INTO `order_details`(`TRANSACTION_ID`, `PRODUCT_ID`, `QTY`, `AMOUNT`) 
+                                                        VALUES ('$transaction_id', '$product_id', '$qty', '$amount')";
+                                if ($conn->query($insert_order_details_sql) !== TRUE) {
+                                    $message = 'Inserting Error';
+                                    return error422($message);
+                                }
+                            }
+
+                            $delete_cartItems_sql = "DELETE FROM `cart_items` WHERE CART_ID = '$cart_id'";
+                            if ($conn->query($delete_cartItems_sql) !== TRUE) {
+                            }
+
+                            if ($delivery_type === 'Deliver') {
+                                $data = [
+                                    'status' => 200,
+                                    'message' => 'Order Success',
+                                    'order_items' => $order_items_array,
+                                    'transaction_id' => $transaction_id,
+                                    'cust_id' => $cust_id,
+                                    'payment_type' => $payment_type,
+                                    'delivery_type' => $delivery_type,
+                                    'unit_st' => $unit_st,
+                                    'bgy_id' => $bgy_id,
+                                    'time' => $currentTime,
+                                    'date' => $currentDate,
+                                    'subtotal' => $subtotal,
+                                    'VAT' => $vat,
+                                    'discount' => $discount,
+                                    'total' => $total,
+                                    'del_status' => 'Waiting',
+                                    'df' => $df
+                                ];
+                                header("HTTP/1.0 405 OK");
+                                return json_encode($data);
+                            } elseif ($delivery_type === 'Pick Up') {
+                                $data = [
+                                    'status' => 200,
+                                    'message' => 'Order Success',
+                                    'order_items' => $order_items_array,
+                                    'transaction_id' => $transaction_id,
+                                    'cust_id' => $cust_id,
+                                    'payment_type' => $payment_type,
+                                    'delivery_type' => $delivery_type,
+                                    'unit_st' => $unit_st,
+                                    'bgy_id' => $bgy_id,
+                                    'time' => $currentTime,
+                                    'date' => $currentDate,
+                                    'subtotal' => $subtotal,
+                                    'VAT' => $vat,
+                                    'discount' => $discount,
+                                    'total' => $total,
+                                    'del_status' => 'Waiting'
+                                ];
+                                header("HTTP/1.0 405 OK");
+                                return json_encode($data);
+                            } else {
+                                $message = 'Invalid Delivery Type';
+                                return error422($message);
+                            }
+                        } else {
+                            $message = 'Inserting Error';
+                            return error422($message);
+                        }
+                    } else {
+                        $message = 'Upload Unsuccessfull';
+                        return error422($message);
+                    }
+                } else {
+                    $message = 'File Extension Not Accepted';
+                    return error422($message);
+                }
+            } else {
+                $message = 'Please Upload Proof Of Payment';
+                return error422($message);
+            }
+        } else {
+            $message = 'This Account Is Deactivated';
+            return error422($message);
+        }
+    } else {
+        $message = 'User Not Found';
+        return error422($message);
+    }
+}
+
 
 
 //address set
