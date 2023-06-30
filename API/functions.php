@@ -695,11 +695,16 @@ function checkout($id)
             $order_items_result = $conn->query($order_items_sql);
             $order_items_array = [];
             if ($order_items_result->num_rows > 0) {
+                $prescribe_products = 0;
                 while ($order_items_row = $order_items_result->fetch_assoc()) {
 
                     $product_id = $order_items_row['PRODUCT_ID'];
-                    $product_result = $conn->query("SELECT PRODUCT_NAME, PRODUCT_IMG FROM products WHERE PRODUCT_ID = '$product_id'");
+                    $product_result = $conn->query("SELECT PRODUCT_NAME, PRODUCT_IMG, PRESCRIBE FROM products WHERE PRODUCT_ID = '$product_id'");
                     $product_details = $product_result->fetch_assoc();
+                    $isPrescibe = $product_details['PRESCRIBE'];
+                    if($isPrescibe == 1){
+                        $prescribe_products++;
+                    }
                     $product_name = $product_details['PRODUCT_NAME'];
                     $product_img = 'https://gorder.website/img/products/' . $product_details['PRODUCT_IMG'];
 
@@ -807,6 +812,7 @@ function checkout($id)
                     'total' => $total,
                     'delivery_fee' => $df,
                     'total_plus_delivery_fee' => $total + $df,
+                    'presribe_pro' => $prescribe_products
                 ]
             ];
             header("HTTP/1.0 405 Access Deny");
