@@ -721,7 +721,8 @@ function checkout($id)
                             'PRODUCT_IMG' => $product_img,
                             'QTY_LEFT' => intval($qty),
                             'QTY' => intval($order_items_row['QTY']),
-                            'AMOUNT' => floatval($order_items_row['AMOUNT'])
+                            'AMOUNT' => floatval($order_items_row['AMOUNT']),
+                            'PRESCRIBE'=> ($isPrescibe == 1) ? true : false
                         ];
                     } else {
                         $order_item = [
