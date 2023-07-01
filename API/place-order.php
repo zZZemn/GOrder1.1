@@ -11,7 +11,6 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 if ($requestMethod == "POST") {
 
-
     $cust_id = $_POST['cust_id'];
     $payment_type = $_POST['payment_type'];
     $delivery_type = $_POST['delivery_type'];
@@ -86,10 +85,10 @@ if ($requestMethod == "POST") {
                 echo json_encode($data);
             } else {
                 if ($prescribe_products > 0) {
-                    if (isset($_POST['prescription'])) {;
-                        echo 'prescription uploaded';
-                        // $placeorder = placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id, $image_data);
-                        // echo $placeorder;
+                    if (isset($_FILES['prescription'])) {
+                        $prescription = $_FILES['prescription'];
+                        $placeorder = placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id, $prescription);
+                        echo $placeorder;
                     } else {
                         $data = [
                             'status' => 405,
