@@ -693,7 +693,7 @@ function user($user_id)
 }
 
 
-function checkout($id)
+function checkout($id, $payment_type, $delivery_type)
 {
     global $conn;
 
@@ -813,27 +813,84 @@ function checkout($id)
             }
 
             $total = ($subtotal + $vat) - $discount;
-            $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
-            $df_result = $conn->query($df_sql);
-            $delivery = $df_result->fetch_assoc();
-            $df = floatval($delivery['DELIVERY_FEE']);
 
-            $data = [
-                'status' => 200,
-                'message' => 'Computed Price',
-                'items' => $order_items_array,
-                'order_details' => [
-                    'subtotal' => $subtotal,
-                    'vat' => $vat,
-                    'discount' => $discount,
-                    'total' => $total,
-                    'delivery_fee' => $df,
-                    'total_plus_delivery_fee' => $total + $df,
-                    'presribe_pro' => $prescribe_products
-                ]
-            ];
-            header("HTTP/1.0 405 Access Deny");
-            return json_encode($data);
+            if ($delivery_type === 'Deliver') {
+                $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+                $df_result = $conn->query($df_sql);
+                $delivery = $df_result->fetch_assoc();
+                $df = floatval($delivery['DELIVERY_FEE']);
+
+                $payment_type_sql = "SELECT * FROM payment_type WHERE PAYMENT_TYPE = '$payment_type'";
+                $payment_type_result = $conn->query($payment_type_sql);
+                if ($payment_type_result->num_rows > 0) {
+                    $payment = $payment_type_result->fetch_assoc();
+                    $payment_qr = $payment['QR_IMG'];
+                    $payment_bank_number = $payment['BANK_NUMBER'];
+                    ($payment_type === 'Cash') ? $upload_pof = false : $upload_pof = true;
+                    ($payment_qr === null) ? $qr_url = null : $qr_url = 'https://gorder.website/img/payments_qr/' . $payment_qr;
+                    ($payment_bank_number === null) ? $bank_number = null : $bank_number = $payment_bank_number;
+
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Computed Price',
+                        'items' => $order_items_array,
+                        'order_details' => [
+                            'subtotal' => $subtotal,
+                            'vat' => $vat,
+                            'discount' => $discount,
+                            'total' => $total,
+                            'delivery_fee' => $df,
+                            'total_plus_delivery_fee' => $total + $df,
+                            'presribe_pro' => $prescribe_products,
+                            'payment_type' => $payment_type,
+                            'upload_pof' => $upload_pof,
+                            'payment_qr' => $qr_url,
+                            'bank_no' => $bank_number
+                        ]
+                    ];
+                    header("HTTP/1.0 405 OK");
+                    return json_encode($data);
+                } else {
+                    $message = 'Payment Type not found';
+                    return error422($message);
+                }
+            } elseif ($delivery_type === 'Pick Up') {
+                $payment_type_sql = "SELECT * FROM payment_type WHERE PAYMENT_TYPE = '$payment_type'";
+                $payment_type_result = $conn->query($payment_type_sql);
+                if ($payment_type_result->num_rows > 0) {
+                    $payment = $payment_type_result->fetch_assoc();
+                    $payment_qr = $payment['QR_IMG'];
+                    $payment_bank_number = $payment['BANK_NUMBER'];
+                    ($payment_type === 'Cash') ? $upload_pof = false : $upload_pof = true;
+                    ($payment_qr === null) ? $qr_url = null : $qr_url = 'https://gorder.website/img/payments_qr/' . $payment_qr;
+                    ($payment_bank_number === null) ? $bank_number = null : $bank_number = $payment_bank_number;
+
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Computed Price',
+                        'items' => $order_items_array,
+                        'order_details' => [
+                            'subtotal' => $subtotal,
+                            'vat' => $vat,
+                            'discount' => $discount,
+                            'total' => $total,
+                            'presribe_pro' => $prescribe_products,
+                            'payment_type' => $payment_type,
+                            'upload_pof' => $upload_pof,
+                            'payment_qr' => $qr_url,
+                            'bank_no' => $bank_number
+                        ]
+                    ];
+                    header("HTTP/1.0 405 OK");
+                    return json_encode($data);
+                } else {
+                    $message = 'Payment Type not found';
+                    return error422($message);
+                }
+            } else {
+                $message = 'Delivery Type not available';
+                return error422($message);
+            }
         } else {
             $data = [
                 'status' => 405,

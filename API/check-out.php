@@ -11,9 +11,11 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 if ($requestMethod == "POST") {
     $data = json_decode(file_get_contents("php://input"));
 
-    if (isset($data->id)) {
+    if (isset($data->id) && isset($data->payment_type) && isset($data->delivery_type)) {
         $id = $data->id;
-        $order = checkout($id);
+        $payment_type = $data->payment_type;
+        $delivery_type = $data->delivery_type;
+        $order = checkout($id, $payment_type, $delivery_type);
         echo $order;
     } else {
         $data = [
