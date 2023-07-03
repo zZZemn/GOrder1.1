@@ -11,9 +11,10 @@ if (isset($_SESSION['id'])) {
     $emp = $result->fetch_assoc();
 
     if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") {
-        if (isset($_POST['new_status']) && isset($_POST['transaction_id'])) {
+        if (isset($_POST['new_status']) && isset($_POST['transaction_id']) && isset($_POST['action'])) {
             $new_status = $_POST['new_status'];
             $transaction_id = $_POST['transaction_id'];
+            $action = $_POST['action'];
             if ($new_status === 'For-Delivery' || $new_status === 'Ready To Pick Up') {
                 $order_sql = "SELECT * FROM `order` WHERE TRANSACTION_ID = '$transaction_id'";
                 $order_result = $conn->query($order_sql);
@@ -37,10 +38,10 @@ if (isset($_SESSION['id'])) {
                         if ($cust_result->num_rows > 0) {
                             $cust = $cust_result->fetch_assoc();
                             $discount_type = $cust['DISCOUNT_TYPE'];
-                            
+
                             $discount_sql = "SELECT DISCOUNT_NAME FROM discount WHERE DISCOUNT_ID = '$discount_type'";
                             $discount_result = $conn->query($discount_sql);
-                            if($discount_result->num_rows > 0){
+                            if ($discount_result->num_rows > 0) {
                                 $discount = $discount_result->fetch_assoc();
                                 $discount_name = $discount['DISCOUNT_NAME'];
                             }
@@ -111,8 +112,23 @@ if (isset($_SESSION['id'])) {
                     }
                 }
             } else {
-                $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='$new_status' WHERE TRANSACTION_ID = '$transaction_id'";
+                if ($action === 'accept-prescription') {
+                    $updateOrderStat_sql = "UPDATE `order` SET `PRES_REJECT_REASON`='confirmed' WHERE TRANSACTION_ID = '$transaction_id'";
+                } elseif ($action === 'accept-payment') {
+                    $updateOrderStat_sql = "UPDATE `order` SET `POF_REJECT_REASON`='confirmed', `STATUS`='Accepted' WHERE TRANSACTION_ID = '$transaction_id'";
+                } elseif ($action === 'accept-order') {
+                    $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='Accepted' WHERE TRANSACTION_ID = '$transaction_id'";
+                } elseif ($action === 'decline-prescription') {
+                    $updateOrderStat_sql = "UPDATE `order` SET `PRES_REJECT_REASON`='decline' WHERE TRANSACTION_ID = '$transaction_id'";
+                } elseif ($action === 'decline-payment') {
+                    $updateOrderStat_sql = "UPDATE `order` SET `POF_REJECT_REASON`='decline' WHERE TRANSACTION_ID = '$transaction_id'";
+                } elseif ($action === 'decline-order') {
+                    $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='decline' WHERE TRANSACTION_ID = '$transaction_id'";
+                } else {
+                    $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='$new_status' WHERE TRANSACTION_ID = '$transaction_id'";
+                }
                 if ($conn->query($updateOrderStat_sql) === TRUE) {
+                    echo 'ok';
                 } else {
                     echo 'not_ok';
                 }

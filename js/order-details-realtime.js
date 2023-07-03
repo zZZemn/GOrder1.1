@@ -35,26 +35,25 @@ $(document).ready(function () {
         loadXMLDoc();
     }, 1000);
 
-    $('#select_status_container').on('change', '#update-order-status', function () {
-        console.log('clicked');
-        var new_status = $(this).val();
-        var transaction_id = $('#transaction_id').val();
+    $('#select_status_container').on('click', 'a', function () {
+        var orderID = $(this).data('id');
+        var new_status = $(this).data('status');
+        var action = $(this).data('action');
+        console.log(new_status);
+        console.log(orderID);
+        console.log(action);
 
-        // Rest of your AJAX code
         $.ajax({
             url: '../ajax-url/order-status-update.php',
             data: {
                 new_status: new_status,
-                transaction_id: transaction_id
+                transaction_id: orderID,
+                action: action
             },
             type: 'POST',
             success: function (data) {
-                if (data === 'Picked Up') {
-                    $('#update-order-status').prop('disabled', true);
-                }
-
-                console.log(data);
                 orderSelect();
+                console.log(data);
             },
         });
     });

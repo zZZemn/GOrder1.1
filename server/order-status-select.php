@@ -21,64 +21,56 @@ if (isset($_SESSION['id'])) {
                 $del_type = $order['DELIVERY_TYPE'];
                 $cust_id = $order['CUST_ID'];
                 $cur_rider_id = $order['RIDER_ID'];
+                $prescription = $order['PRESCRIPTION'];
+                $pof = $order['PROOF_OF_PAYMENT'];
+                $payment_type = $order['PAYMENT_TYPE'];
+
+                $prescription_reason = $order['PRES_REJECT_REASON'];
+
+                if ($del_type === 'Deliver') {
+                    if ($order_status === 'Waiting') {
+                        if ($payment_type == 'Cash') {
 ?>
-                <?php if ($del_type === 'Deliver') { ?>
-                    <div class="order-input-container">
-                        <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Delivered') ? 'disabled' : '' ?>>
+                            <div>
+                                <center>Confirm this order?</center>
+                                <div>
+                                    <a class="btn btn-primary order-accept" data-id="<?php echo $transactionID ?>" data-status="Accepted" data-action="accept-order">Accept</a>
+                                    <a class="btn btn-danger order-decline" data-id="<?php echo $transactionID ?>" data-status="Waiting" data-action="decline-order">Decline</a>
+                                </div>
+                            </div>
                             <?php
-                            if ($order_status === 'Delivered') {
+                        } else {
+                            //online payment
+                            if ($prescription != null && $prescription_reason != 'confirmed') {
                             ?>
-                                <option value="Delivered">Delivered</option>
-                            <?php
-                            } elseif ($order_status === 'For-Delivery') {
-                            ?>
-                                <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
-                                <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
-                            <?php
-                            } elseif ($order_status === 'Shipped') {
-                            ?>
-                                <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
+                                <div>
+                                    <center>Confirm this Prescription?</center>
+                                    <div>
+                                        <a class="btn btn-primary prescription-confirm" data-id="<?php echo $transactionID ?>" data-status="Waiting" data-action="accept-prescription">Confirm</a>
+                                        <a class="btn btn-danger prescription-decline" data-id="<?php echo $transactionID ?>" data-status="Waiting" data-action="decline-prescription">Decline</a>
+                                    </div>
+                                </div>
                             <?php
                             } else {
                             ?>
-                                <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
-                                <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
-                                <option value="For-Delivery" <?php echo ($order_status === 'For-Delivery') ? 'selected' : '' ?>>For Delivery</option>
-                                <option value="Shipped" <?php echo ($order_status === 'Shipped') ? 'selected' : '' ?>>Shipped</option>
-                            <?php
+                                <div>
+                                    <center>Confirm this Payment?</center>
+                                    <div>
+                                        <a class="btn btn-primary pof-confirm" data-id="<?php echo $transactionID ?>" data-status="Accepted" data-action="accept-payment">Confirm</a>
+                                        <a class="btn btn-danger pof-decline" data-id="<?php echo $transactionID ?>" data-status="Waiting" data-action="decline-payment">Decline</a>
+                                    </div>
+                                </div>
+<?php
                             }
-                        } elseif ($del_type === 'Pick Up') {
-                            ?>
-                            <div class="order-input-container">
-                                <select class="form-control" id="update-order-status" <?php echo ($order_status === 'Picked Up') ? 'disabled' : '' ?>>
-                                    <?php
-                                    if ($order_status === 'Picked Up') {
-                                    ?>
-                                        <option value="Picked Up">Picked Up</option>
-                                    <?php
-                                    } elseif ($order_status === 'Ready To Pick Up') {
-                                    ?>
-                                        <option value="Ready To Pick Up">Ready To Pick Up</option>
-                                    <?php
-                                    } elseif ($order_status === 'Accepted') {
-                                    ?>
-                                        <option value="Accepted">Accepted</option>
-                                        <option value="Ready To Pick Up">Ready To Pick Up</option>
-                                    <?php
-                                    } else {
-                                    ?>
-                                        <option value="Waiting" <?php echo ($order_status === 'Waiting') ? 'selected' : '' ?>>Waiting</option>
-                                        <option value="Accepted" <?php echo ($order_status === 'Accepted') ? 'selected' : '' ?>>Accepted</option>
-                                        <option value="Ready To Pick Up" <?php echo ($order_status === 'Ready To Pick Up') ? 'selected' : '' ?>>Ready To Pick Up</option>
-                                <?php
-                                    }
-                                }
-                                ?>
-                                </select>
-                                <label>Order Status</label>
-                            </div>
-                    </div>
-    <?php
+                        }
+                    } elseif($order_status === 'Accepted'){
+                        ?>
+                        <h1>
+                            accepted
+                        </h1>
+                        <?php
+                    }   
+                }
             } else {
                 echo "
                 <head>
