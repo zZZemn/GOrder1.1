@@ -62,7 +62,9 @@ if (isset($_SESSION['id'])) {
 
 ?>
                     <tr>
-                        <td><a href="order-details.php?transaction_id=<?php echo $order_row['TRANSACTION_ID'] ?>" target="_blank"><?php echo $order_row['TRANSACTION_ID'] ?></a></td>
+                        <td>
+                            <a href="order-details.php?transaction_id=<?php echo $order_row['TRANSACTION_ID'] ?>" target="_blank"><?php echo $order_row['TRANSACTION_ID'] ?></a>
+                        </td>
                         <td><?php echo $cust['FIRST_NAME'] . " " . $cust['LAST_NAME'] ?></td>
                         <td><?php echo $order_row['PAYMENT_TYPE'] ?></td>
                         <td><?php echo $order_row['DELIVERY_TYPE'] ?></td>

@@ -17,6 +17,8 @@ if (isset($_SESSION['id'])) {
             $orderDetails_result = $conn->query($orderDetails_sql);
             if ($orderDetails_result->num_rows > 0) {
                 $order = $orderDetails_result->fetch_assoc();
+                $order_prescription = $order['PRESCRIPTION'];
+                $order_pof = $order['PROOF_OF_PAYMENT'];
                 $order_status = $order['STATUS'];
                 $del_type = $order['DELIVERY_TYPE'];
                 $cust_id = $order['CUST_ID'];
@@ -106,7 +108,7 @@ if (isset($_SESSION['id'])) {
                             <th colspan="3">Change</th>
                             <th><?php echo ($order['PAYMENT'] != 0) ? $order['CHANGE'] : '<p class="text-danger">Not Paid</p>' ?></th>
                         </tr>
-                        <?php if ($del_type === 'Pick Up' && $order_status != 'Picked Up') {
+                        <?php if ($del_type === 'Pick Up' && $order_status != 'Picked Up' && $payment_type === 'Cash') {
                         ?>
                             <tr>
                                 <th colspan="3" class="text-success add-payment-text">Add Payment</th>
@@ -117,6 +119,48 @@ if (isset($_SESSION['id'])) {
                                         <a class="btn btn-success" id="payment_submit">Pay</a>
                                     </div>
                                 </th>
+                            </tr>
+                            <?php
+                        }
+
+                        if ($payment_type === 'Cash') {
+                            if ($order_prescription != null) {
+                            ?>
+                                <tr>
+                                    <th colspan="4">
+                                        <center>Prescription</center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        <center>
+                                            <img src="../img/prescriptions/<?php echo $order_prescription ?>">
+                                    </td>
+                                    </center>
+                                </tr>
+                            <?php
+                            }
+                        } else {
+                            ?>
+                            <tr>
+                                <?php echo ($order_prescription != null) ? '<th colspan="2"><center>Prescription</center></th>' : '' ?>
+                                <th colspan="4">
+                                    <center>
+                                        Proof Of Payment
+                                    </center>
+                                </th>
+                            </tr>
+                            <tr>
+                            <tr>
+                            <?php echo ($order_prescription != null) ? '<td colspan="2"><center><img class="user-upload" src="../img/prescriptions/'.$order_prescription.'"</center></td>' : '' ?>
+                                <td colspan="4">
+                                    <center>
+                                        <?php
+                                        echo ($order_pof == null) ? '<p colspan="2">Proof Of Payment Not Uploaded Yet.</p>' : '<img class="user-upload" src="../img/pofs/' . $order_pof . '">';
+                                        ?>
+                                    </center>
+                                </td>
+                            </tr>
                             </tr>
                         <?php
                         }

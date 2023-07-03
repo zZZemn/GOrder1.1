@@ -254,7 +254,7 @@ if (isset($_SESSION['id'])) {
                 </thead>
 
                 <tbody id="orders_result">
-
+                    
                 </tbody>
             </table>
         </div>

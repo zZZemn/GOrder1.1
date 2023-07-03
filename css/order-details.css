@@ -208,6 +208,11 @@ height: 40px;
     margin-right: 10px;
 }
 
+.user-upload {
+    max-height: 700px;
+    max-width: 700px;
+}
+
 
 .alert {
     position: fixed !important;
