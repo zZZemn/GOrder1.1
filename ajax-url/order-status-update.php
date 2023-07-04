@@ -113,17 +113,17 @@ if (isset($_SESSION['id'])) {
                 }
             } else {
                 if ($action === 'accept-prescription') {
-                    $updateOrderStat_sql = "UPDATE `order` SET `PRES_REJECT_REASON`='confirmed' WHERE TRANSACTION_ID = '$transaction_id'";
+                    $updateOrderStat_sql = "UPDATE `order` SET `PRES_REJECT_REASON`='confirmed', `STATUS` = '$new_status' WHERE TRANSACTION_ID = '$transaction_id'";
                 } elseif ($action === 'accept-payment') {
-                    $updateOrderStat_sql = "UPDATE `order` SET `POF_REJECT_REASON`='confirmed', `STATUS`='Accepted' WHERE TRANSACTION_ID = '$transaction_id'";
+                    $updateOrderStat_sql = "UPDATE `order` SET `POF_REJECT_REASON`='confirmed', `PAYMENT` = TOTAL, `STATUS`='Accepted' WHERE TRANSACTION_ID = '$transaction_id'";
                 } elseif ($action === 'accept-order') {
                     $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='Accepted' WHERE TRANSACTION_ID = '$transaction_id'";
                 } elseif ($action === 'decline-prescription') {
-                    $updateOrderStat_sql = "UPDATE `order` SET `PRES_REJECT_REASON`='decline' WHERE TRANSACTION_ID = '$transaction_id'";
+                    $updateOrderStat_sql = "UPDATE `order` SET `PRES_REJECT_REASON`='declined' WHERE TRANSACTION_ID = '$transaction_id'";
                 } elseif ($action === 'decline-payment') {
-                    $updateOrderStat_sql = "UPDATE `order` SET `POF_REJECT_REASON`='decline' WHERE TRANSACTION_ID = '$transaction_id'";
+                    $updateOrderStat_sql = "UPDATE `order` SET `POF_REJECT_REASON`='declined' WHERE TRANSACTION_ID = '$transaction_id'";
                 } elseif ($action === 'decline-order') {
-                    $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='decline' WHERE TRANSACTION_ID = '$transaction_id'";
+                    $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='declined' WHERE TRANSACTION_ID = '$transaction_id'";
                 } else {
                     $updateOrderStat_sql = "UPDATE `order` SET `STATUS`='$new_status' WHERE TRANSACTION_ID = '$transaction_id'";
                 }

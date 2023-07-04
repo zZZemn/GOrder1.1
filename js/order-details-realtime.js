@@ -12,6 +12,7 @@ $(document).ready(function () {
         xhttp.open("GET", url, true);
         xhttp.send();
     }
+    
 
     window.onload = orderSelect();
 
@@ -35,6 +36,28 @@ $(document).ready(function () {
         loadXMLDoc();
     }, 1000);
 
+    function loadOrderDetails(response) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("fourt_container").innerHTML = this.responseText;
+                if (response === 'OK') {
+                    setTimeout(function () {
+                        $('.alert-transaction-complete').css('opacity', 1).css('pointer-events', 'auto');
+                        setTimeout(function () {
+                            $('.alert-transaction-complete').css('opacity', 0).css('pointer-events', 'none');
+                        }, 2000);
+                    }, 500);
+                }
+            }
+        };
+
+        var id = $('#transaction_id').val();
+        var url = "../server/order-pay-update.php?id=" + encodeURIComponent(id);
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
     $('#select_status_container').on('click', 'a', function () {
         var orderID = $(this).data('id');
         var new_status = $(this).data('status');
@@ -53,7 +76,9 @@ $(document).ready(function () {
             type: 'POST',
             success: function (data) {
                 orderSelect();
-                console.log(data);
+                setTimeout(function() {
+                    loadOrderDetails();
+                }, 1000);
             },
         });
     });
@@ -77,28 +102,6 @@ $(document).ready(function () {
             },
         });
     });
-
-    function loadOrderDetails(response) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                document.getElementById("fourt_container").innerHTML = this.responseText;
-                if (response === 'OK') {
-                    setTimeout(function () {
-                        $('.alert-transaction-complete').css('opacity', 1).css('pointer-events', 'auto');
-                        setTimeout(function () {
-                            $('.alert-transaction-complete').css('opacity', 0).css('pointer-events', 'none');
-                        }, 2000);
-                    }, 500);
-                }
-            }
-        };
-
-        var id = $('#transaction_id').val();
-        var url = "../server/order-pay-update.php?id=" + encodeURIComponent(id);
-        xhttp.open("GET", url, true);
-        xhttp.send();
-    }
 
     window.onload = loadOrderDetails;
 

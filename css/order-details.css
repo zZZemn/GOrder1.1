@@ -131,6 +131,42 @@ body {
     left: 96%;
 }
 
+#select_status_container div{
+    width: 250px;
+    text-align: center;
+}
+
+.change-stat-div {
+    position: relative;
+    height: 70px;
+    width: 250px;
+    box-shadow: 1px 1px 5px rgb(145, 145, 145);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.change-stat-div div {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 0px 15px;
+}
+
+.change-stat-div label {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    padding: 0px 10px;
+    background-color: white;
+    transform: translateY(-10px);
+    font-size: 12px;
+}
+
+.change-stat-div input {
+    width: 200px;
+}
+
 .second-container {
     display: flex;
     justify-content: space-between;
