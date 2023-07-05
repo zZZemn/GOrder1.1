@@ -123,6 +123,13 @@ if (isset($_SESSION['id'])) {
                             <input type="text" class="form-control" readonly value="Shipped">
                             <label>Current Status</label>
                         </div>
+                    <?php
+                    } elseif ($order_status === 'Delivered') {
+                    ?>
+                        <div class="change-stat-div">
+                            <input type="text" class="form-control" readonly value="Delivered">
+                            <label>Current Status</label>
+                        </div>
                         <?php
                     }
                 } else {

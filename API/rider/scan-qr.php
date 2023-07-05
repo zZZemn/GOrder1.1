@@ -12,12 +12,11 @@ if($requestMethod == "POST")
 {
     $data = json_decode(file_get_contents("php://input"));
 
-    if(isset($data->transaction_id) && isset($data->rider_id) && isset($data->payment)){
+    if(isset($data->transaction_id) && isset($data->rider_id)){
         $transaction_id = $data->transaction_id;
         $rider_id = $data->rider_id;
-        $payment = $data->payment;
 
-        $scanQR = scanQR($transaction_id, $rider_id, $payment);
+        $scanQR = scanQR($transaction_id, $rider_id);
         echo $scanQR;
     } else {
         $data = [

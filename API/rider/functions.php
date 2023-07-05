@@ -265,7 +265,7 @@ function deliverDetails($rider_id, $order_id)
     }
 }
 
-function scanQR($transaction_id, $rider_id, $payment)
+function scanQR($transaction_id, $rider_id)
 {
     global $currentDate;
     global $currentTime;
@@ -278,21 +278,8 @@ function scanQR($transaction_id, $rider_id, $payment)
             $orders = $orders_result->fetch_assoc();
             $sales = $sales_result->fetch_assoc();
 
-            $total = $orders['TOTAL'];
-            if ($total > $payment) {
-                $data = [
-                    'status' => 404,
-                    'message' => 'Invalid Payment',
-                ];
-                header("HTTP/1.0 404 Not Found");
-                return json_encode($data);
-                exit;
-            } else {
-                $change = $payment - $total;
-            }
-
-            $order_update_sql = "UPDATE `order` SET `PAYMENT`='$payment',`CHANGE`='$change',`STATUS`='Delivered' WHERE TRANSACTION_ID = '$transaction_id'";
-            $sales_update_sql = "UPDATE `sales` SET `TIME`='$currentTime',`DATE`='$currentDate', `PAYMENT`='$payment',`CHANGE`='$change' WHERE ORDER_ID = '$transaction_id'";
+            $order_update_sql = "UPDATE `order` SET `PAYMENT`= TOTAL, `STATUS`='Delivered' WHERE TRANSACTION_ID = '$transaction_id'";
+            $sales_update_sql = "UPDATE `sales` SET `TIME`='$currentTime',`DATE`='$currentDate', `PAYMENT`= TOTAL WHERE ORDER_ID = '$transaction_id'";
 
             if ($conn->query($order_update_sql) && ($conn->query($sales_update_sql) === TRUE)) {
                 $data = [

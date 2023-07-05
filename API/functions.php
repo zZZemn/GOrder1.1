@@ -1851,6 +1851,12 @@ function order_details($ids)
                     $rider = 'The rider has not been assigned yet.';
                 }
 
+                if($order['STATUS'] === 'Waiting' && $order['PRES_REJECT_REASON'] === 'confirmed') {
+                    $upload_pof = true;
+                } else {
+                    $upload_pof = false;
+                }
+
                 $data = [
                     'status' => 200,
                     'message' => 'Order Details',
@@ -1870,7 +1876,8 @@ function order_details($ids)
                     'change' => $order['CHANGE'],
                     'prescription' => $order['PRESCRIPTION'],
                     'rider' => $rider_name,
-                    'order_status' => $order['STATUS']
+                    'order_status' => $order['STATUS'],
+                    'upload_pof' => $upload_pof
                 ];
                 header("HTTP/1.0 405 OK");
                 return json_encode($data);
@@ -1897,5 +1904,71 @@ function order_details($ids)
         ];
         header("HTTP/1.0 405 Access Deny");
         return json_encode($data);
+    }
+}
+
+
+function uploadPOF($order_id, $pof)
+{
+    global $conn;
+
+    $order_query = "SELECT PAYMENT_TYPE, PROOF_OF_PAYMENT FROM `order` WHERE TRANSACTION_ID = '$order_id'";
+    $order_result = $conn->query($order_query);
+    if ($order_result->num_rows > 0) {
+        $order = $order_result->fetch_assoc();
+        if ($order['PROOF_OF_PAYMENT'] === null) {
+            if ($order['PAYMENT_TYPE'] === 'Cash') {
+                $message = 'This order payment type is set to cash';
+                return error422($message);
+            } else {
+                if (!empty($_FILES['pof']['size'])) {
+                    $file_name = $pof['name'];
+                    $file_tmp = $pof['tmp_name'];
+                    $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+                    if ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'png') {
+                        $new_file_name = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 13) . '.' . $extension;
+                        $check_file_name = "SELECT PROOF_OF_PAYMENT FROM `order` WHERE PROOF_OF_PAYMENT = '$new_file_name'";
+                        $check_file_result = $conn->query($check_file_name);
+                        while ($check_file_result->num_rows > 0) {
+                            $new_file_name = substr(str_shuffle('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 13) . '.' . $extension;
+                            $check_file_name = "SELECT PROOF_OF_PAYMENT FROM `order` WHERE PROOF_OF_PAYMENT = '$new_file_name'";
+                            $check_file_result = $conn->query($check_file_name);
+                        }
+
+                        $destination = "../img/pofs/" . $new_file_name;
+                        if (move_uploaded_file($file_tmp, $destination)) {
+                            $update_order = "UPDATE `order` SET PROOF_OF_PAYMENT = '$new_file_name'";
+                            if ($conn->query($update_order) === TRUE) {
+                                $data = [
+                                    'status' => 200,
+                                    'message' => 'Payment Uploaded',
+                                ];
+                                header("HTTP/1.0 405 OK");
+                                return json_encode($data);
+                            } else {
+                                $message = 'Upload Unsuccesfull';
+                                return error422($message);
+                            }
+                        } else {
+                            $message = 'Upload Unsuccessfull';
+                            return error422($message);
+                        }
+                    } else {
+                        $message = 'File Extension Not Accepted';
+                        return error422($message);
+                    }
+                } else {
+                    $message = 'Please Upload Proof Of Payment';
+                    return error422($message);
+                }
+            }
+        } else {
+            $message = 'Proof Of Payment Is already Uploaded';
+            return error422($message);
+        }
+    } else {
+        $message = 'Order Not Found!';
+        return error422($message);
     }
 }
