@@ -723,13 +723,25 @@ function checkout($id, $payment_type, $delivery_type)
                     $product_name = $product_details['PRODUCT_NAME'];
                     $product_img = 'https://gorder.website/img/products/' . $product_details['PRODUCT_IMG'];
 
-                    $product_check_qty = "SELECT QUANTITY FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                    $product_result = $conn->query($product_check_qty);
-                    if ($product_result->num_rows > 0) {
-                        $qty = 0;
-                        while ($product_row = $product_result->fetch_assoc()) {
-                            $qty += $product_row['QUANTITY'];
+                    $query = "SELECT SUM(QUANTITY) AS total_quantity FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                    $result = $conn->query($query);
+
+                    if ($result && $result->num_rows > 0) {
+                        $row = $result->fetch_assoc();
+                        $qty = $row['total_quantity'];
+
+                        $order_sql = "SELECT od.*
+                          FROM `order_details` od
+                          JOIN `order` o ON od.TRANSACTION_ID = o.TRANSACTION_ID
+                          WHERE od.PRODUCT_ID = '$product_id' AND (o.STATUS = 'Waiting' OR o.STATUS = 'Accepted');
+                          ";
+                        $order_result = $conn->query($order_sql);
+                        if ($order_result->num_rows > 0) {
+                            while ($order_row = $order_result->fetch_assoc()) {
+                                $qty -= $order_row['QTY'];
+                            }
                         }
+
                         $order_item = [
                             'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
                             'PRODUCT_NAME' => $product_name,
