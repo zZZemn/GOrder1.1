@@ -38,7 +38,7 @@ if ($requestMethod == "POST") {
                     $product = $product_result->fetch_assoc();
                     $product_name = $product['PRODUCT_NAME'];
                     $isPrescibe = $product['PRESCRIBE'];
-                    if($isPrescibe == 1){
+                    if ($isPrescibe == 1) {
                         $prescribe_products++;
                     }
                 } else {
@@ -56,6 +56,19 @@ if ($requestMethod == "POST") {
                 if ($inv_result->num_rows > 0) {
                     $inv = $inv_result->fetch_assoc();
                     $totalQTY = $inv['total_quantity'];
+
+                    $order_sql = "SELECT od.*
+                          FROM `order_details` od
+                          JOIN `order` o ON od.TRANSACTION_ID = o.TRANSACTION_ID
+                          WHERE od.PRODUCT_ID = '$product_id' AND (o.STATUS = 'Waiting' OR o.STATUS = 'Accepted');
+                          ";
+                    $order_result = $conn->query($order_sql);
+                    if ($order_result->num_rows > 0) {
+                        while ($order_row = $order_result->fetch_assoc()) {
+                            $totalQTY -= $order_row['QTY'];
+                        }
+                    }
+
                     if ($totalQTY <= 0) {
                         $outOfStock[] = $product_name;
                     } elseif ($totalQTY < $qty) {
@@ -74,7 +87,7 @@ if ($requestMethod == "POST") {
                 }
             }
 
-            if (!empty($invalidQTY) && !empty($outOfStock)) {
+            if (!empty($invalidQTY) ||   !empty($outOfStock)) {
                 $data = [
                     'status' => 405,
                     'message' => 'Invalid Placing order',
