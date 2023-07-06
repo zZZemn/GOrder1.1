@@ -313,3 +313,32 @@ function scanQR($transaction_id, $rider_id)
         return json_encode($data);
     }
 }
+
+function rider($id){
+    global $conn;
+
+    $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider' AND EMP_ID = '$id' AND EMP_STATUS = 'active'";
+    $rider_result = $conn->query($rider_sql);
+    if($rider_result->num_rows > 0){
+        $rider = $rider_result->fetch_assoc();
+        $data = [
+            'status' => 200,
+            'message' => 'Rider Fetch Successfully',
+            'data' => [
+                'emp_id' => $rider['EMP_ID'],
+                'name' => $rider['FIRST_NAME'].' '.$rider['MIDDLE_INITIAL'].' '.$rider['LAST_NAME'].' '.$rider['SUFFIX'],
+                'email' => $rider['EMAIL'],
+                'username' => $rider['USERNAME'],
+                'contact_no' => $rider['CONTACT_NO'],
+                'address' => $rider['ADDRESS'],
+                'birthday' => $rider['BIRTHDAY'],
+                'picture' => 'https://gorder.website/img/userprofile/'.$rider['PICTURE']
+            ]
+        ];
+        header("HTTP/1.0 200 OK");
+        return json_encode($data);
+    } else {
+        $message = 'No Rider Found';
+        return error422($message);
+    }
+}
