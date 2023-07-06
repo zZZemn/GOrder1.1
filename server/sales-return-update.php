@@ -127,6 +127,20 @@ if (isset($_SESSION['id'])) {
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td class="btn-add-return-td">
+                                        <select class="return-reason form-control" id="return_reason">
+                                            <option disabled selected>Select Reason</option>
+                                            <option value="Wrong Product">Wrong Product</option>
+                                            <option value="Product Defective">Product Defective</option>
+                                            <option value="Product Expired">Product Expired</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                     <td class="btn-add-return-td"><a href="#" id="submit_return" class="btn btn-primary" data-toggle="modal" data-target="#confirmModal"><i class="fa-solid fa-plus"></i> Add Return</a></td>
                                 </tr>
                                 <tr>

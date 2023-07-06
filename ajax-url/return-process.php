@@ -13,6 +13,7 @@ if (isset($_SESSION['id'])) {
             $return_data = json_decode(file_get_contents('php://input'), true);
 
             $transaction_id = $return_data[0]['transaction_id'];
+            $reason = $return_data[0]['reason'];
             $items = $return_data[1];
 
             $return_id = 'RTN' . sprintf('%06d', rand(100000, 999999));
@@ -35,14 +36,12 @@ if (isset($_SESSION['id'])) {
                 if ($discount_result->num_rows > 0) {
                     $discount = $discount_result->fetch_assoc();
                     $discount_percentage = $discount['DISCOUNT_PERCENTAGE'];
-                } 
-                // else {
-                //     $discount_percentage = 0.00;
-                // }
-            } 
-            // else {
-            //     $discount_percentage = 0.00;
-            // }
+                } else {
+                    $discount_percentage = 0.00;
+                }
+            } else {
+                $discount_percentage = 0.00;
+            }
 
             $tax_sql = "SELECT TAX_PERCENTAGE FROM tax WHERE TAX_ID = '1'";
             $tax_result = $conn->query($tax_sql);
@@ -57,7 +56,7 @@ if (isset($_SESSION['id'])) {
                 $inv_id = $item['id'];
                 $inv_sql = "SELECT PRODUCT_ID FROM inventory WHERE INV_ID = '$inv_id'";
                 $inv_result = $conn->query($inv_sql);
-                if($inv_result->num_rows > 0){
+                if ($inv_result->num_rows > 0) {
                     $inv = $inv_result->fetch_assoc();
                     $product_id = $inv['PRODUCT_ID'];
                 }
@@ -109,26 +108,32 @@ if (isset($_SESSION['id'])) {
                                                             VALUES ('$return_id','$inv_id','$qty')";
 
                         if ($conn->query($insert_return_items) === TRUE) {
-                            $update_inventory = "UPDATE `inventory` SET `QUANTITY`= `QUANTITY` + '$qty' WHERE INV_ID = '$inv_id'";
-                            if ($conn->query($update_inventory) === TRUE) {
-                                $successCount++;
+                            if($reason === 'Wrong Product'){
+                                $update_inventory = "UPDATE `inventory` SET `QUANTITY`= `QUANTITY` + '$qty' WHERE INV_ID = '$inv_id'";
+                                if ($conn->query($update_inventory) === TRUE) {
+                                    $successCount++;
+                                }
                             }
+                            
                         } else {
                             $errors++;
                         }
                     }
-
-                    if ($successCount === count($items)) {
-                        $response = array(
-                            'message' => 'Success: All items inserted',
-                            'vat' => $vat,
-                            'discount' =>$discount,
-                            'cust' => $cust_type
-                        );
+                    if($reason === 'Wrong Product'){
+                        if ($successCount === count($items)) {
+                            $response = array(
+                                'message' => 'Success: All items inserted',
+                                'vat' => $vat,
+                                'discount' => $discount,
+                                'cust' => $cust_type
+                            );
+                        } else {
+                            $response = array('message' => 'Partial Success: Some items failed to insert (' . $errors . ' items)');
+                        }
+                        echo json_encode($response);
                     } else {
-                        $response = array('message' => 'Partial Success: Some items failed to insert (' . $errors . ' items)');
+                        echo 'Return Complete.';
                     }
-                    echo json_encode($response);
                 }
             } else {
                 $response = array('message' => 'Not Success: Failed to insert return record');

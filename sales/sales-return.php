@@ -51,7 +51,7 @@ if (isset($_SESSION['id'])) {
                 <input type="hidden" id="cust_type" value="<?php echo $cust_type ?>">
                 <input type="hidden" id="discount_percentage" value="<?php echo $discount_percentage ?>">
                 <div id="return_container">
-
+                    
                 </div>
 
                 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">

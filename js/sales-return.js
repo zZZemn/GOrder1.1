@@ -27,7 +27,8 @@ $(document).ready(function () {
 
     var inventory = [
         {
-            transaction_id: ''
+            transaction_id: '',
+            reason: '',
         },
         []
     ];
@@ -35,9 +36,11 @@ $(document).ready(function () {
     $(document).on('click', '#submit_return', function (event) {
         event.preventDefault();
 
+        var reason = $('#return_reason').val();
         var transaction_id = $('#transaction_id').val();
         var inputs = $('input[name="rtn_quantity"]');
         inventory[0].transaction_id = transaction_id;
+        inventory[0].reason = reason;
         inventory[1] = [];
 
         inputs.each(function () {
@@ -56,7 +59,7 @@ $(document).ready(function () {
             }
         });
 
-        if (inventory[1].length > 0) {
+        if (inventory[1].length > 0 && inventory[0].reason != null && inventory[0].transaction_id != null) {
             $('#confirmModal').modal('show');
         } else {
             console.log('invalid');

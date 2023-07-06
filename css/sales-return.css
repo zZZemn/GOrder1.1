@@ -59,6 +59,11 @@ label {
     width: 150px;
 }
 
+.return-reason {
+    width: 150px;
+    margin: auto;
+}
+
 input {
     text-align: center;
     width: 150px !important;
