@@ -22,6 +22,7 @@ if (isset($_SESSION['id'])) {
                             <td><?php echo $row['TRANSACTION_ID'] ?></td>
                             <td><?php echo $row['RETURN_DATE'] ?></td>
                             <td><?php echo $row['RETURN_AMOUNT'] ?></td>
+                            <td><?php echo $row['RETURN_REASON'] ?></td>
                             <td><a href="../sales/sales-return.php?id=<?php echo $row['TRANSACTION_ID'] ?>" target="_blank" class="btn btn-primary link-to-return"><i class="fa-solid fa-eye"></i></a></td>
                         </tr>
                     <?php

@@ -91,8 +91,8 @@ if (isset($_SESSION['id'])) {
 
             $final_total = ($totalAmount + $vat) - $discount;
 
-            $insert_return = "INSERT INTO `return`(`RETURN_ID`, `TRANSACTION_ID`, `RETURN_DATE`, `RETURN_AMOUNT`) 
-                                            VALUES ('$return_id','$transaction_id','$currentDate','$final_total')";
+            $insert_return = "INSERT INTO `return`(`RETURN_ID`, `TRANSACTION_ID`, `RETURN_DATE`, `RETURN_AMOUNT`, `RETURN_REASON`) 
+                                            VALUES ('$return_id','$transaction_id','$currentDate','$final_total', '$reason')";
 
             if ($conn->query($insert_return) === TRUE) {
                 $sales_update = "UPDATE `sales` SET `UPDATED_TOTAL`= `TOTAL` - $final_total WHERE TRANSACTION_ID = '$transaction_id'";

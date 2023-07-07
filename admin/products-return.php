@@ -298,6 +298,7 @@ if (isset($_SESSION['id'])) {
                     <th>Transaction ID</th>
                     <th>Date Returned</th>
                     <th>Return Amount</th>
+                    <th>Return Reason</th>
                     <th>Action</th>
                 </tr>
             </thead>
