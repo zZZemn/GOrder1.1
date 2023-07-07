@@ -5,12 +5,13 @@ function loadXMLDoc() {
             document.getElementById("address_container").innerHTML =
                 this.responseText;
         }
+        console.log(this.response);
     };
     xhttp.open("GET", "../server/address-update.php", true);
     xhttp.send();
 }
 
-window.onload = loadXMLDoc;
+window.onload = loadXMLDoc();
 
 $('#btn-add-region').click(function () {
     setTimeout(loadXMLDoc, 500);

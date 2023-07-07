@@ -91,23 +91,17 @@ if (isset($_SESSION['id'])) {
 
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
-                    <!-- <?php
-                            //   $sql = "SELECT * FROM tblproducts
-                            //   WHERE product_qty < critical_level";
-                            //   $result = $conn->query( $sql);
+                    <div id="notifications-count">
+                        
+                    </div>
 
-                            //   if($result->num_rows >0)
-                            //   {
-                            // 
-                            ?>
-            //         <span class="badge rounded-pill badge-notification bg-danger"><?php echo $result->num_rows ?></span>
-            //         <?php
-                        //   } -->
-                        ?> -->
+                    <?php
+                    ?>
                 </li>
-                <div class="notification-dropdown-container">
-                    <center class="text-light">No notification found</center>
+                <div class="notification-dropdown-container" id="notification-dropdown-container">
+
                 </div>
+
 
                 <li class="avatar-dropdown dropdown">
                     <em class="admin-em"><?php  echo $emp['EMP_TYPE'] ?></em>
@@ -397,6 +391,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/supplier-search.js"></script>
         <script src="../js/open-add-supplier-form.js"></script>
+        <script src="../js/notifications.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

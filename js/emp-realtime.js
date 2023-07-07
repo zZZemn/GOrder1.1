@@ -15,7 +15,7 @@ $(document).ready(function () {
         xhttp.send();
     }
 
-    window.onload = empUpdate;
+    window.onload = empUpdate();
 
     $('#emp_filter').change(function () {
         setTimeout(empUpdate, 500);

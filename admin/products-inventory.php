@@ -91,22 +91,12 @@ if (isset($_SESSION['id'])) {
 
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
-                    <!-- <?php
-                            //   $sql = "SELECT * FROM tblproducts
-                            //   WHERE product_qty < critical_level";
-                            //   $result = $conn->query( $sql);
-
-                            //   if($result->num_rows >0)
-                            //   {
-                            // 
-                            ?>
-            //         <span class="badge rounded-pill badge-notification bg-danger"><?php echo $result->num_rows ?></span>
-            //         <?php
-                        //   } -->
-                        ?> -->
+                    <div id="notifications-count">
+                        
+                    </div>
                 </li>
-                <div class="notification-dropdown-container">
-                    <center class="text-light">No notification found</center>
+                <div class="notification-dropdown-container" id="notification-dropdown-container">
+
                 </div>
 
                 <li class="avatar-dropdown dropdown">
@@ -176,7 +166,6 @@ if (isset($_SESSION['id'])) {
                 <a href="reports-monthly-sales.php"><i class="fa-solid fa-chart-column"></i>Monthly Sales</a>
                 <a href="reports-yearly-sales.php"><i class="fa-solid fa-chart-column"></i>Yearly Sales</a>
                 <a href="products-return.php"><i class="fa-solid fa-rotate-left"></i>Returns</a>
-                <a href="reports-attendance.php"><i class="fa-solid fa-clipboard-user"></i>Attendance</a>
             </div>
 
             <hr>
@@ -300,6 +289,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/inventory-realtime.js"></script>
+        <script src="../js/notifications.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

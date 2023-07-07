@@ -11,7 +11,7 @@ $(document).ready(function () {
         xhttp.send();
     }
 
-    window.onload = categoryDisplay;
+    window.onload = categoryDisplay();
 
     $(document).on('click', '.cat_name_edit_btn', function (event) {
         event.preventDefault();

@@ -11,7 +11,7 @@ $(document).ready(function () {
         xhttp.send();
     }
 
-    window.onload = discountUpdate;
+    window.onload = discountUpdate();
 
     // $('#btn-add-region').click(function () {
     //     setTimeout(loadXMLDoc, 500);

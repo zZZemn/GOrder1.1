@@ -29,7 +29,7 @@ if (isset($_SESSION['id'])) {
                 }
             } else {
                 ?>
-                    <td colspan="5" class="no-trans text-danger">No Return Transaction on <?php echo $date ?></td>
+                    <td colspan="6" class="no-trans text-danger">No Return Transaction on <?php echo $date ?></td>
                 <?php
             }
         }

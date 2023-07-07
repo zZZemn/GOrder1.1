@@ -102,85 +102,15 @@ if (isset($_SESSION['id'])) {
 
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
+                    <div id="notifications-count">
+                        
+                    </div>
+
                     <?php
-                    $notification_number = 0;
-                    $current_qty = 0;
-
-                    $sql = "SELECT * FROM products WHERE PRODUCT_STATUS = 'active'";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $product_id = $row['PRODUCT_ID'];
-                            $product_id_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = $product_id";
-                            $product_id_sql_result = $conn->query($product_id_sql);
-
-                            if ($product_id_sql_result->num_rows > 0) {
-                                while ($pro_id_row = $product_id_sql_result->fetch_assoc()) {
-                                    $current_qty += $pro_id_row['QUANTITY'];
-                                }
-                                $critical_level = $row['CRITICAL_LEVEL'];
-
-                                if ($current_qty > $critical_level) {
-                                    $notification_number += 1;
-                                }
-                            } else {
-                                $notification_number += 1;
-                            }
-                        }
-                    ?>
-                        <span class="badge rounded-pill badge-notification bg-danger"><?php echo $notification_number ?></span>
-                    <?php
-                    }
                     ?>
                 </li>
-                <div class="notification-dropdown-container">
-                    <?php
-                    $sql = "SELECT * FROM products WHERE PRODUCT_STATUS = 'active'";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $product_id = $row['PRODUCT_ID'];
-                            $product_id_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = $product_id";
-                            $product_id_sql_result = $conn->query($product_id_sql);
+                <div class="notification-dropdown-container" id="notification-dropdown-container">
 
-                            if ($product_id_sql_result->num_rows > 0) {
-                                while ($pro_id_row = $product_id_sql_result->fetch_assoc()) {
-                                    $current_qty += $pro_id_row['QUANTITY'];
-                                }
-                                $critical_level = $row['CRITICAL_LEVEL'];
-                                if ($current_qty = 0) {
-                                    echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is out of stock</p>";
-                                } elseif ($current_qty <= $critical_level) {
-                                    echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is on critical level</p>";
-                                }
-                            } else {
-                                echo "<p class='text-light'>" . $row['PRODUCT_NAME'] . " is out of stock</p>";
-                            }
-                        }
-                    }
-                    $inventory_sql = "SELECT * FROM inventory ORDER BY EXP_DATE";
-                    $inventory_result = $conn->query($inventory_sql);
-                    if ($inventory_result->num_rows > 0) {
-                        while ($inventory_row = $inventory_result->fetch_assoc()) {
-                            $pro_id = $inventory_row['PRODUCT_ID'];
-                            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
-
-                            $product_result = $conn->query($product_sql);
-                            $product = $product_result->fetch_assoc();
-
-                            $exp_date = $inventory_row['EXP_DATE'];
-
-                            $current_date = time();
-                            $expiration_date = strtotime($exp_date);
-
-                            $difference = $expiration_date - $current_date;
-
-                            if ($difference <= (30 * 24 * 60 * 60)) {
-                                echo "<p class='text-light'>" . $inventory_row['INV_ID'] . " - " . $product['PRODUCT_NAME'] . " is near to expire</p>";
-                            }
-                        }
-                    }
-                    ?>
                 </div>
 
                 <li class="avatar-dropdown dropdown">
@@ -432,6 +362,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/pos-product-search.js"></script>
+        <script src="../js/notifications.js"></script>
 
 
     <?php else : ?>
