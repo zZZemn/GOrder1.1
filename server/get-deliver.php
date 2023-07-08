@@ -43,9 +43,10 @@ if (isset($_SESSION['id'])) {
                         if ($sup_result->num_rows > 0) {
                             $sup = $sup_result->fetch_assoc();
                             $supname = $sup['NAME'];
-                        } else {
-                            $supname = '';
-                        }
+                        } 
+                        // else {
+                        //     $supname = '';
+                        // }
 ?>
                         <tr>
                             <td><?php echo $del_row['DELIVERY_ID'] ?></td>
