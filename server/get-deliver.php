@@ -38,7 +38,7 @@ if (isset($_SESSION['id'])) {
                 if ($del_result->num_rows > 0) {
                     while ($del_row = $del_result->fetch_assoc()) {
                         $sup_id = $del_row['SUPPLIER_ID'];
-                        $sup_sql = "SELECT NAME FROM SUPPLIER WHERE SUPPLIER_ID = '$sup_id'";
+                        $sup_sql = "SELECT `NAME` FROM SUPPLIER WHERE SUPPLIER_ID = '$sup_id'";
                         $sup_result = $conn->query($sup_sql);
                         if ($sup_result->num_rows > 0) {
                             $sup = $sup_result->fetch_assoc();
