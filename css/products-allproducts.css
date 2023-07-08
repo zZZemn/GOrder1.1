@@ -63,8 +63,9 @@
     color: white;
     border-left: none;
 
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transform: translateX(-50px);
 }
 
 
@@ -99,7 +100,8 @@
     cursor: pointer;
     color: rgb(43, 43, 43);
     border-radius: 3px;
-    padding-left: 5px;
+    padding-left: 8px;
+    padding-top: 15px;
 }
 
 .description-hover {
@@ -184,6 +186,7 @@
     background-color: rgb(255, 255, 255);
     box-shadow: 1px 1px 5px rgb(192, 192, 192);
     padding: 20px;
+    border-radius: 5px;
 
     display: none;
 }
@@ -288,8 +291,9 @@
 .add-product-fth-row textarea{
     height: 150px;
     width: 220px;
-    font-size: 12px;
+    resize: none;
     padding: 10px;
+    font-size: 12px;
 }
 
 .add-product-fth-row-right {
@@ -330,7 +334,6 @@
 .alert {
     position: absolute !important;
     top: 20px;
-    background-color: #f44336 !important; /* Red */
     color: white !important;
 
     left: 50%;
@@ -341,34 +344,13 @@
     align-items: center;
 
     height: 50px;
-    width: 250px;
-
+    width: auto;
+    font-size: 12px;
     z-index: 5;
 
-    opacity: 1;
+    opacity: 0;
     transition: opacity 0.6s;
-
-
-  }
-  
-  /* The close button */
-  .closebtn {
-    position: absolute;
-    right: 5px;
-    top: 2px;
-
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  /* When moving the mouse over the close button */
-  .closebtn:hover {
-    color: black;
+    pointer-events: none;
   }
 
 @media (max-width: 1150px) {

@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -207,36 +207,30 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <div class="alert invalid-upload bg-danger">
+            Invalid uploading image.
+        </div>
+        <div class="alert invalid-upload bg-danger">
+            Invalid image size.
+        </div>
+        <div class="alert deletion-unsuccessful bg-danger">
+            Deletion unsuccessfull.
+        </div>
+        <div class="alert product-deleted bg-success">
+            Product Deleted
+        </div>
+
         <div class="main">
 
-            <?php
-            if (isset($_GET['status']) && $_GET['status'] == "invalid_upload") {
-            ?>
-                <div class="alert invalid-upload">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    Invalid uploading image.
-                </div>
-            <?php
-            }
-            if (isset($_GET['status']) && $_GET['status'] == "invalid_size") {
-            ?>
-                <div class="alert invalid-upload">
-                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                    Invalid image size.
-                </div>
-            <?php
-            }
-            ?>
-
             <div class="search-bar-category-pic">
-                <form class="search-container" id="search-form" method="get">
+                <div class="search-container" id="search-form" method="get">
                     <input type="text" name="search" id="search-input" value="<?php
                                                                                 if (isset($_GET['search'])) {
                                                                                     echo trim($_GET['search']);
                                                                                 }
-                                                                                ?>" placeholder="Search Products...">
+                                                                                ?>" placeholder="Search Products..." class="form-control">
                     <button type="submit" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
+                </div>
                 <div class="category-pick">
                     <?php
 
@@ -245,7 +239,7 @@ if (isset($_SESSION['id'])) {
                     ?>
 
                     <div class="contents-input-container category_label">
-                        <select id="select1">
+                        <select id="select1" class="form-control">
                             <option value="all">All</option>
                             <?php
                             if ($categories_result->num_rows > 0) {
@@ -271,7 +265,7 @@ if (isset($_SESSION['id'])) {
 
                     <div class="contents-input-container category_label">
 
-                        <select id="select2">
+                        <select id="select2" class="form-control">
                             <option value="all">All</option>
                             <?php
                             if (isset($_GET['CAT_ID']) && is_numeric($_GET['CAT_ID'])) {
@@ -373,7 +367,7 @@ if (isset($_SESSION['id'])) {
                         </div>
                         <div class="form-check form-switch pres-vat">
                             <input class="form-check-input" type="checkbox" id="discountable" name="discountable">
-                            <label class="form-check-label" for="vatable">Discountable</label>
+                            <label class="form-check-label" for="discountable">Discountable</label>
                         </div>
                         <div class="upload-pic">
                             <input type="file" class="form-control" name="product_image" id="customFile">
@@ -400,222 +394,8 @@ if (isset($_SESSION['id'])) {
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <?php
-                        if (isset($_GET['CAT_ID']) && is_numeric($_GET['CAT_ID'])) {
-                            $cat_id = mysqli_real_escape_string($conn, $_GET['CAT_ID']);
-                            if (isset($_GET['SUB_CAT_ID']) && is_numeric($_GET['SUB_CAT_ID'])) {
-                                $sub_cat_id = mysqli_real_escape_string($conn, $_GET['SUB_CAT_ID']);
+                    <tbody id="products-container">
 
-                                $categorizeProduct = "SELECT * FROM products WHERE SUB_CAT_ID = $sub_cat_id AND PRODUCT_STATUS = 'active'";
-                                $categorizeProduct_Result = $conn->query($categorizeProduct);
-
-                                if ($categorizeProduct_Result->num_rows > 0) {
-                                    while ($row = $categorizeProduct_Result->fetch_assoc()) {
-                                        $product_id = $row['PRODUCT_ID'];
-                                        $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                        $inv_result = $conn->query($inv_sql);
-                                        $qty = 0;
-                                        if ($inv_result->num_rows > 0) {
-                                            while ($inv_row = $inv_result->fetch_assoc()) {
-                                                $qty += $inv_row['QUANTITY'];
-                                            }
-                                        } else {
-                                            $qty = 0;
-                                        }
-                        ?>
-
-                                        <tr>
-                                            <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
-                                            <td><?php echo $row['PRODUCT_NAME'] ?></td>
-                                            <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
-                                            <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
-                                            <td><?php echo $qty ?></td>
-                                            <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
-                                            <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
-                                                                                                                                                ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
-                                                                                                                                                echo $row_description; ?></span></a><a href="products-allproducts-edit.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-regular fa-pen-to-square"></i></a><a href="products-allproducts-delete.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-solid fa-trash"></i></a></td>
-                                        </tr>
-
-                                    <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <tr class="no-pro-found">
-                                        <td colspan="7">No products Found</td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                if (isset($_GET['SUB_CAT_ID']) && $_GET['SUB_CAT_ID'] == "all") {
-                                    $categorizeProduct = "SELECT p.*
-                                                          FROM products p
-                                                          INNER JOIN SUB_CATEGORY sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID
-                                                          WHERE sc.CAT_ID = $cat_id AND p.PRODUCT_STATUS = 'active';";
-                                    $categorizeProduct_Result = $conn->query($categorizeProduct);
-                                    if ($categorizeProduct_Result->num_rows > 0) {
-                                        while ($row = $categorizeProduct_Result->fetch_assoc()) {
-                                            $product_id = $row['PRODUCT_ID'];
-                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                            $inv_result = $conn->query($inv_sql);
-                                            $qty = 0;
-                                            if ($inv_result->num_rows > 0) {
-                                                while ($inv_row = $inv_result->fetch_assoc()) {
-                                                    $qty += $inv_row['QUANTITY'];
-                                                }
-                                            } else {
-                                                $qty = 0;
-                                            }
-                                    ?>
-                                            <tr>
-                                                <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
-                                                <td><?php echo $row['PRODUCT_NAME'] ?></td>
-                                                <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
-                                                <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
-                                                <td><?php echo $qty ?></td>
-                                                <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
-                                                <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
-                                                                                                                                                    ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
-                                                                                                                                                    echo $row_description; ?></span></a><a href="products-allproducts-edit.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-regular fa-pen-to-square"></i></a><a href="products-allproducts-delete.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-solid fa-trash"></i></a></td>
-                                            </tr>
-                                        <?php
-                                        }
-                                    } else {
-                                        ?>
-                                        <tr class="no-pro-found">
-                                            <td colspan="7">No products Found</td>
-                                        </tr>
-                                    <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <tr class="no-pro-found">
-                                        <td colspan="7">No products Found</td>
-                                    </tr>
-                                <?php
-                                }
-                            }
-                        } elseif (isset($_GET['search'])) {
-                            $searchItem = mysqli_real_escape_string($conn, $_GET['search']);
-                            $search_products = "SELECT * FROM products WHERE (PRODUCT_NAME LIKE '%$searchItem%' OR PRODUCT_CODE LIKE '%$searchItem%' OR PRODUCT_ID LIKE '%$searchItem%') AND PRODUCT_STATUS = 'active'";
-                            $search_products_result = $conn->query($search_products);
-
-                            if ($search_products_result->num_rows > 0) {
-                                while ($row = $search_products_result->fetch_assoc()) {
-                                    $product_id = $row['PRODUCT_ID'];
-                                    $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                    $inv_result = $conn->query($inv_sql);
-                                    $qty = 0;
-                                    if ($inv_result->num_rows > 0) {
-                                        while ($inv_row = $inv_result->fetch_assoc()) {
-                                            $qty += $inv_row['QUANTITY'];
-                                        }
-                                    } else {
-                                        $qty = 0;
-                                    }
-                                ?>
-                                    <tr>
-                                        <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
-                                        <td><?php echo $row['PRODUCT_NAME'] ?></td>
-                                        <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
-                                        <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
-                                        <td><?php echo $qty ?></td>
-                                        <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
-                                        <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
-                                                                                                                                            ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
-                                                                                                                                            echo $row_description; ?></span></a><a href="products-allproducts-edit.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-regular fa-pen-to-square"></i></a><a href="products-allproducts-delete.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-solid fa-trash"></i></a></td>
-                                    </tr>
-                                <?php
-                                }
-                            } else {
-                                ?>
-
-                                <tr class="no-pro-found">
-                                    <td colspan="7">No products Found</td>
-                                </tr>
-
-                                <?php
-                            }
-                        } else {
-                            if (isset($_GET['CAT_ID'])) {
-                                if (isset($_GET['CAT_ID']) && $_GET['CAT_ID'] == "all") {
-                                    $categorizeProduct = "SELECT * FROM products WHERE PRODUCT_STATUS = 'active'";
-                                    $categorizeProduct_Result = $conn->query($categorizeProduct);
-                                    if ($categorizeProduct_Result->num_rows > 0) {
-                                        while ($row = $categorizeProduct_Result->fetch_assoc()) {
-                                            $product_id = $row['PRODUCT_ID'];
-                                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                            $inv_result = $conn->query($inv_sql);
-                                            $qty = 0;
-                                            if ($inv_result->num_rows > 0) {
-                                                while ($inv_row = $inv_result->fetch_assoc()) {
-                                                    $qty += $inv_row['QUANTITY'];
-                                                }
-                                            } else {
-                                                $qty = 0;
-                                            }
-                                ?>
-                                            <tr>
-                                                <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
-                                                <td><?php echo $row['PRODUCT_NAME'] ?></td>
-                                                <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
-                                                <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
-                                                <td><?php echo $qty ?></td>
-                                                <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
-                                                <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
-                                                                                                                                                    ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
-                                                                                                                                                    echo $row_description; ?></span></a><a href="products-allproducts-edit.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-regular fa-pen-to-square"></i></a><a href="products-allproducts-delete.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-solid fa-trash"></i></a></td>
-                                            </tr>
-                                        <?php
-                                        }
-                                    } else {
-                                        ?>
-                                        <tr class="no-pro-found">
-                                            <td colspan="7">No products Found</td>
-                                        </tr>
-                                    <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <tr class="no-pro-found">
-                                        <td colspan="7">No products Found</td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                $categorizeProduct = "SELECT * FROM products WHERE PRODUCT_STATUS = 'active'";
-                                $categorizeProduct_Result = $conn->query($categorizeProduct);
-                                if ($categorizeProduct_Result->num_rows > 0) {
-                                    while ($row = $categorizeProduct_Result->fetch_assoc()) {
-                                        $product_id = $row['PRODUCT_ID'];
-                                        $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$product_id'";
-                                        $inv_result = $conn->query($inv_sql);
-                                        $qty = 0;
-                                        if ($inv_result->num_rows > 0) {
-                                            while ($inv_row = $inv_result->fetch_assoc()) {
-                                                $qty += $inv_row['QUANTITY'];
-                                            }
-                                        } else {
-                                            $qty = 0;
-                                        }
-                                    ?>
-                                        <tr>
-                                            <td class="pro-code"><?php echo $row['PRODUCT_CODE'] ?></td>
-                                            <td><?php echo $row['PRODUCT_NAME'] ?></td>
-                                            <td class="unit-meas"><?php echo $row['UNIT_MEASUREMENT'] ?></td>
-                                            <td class="selling-price"><?php echo $row['SELLING_PRICE'] ?></td>
-                                            <td><?php echo $qty ?></td>
-                                            <td><?php echo $row['CRITICAL_LEVEL'] ?></td>
-                                            <td class="actions"><a class="description-hover"><i class="fa-solid fa-comment-medical"></i><span><?php $row_description = "";
-                                                                                                                                                ($row['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
-                                                                                                                                                echo $row_description; ?></span></a><a href="products-allproducts-edit.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-regular fa-pen-to-square"></i></a><a href="products-allproducts-delete.php?product_id=<?php echo $row['PRODUCT_ID'] ?>" class="make-me-dark"><i class="fa-solid fa-trash"></i></a></td>
-                                        </tr>
-                        <?php
-                                    }
-                                }
-                            }
-                        }
-                        ?>
                     </tbody>
                 </table>
             </div>
@@ -685,6 +465,23 @@ if (isset($_SESSION['id'])) {
 
         </div>
 
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this product?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="delete-this-product" data-product_id="">Delete</button>
+                        <button type="button" class="btn btn-secondary" id="close-delete-this-product" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -699,11 +496,10 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/product-category.js"></script>
-        <script src="../js/search-product.js"></script>
         <script src="../js/all-products-add-getting-selected-category.js"></script>
         <script src="../js/open-add-product-form.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/products-allproducts.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
