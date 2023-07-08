@@ -58,6 +58,10 @@ $(document).ready(function () {
     })
 
     $('#edit-delivery').click(() => {
+        var search = $('#search-input').val();
+        var supplier = $('#supplier-select').val();
+        var priceSort = $('#by-filtering').val();
+        
         var delivery_id = $('#deliver-id-input').val();
         var del_date = $('#deliveryDateEdit').val();
         var supplier_id = $('#edit-supplier-id').val();
