@@ -24,6 +24,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/loading.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
     <title>GOrder</title>
@@ -92,7 +93,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -209,6 +210,10 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
+            <div class="loading-overlay">
+                <div class="loading-spinner"></div>
+            </div>
+
 
             <div class="dash-board-container">
 
@@ -216,7 +221,15 @@ if (isset($_SESSION['id'])) {
 
                     <div class="f-row-f-content-container content-container">
                         <div id="f-inv-status-container" class="status-container">
-
+                            <div class="specific-element1">
+                                <center>
+                                    <i class="fa-solid fa-person"></i>
+                                    <h4 class="text-dark">
+                                        0
+                                    </h4>
+                                    <h5>No of Sales Today</h5>
+                                </center>
+                            </div>
                         </div>
                         <div class="vdr-container1 vdr-container">
                             <a href="reports-daily-sales.php">View Detailed Report >>></a>
@@ -225,7 +238,15 @@ if (isset($_SESSION['id'])) {
 
                     <div class="f-row-s-content-container content-container">
                         <div id="s-inv-status-container" class="status-container">
-
+                            <div class="specific-element2">
+                                <center>
+                                    <i class="fa-solid fa-money-bill"></i>
+                                    <h4 class="text-dark">
+                                        ₱ 0
+                                    </h4>
+                                    <h5>Today's Sales</h5>
+                                </center>
+                            </div>
                         </div>
                         <div class="vdr-container2 vdr-container">
                             <a href="reports-daily-sales.php">View Detailed Report >>></a>
@@ -234,7 +255,15 @@ if (isset($_SESSION['id'])) {
 
                     <div class="f-row-t-content-container content-container">
                         <div id="t-inv-status-container" class="status-container">
-
+                            <div class="specific-element3">
+                                <center>
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                    <h4 class="text-dark">
+                                        0
+                                    </h4>
+                                    <h5>Pending Order</h5>
+                                </center>
+                            </div>
                         </div>
                         <div class="vdr-container3 vdr-container">
                             <a href="../sales/orders.php">View Orders >>></a>

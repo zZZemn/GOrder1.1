@@ -13,7 +13,7 @@ $(document).ready(function () {
     setInterval(function () {
         notifications();
     }, 1000);
-    window.onload = notifications;
+    window.onload = notifications();
 
 
 
@@ -30,5 +30,5 @@ $(document).ready(function () {
     setInterval(function () {
         notifications();
     }, 1000);
-    window.onload = notificationsCount;
+    window.onload = notificationsCount();
 })

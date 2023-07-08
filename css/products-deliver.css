@@ -8,7 +8,7 @@ body {
 
 .deliver-add-form {
     background-color: rgb(255, 255, 255);
-    box-shadow: 1px 1px 5px rgb(165, 165, 165);
+    box-shadow: 1px 1px 5px rgb(202, 202, 202);
     width: 300px;
     height: 250px;
     position: absolute;
@@ -23,6 +23,8 @@ body {
     padding: 30px;
 
     visibility: hidden;
+
+    border-radius: 5px;
   }
   
 
@@ -45,15 +47,17 @@ body {
 }
 
 .contents-input-container input, .contents-input-container select{
-    font-size: 15px;
+    font-size: 12px;
     padding: 3px 0px;
     padding-left: 5px;
     width: 200px;
+    height: 35px;
 }
 
 
 .contents-input-container label {
     position: absolute;
+    top: 0;
     left: 10px;
     font-size: 10px;
     background-color: white;
@@ -102,8 +106,9 @@ body {
     color: white;
     border-left: none;
 
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transform: translateX(-50px) !important;
 }
 
 .select-delivery-only {
@@ -161,3 +166,25 @@ body {
     position: absolute;
     right: 20px;
 }
+
+.alert {
+    position: absolute !important;
+    top: 20px;
+    color: white !important;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 50px;
+    width: auto;
+    font-size: 12px;
+    z-index: 5;
+
+    opacity: 0;
+    transition: opacity 0.6s;
+    pointer-events: none;
+  }

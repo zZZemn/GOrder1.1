@@ -27,11 +27,9 @@ if (isset($_SESSION['id'])) {
                     ('$emp_id','Edit Delivery Details Of Delivery ID $deliveryID.','$editDate','$editTime')";
 
         if ($conn->query($edit_del_sql) === TRUE && $conn->query($edit_sup_log) === TRUE) {
-            header("Location: ../admin/products-deliver.php?status=success");
-            exit();
+            echo 'OK';
         } else {
-            header("Location: ../admin/products-deliver.php?status=invalid_edit");
-            exit();
+            echo 'NOT_OK';
         }
     }
 } else {

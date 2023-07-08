@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -207,22 +207,25 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <div class="alert del-edited bg-success">
+            Successfuly Edited.
+        </div>
+        <div class="alert del-not-edited bg-danger">
+            Editing Unsuccessful.
+        </div>
+
         <div class="main">
 
             <div class="search-select-delivery-container">
 
-                <form class="search-container" id="search-form" method="get">
-                    <input type="text" name="search" id="search-input" value="<?php
-                                                                                if (isset($_GET['search'])) {
-                                                                                    echo trim($_GET['search']);
-                                                                                }
-                                                                                ?>" placeholder="Search Delivery ID...">
+                <div class="search-container" id="search-form">
+                    <input type="text" class="form-control" name="search" id="search-input" placeholder="Search Delivery ID...">
                     <button type="submit" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
+                </div>
 
                 <div class="select-delivery-only">
                     <div class="contents-input-container">
-                        <select class="supplier-select-display" name="supplier_select" id="supplier-select">
+                        <select class="supplier-select-display form-control" name="supplier_select" id="supplier-select">
                             <option value="all">All</option>
                             <?php
 
@@ -244,10 +247,10 @@ if (isset($_SESSION['id'])) {
                     </div>
 
                     <div class="contents-input-container">
-                        <select class="by-filtering" name="deliver_filtering" id="by-filtering">
-                            <option value="" <?= (isset($_GET['sort_by']) && $_GET['sort_by'] == '') ? 'selected' : '' ?>>Default</option>
-                            <option value="by_price_asc" <?= (isset($_GET['sort_by']) && $_GET['sort_by'] == 'by_price_asc') ? 'selected' : '' ?>>Low to High</option>
-                            <option value="by_price_desc" <?= (isset($_GET['sort_by']) && $_GET['sort_by'] == 'by_price_desc') ? 'selected' : '' ?>>High to Low</option>
+                        <select class="by-filtering form-control" name="deliver_filtering" id="by-filtering">
+                            <option value="default">Default</option>
+                            <option value="asc">Low to High</option>
+                            <option value="desc">High to Low</option>
                         </select>
                         <label class="product-add-label">Sort by Price</label>
                     </div>
@@ -268,209 +271,41 @@ if (isset($_SESSION['id'])) {
                         </tr>
                     </thead>
 
-                    <tbody>
-                        <?php
-                        if (isset($_GET['search']) && $_GET['search'] != null) {
-                            $deliveryID = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
+                    <tbody id="deliveries-container">
 
-                            $delivery_id_sql = "SELECT * FROM delivery WHERE DELIVERY_ID LIKE '%$deliveryID%' AND DELIVERY_STATUS = 'active'";
-                            $delivery_id_result = $conn->query($delivery_id_sql);
-
-                            if ($delivery_id_result->num_rows > 0) {
-                                while ($row = $delivery_id_result->fetch_assoc()) {
-                                    $supID = $row['SUPPLIER_ID'];
-                                    $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_ID = $supID AND DELIVERY_STATUS = 'active'";
-                                    $supplier_result = $conn->query($supplier_sql);
-                                    $supplier = $supplier_result->fetch_assoc();
-                        ?>
-
-                                    <tr>
-                                        <td><?php echo $row['DELIVERY_ID'] ?></td>
-                                        <td><?php echo $supplier['NAME'] ?></td>
-                                        <td><?php echo $row['DELIVERY_DATE'] ?></td>
-                                        <td><?php echo $row['DELIVERY_PRICE'] ?></td>
-                                        <td>
-                                            <a href="delivered-products.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-eye"></i></a>
-                                            <a href="#" class="edit-deliver-link <?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                            <a href="../admin/products-deliver-delete.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-
-                                <?php
-                                }
-                            } else {
-                                ?>
-                                <tr class="search-not-found">
-                                    <td colspan="6">Search Not Found</td>
-                                </tr>
-                                <?php
-                            }
-                        } elseif (isset($_GET['supplier'])) {
-                            if (is_numeric($_GET['supplier'])) {
-                                $supplierID = filter_input(INPUT_GET, 'supplier', FILTER_SANITIZE_NUMBER_INT);
-                                if (isset($_GET['sort_by'])) {
-                                    if ($_GET['sort_by'] == 'by_price_desc') {
-                                        $deliver_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = $supplierID AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE DESC";
-                                    } elseif ($_GET['sort_by'] == 'by_price_asc') {
-                                        $deliver_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = $supplierID AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE ASC";
-                                    } else {
-                                        $deliver_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = $supplierID AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
-                                    }
-                                } else {
-                                    $deliver_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = $supplierID AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
-                                }
-                                $deliver_result = $conn->query($deliver_sql);
-
-                                if ($deliver_result->num_rows > 0) {
-                                    while ($row = $deliver_result->fetch_assoc()) {
-                                        $supID = $row['SUPPLIER_ID'];
-                                        $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_ID = $supID";
-                                        $supplier_result = $conn->query($supplier_sql);
-                                        $supplier = $supplier_result->fetch_assoc();
-                                ?>
-                                        <tr>
-                                            <td><?php echo $row['DELIVERY_ID'] ?></td>
-                                            <td><?php echo $supplier['NAME'] ?></td>
-                                            <td><?php echo $row['DELIVERY_DATE'] ?></td>
-                                            <td><?php echo $row['DELIVERY_PRICE'] ?></td>
-                                            <td>
-                                                <a href="delivered-products.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-eye"></i></a>
-                                                <a href="#" class="edit-deliver-link <?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                <a href="../admin/products-deliver-delete.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
-                                            </td>
-                                        </tr>
-                                    <?php
-                                    }
-                                } else {
-                                    ?>
-                                    <tr class="search-not-found">
-                                        <td colspan="6">Search Not Found</td>
-                                    </tr>
-                                    <?php
-                                }
-                            } else {
-                                if ($_GET['supplier'] == 'all') {
-                                    if (isset($_GET['sort_by'])) {
-                                        if ($_GET['sort_by'] == 'by_price_desc') {
-                                            $deliver_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE DESC";
-                                        } elseif ($_GET['sort_by'] == 'by_price_asc') {
-                                            $deliver_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE ASC";
-                                        } else {
-                                            $deliver_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
-                                        }
-                                    } else {
-                                        $deliver_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
-                                    }
-
-                                    $deliver_result = $conn->query($deliver_sql);
-
-                                    if ($deliver_result->num_rows > 0) {
-                                        while ($row = $deliver_result->fetch_assoc()) {
-                                            $supID = $row['SUPPLIER_ID'];
-                                            $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_ID = $supID";
-                                            $supplier_result = $conn->query($supplier_sql);
-                                            $supplier = $supplier_result->fetch_assoc();
-                                    ?>
-                                            <tr>
-                                                <td><?php echo $row['DELIVERY_ID'] ?></td>
-                                                <td><?php echo $supplier['NAME'] ?></td>
-                                                <td><?php echo $row['DELIVERY_DATE'] ?></td>
-                                                <td><?php echo $row['DELIVERY_PRICE'] ?></td>
-                                                <td>
-                                                    <a href="delivered-products.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-eye"></i></a>
-                                                    <a href="#" class="edit-deliver-link <?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                    <a href="../admin/products-deliver-delete.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
-                                                </td>
-                                            </tr>
-                                        <?php
-                                        }
-                                    } else {
-                                        ?> <tr class="search-not-found">
-                                            <td colspan="6">Search Not Found</td>
-                                        </tr><?php
-                                            }
-                                        } else {
-                                                ?><tr class="search-not-found">
-                                        <td colspan="6">Search Not Found</td>
-                                    </tr><?php
-                                        }
-                                    }
-                                } else {
-                                    $deliver_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
-                                    $deliver_result = $conn->query($deliver_sql);
-
-                                    if ($deliver_result->num_rows > 0) {
-                                        while ($row = $deliver_result->fetch_assoc()) {
-                                            $supID = $row['SUPPLIER_ID'];
-                                            $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_ID = $supID";
-                                            $supplier_result = $conn->query($supplier_sql);
-                                            $supplier = $supplier_result->fetch_assoc();
-
-                                            ?>
-                                    <tr>
-                                        <td><?php echo $row['DELIVERY_ID'] ?></td>
-                                        <td><?php echo $supplier['NAME'] ?></td>
-                                        <td><?php echo $row['DELIVERY_DATE'] ?></td>
-                                        <td><?php echo $row['DELIVERY_PRICE'] ?></td>
-                                        <td>
-                                            <a href="delivered-products.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-eye"></i></a>
-                                            <a href="#" class="edit-deliver-link <?php echo $row['DELIVERY_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                            <a href="../admin/products-deliver-delete.php?del_id=<?php echo $row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
-                                        </td>
-                                    </tr>
-                                <?php
-                                        }
-                                    } else {
-                                ?>
-
-                                <tr>
-                                    <td colspan="6" class="text-center text-danger p-5" style="font-size: 18px;">
-                                        Empty
-                                    </td>
-                                </tr>
-
-                        <?php
-                                    }
-                                }
-
-
-                        ?>
                     </tbody>
                 </table>
             </div>
-            <!--  -->
-            <form class="deliver-add-form" id="deliverEditForm" action="../process/edit-deliver-process.php" method="post">
+
+            <!-- edit -->
+            <div class="deliver-add-form" id="deliverEditForm">
                 <button id="closeEditDeliver" type="reset"><i class="fa-solid fa-xmark"></i></button>
-                <h5>Edit Deliver</h5>
+                <h5 id="edit-deliver-h5">Edit Deliver</h5>
                 <div class="contents-input-container supplier-select">
                     <input type="hidden" id="deliver-id-input" name="deliver_id" value="">
-                    <select id="sub-category-select" name="supplier_id" required>
+                    <select id="edit-supplier-id" class="form-control" name="supplier_id" required>
                         <?php
-
                         $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_STATUS = 'active'";
                         $supplier_result = $conn->query($supplier_sql);
                         if ($supplier_result->num_rows > 0) {
                             while ($supplier = $supplier_result->fetch_assoc()) {
                         ?>
-
                                 <option value="<?php echo $supplier['SUPPLIER_ID'] ?>"><?php echo $supplier['NAME'] ?></option>
-
                         <?php
                             }
                         }
-
                         ?>
                     </select>
                     <label class="product-add-label">Supplier</label>
                 </div>
 
                 <div class="contents-input-container supplier-select">
-                    <input type="date" id="deliveryDate" name="delivery_date" required max="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="deliveryDateEdit" class="form-control" name="delivery_date" required max="<?php echo date('Y-m-d'); ?>">
                     <label class="product-add-label">Delivery Date</label>
                 </div>
 
-                <input type="submit" class="add-delivery btn btn-primary" name="edit_deliver" value="Save">
-            </form>
+                <input type="submit" class="add-delivery btn btn-primary" id="edit-delivery" name="edit_deliver" value="Save">
+            </div>
             <!--  -->
 
             <button id="addDeliverOpen" class="addDeliver btn btn-primary" type="button"><i class="fa-solid fa-plus"></i>New Deliver</button>
@@ -479,7 +314,7 @@ if (isset($_SESSION['id'])) {
                 <button id="closeAddDeliver" type="reset"><i class="fa-solid fa-xmark"></i></button>
                 <h5>New Deliver</h5>
                 <div class="contents-input-container supplier-select">
-                    <select id="sub-category-select" name="supplier_id" required>
+                    <select id="sub-category-select" class="form-control" name="supplier_id" required>
                         <?php
 
                         $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_STATUS = 'active'";
@@ -500,7 +335,7 @@ if (isset($_SESSION['id'])) {
                 </div>
 
                 <div class="contents-input-container supplier-select">
-                    <input type="date" id="deliveryDate" name="delivery_date" required max="<?php echo date('Y-m-d'); ?>">
+                    <input type="date" id="deliveryDate" class="form-control" name="delivery_date" required max="<?php echo date('Y-m-d'); ?>">
                     <label class="product-add-label">Delivery Date</label>
                 </div>
 
@@ -587,10 +422,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/search-delivery.js"></script>
-        <script src="../js/products-deliver-supplier.js"></script>
         <script src="../js/open-add-deliver.js"></script>
-        <script src="../js/delivery-id-edit-form.js"></script>
-        <script src="../js/edit-deliver-check-supplier.js"></script>
         <script src="../js/notifications.js"></script>
 
     <?php else : ?>

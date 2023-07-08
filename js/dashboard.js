@@ -28,23 +28,16 @@ $(document).ready(function () {
         // Add more container IDs, IDs, and element selectors as needed
     ];
 
-    window.onload = function () {
-        loadXMLDoc(containers);
-    };
-
     setInterval(function () {
         loadXMLDoc(containers);
     }, 1000);
 
-
-    // ----------
-
+    //chart
     function chartLoad() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var salesData = JSON.parse(this.responseText);
-                console.log(salesData);
                 updateChart(salesData);
             }
         };
@@ -87,6 +80,11 @@ $(document).ready(function () {
         $("#chartContainer").CanvasJSChart(options);
     }
 
+    window.onload = chartLoad();
 
-    window.onload = chartLoad;
+    setTimeout(function () {
+        $('.dash-board-container').animate({ opacity: 1 }, 500);
+
+        $('.loading-overlay').hide();
+    }, 500);
 });
