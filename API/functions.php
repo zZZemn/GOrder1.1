@@ -992,8 +992,8 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                     $inventory_sql = "SELECT SUM(QUANTITY) AS total_quantity FROM inventory WHERE PRODUCT_ID = '$product_id'";
                     $inventory_result = $conn->query($inventory_sql);
                     if ($inventory_result->num_rows > 0) {
-                        $inventory_row = $inventory_result->fetch_assoc();
                         $pro_qty = 0;
+                        $inventory_row = $inventory_result->fetch_assoc();
                         $pro_qty += $inventory_row['QUANTITY'];
 
                         // $order_sql = "SELECT od.*
