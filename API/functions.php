@@ -1018,7 +1018,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         } else {
                             $data = [
                                 'status' => 200,
-                                'message' => 'Please Enter A Valid Quantity 2',
+                                'message' => 'Please Enter A Valid Quantity 2 5',
                                 'data' => [
                                     'order_qty'=> $order_qty,
                                     'qty_left' => $pro_qty
