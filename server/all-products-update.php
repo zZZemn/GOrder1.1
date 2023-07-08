@@ -32,13 +32,23 @@ if (isset($_SESSION['id'])) {
             $product_result = $conn->query($product_sql);
             if ($product_result->num_rows > 0) {
                 while ($product = $product_result->fetch_assoc()) {
+                    $product_id = $product['PRODUCT_ID'];
+                    $inventory_sql = "SELECT SUM(QUANTITY) AS total_qty FROM inventory WHERE PRODUCT_ID = '$product_id'";
+                    $inventory_result = $conn->query($inventory_sql);
+                    $qty = 0;
+                    if($inventory_result->num_rows > 0) {
+                        $inventory = $inventory_result->fetch_assoc();
+                        ($inventory['total_qty']) ? $qty = $inventory['total_qty'] : $qty = 0;
+                    } else {
+                        $qty = 0;
+                    }
 ?>
                     <tr>
                         <td class="pro-code"><?php echo $product['PRODUCT_CODE'] ?></td>
                         <td><?php echo $product['PRODUCT_NAME'] ?></td>
                         <td class="unit-meas"><?php echo $product['UNIT_MEASUREMENT'] ?></td>
                         <td class="selling-price"><?php echo $product['SELLING_PRICE'] ?></td>
-                        <td><?php echo '' ?></td>
+                        <td><?php echo $qty ?></td>
                         <td><?php echo $product['CRITICAL_LEVEL'] ?></td>
                         <td class="actions">
                             <a class="description-hover"><i class="fa-solid fa-comment-medical"></i>
