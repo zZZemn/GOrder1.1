@@ -1027,7 +1027,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                     } else {
                         $data = [
                             'status' => 200,
-                            'message' => 'Please Enter A Valid Quantity',
+                            'message' => 'Please Enter A Valid Quantity 1',
                         ];
                         header("HTTP/1.0 405 Access Deny");
                         return json_encode($data);
