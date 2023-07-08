@@ -79,6 +79,7 @@
 
 .contents-input-container label {
     position: absolute;
+    top: 0;
     left: 10px;
     font-size: 10px;
     background-color: white;
@@ -90,7 +91,6 @@
     font-size: 13px;
     padding: 5px;
 
-    border: 1px solid rgb(122, 122, 122);
     outline: none;
 }
 
@@ -145,15 +145,19 @@
 }
 
 .s-row-s-left .pres-vat {
+    position: relative;
     height: 30px;
-    width: 200px;
+    width: 150px;
     background-color: white;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     margin: 10px;
-    border: 1px solid rgb(122, 122, 122);
-
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 5px;
+    padding: 0px 50px;
+} .s-row-s-left .pres-vat label {
+    position: absolute;
 }
 
 .s-row-s-right {
@@ -163,6 +167,7 @@
 .s-row-s-right select {
     height: 30px;
     width: 150px;
+    font-size: 12px;
 }
 
 
@@ -174,6 +179,8 @@
 
 .save-changes input {
     height: 30px !important;
+    border: none !important;
+    padding: 0px 10px;
 }
 
 

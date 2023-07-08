@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -229,27 +229,27 @@ if (isset($_SESSION['id'])) {
                             <div class="f-row-right">
                                 <div class="product-code-only">
                                     <div class="contents-input-container product-code">
-                                        <input type="text" name="product_code" value="<?php echo $product['PRODUCT_CODE'] ?>">
+                                        <input type="text" class="form-control" name="product_code" value="<?php echo $product['PRODUCT_CODE'] ?>">
                                         <label class="product-edit-label">Product Code</label>
                                     </div>
                                 </div>
                                 <div class="product-name-meas">
                                     <div class="contents-input-container">
-                                        <input type="text" name="product_name" value="<?php echo $product['PRODUCT_NAME'] ?>">
+                                        <input type="text" class="form-control" name="product_name" value="<?php echo $product['PRODUCT_NAME'] ?>">
                                         <label class="product-edit-label">Product Name</label>
                                     </div>
                                     <div class="contents-input-container unit-meas">
-                                        <input type="text" name="product_meas" value="<?php echo $product['UNIT_MEASUREMENT'] ?>">
+                                        <input type="text" class="form-control" name="product_meas" value="<?php echo $product['UNIT_MEASUREMENT'] ?>">
                                         <label class="product-edit-label">Unit Measurement</label>
                                     </div>
                                 </div>
                                 <div class="selling-price-crit-level">
                                     <div class="contents-input-container">
-                                        <input type="text" name="selling_price" value="<?php echo $product['SELLING_PRICE'] ?>">
+                                        <input type="text" class="form-control" name="selling_price" value="<?php echo $product['SELLING_PRICE'] ?>">
                                         <label class="product-edit-label">Selling Price</label>
                                     </div>
                                     <div class="contents-input-container critical-level">
-                                        <input type="text" name="critical_level" value="<?php echo $product['CRITICAL_LEVEL'] ?>">
+                                        <input type="text" class="form-control" name="critical_level" value="<?php echo $product['CRITICAL_LEVEL'] ?>">
                                         <label class="product-edit-label">Critical Level</label>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@ if (isset($_SESSION['id'])) {
                         <div class="s-row">
                             <div class="s-row-f">
                                 <div class="contents-input-container description">
-                                    <textarea name="description"><?php echo $product['DESCRIPTION'] ?></textarea>
+                                    <textarea name="description" class="form-control"><?php echo $product['DESCRIPTION'] ?></textarea>
                                     <label class="product-edit-label">Description</label>
                                 </div>
                             </div>
@@ -293,7 +293,7 @@ if (isset($_SESSION['id'])) {
                                 <input type="hidden" id="product_id" name="product_id" value="<?php echo $product['PRODUCT_ID']; ?>">
                                 <div class="s-row-s-right">
                                     <div class="contents-input-container add-product-cat">
-                                        <select id="category-select" name="cat">
+                                        <select id="category-select" name="cat" class="form-control">
                                             <?php
                                             $productID = $product['PRODUCT_ID'];
                                             $categories = "SELECT * FROM category";
@@ -331,7 +331,7 @@ if (isset($_SESSION['id'])) {
                                         <label class="product-add-label">Category</label>
                                     </div>
                                     <div class="contents-input-container add-product-sub-cat">
-                                        <select id="sub-category-select" name="sub_cat">
+                                        <select id="sub-category-select" name="sub_cat" class="form-control">
 
                                         </select>
                                         <label class="product-add-label">Sub Category</label>
@@ -343,13 +343,8 @@ if (isset($_SESSION['id'])) {
                             </div>
                         </div>
                     </form>
-                <?php
-                } else {
-                }
-            } else {
-                ?>
-
             <?php
+                }
             }
             ?>
 

@@ -996,18 +996,6 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $inventory_row = $inventory_result->fetch_assoc();
                         $pro_qty += $inventory_row['total_quantity'];
 
-                        // $order_sql = "SELECT od.*
-                        //   FROM `order_details` od
-                        //   JOIN `order` o ON od.TRANSACTION_ID = o.TRANSACTION_ID
-                        //   WHERE od.PRODUCT_ID = '$product_id' AND (o.STATUS = 'Waiting' OR o.STATUS = 'Accepted');
-                        //   ";
-                        // $order_result = $conn->query($order_sql);
-                        // if ($order_result->num_rows > 0) {
-                        //     while ($order_row = $order_result->fetch_assoc()) {
-                        //         $pro_qty += $order_row['QTY'];
-                        //     }
-                        // }
-
                         if ($pro_qty >= $order_qty) {
                             $order_item = [
                                 'PRODUCT_ID' => $order_items_row['PRODUCT_ID'],
