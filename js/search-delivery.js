@@ -77,14 +77,14 @@ $(document).ready(function () {
                         $('.del-edited').css('opacity', 0);
                     }, 2000);
                     $('#deliverEditForm').css('visibility', 'hidden');
-                    deliver();
+                    deliver(search, supplier, priceSort);
                 } else {
                     $('.del-not-edited').css('opacity', 1);
                     setTimeout(function () {
                         $('.del-not-edited').css('opacity', 0);
                     }, 2000);
                     $('#deliverEditForm').css('visibility', 'hidden');
-                    deliver();
+                    deliver(search, supplier, priceSort);
                 }
             },
             error: function (xhr, status, error) {
