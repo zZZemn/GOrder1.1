@@ -994,7 +994,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                     if ($inventory_result->num_rows > 0) {
                         $pro_qty = 0;
                         $inventory_row = $inventory_result->fetch_assoc();
-                        $pro_qty += $inventory_row['QUANTITY'];
+                        $pro_qty += $inventory_row['total_quantity'];
 
                         // $order_sql = "SELECT od.*
                         //   FROM `order_details` od
