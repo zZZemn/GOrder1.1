@@ -1004,7 +1004,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         $order_result = $conn->query($order_sql);
                         if ($order_result->num_rows > 0) {
                             while ($order_row = $order_result->fetch_assoc()) {
-                                $pro_qty -= $order_row['QTY'];
+                                $pro_qty += $order_row['QTY'];
                             }
                         }
 
