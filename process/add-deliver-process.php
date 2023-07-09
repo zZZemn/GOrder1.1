@@ -36,11 +36,9 @@ if (isset($_SESSION['id'])) {
                     ('$emp_id','Add New Deliver Products.','$addDate','$addTime')";
 
         if ($conn->query($add_del_sql) === TRUE && $conn->query($add_sup_log) === TRUE) {
-            header("Location: ../admin/products-deliver.php?status=success");
-            exit();
+            echo 'OK';
         } else {
-            header("Location: ../admin/products-deliver.php?status=invalid_add");
-            exit();
+            echo 'NOT';
         }
     }
 } else {

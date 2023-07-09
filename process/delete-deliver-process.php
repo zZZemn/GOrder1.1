@@ -23,19 +23,15 @@ if (isset($_SESSION['id'])) {
                     ('$emp_id','Delete Delivery  $delID','$editDate','$editTime')";
 
             if ($conn->query($deleteDelivery) === TRUE && $conn->query($del_del_log) === TRUE) {
-                header("Location: ../admin/products-deliver.php?status=deletion_success");
-                exit;
+                echo 'ok';
             } else {
-                header("Location: ../admin/products-deliver.php?status=deletion_failed");
-                exit;
+                echo 'not';
             }
         } else {
-            header("Location: ../admin/products-deliver.php?status=deletion_failed");
-            exit;
+            echo 'not';
         }
     } else {
-        header("Location: ../admin/products-deliver.php?status=deletion_failed");
-        exit;
+        echo 'not';
     }
 } else {
     header("Location: ../index.php");

@@ -19,19 +19,19 @@ if (isset($_SESSION['id'])) {
             } elseif ($_GET['supplier'] !== 'all') {
                 $supplier = $_GET['supplier'];
                 if ($priceSort === 'asc') {
-                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' ORDER BY DELIVERY_PRICE ASC";
+                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE ASC";
                 } elseif ($priceSort === 'desc') {
-                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' ORDER BY DELIVERY_PRICE DESC";
+                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE DESC";
                 } else {
-                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier'";
+                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' AND DELIVERY_STATUS = 'active'";
                 }
             } else {
                 if ($priceSort === 'asc') {
-                    $del_sql = "SELECT * FROM delivery ORDER BY DELIVERY_PRICE ASC";
+                    $del_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE ASC";
                 } elseif ($priceSort === 'desc') {
-                    $del_sql = "SELECT * FROM delivery ORDER BY DELIVERY_PRICE DESC";
+                    $del_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE DESC";
                 } else {
-                    $del_sql = "SELECT * FROM delivery";
+                    $del_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active'";
                 }
             }
             if ($del_result = $conn->query($del_sql)) {
@@ -56,7 +56,7 @@ if (isset($_SESSION['id'])) {
                             <td>
                                 <a href="delivered-products.php?del_id=<?php echo $del_row['DELIVERY_ID'] ?>"><i class="fa-regular fa-eye"></i></a>
                                 <a href="#" class="edit-deliver-link" id="edit-deliver-link" data-del_id="<?php echo $del_row['DELIVERY_ID'] ?>" data-supp_lier="<?php echo $del_row['SUPPLIER_ID'] ?>" data-del_date="<?php echo $del_row['DELIVERY_DATE'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                <a href="#" data-del_id="<?php echo $del_row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
+                                <a href="#" id="delete-deliver" data-del_id="<?php echo $del_row['DELIVERY_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php

@@ -210,8 +210,20 @@ if (isset($_SESSION['id'])) {
         <div class="alert del-edited bg-success">
             Successfuly Edited.
         </div>
+        <div class="alert del-added bg-success">
+            Successfuly Added.
+        </div>
+        <div class="alert del-deleted bg-success">
+            Delivery Deleted.
+        </div>
         <div class="alert del-not-edited bg-danger">
             Editing Unsuccessful.
+        </div>
+        <div class="alert del-not-added bg-danger">
+            Adding Unsuccessful.
+        </div>
+        <div class="alert del-not-deleted bg-danger">
+            Deletion Unsuccessful.
         </div>
 
         <div class="main">
@@ -310,11 +322,12 @@ if (isset($_SESSION['id'])) {
 
             <button id="addDeliverOpen" class="addDeliver btn btn-primary" type="button"><i class="fa-solid fa-plus"></i>New Deliver</button>
 
-            <form class="deliver-add-form" id="deliverAddForm" action="../process/add-deliver-process.php" method="post">
+            <div class="deliver-add-form" id="deliverAddForm">
                 <button id="closeAddDeliver" type="reset"><i class="fa-solid fa-xmark"></i></button>
                 <h5>New Deliver</h5>
                 <div class="contents-input-container supplier-select">
-                    <select id="sub-category-select" class="form-control" name="supplier_id" required>
+                    <select id="supplier_id" class="form-control" name="supplier_id" required>
+                        <option disabled selected>Select Supplier</option>
                         <?php
 
                         $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_STATUS = 'active'";
@@ -322,13 +335,10 @@ if (isset($_SESSION['id'])) {
                         if ($supplier_result->num_rows > 0) {
                             while ($supplier = $supplier_result->fetch_assoc()) {
                         ?>
-
                                 <option value="<?php echo $supplier['SUPPLIER_ID'] ?>"><?php echo $supplier['NAME'] ?></option>
-
                         <?php
                             }
                         }
-
                         ?>
                     </select>
                     <label class="product-add-label">Supplier</label>
@@ -339,8 +349,8 @@ if (isset($_SESSION['id'])) {
                     <label class="product-add-label">Delivery Date</label>
                 </div>
 
-                <input type="submit" class="add-delivery btn btn-primary" name="add_deliver" value="Add">
-            </form>
+                <input type="submit" class="add-delivery btn btn-primary" id="add-deliver" name="add_deliver" value="Add">
+            </div>
 
             <div class="message-container">
                 <?php
@@ -404,7 +414,23 @@ if (isset($_SESSION['id'])) {
                 }
                 ?>
             </div>
+        </div>
 
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this delivery?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="delete-this-deliver" data-del_id="">Delete</button>
+                        <button type="button" class="btn btn-secondary" id="close-delete-this-deliver" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
@@ -421,8 +447,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/search-delivery.js"></script>
-        <script src="../js/open-add-deliver.js"></script>
+        <script src="../js/products-deliver.js"></script>
         <script src="../js/notifications.js"></script>
 
     <?php else : ?>
