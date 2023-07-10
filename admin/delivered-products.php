@@ -68,7 +68,7 @@ if (isset($_GET['del_id'])) {
                     <div class="f-row">
 
                         <div class="input">
-                            <input type="text" name="product_id" id="product_id" placeholder="Search Product Name..." list="pro_ids" required>
+                            <input type="text" class="form-control" name="product_id" id="product_id" placeholder="Search Product Name..." list="pro_ids" required>
                             <label for="product_id">Product ID</label>
                             <datalist id="pro_ids">
                                 <?php
@@ -92,17 +92,17 @@ if (isset($_GET['del_id'])) {
                         <input type="hidden" name="del_id" value="<?php echo $del['DELIVERY_ID'] ?>">
 
                         <div class="input">
-                            <input type="date" name="expiration_date" id="expiration_date" min="<?php echo date('Y-m-d'); ?>" required>
+                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="<?php echo date('Y-m-d'); ?>" required>
                             <label for="expriration_date">Expiration Date</label>
                         </div>
                     </div>
                     <div class="s-row">
                         <div class="input">
-                            <input type="text" name="supp_price" id="supp_price" placeholder="Enter Supplier Price" maxlength="6" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" required>
+                            <input type="text" class="form-control" name="supp_price" id="supp_price" placeholder="Enter Supplier Price" maxlength="6" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" required>
                             <label for="supp_price">Price</label>
                         </div>
                         <div class="input">
-                            <input type="text" name="del_qty" id="del_qty" placeholder="Delivered Qty" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                            <input type="text" class="form-control" name="del_qty" id="del_qty" placeholder="Delivered Qty" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
                             <label for="del_qty">Quantity</label>
                         </div>
 

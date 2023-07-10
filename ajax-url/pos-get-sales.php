@@ -13,7 +13,7 @@ if (isset($_SESSION['id'])) {
         $value = $_POST['value'];
 
         if ($value === 'today') {
-            $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' ORDER BY TIME DESC";
+            $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' AND TRANSACTION_TYPE != 'Replace' AND UPDATED_TOTAL <> TOTAL ORDER BY TIME DESC";
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
@@ -22,9 +22,9 @@ if (isset($_SESSION['id'])) {
                     $emp_sql = "SELECT FIRST_NAME, LAST_NAME FROM employee WHERE EMP_ID = '$emp_id'";
                     $emp_result = $conn->query($emp_sql);
                     $process_by = '';
-                    if($emp_result->num_rows > 0){
+                    if ($emp_result->num_rows > 0) {
                         $process_emp = $emp_result->fetch_assoc();
-                        $process_by = $process_emp['FIRST_NAME'].' '.$process_emp['LAST_NAME'];
+                        $process_by = $process_emp['FIRST_NAME'] . ' ' . $process_emp['LAST_NAME'];
                     }
                     $sales = "
                             <tr>
@@ -50,7 +50,13 @@ if (isset($_SESSION['id'])) {
             }
         } elseif ($value === 'this-week') {
             include('../time-date.php');
-            $sales_sql = "SELECT * FROM sales WHERE DATE >= '$sevenDaysAgo' AND DATE <= '$currentDate' ORDER BY DATE DESC, TIME DESC";
+            $sales_sql = "SELECT *
+            FROM sales
+            WHERE DATE >= '$sevenDaysAgo'
+                AND DATE <= '$currentDate'
+                AND TRANSACTION_TYPE != 'Replace'
+                AND UPDATED_TOTAL = TOTAL
+            ORDER BY DATE DESC, TIME DESC;";
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
@@ -58,9 +64,9 @@ if (isset($_SESSION['id'])) {
                     $emp_sql = "SELECT FIRST_NAME, LAST_NAME FROM employee WHERE EMP_ID = '$emp_id'";
                     $emp_result = $conn->query($emp_sql);
                     $process_by = '';
-                    if($emp_result->num_rows > 0){
+                    if ($emp_result->num_rows > 0) {
                         $process_emp = $emp_result->fetch_assoc();
-                        $process_by = $process_emp['FIRST_NAME'].' '.$process_emp['LAST_NAME'];
+                        $process_by = $process_emp['FIRST_NAME'] . ' ' . $process_emp['LAST_NAME'];
                     }
                     $sales = "
                             <tr>

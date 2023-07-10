@@ -43,6 +43,7 @@ select {
 
 .input label {
     position: absolute;
+    top: 0;
     left: 10px;
     font-size: 12px;
     background-color: white;
