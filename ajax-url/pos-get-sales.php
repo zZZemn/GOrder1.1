@@ -13,7 +13,7 @@ if (isset($_SESSION['id'])) {
         $value = $_POST['value'];
 
         if ($value === 'today') {
-            $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' AND TRANSACTION_TYPE != 'Replace' AND UPDATED_TOTAL <> TOTAL ORDER BY TIME DESC";
+            $sales_sql = "SELECT * FROM sales WHERE DATE = '$currentDate' AND TRANSACTION_TYPE != 'Replace' AND UPDATED_TOTAL = TOTAL ORDER BY TIME DESC";
             $sales_result = $conn->query($sales_sql);
             if ($sales_result->num_rows > 0) {
                 while ($row = $sales_result->fetch_assoc()) {
