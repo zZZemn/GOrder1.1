@@ -43,6 +43,34 @@ if (isset($_GET['del_id'])) {
 <body>
     <?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" && $emp['EMP_STATUS'] == "active" && isset($del)) : ?>
 
+        <div class="alert editing-success bg-success">
+            Editing Successful
+        </div>
+        <div class="alert adding-success bg-success">
+            Adding Successful
+        </div>
+        <div class="alert product-not-exist bg-danger">
+            Invalid Product ID
+        </div>
+        <div class="alert editing-failed bg-danger">
+            Editing Failed
+        </div>
+        <div class="alert adding-failed bg-danger">
+            Adding Failed
+        </div>
+        <div class="alert invalid-exp-date bg-danger">
+            Invalid Expiration Date
+        </div>
+        <div class="alert no-edit bg-danger">
+            You cannot edit this delivered item.
+        </div>
+        <div class="alert not-exist bg-danger">
+            This product does not exist in the database.
+        </div>
+        <div class="alert problem bg-danger">
+            There are a few issues with the connection. Please try again later.
+        </div>
+
         <div class="delivered-container">
             <div class="top-left">
                 <a href="products-deliver.php" class="delivery-back"><i class="fa-solid fa-left-long"></i><span>Deliver</span></a>
@@ -63,7 +91,7 @@ if (isset($_GET['del_id'])) {
             </div>
 
             <div class="top-right">
-                <form class="add-product-container" action="../process/delivered-add-process.php" method="post">
+                <form class="add-product-container">
                     <h5>Add To Inventory</h5>
                     <div class="f-row">
 
@@ -79,7 +107,7 @@ if (isset($_GET['del_id'])) {
                                     while ($row = $products_result->fetch_assoc()) {
                                 ?>
                                         <option value="<?php echo $row['PRODUCT_ID'] ?>">
-                                            <?php echo $row['PRODUCT_NAME'].' - ₱ '.$row['SELLING_PRICE'] ?>
+                                            <?php echo $row['PRODUCT_NAME'] . ' - ₱ ' . $row['SELLING_PRICE'] ?>
                                         </option>
                                 <?php
                                     }
@@ -89,10 +117,10 @@ if (isset($_GET['del_id'])) {
                             </datalist>
                         </div>
 
-                        <input type="hidden" name="del_id" value="<?php echo $del['DELIVERY_ID'] ?>">
+                        <input type="hidden" id="del_id" name="del_id" value="<?php echo $del['DELIVERY_ID'] ?>">
 
                         <div class="input">
-                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" min="<?php echo date('Y-m-d'); ?>" required>
+                            <input type="date" class="form-control" name="expiration_date" id="expiration_date" required>
                             <label for="expriration_date">Expiration Date</label>
                         </div>
                     </div>
@@ -121,48 +149,39 @@ if (isset($_GET['del_id'])) {
                     <tr>
                         <th>Product</th>
                         <th>Supplier Price</th>
-                        <th>Expiration Date</th>
                         <th>Selling Price</th>
-                        <th>Qty</th>
-                        <th>Del Qty</th>
                         <th>Mark up</th>
+                        <th>Expiration Date</th>
+                        <th>Del Qty</th>
+                        <th>Qty</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    $delID = $_GET['del_id'];
-                    $del_query = "SELECT * FROM inventory WHERE DELIVERY_ID = $delID ORDER BY EXP_DATE";
-                    $del_query_result = $conn->query($del_query);
-                    if ($del_query_result->num_rows > 0) {
-                        while ($row = $del_query_result->fetch_assoc()) {
-                            $pro_id = $row['PRODUCT_ID'];
-                            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
-                            $product_result = $conn->query($product_sql);
-                            $product = $product_result->fetch_assoc();
-                    ?>
-                            <tr>
-                                <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                                <td><?php echo $row['SUPPLIER_PRICE'] ?></td>
-                                <td><?php echo $row['EXP_DATE'] ?></td>
-                                <td><?php echo $product['SELLING_PRICE'] ?></td>
-                                <td><?php echo $row['QUANTITY'] ?></td>
-                                <td><?php echo $row['DEL_QUANTITY'] ?></td>
-                                <td class="<?php $row_mark_up = $row['MARK_UP'];
-                                            echo ($row_mark_up < 0) ? 'lessThanZeroMarkUp' : ''; ?>"><?php echo $row_mark_up; ?></td>
-                                <td>
-                                    <a href="#"><i class="fa-regular fa-pen-to-square"></i></a>
-                                    <a href="#"><i class="fa-solid fa-trash"></i></a>
-                                </td>
-                            </tr>
+                <tbody id="delivered-containainer">
 
-                    <?php
-                        }
-                    }
-                    ?>
                 </tbody>
             </table>
         </div>
+
+        <form class="edit-product-container">
+            <p id="inv-id"></p>
+            <input type="hidden" id="inv-id-hidden">
+            <button id="closeEditInventory" type="button"><i class="fa-solid fa-xmark"></i></button>
+            <center id="product-name"></center>
+            <div class="input">
+                <input type="date" id="expiration-date" class="form-control">
+                <label>Expiration Date</label>
+            </div>
+            <div class="input">
+                <input type="text" class="form-control" id="supp-price" placeholder="Enter Supplier Price" maxlength="6" oninput="this.value=this.value.replace(/[^0-9.]/g,'');" required>
+                <label for="supp_price">Price</label>
+            </div>
+            <div class="input">
+                <input type="text" class="form-control" id="edit_del_qty" placeholder="Delivered Qty" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                <label for="del_qty">Quantity</label>
+            </div>
+            <input type="submit" id="save-change" class="btn btn-primary" value="Save">
+        </form>
 
 
 
@@ -172,6 +191,7 @@ if (isset($_GET['del_id'])) {
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
+        <script src="../js/delivered-products.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

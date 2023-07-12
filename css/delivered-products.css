@@ -1,6 +1,7 @@
 body {
     background-color: white !important;
-    font-family: 'poppins', sans-serif !important; 
+    font-family: 'poppins', sans-serif !important;
+    overflow: hidden;
 }
 
 .delivery-back {
@@ -118,10 +119,93 @@ select {
 }
 
 
-.delivered-products-table thead { font-size: 13px; }
+.delivered-products-table thead {
+    font-size: 13px;
+}
 
-.delivered-products-table tbody { font-size: 12px; }
+.delivered-products-table tbody {
+    font-size: 12px;
+}
 
 .lessThanZeroMarkUp {
     color: red !important;
+}
+
+.actions a {
+    font-size: 11px;
+}
+
+.actions a i {
+    padding: 0;
+}
+
+/* Edit Delivered Product */
+.edit-product-container {
+    background-color: white;
+    width: 300px;
+    margin: auto;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    padding-top: 40px;
+    padding-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgb(190, 190, 190);
+    display: none;
+}
+
+.edit-product-container .input {
+    margin: 20px 0px;
+}
+
+.edit-product-container .input input {
+    width: 200px;
+    margin: auto;
+} 
+
+.edit-product-container .input label {
+    left: 50px;
+}
+
+.edit-product-container #inv-id {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 11px !important;
+} 
+
+.edit-product-container #product-name {
+    font-size: 14px;
+}
+
+.edit-product-container #closeEditInventory {
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    position: absolute;
+    right: 0;
+    top: 7px;
+}
+
+.edit-product-container #save-change {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.alert {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 15px;
+    color: white !important;
+
+    height: 50px;
+    width: auto;
+    font-size: 12px;
+
+    z-index: 100000;
+
+    opacity: 0;
+    transition: opacity 0.6s;
 }
