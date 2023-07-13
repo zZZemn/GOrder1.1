@@ -61,8 +61,17 @@ if (isset($_GET['del_id'])) {
         <div class="alert invalid-exp-date bg-danger">
             Invalid Expiration Date
         </div>
+        <div class="alert deletion-unsucc bg-danger">
+            Deletion Unsuccessful
+        </div>
+        <div class="alert deletion-success bg-success">
+            Deletion Successful
+        </div>
         <div class="alert no-edit bg-danger">
             You cannot edit this delivered item.
+        </div>
+        <div class="alert no-delete bg-danger">
+            You cannot delete this delivered item.
         </div>
         <div class="alert not-exist bg-danger">
             This product does not exist in the database.
@@ -182,6 +191,24 @@ if (isset($_GET['del_id'])) {
             </div>
             <input type="submit" id="save-change" class="btn btn-primary" value="Save">
         </form>
+
+
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this delivered item?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="delete-this-delivered" data-inv_id="">Delete</button>
+                        <button type="button" class="btn btn-secondary" id="close-delete-this-delivered" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 

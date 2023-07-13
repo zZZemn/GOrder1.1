@@ -53,7 +53,7 @@ $(document).ready(function () {
             var today = new Date();
             var inputDate = new Date(exp_date);
 
-            if (inputDate >= today) {
+            if (inputDate >= today || exp_date === '') {
                 $.ajax({
                     url: "../process/delivered-add-process.php",
                     type: "POST",
@@ -142,6 +142,7 @@ $(document).ready(function () {
                     var data = JSON.parse(response);
                     var productName = data[4];
                     var expirationDate = data[1];
+                    (expirationDate === '0000-00-00') ? expirationDate = '' : expirationDate = expirationDate;
                     var price = data[2];
                     var quantity = data[3];
 
@@ -217,6 +218,88 @@ $(document).ready(function () {
             }, 2000);
             closeEdit();
         }
+    })
 
+
+    //delete delivered
+
+    $(document).on('click', '#delete-delivered', (e) => {
+        e.preventDefault();
+        var inv_id = $(e.currentTarget).attr('data-inv_id');
+
+        $.ajax({
+            type: "post",
+            url: "../server/get-inventory-details.php",
+            data: { inv_id: inv_id },
+            success: function (response) {
+                if (response === 'no_edit') {
+                    $('.no-delete').css('opacity', 1);
+                    setTimeout(function () {
+                        $('.no-delete').css('opacity', 0);
+                    }, 2000);
+                } else if (response === 'not_exist') {
+                    $('.not-exist').css('opacity', 1);
+                    setTimeout(function () {
+                        $('.not-exist').css('opacity', 0);
+                    }, 2000);
+                } else if (response === 'error') {
+                    $('.problem').css('opacity', 1);
+                    setTimeout(function () {
+                        $('.problem').css('opacity', 0);
+                    }, 2000);
+                } else {
+                    var modalTitle = "Delete INV-" + inv_id + " in inventory";
+                    $('.modal-title').text(modalTitle);
+                    $('#delete-this-delivered').attr('data-inv_id', inv_id);
+                    $('#myModal').modal('show');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        });
+    })
+
+    let deleteDelivered = (inv_id) => {
+        console.log(inv_id);
+        $.ajax({
+            url: '../process/delete-delivered-process.php',
+            method: 'GET',
+            data: { inv_id: inv_id },
+            success: function (response) {
+                if (response === 'ok') {
+                    $('.deletion-success').css('opacity', 1);
+                    setTimeout(function () {
+                        $('.deletion-success').css('opacity', 0);
+                    }, 2000);
+                    deliveredProducts(delivery_id);
+                } else {
+                    $('.deletion-unsucc').css('opacity', 1);
+                    setTimeout(function () {
+                        $('.deletion-unsucc').css('opacity', 0);
+                    }, 2000);
+                }
+                $('#myModal').modal('hide');
+                $('#myModal').trigger('hidden.bs.modal');
+            },
+            error: function (xhr, status, error) {
+                console.log(error);
+            }
+        });
+    }
+
+
+    $(document).on('click', '#delete-this-delivered', () => {
+        var inv_id = $('#delete-this-delivered').attr('data-inv_id');
+        deleteDelivered(inv_id);
+    });
+
+    $('#myModal').on('hidden.bs.modal', () => {
+        $('#delete-this-delivered').attr('data-inv_id', '');
+    });
+
+    $('#myModal').on('click', '#close-delete-this-delivered', () => {
+        $('#myModal').modal('hide');
+        $('#myModal').trigger('hidden.bs.modal');
     })
 })

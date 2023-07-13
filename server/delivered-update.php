@@ -47,7 +47,7 @@ if (isset($_SESSION['id'])) {
                         <td><?php echo $row['QUANTITY'] ?></td>
                         <td class="actions"> 
                             <a href="#" class="btn btn-primary text-light" id="edit-delivered" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                            <a href="#" class="btn btn-dark text-light"><i class="fa-solid fa-trash"></i></a>
+                            <a href="#" class="btn btn-dark text-light" id="delete-delivered" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i></a>
                         </td>
                     </tr>
 <?php
