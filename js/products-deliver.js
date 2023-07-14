@@ -103,7 +103,7 @@ $(document).ready(function () {
         });
     })
 
-    //add product
+    //add deliver
     $('#addDeliverOpen').click(() => {
         $('#deliverAddForm').css('visibility', 'visible');
     })
@@ -117,10 +117,8 @@ $(document).ready(function () {
         var del_date = $('#deliveryDate').val();
 
         const currentDate = new Date();
-        const sixMonthsLater = new Date();
-        sixMonthsLater.setMonth(currentDate.getMonth() + 6);
 
-        if (supplier_id !== null && del_date !== '00-00-0000' && new Date(del_date) < currentDate && new Date(del_date) > sixMonthsLater) {
+        if (supplier_id !== null && del_date !== '00-00-0000' && new Date(del_date) < currentDate) {
             $.ajax({
                 url: '../process/add-deliver-process.php',
                 method: 'POST',

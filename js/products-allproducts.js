@@ -36,7 +36,6 @@ $(document).ready(function () {
     })
 
     $(document).on('click', '.delete-product', function () {
-        console.log('cliked');
         var product_id = $(this).data('product_id');
 
         $.ajax({

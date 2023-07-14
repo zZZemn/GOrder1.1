@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -104,7 +104,7 @@ if (isset($_SESSION['id'])) {
 
 
                 <li class="avatar-dropdown dropdown">
-                    <em class="admin-em"><?php  echo $emp['EMP_TYPE'] ?></em>
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
                     <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
                 </li>
                 <div class="avatar-dropdown-container">
@@ -210,104 +210,101 @@ if (isset($_SESSION['id'])) {
         </div>
 
         <div class="main">
+            <div class="alert supplier-added bg-success">
+                Supplier Added
+            </div>
+            <div class="alert supplier-not-added bg-danger">
+                Supplier Not Added
+            </div>
+            <div class="alert supplier-not-edited bg-danger">
+                Editing Unsuccessful.
+            </div>
+            <div class="alert supplier-edited bg-success">
+                Editing Successful.
+            </div>
+            <div class="alert input-contact-no bg-danger">
+                Please input supplier and contact number
+            </div>
+            <div class="alert deletion-unsuccessful bg-danger">
+                Deletion Unsuccessful.
+            </div>
+            <div class="alert deletion-success bg-success">
+                Deletion Successful.
+            </div>
 
             <div class="supplier-search-add">
-                <form class="search-container" id="search-form" method="get">
-                    <input type="text" name="search" id="search-input" value="<?php
-                                                                                if (isset($_GET['search'])) {
-                                                                                    echo trim($_GET['search']);
-                                                                                }
-                                                                                ?>" placeholder="Search Supplier...">
+                <div class="search-container" id="search-form">
+                    <input type="text" name="search" id="search-input" class="form-control" placeholder="Search Supplier...">
                     <button type="submit" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
-                </form>
+                </div>
                 <button id="addSupplier" class="add-supplier btn btn-success">New Supplier<i class="fa-solid fa-plus"></i></button>
             </div>
 
-            <form class="add-supplier-container" id="add-sup-form" method="post" action="../process/add-supplier-process.php">
+            <form class="add-supplier-container" id="add-sup-form">
                 <button id="closeAddSupplier" type="button"><i class="fa-solid fa-xmark"></i></button>
                 <center>Add Supplier</center>
 
                 <div class="contents-input-container">
-                    <input type="text" class="supp-name" name="supp_name" maxlength="55">
+                    <input type="text" id="supp-name" class="supp-name form-control" name="supp_name" maxlength="55" required>
                     <label class="product-edit-label">Supplier Name</label>
                 </div>
 
                 <div class="contents-input-container">
-                    <input type="text" class="supp-address" name="supp_address" maxlength="200">
+                    <input type="text" id="supp-address" class="supp-address form-control" name="supp_address" maxlength="200">
                     <label class="product-edit-label">Address</label>
                 </div>
 
                 <div class="contents-input-container">
-                    <input type="text" class="contact-person" name="contact_person" maxlength="55" required pattern="[a-zA-Z ]+">
+                    <input type="text" id="contact-person" class="contact-person form-control" name="contact_person" maxlength="55" pattern="[a-zA-Z ]+">
                     <label class="product-edit-label">Contact Person</label>
                 </div>
 
                 <div class="contents-input-container">
-                    <input type="text" class="contact-number" name="contact_number" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                    <input type="text" id="contact-no" class="contact-number form-control" name="contact_number" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
                     <label class="product-edit-label">Contact Number</label>
                 </div>
 
                 <div class="contents-input-container">
-                    <input type="submit" name="addSup" class="edit-product btn btn-primary" value="Add Supplier">
+                    <input type="submit" name="addSup" class="edit-product btn btn-primary" id="btn-add-supplier" value="Add Supplier">
                 </div>
             </form>
 
-            <div class="suppliers-container">
+            <!-- edit supplier -->
+            <form class="add-supplier-container" id="edit-sup-form">
+                <button id="closeEditSupplier" type="button"><i class="fa-solid fa-xmark"></i></button>
+                <center id="edit-supplier-title">
 
-                <?php
-                if (isset($_GET['search'])) {
-                    $search_supp = $_GET['search'];
-                    $search_supp = filter_var($search_supp, FILTER_SANITIZE_STRING);
+                </center>
 
-                    $supplier_sql = "SELECT * FROM supplier 
-                    WHERE SUPPLIER_STATUS = 'active' 
-                    AND NAME LIKE '%$search_supp%'";
-                    $supplier_sql_result = $conn->query($supplier_sql);
-                } else {
-                    $supplier_sql = "SELECT * FROM supplier WHERE SUPPLIER_STATUS = 'active'";
-                    $supplier_sql_result = $conn->query($supplier_sql);
-                }
-                if ($supplier_sql_result->num_rows > 0) {
-                    while ($row = $supplier_sql_result->fetch_assoc()) {
-                ?>
-                        <div class="supplier-container">
+                <div class="contents-input-container">
+                    <input type="text" id="edit-supp-name" class="supp-name form-control" name="supp_name" maxlength="55" required>
+                    <label class="product-edit-label">Supplier Name</label>
+                </div>
 
-                            <div class="supplier-f-row">
-                                <h5><?php echo $row['NAME'] ?></h5>
-                                <h5><?php echo $row['SUPPLIER_ID'] ?></h5>
-                            </div>
+                <div class="contents-input-container">
+                    <input type="text" id="edit-supp-address" class="supp-address form-control" name="supp_address" maxlength="200">
+                    <label class="product-edit-label">Address</label>
+                </div>
 
-                            <div class="supplier-s-row">
-                                <div class="supplier-s-row-bottom">
-                                    <div>
-                                        <p class="head">Address</p>
-                                        <p><?php echo $row['ADDRESS'] ?></p>
-                                    </div>
-                                    <div>
-                                        <p class="head">Contact Person</p>
-                                        <p><?php echo $row['CONTACT_PERSON'] ?></p>
-                                    </div>
-                                    <div>
-                                        <p class="head">Contact Number</p>
-                                        <p><?php echo $row['CONTACT_NO'] ?></p>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="contents-input-container">
+                    <input type="text" id="edit-contact-person" class="contact-person form-control" name="contact_person" maxlength="55" pattern="[a-zA-Z ]+">
+                    <label class="product-edit-label">Contact Person</label>
+                </div>
 
-                            <div class="add-edit-container">
-                                <a href="products-supplier-edit.php?sup_id=<?php echo $row['SUPPLIER_ID'] ?>">Edit <i class="fa-solid fa-pen-to-square"></i></a>
-                                <a href="products-supplier-delete.php?sup_id=<?php echo $row['SUPPLIER_ID'] ?>">Delete <i class="fa-solid fa-trash"></i></a>
-                            </div>
-                        </div>
-                <?php
-                    }
-                }
-                else{
-                ?>
-                    <center class="mt-5 pt-5">No supplier found</center>
-                <?php
-                }
-                ?>
+                <div class="contents-input-container">
+                    <input type="text" id="edit-contact-no" class="contact-number form-control" name="contact_number" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'');" required>
+                    <label class="product-edit-label">Contact Number</label>
+                </div>
+
+                <input type="hidden" value="" id="hidden-sup-id-edit">
+
+                <div class="contents-input-container">
+                    <input type="submit" name="addSup" class="edit-product btn btn-primary" id="btn-edit-supplier-save" value="Save">
+                </div>
+            </form>
+
+            <div class="suppliers-container" id="suppliers-container">
+
             </div>
 
             <div class="message-container">
@@ -375,6 +372,23 @@ if (isset($_SESSION['id'])) {
 
         </div>
 
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete this supplier?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="delete-this-supplier" data-supplier_id="">Delete</button>
+                        <button type="button" class="btn btn-secondary" id="close-delete-this-supplier" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
@@ -389,8 +403,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/supplier-search.js"></script>
-        <script src="../js/open-add-supplier-form.js"></script>
+        <script src="../js/products-supplier.js"></script>
         <script src="../js/notifications.js"></script>
 
     <?php else : ?>

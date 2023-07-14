@@ -14,11 +14,11 @@ if (isset($_SESSION['id'])) {
         include('../time-date.php');
 
         $sup_id = mt_rand(1000, 9999);
-        $check_sup_id = "SELECT * FROM supplier WHERE SUPPLIER_ID = $supp_id";
+        $check_sup_id = "SELECT * FROM supplier WHERE SUPPLIER_ID = '$sup_id'";
         $check_sup_id_result = $conn->query($check_sup_id);
         while ($check_sup_id_result->num_rows > 0) {
             $sup_id = mt_rand(1000, 9999);
-            $check_sup_id = "SELECT * FROM supplier WHERE SUPPLIER_ID = $sup_id";
+            $check_sup_id = "SELECT * FROM supplier WHERE SUPPLIER_ID = '$sup_id'";
             $check_sup_id_result = $conn->query($check_sup_id);
         }
 
@@ -38,11 +38,9 @@ if (isset($_SESSION['id'])) {
                     ('$emp_id','Add $name in supplier list.','$addDate','$addTime')";
 
         if ($conn->query($insert_supplier) === TRUE && $conn->query($add_sup_log) === TRUE) {
-            header("Location: ../admin/products-supplier.php?status=success");
-            exit();
+            echo 'ok';
         } else {
-            header("Location: ../admin/products-supplier.php?status=invalid_add");
-            exit();
+            echo 'not ok';
         }
     }
 } else {

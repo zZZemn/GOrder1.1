@@ -28,11 +28,9 @@ if (isset($_SESSION['id'])) {
                     VALUES ('$empID','Edit Supplier $supp_id details','$editDate','$editTime')";
 
         if ($conn->query($edit_supp_sql) === TRUE && $conn->query($edit_supp_log) === TRUE) {
-            header('Location: ../admin/products-supplier-edit.php?sup_id=' . $supp_id . '&status=edited');
-            exit;
+            echo 'ok';
         } else {
-            header('Location: ../admin/products-supplier-edit.php?sup_id=' . $supp_id . '&status=invalid_edit');
-            exit;
+            echo 'not okay';
         }
     }
 } else {
