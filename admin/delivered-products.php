@@ -96,7 +96,7 @@ if (isset($_GET['del_id'])) {
                 ?>
                 <p>Delivery Date: <?php echo $supp['NAME'] ?></p>
                 <p>Delivery Date: <?php echo $del['DELIVERY_DATE'] ?></p>
-                <p>Delivery Price: <?php echo $del['DELIVERY_PRICE'] ?></p>
+                <p>Delivery Price: <span id="del_price"></span></p>
             </div>
 
             <div class="top-right">

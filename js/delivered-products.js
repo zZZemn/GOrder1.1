@@ -20,6 +20,22 @@ $(document).ready(function () {
         $('.edit-product-container').css('display', 'none');
     }
 
+    const deliveryPrice = (delivery_id) => {
+        var url = "../server/delivery-price-update.php?id=" + delivery_id;
+        $.ajax({
+            url: url,
+            method: "GET",
+            success: function (response) {
+                $("#del_price").text(response);
+            },
+            error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+            }
+        });
+    }
+
+    deliveryPrice(delivery_id);
+
     const deliveredProducts = (delivery_id) => {
         var url = "../server/delivered-update.php?id=" + delivery_id;
         $.ajax({
@@ -72,6 +88,7 @@ $(document).ready(function () {
                                 $('.adding-success').css('opacity', 0);
                             }, 1000);
                             deliveredProducts(delivery_id);
+                            deliveryPrice(delivery_id);
                             $('#product_id').val('');
                             $('#expiration_date').val('');
                             $('#supp_price').val('');
@@ -82,12 +99,14 @@ $(document).ready(function () {
                                 $('.product-not-exist').css('opacity', 0);
                             }, 1000);
                             deliveredProducts(delivery_id);
+                            deliveryPrice(delivery_id);
                         } else {
                             $('.adding-failed').css('opacity', 1);
                             setTimeout(function () {
                                 $('.adding-failed').css('opacity', 0);
                             }, 1000);
                             deliveredProducts(delivery_id);
+                            deliveryPrice(delivery_id);
                         }
                     },
                     error: function (xhr, status, error) {
@@ -100,6 +119,7 @@ $(document).ready(function () {
                     $('.invalid-exp-date').css('opacity', 0);
                 }, 1000);
                 deliveredProducts(delivery_id);
+                deliveryPrice(delivery_id);
             }
         } else {
             $('.adding-failed').css('opacity', 1);
@@ -107,6 +127,7 @@ $(document).ready(function () {
                 $('.adding-failed').css('opacity', 0);
             }, 1000);
             deliveredProducts(delivery_id);
+            deliveryPrice(delivery_id);
         }
     })
 
@@ -190,6 +211,7 @@ $(document).ready(function () {
                             $('.editing-success').css('opacity', 0);
                         }, 2000);
                         deliveredProducts(delivery_id);
+                        deliveryPrice(delivery_id);
                         closeEdit();
                     } else if (response === 'not_updated') {
                         $('.editing-failed').css('opacity', 1);
@@ -197,6 +219,7 @@ $(document).ready(function () {
                             $('.editing-failed').css('opacity', 0);
                         }, 2000);
                         deliveredProducts(delivery_id);
+                        deliveryPrice(delivery_id);
                         closeEdit();
                     } else {
                         $('.problem').css('opacity', 1);
@@ -204,6 +227,7 @@ $(document).ready(function () {
                             $('.problem').css('opacity', 0);
                         }, 1000);
                         deliveredProducts(delivery_id);
+                        deliveryPrice(delivery_id);
                         closeEdit();
                     }
                 },
@@ -273,6 +297,7 @@ $(document).ready(function () {
                         $('.deletion-success').css('opacity', 0);
                     }, 2000);
                     deliveredProducts(delivery_id);
+                    deliveryPrice(delivery_id);
                 } else {
                     $('.deletion-unsucc').css('opacity', 1);
                     setTimeout(function () {
