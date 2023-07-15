@@ -2,6 +2,12 @@ body {
     font-family: 'poppins', sans-serif !important;
 }
 
+.main {
+    background-color: white;
+    padding-top: 20px !important;
+    height: 100vh;
+}
+
 .inventory-container thead tr th{
     font-size: 15px;
     font-weight: 500;
@@ -13,4 +19,65 @@ body {
 
 .inventory-container tbody tr td a {
     color: black;
+}
+
+.dispose-btn i{
+    padding: 0 !important;
+}
+
+.dispose-btn {
+    font-size: 10px !important;
+}
+
+/* top */
+.search-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-bar-container {
+    display: flex;
+    position: relative;
+}
+
+.search-bar-container input {
+    width: 400px;
+    height: 40px;
+}
+
+.search-bar-container button {
+    position: absolute;
+    width: 70px;
+    height: 40px;
+    right: 0;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+.search-bar-container button i {
+    padding: 0 !important;
+}
+
+.select-container-parent {
+    display: flex;
+    justify-content: space-between;
+    width: 320px;
+}
+.select-container {
+    position: relative;
+}
+
+.select-container select {
+    width: 150px;
+    padding-top: 15px;
+    font-size: 13px;
+}
+
+.select-container label {
+    position: absolute;
+    top: 3px;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 0px 10px;
+    left: 0px;
 }

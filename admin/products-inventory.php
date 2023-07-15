@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
                 </li>
                 <div class="notification-dropdown-container" id="notification-dropdown-container">
@@ -205,9 +205,56 @@ if (isset($_SESSION['id'])) {
         </div>
 
         <div class="main">
-            <div id="inventory_container">
+            <div class="search-container">
+                <div class="search-bar-container">
+                    <input type="text" id="inv-search" class="form-control" placeholder="Search Product...">
+                    <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
 
+                <div class="select-container-parent">
+                    <div class="select-container">
+                        <select class="form-control">
+                            <?php
+                            $cat_sql = "SELECT * FROM category";
+                            if ($cat_result = $conn->query($cat_sql)) {
+                                if ($cat_result->num_rows > 0) {
+                                    while ($cat = $cat_result->fetch_assoc()) {
+                            ?>
+                                        <option value="<?php echo $cat['CAT_ID'] ?>"><?php echo $cat['CAT_NAME'] ?></option>
+                            <?php
+                                    }
+                                }
+                            }
+                            ?>
+                        </select>
+                        <label>Category</label>
+                    </div>
+
+                    <div class="select-container">
+                        <select class="form-control" id="subcat-select">
+                            <option>All</option>
+ 
+                        </select>
+                        <label>Sub Category</label>
+                    </div>
+                </div>
             </div>
+
+            <table class="inventory-container table table-striped">
+                <thead>
+                    <tr>
+                        <th>Inventory ID</th>
+                        <th>Product</th>
+                        <th>Expiration Date</th>
+                        <th>Qty</th>
+                        <th>Dispose</th>
+                    </tr>
+                </thead>
+
+                <tbody id="inventory_container">
+
+                </tbody>
+            </table>
 
             <div class="message-container">
                 <?php

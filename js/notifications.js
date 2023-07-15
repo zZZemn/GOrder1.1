@@ -1,34 +1,31 @@
-$(document).ready(function () { 
-
+$(document).ready(function () {
     function notifications() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                $('#notification-dropdown-container').html(this.responseText);
+        $.ajax({
+            url: "../server/notifications.php",
+            success: function (response) {
+                $('#notification-dropdown-container').html(response);
             }
-        };
-        xhttp.open("GET", "../server/notifications.php", true);
-        xhttp.send();
+        });
     }
+
     setInterval(function () {
         notifications();
     }, 1000);
-    window.onload = notifications();
 
-
+    notifications();
 
     function notificationsCount() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                $('#notifications-count').html(this.responseText);
+        $.ajax({
+            url: "../server/notifications-count.php",
+            success: function (response) {
+                $('#notifications-count').html(response);
             }
-        };
-        xhttp.open("GET", "../server/notifications-count.php", true);
-        xhttp.send();
+        });
     }
+
     setInterval(function () {
-        notifications();
+        notificationsCount();
     }, 1000);
-    window.onload = notificationsCount();
-})
+
+    notificationsCount();
+});
