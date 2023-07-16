@@ -213,7 +213,8 @@ if (isset($_SESSION['id'])) {
 
                 <div class="select-container-parent">
                     <div class="select-container">
-                        <select class="form-control">
+                        <select class="form-control" id="category-pick">
+                            <option value="all">All</option>
                             <?php
                             $cat_sql = "SELECT * FROM category";
                             if ($cat_result = $conn->query($cat_sql)) {
@@ -232,7 +233,7 @@ if (isset($_SESSION['id'])) {
 
                     <div class="select-container">
                         <select class="form-control" id="subcat-select">
-                            <option>All</option>
+                            <option value="">All</option>
  
                         </select>
                         <label>Sub Category</label>

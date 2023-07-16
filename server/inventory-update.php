@@ -15,8 +15,9 @@ if (isset($_SESSION['id'])) {
     $emp_status = $emp['EMP_STATUS'];
 
     if ($emp_type === 'Admin' && $emp_status === 'active') {
-        if (isset($_GET['search'])) {
+        if (isset($_GET['search']) && isset($_GET['subcat'])) {
             $search = $_GET['search'];
+            $subcat = $_GET['subcat'];
             if ($search != '') {
                 $inventory_sql = "SELECT inventory.*
                 FROM inventory
@@ -25,8 +26,14 @@ if (isset($_SESSION['id'])) {
                   AND products.PRODUCT_NAME LIKE '%$search%'
                 ORDER BY inventory.EXP_DATE;
                 ";
-?>
-                <?php
+            } elseif ($subcat != '') {
+                $inventory_sql = "SELECT inventory.*
+                FROM inventory
+                JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
+                WHERE inventory.QUANTITY > 0
+                  AND products.SUB_CAT_ID = '$subcat'
+                ORDER BY inventory.EXP_DATE;
+                ";
             } else {
                 $inventory_sql = "SELECT * FROM inventory WHERE QUANTITY > 0 ORDER BY EXP_DATE";
             }
@@ -38,7 +45,7 @@ if (isset($_SESSION['id'])) {
                     $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = $pro_id";
                     $product_result = $conn->query($product_sql);
                     $product = $product_result->fetch_assoc();
-                ?>
+?>
                     <tr>
 
                         <td><?php echo $row['INV_ID'] ?></td>
