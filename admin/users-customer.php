@@ -25,6 +25,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/loading.css">
+    <link rel="stylesheet" href="../css/users-customer.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
     <title>GOrder</title>
@@ -210,6 +211,57 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
+        <div class="alert bg-danger alert-deact">
+            <p class="">Account Deactivated</p>
+        </div>
+        <div class="alert bg-success alert-act">
+            <p class="">Account Activated</p>
+        </div>
+
+            <center>
+                <p class="employee-title">Employee</p>
+            </center>
+            <div class="search-filter-container">
+                <div class="search-container">
+                    <input type="text" class="form-control" name="search_emp" id="search_cust" placeholder="Search...">
+                    <button type="submit" name="search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+                <div class="input">
+                    <select id="cust_filter" class="form-control">
+                        <option value="">All</option>
+                        <?php
+                        $discount_sql = "SELECT DISCOUNT_NAME, DISCOUNT_ID FROM discount WHERE DISCOUNT_STATUS = 'active'";
+                        if ($discount_result = $conn->query($discount_sql)) {
+                            if ($discount_result->num_rows > 0) {
+                                while ($discount = $discount_result->fetch_assoc()) {
+                        ?>
+                                    <option value="<?php echo $discount['DISCOUNT_ID']; ?>"><?php echo $discount['DISCOUNT_NAME']; ?></option>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
+                    </select>
+                    <label>Discount Type</label>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Cust ID</th>
+                            <th>Name</th>
+                            <th>Contact no.</th>
+                            <th>Discount Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customer-container">
+
+                    </tbody>
+                </table>
+            </div>
 
             <div class="message-container">
                 <?php
@@ -291,6 +343,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/users-customer.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
