@@ -27,3 +27,32 @@ table tbody tr td {
 .action-td a i {
     padding: 0 !important;
 }
+
+.search-select-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-select-container select {
+    width: 70%;
+}
+
+.return-search {
+    position: relative;
+    display: flex;
+    width: 350px;
+}
+
+.return-search button i {
+    padding: 0;
+}
+
+.return-search input {
+    width: 100%;
+}
+
+.return-search button {
+    position: absolute;
+    width: 70px;
+    right: 0;
+}

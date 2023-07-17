@@ -104,7 +104,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -160,13 +160,17 @@ if (isset($_SESSION['id'])) {
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th colspan="13">
-                            <center>
+                        <th colspan="6">
+                            <div class="search-select-container">
                                 <select class="today-this-week-sales form-control" id="sales-filter">
                                     <option value="today">Today</option>
                                     <option value="this-week">This Week</option>
                                 </select>
-                            </center>
+                                <div class="return-search">
+                                    <input type="text" id="txt-return-search" class="form-control" placeholder="Search Transaction ID">
+                                    <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                </div>
+                            </div>
                         </th>
                     </tr>
                     <tr>
@@ -180,7 +184,7 @@ if (isset($_SESSION['id'])) {
                 </thead>
 
                 <tbody id="sales-results">
-                    
+
                 </tbody>
             </table>
         </div>

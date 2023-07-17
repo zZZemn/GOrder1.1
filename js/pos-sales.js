@@ -1,10 +1,12 @@
 $(document).ready(function () {
     var selectedValue = $('#sales-filter').val();
-    fetchSalesData(selectedValue);
+    var search = $('#txt-return-search').val();
+    fetchSalesData(selectedValue, search);
 
     $('#sales-filter').on('change', function () {
+        $('#txt-return-search').val('');
         var selectedValue = $(this).val();
-        fetchSalesData(selectedValue);
+        fetchSalesData(selectedValue, '');
 
         var timeDateTh = $('.time-date');
 
@@ -15,11 +17,14 @@ $(document).ready(function () {
         }
     });
 
-    function fetchSalesData(selectedValue) {
+    function fetchSalesData(selectedValue, search) {
         $.ajax({
             url: '../ajax-url/pos-get-sales.php',
             method: 'POST',
-            data: { value: selectedValue },
+            data: {
+                value: selectedValue,
+                search: search
+            },
             success: function (response) {
                 // Update the sales-results tbody with the fetched data
                 $('#sales-results').html(response);
@@ -30,4 +35,9 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('#txt-return-search').keyup((e) => {
+        var search = $('#txt-return-search').val();
+        fetchSalesData(selectedValue, search)
+    });
 });
