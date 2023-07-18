@@ -217,6 +217,26 @@ if (isset($_SESSION['id'])) {
             <div class="alert bg-success alert-act">
                 <p class="">Account Activated</p>
             </div>
+            <div class="alert bg-success alert-edited">
+                <p class="">Editing Success</p>
+            </div>
+            <div class="alert bg-danger alert-not-edited">
+                <p class="">Editing Unsuccessful</p>
+            </div>
+
+            <div class="alert bg-warning enter-fname">
+                <p class="">Please enter a first name.</p>
+            </div>
+            <div class="alert bg-warning enter-lname">
+                <p class="">Please enter a last name.</p>
+            </div>
+            <div class="alert bg-warning enter-bgy">
+                <p class="">Please select a barangay.</p>
+            </div>
+            <div class="alert bg-warning enter-unit">
+                <p class="">Please enter the unit/street/village.</p>
+            </div>
+            
 
             <center>
                 <p class="employee-title">Customers</p>
@@ -265,9 +285,10 @@ if (isset($_SESSION['id'])) {
 
             <form id="frm-edit-cust" class="frm-edit-cust">
                 <a href="#" id="close-frm-edit-cust"><i class="fa-solid fa-xmark"></i></a>
-                <center id="edit-cust-title" class="edit-cust-title">Edit Customer 23281</center>
+                <center id="edit-cust-title" class="edit-cust-title"></center>
                 <div class="first-div">
-                    <img src="../img/userprofile/E.png" id="cust-photo">
+                    <img src="" id="cust-photo">
+                    <input type="hidden" value="" id="cust_id_hidden">
                     <div class="cust-details">
                         <div class="cust-details-f-row">
                             <div class="input-container">
@@ -385,6 +406,10 @@ if (isset($_SESSION['id'])) {
                         <div class="input-container">
                             <input type="email" id="email" class="form-control">
                             <label>Email</label>
+                        </div>
+                        <div class="input-container">
+                            <input type="number" id="contact-no" class="form-control">
+                            <label>Contact No.</label>
                         </div>
                     </div>
                     <div class="third-div-s-row">
