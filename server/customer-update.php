@@ -36,7 +36,7 @@ if (isset($_SESSION['id'])) {
                             <td><?php echo $cust['CONTACT_NO'] ?></td>
                             <td><?php echo $cust['DISCOUNT_TYPE'] ?></td>
                             <td class="actions-btn">
-                                <a href="#" class="btn btn-primary text-light"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a href="#" id="edit-customer" data-cust_id="<?php echo $cust['CUST_ID'] ?>" class="btn btn-primary text-light"><i class="fa-regular fa-pen-to-square"></i></a>
                                 <a href="#" id="change-status" data-cust_id="<?php echo $cust['CUST_ID'] ?>" data-new_status="<?php echo ($cust['STATUS'] === 'active') ? 'deact' : 'active' ?>" class="btn <?php echo ($cust['STATUS'] === 'active') ? 'btn-danger' : 'btn-success' ?> ?>"><?php echo ($cust['STATUS'] === 'active') ? 'Deactivate' : 'Activate' ?></a>
                             </td>
                         </tr>

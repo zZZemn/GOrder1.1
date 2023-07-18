@@ -96,7 +96,10 @@
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
     transform: translateX(-50px);
-} .search-container i, td a i {
+}
+
+.search-container i,
+td a i {
     padding: 0 !important;
 }
 
@@ -104,6 +107,138 @@
     font-size: 12px;
 }
 
+.frm-edit-cust {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    width: 800px;
+    height: 560px;
+    position: absolute;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: auto;
+    padding: 30px;
+    box-shadow: 1px 1px 3px rgb(173, 173, 173);
+    border-radius: 3px;
+
+    display: none;
+}
+
+#close-frm-edit-cust {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    color: black;
+    font-size: 25px;
+}
+
+.edit-cust-title {
+    padding-bottom: 30px;
+}
+
+.first-div {
+    display: flex;
+}
+
+.first-div img {
+    height: 100px;
+    width: 100px;
+}
+
+.first-div .cust-details {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    width: 600px;
+    justify-content: space-around;
+}
+
+.first-div .cust-details div {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 20px;
+}
+
+.cust-details-f-row input {
+    width: 200px;
+}
+
+.cust-details-f-row #mi {
+    width: 70px;
+}
+
+.cust-details-f-row #suffix {
+    width: 80px;
+}
+
+.cust-details-s-row {
+    width: 450px;
+}
+
+.cust-details-s-row #discount-type {
+    width: 130px;
+}
+
+.second-div {
+    margin-top: 30px;
+}
+
+.second-div div {
+    display: flex;
+    justify-content: space-between;
+    width: 700px;
+    margin-top: 10px;
+}
+
+.second-div .region-province .input-container, .municipality-barangay .input-container {
+    width: 330px;
+}
+
+.second-div div select {
+    width: 100%;
+}
+
+
+.third-div {
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    margin-top: 30px;
+}
+
+.third-div .third-div-f-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.third-div .third-div-s-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.third-div .third-div-s-row a,.third-div-s-row input{
+    margin: 10px;
+    width: 100px;
+}
+
+.input-container {
+    position: relative;
+    padding: 0 !important;
+}
+
+.input-container label {
+    position: absolute;
+    font-size: 12px;
+    top: 0;
+    background-color: white;
+    margin-left: 10px !important;
+    transform: translateY(-10px);
+    padding: 0px 10px;
+}
 
 .alert {
     position: absolute !important;

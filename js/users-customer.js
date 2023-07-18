@@ -28,18 +28,28 @@ $(document).ready(function () {
             },
             success: function (response) {
                 console.log(response);
-                if (response !== 'not') {
+                if (response == 'alert-act' || response == 'alert-deact') {
                     users_cust(cust_type, search);
-                    $('.'+response).css('opacity', 1);
+                    $('.' + response).css('opacity', 1);
                     setTimeout(function () {
-                        $('.'+response).css('opacity', 0);
+                        $('.' + response).css('opacity', 0);
                     }, 2000);
                 }
             }
         });
     }
 
-    users_cust(cust_type, search);
+    const getCustDetails = (cust_id) => {
+        $.ajax({
+            type: "POST",
+            url: "../process/customer-get-details.php",
+            data: { cust_id: cust_id },
+            success: function (response) {
+                var data = JSON.parse(response);
+                console.log(data);
+            }
+        });
+    }
 
     $('#cust_filter').on('change', () => {
         $('#search_cust').val('');
@@ -62,4 +72,18 @@ $(document).ready(function () {
         changeStatus(cust_id, new_stats);
     })
 
+    //editing cust
+    $(document).on('click', '#edit-customer', (e) => {
+        e.preventDefault();
+        var cust_id = $(e.currentTarget).attr('data-cust_id');
+        getCustDetails(cust_id);
+
+        $('#frm-edit-cust').css('display', 'flex');
+    })
+
+    $('#close-frm-edit-cust').click((e)=>{
+        e.preventDefault();
+        $('#frm-edit-cust').css('display', 'none');
+    })
+    users_cust(cust_type, search);
 });
