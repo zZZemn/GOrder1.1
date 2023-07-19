@@ -292,15 +292,15 @@ if (isset($_SESSION['id'])) {
                     <div class="cust-details">
                         <div class="cust-details-f-row">
                             <div class="input-container">
-                                <input type="text" class="form-control" id="fname" value="">
+                                <input type="text" class="form-control" id="fname" value="" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');">
                                 <label>First Name</label>
                             </div>
                             <div class="input-container">
-                                <input type="text" class="form-control" id="lname" value="">
+                                <input type="text" class="form-control" id="lname" value="" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');">
                                 <label>Last Name</label>
                             </div>
                             <div class="input-container">
-                                <input type="text" class="form-control" id="mi" value="">
+                                <input type="text" class="form-control" id="mi" value="" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');" maxlength="3">
                                 <label>MI</label>
                             </div>
                             <div class="input-container">
@@ -408,7 +408,7 @@ if (isset($_SESSION['id'])) {
                             <label>Email</label>
                         </div>
                         <div class="input-container">
-                            <input type="number" id="contact-no" class="form-control">
+                            <input type="number" id="contact-no" class="form-control" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
                             <label>Contact No.</label>
                         </div>
                     </div>

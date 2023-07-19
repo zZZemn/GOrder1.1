@@ -1,248 +1,359 @@
 body {
-    font-family: 'poppins', sans-serif !important;
+  font-family: "poppins", sans-serif !important;
 }
 
 .pos-container {
-    display: flex;
-    justify-content: space-between;
-    height: 91vh;
+  display: flex;
+  justify-content: space-between;
+  height: 91vh;
 }
 
 .pos-orders-container {
-    width: 55%;
-    position: relative;
+  width: 55%;
+  position: relative;
 
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
 .pos-select-item-container {
-    width: 45%;
-    position: relative;
-    border-left: 1px solid rgb(192, 192, 192);
+  width: 45%;
+  position: relative;
+  border-left: 1px solid rgb(192, 192, 192);
 }
 
 .pos-select-item-container form {
-    padding: 10px;
+  padding: 10px;
 }
 
 .pos-select-item-container form input {
-    height: 40px;
-    width: 100%;
-    padding: 5px;
+  height: 40px;
+  width: 100%;
+  padding: 5px;
 }
 
 .product-select {
-    display: flex;
-    margin: 5px;
-    padding: 0 !important;
+  display: flex;
+  margin: 5px;
+  padding: 0 !important;
 }
 
 .product-select button {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 10px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
 
-    background-color: white;
+  background-color: white;
 
-    border: 1px solid white;
-    border-radius: 5px;
+  border: 1px solid white;
+  border-radius: 5px;
 }
 
-.product-select button:hover {background-color: rgb(228, 228, 228);}
+.product-select button:hover {
+  background-color: rgb(228, 228, 228);
+}
 
 .search-results {
-    height: 82vh;
-    overflow-y: auto;
+  height: 82vh;
+  overflow-y: auto;
 }
 
 .table {
-    max-height: 75vh;
+  max-height: 75vh;
 }
 
 .input {
-    position: relative;
-    margin-top: 20px;
+  position: relative;
+  margin-top: 20px;
 }
 
 .input input {
-    height: 40px;
-    width: 100px;
+  height: 40px;
+  width: 100px;
 }
 
-.cust_id, .cust_type {
-    width: 130px !important;
-    font-size: 13px !important;
+.cust_id,
+.cust_type {
+  width: 130px !important;
+  font-size: 13px !important;
 }
 
-.input label{
-    position: absolute;
-    left: 5px;
-    padding: 0px 10px;
-    background-color: white;
-    transform: translateY(-10px);
-    font-size: 11px;
+.input label {
+  position: absolute;
+  left: 5px;
+  padding: 0px 10px;
+  background-color: white;
+  transform: translateY(-10px);
+  font-size: 11px;
 }
 
 .computation {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
-    border-top: 1px solid rgba(0, 0, 0, 0.356);
-    background-color: white;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.356);
+  background-color: white;
 }
 
 .computation div {
-    display: flex;
-    justify-content: space-around;
-    position: relative;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
 }
 
-.save, .save_print {
-    border: none;
-    width: 130px;
-    font-size: 13px;
-    height: 40px;
-    transform: translateY(20px);
-    font-size: 12px !important;
-} 
+.save,
+.save_print {
+  border: none;
+  width: 130px;
+  font-size: 13px;
+  height: 40px;
+  transform: translateY(20px);
+  font-size: 12px !important;
+}
 
 td .order-details-inputs {
-    width: 100px !important;
+  width: 100px !important;
 }
 
-table thead th{
-    font-weight: 600 !important;
+table thead th {
+  font-weight: 600 !important;
 }
 
 .discount-check {
-    position: absolute !important;
-    margin-left: 60px;
-    transform: translateY(-23px);
+  position: absolute !important;
+  margin-left: 60px;
+  transform: translateY(-23px);
 }
 
 .discount-check input {
-    height: 20px;
-    width: 40px !important;
-    z-index: 3;
+  height: 20px;
+  width: 40px !important;
+  z-index: 3;
 }
 
 .outline-primary {
-    outline-color: #007bff !important;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+  outline-color: #007bff !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
 }
 
 .outline-danger {
-    outline-color: #dc3545 !important;
-    box-shadow: 0 0 0 0.2rem rgba(220, 53, 70, 0.685) !important;
+  outline-color: #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(220, 53, 70, 0.685) !important;
 }
 
 .only-print {
-    display: none;
+  display: none;
 }
 
-@media print { 
-    @page {
-      size: 3in auto !important; /* Set the width to 3 inches */
-    }
+/* add customer */
 
-    nav {
-        display: none !important;
-    }
+.frm-add-cust {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 800px;
+  height: 520px;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: auto;
+  padding: 30px;
+  box-shadow: 1px 1px 3px rgb(173, 173, 173);
+  border-radius: 3px;
 
-    .pos-select-item-container {
-        display: none !important;
-    }
+  display: none;
+}
 
-    .pos-orders-container {
-        width: 100%;
-    }
+#close-frm-add-cust {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  color: black;
+  font-size: 25px;
+}
 
-    .pos-orders-container table thead tr th, .pos-orders-container table tbody tr td,.pos-orders-container table tbody tr td input, .only-print p {
-        font-size: 8px !important;
-        font-weight: 400;
-    }
+.add-cust-title {
+  padding-bottom: 30px;
+}
 
-    .remove-when-print {
-        display: none;
-    }
-    
-    .only-print {
-        display: block;
-    }
+.first-div {
+  display: flex;
+}
 
-    .pos-orders-container table thead tr th {
-        padding: 0 !important;
-        background-color: blue;
-    }
+.first-div .cust-details {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 700px;
+  justify-content: space-between;
+}
 
-    .product-receipt-header {
-        padding-right: 100px !important;
-    }
+.first-div .cust-details div {
+  display: flex;
+  justify-content: space-between;
+}
 
-    #computation-container-receipt {
-        border-top: 1px solid rgba(0, 0, 0, 0.123);
-    }
+.cust-details-f-row input {
+  width: 200px;
+}
 
-    #computation-container-receipt div{
-        display: flex;
-        width: 100%;
-        padding-left: 10px;
-        justify-content: left;
-    }
+.cust-details-f-row #mi {
+  width: 70px;
+}
 
-    #computation-container-receipt div p{
-        width: 30px !important;
-        background-color: red;
-        margin-right: 40%;
-    } 
+.cust-details-f-row #suffix {
+  width: 80px;
+}
 
-    #receipt-subtotal {
-        margin-top: 20px !important;
-    }
+.cust-details-s-row #discount-type {
+  width: 130px;
+}
 
-    .no-border {
-        border: none !important;
-        background-color: none !important;
-    }    
+.second-div {
+  margin-top: 30px;
+}
+
+.second-div div {
+  display: flex;
+  justify-content: space-between;
+  width: 700px;
+  margin-top: 10px;
+}
+
+.second-div .region-province .input-container,
+.municipality-barangay .input-container {
+  width: 330px;
+}
+
+.second-div div select {
+  width: 100%;
+}
+
+.third-div {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  margin-top: 30px;
+}
+
+.third-div .third-div-s-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.third-div .third-div-s-row a,
+.third-div-s-row input {
+  margin: 10px;
+  width: 100px;
+}
+
+.input-container {
+  position: relative;
+  padding: 0 !important;
+}
+
+.input-container label {
+  position: absolute;
+  font-size: 12px;
+  top: 0;
+  background-color: white;
+  margin-left: 10px !important;
+  transform: translateY(-10px);
+  padding: 0px 10px;
+}
+
+#btn-add-customer {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+@media print {
+  @page {
+    size: 3in auto !important; /* Set the width to 3 inches */
   }
-  
-  .alert {
-    position: absolute !important;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
-    color: black !important;
 
-    height: 50px;
-    width: 200px;
-    font-size: 12px;
-
-    z-index: 100000;
-
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.6s;
+  nav {
+    display: none !important;
   }
 
-  .alert-inv-qty-input {
-    width: 470px;
+  .pos-select-item-container {
+    display: none !important;
   }
-  
-  /* The close button */
-  .closebtn {
-    margin-left: 15px;
-    color: black;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
+
+  .pos-orders-container {
+    width: 100%;
   }
-  
-  /* When moving the mouse over the close button */
-  .closebtn:hover {
-    color: black;
+
+  .pos-orders-container table thead tr th,
+  .pos-orders-container table tbody tr td,
+  .pos-orders-container table tbody tr td input,
+  .only-print p {
+    font-size: 8px !important;
+    font-weight: 400;
   }
-  
+
+  .remove-when-print {
+    display: none;
+  }
+
+  .only-print {
+    display: block;
+  }
+
+  .pos-orders-container table thead tr th {
+    padding: 0 !important;
+    background-color: blue;
+  }
+
+  .product-receipt-header {
+    padding-right: 100px !important;
+  }
+
+  #computation-container-receipt {
+    border-top: 1px solid rgba(0, 0, 0, 0.123);
+  }
+
+  #computation-container-receipt div {
+    display: flex;
+    width: 100%;
+    padding-left: 10px;
+    justify-content: left;
+  }
+
+  #computation-container-receipt div p {
+    width: 30px !important;
+    background-color: red;
+    margin-right: 40%;
+  }
+
+  #receipt-subtotal {
+    margin-top: 20px !important;
+  }
+
+  .no-border {
+    border: none !important;
+    background-color: none !important;
+  }
+}
+
+.alert {
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15px;
+  color: black !important;
+
+  height: 50px;
+  font-size: 12px;
+
+  z-index: 100000;
+
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s;
+}

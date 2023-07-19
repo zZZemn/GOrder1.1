@@ -38,8 +38,7 @@ if (isset($_SESSION['id'])) {
             echo 'invalid';
         }
     }
-}
-else{
+} else {
     header("Location: ../index.php");
     exit();
 }

@@ -103,7 +103,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -154,13 +154,33 @@ if (isset($_SESSION['id'])) {
         </nav>
 
         <div class="alert alert-no-qty-left bg-warning">
-            <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
             No stock available
         </div>
 
         <div class="alert alert-inv-qty-input bg-warning">
-            <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
             You are unable to input a quantity greater than the available stock.
+        </div>
+
+        <div class="alert bg-warning enter-fname">
+            <p class="">Please enter customers first name.</p>
+        </div>
+        <div class="alert bg-warning enter-lname">
+            <p class="">Please enter customers last name.</p>
+        </div>
+        <div class="alert bg-warning enter-bgy">
+            <p class="">Please put customers address.</p>
+        </div>
+        <div class="alert bg-warning enter-unit">
+            <p class="">Please enter customers unit/street/village.</p>
+        </div>
+        <div class="alert bg-warning enter-birthday">
+            <p class="">Please enter customers birthdate.</p>
+        </div>
+        <div class="alert bg-success text-light cust-added">
+            <p class="">Customer Added.</p>
+        </div>
+        <div class="alert bg-danger cust-not-added">
+            <p class="">Customer Not Added.</p>
         </div>
 
         <div class="pos-container">
@@ -283,6 +303,133 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
+            <form id="frm-add-cust" class="frm-add-cust">
+                <a href="#" id="close-frm-add-cust"><i class="fa-solid fa-xmark"></i></a>
+                <center id="add-cust-title" class="add-cust-title">Add Customer</center>
+                <div class="first-div">
+                    <input type="hidden" value="" id="cust_id_hidden">
+                    <div class="cust-details">
+                        <div class="cust-details-f-row">
+                            <div class="input-container">
+                                <input type="text" class="form-control" id="fname" value="" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');">
+                                <label>First Name</label>
+                            </div>
+                            <div class="input-container">
+                                <input type="text" class="form-control" id="lname" value="" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');">
+                                <label>Last Name</label>
+                            </div>
+                            <div class="input-container">
+                                <input type="text" class="form-control" id="mi" maxlength="3" value="" oninput="this.value=this.value.replace(/[^a-zA-Z]/g,'');">
+                                <label>MI</label>
+                            </div>
+                            <div class="input-container">
+                                <select id="suffix" class="form-control">
+                                    <option value=""></option>
+                                    <option value="Sr">Sr</option>
+                                    <option value="Jr">Jr</option>
+                                    <option value="I">I</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                </select>
+                                <label>Suffix</label>
+                            </div>
+                        </div>
+                        <div class="cust-details-s-row">
+                            <div class="input-container">
+                                <select id="sex" class="form-control">
+                                    <option value="m">Male</option>
+                                    <option value="f">Female</option>
+                                </select>
+                                <label>Sex</label>
+                            </div>
+                            <div class="input-container">
+                                <input type="date" id="birthday" class="form-control">
+                                <label>Birthday</label>
+                            </div>
+                            <div class="input-container">
+                                <select id="discount-type" class="form-control">
+                                    <option value=""></option>
+                                    <?php
+                                    $discount_sql = "SELECT DISCOUNT_ID, DISCOUNT_NAME FROM discount WHERE DISCOUNT_STATUS = 'active'";
+                                    if ($discount_result = $conn->query($discount_sql)) {
+                                        if ($discount_result->num_rows > 0) {
+                                            while ($discount = $discount_result->fetch_assoc()) {
+                                    ?>
+                                                <option value="<?php echo $discount['DISCOUNT_ID'] ?>"><?php echo $discount['DISCOUNT_NAME'] ?></option>
+                                    <?php
+                                            }
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                                <label>Customer Type</label>
+                            </div>
+                            <div class="input-container">
+                                <input type="text" id="contact-no" class="form-control" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'');">
+                                <label>Contact No.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="second-div">
+                    <div class="region-province">
+                        <div class="input-container">
+                            <select id="region" class="form-control">
+                                <?php
+                                $region_sql = "SELECT REGION_ID, REGION FROM region";
+                                if ($region_result = $conn->query($region_sql)) {
+                                    if ($region_result->num_rows > 0) {
+                                        while ($region = $region_result->fetch_assoc()) {
+                                ?>
+                                            <option value="<?php echo $region['REGION_ID'] ?>"><?php echo $region['REGION'] ?></option>
+                                <?php
+                                        }
+                                    }
+                                }
+                                ?>
+                            </select>
+                            <label>Region</label>
+                        </div>
+                        <div class="input-container">
+                            <select id="province" class="form-control">
+                                <option value=""></option>
+                            </select>
+                            <label>Province</label>
+                        </div>
+                    </div>
+                    <div class="municipality-barangay">
+                        <div class="input-container">
+                            <select id="municipality" class="form-control">
+                                <option value=""></option>
+                            </select>
+                            <label>Municipality</label>
+                        </div>
+                        <div class="input-container">
+                            <select id="barangay" class="form-control">
+                                <option value=""></option>
+                            </select>
+                            <label>Barangay</label>
+                        </div>
+                    </div>
+                    <div class="unit-st-container">
+                        <div class="input-container">
+                            <input type="text" id="unit" class="form-control">
+                            <label>Unit No. / Street / Village</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="third-div">
+                    <div class="third-div-s-row">
+                        <a href="#" id="btn-cancel" class="btn btn-dark">Cancel</a>
+                        <input type="submit" id="btn-submit" class="btn btn-primary" value="Save">
+                    </div>
+                </div>
+            </form>
+
+            <a href="#" id="btn-add-customer" class="btn btn-primary"><i class="fa-solid fa-plus fa-beat"></i> Add Customer</a>
+
             <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages";
@@ -345,7 +492,6 @@ if (isset($_SESSION['id'])) {
                 }
                 ?>
             </div>
-
         </div>
 
         <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
