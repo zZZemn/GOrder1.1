@@ -28,18 +28,18 @@ if (isset($_POST['agree'])) {
     if ($conn->query($sql_cart) === TRUE) {
         $sql = "INSERT INTO `customer_user`(`CUST_ID`, `FIRST_NAME`, `LAST_NAME`, `MIDDLE_INITIAL`, `SUFFIX`, `SEX`, `EMAIL`, `USERNAME`, `PASSWORD`, `CONTACT_NO`, `UNIT_STREET`, `BARANGAY_ID`, `PICTURE`, `BIRTHDAY`,`CART_ID`, `STATUS`) 
                                 VALUES ('$cust_id','$fname','$lname','$mi','$suffix','$sex','$email','$username','$hashed_password','$contact_no','$unit','$barangay','$picture','$bday', '$cart_id','active')";
-        if($conn->query($sql) === TRUE){
+        if ($conn->query($sql) === TRUE) {
             $sql_message = "INSERT INTO `messages`(`MESS_ID`, `LATEST_MESS_TIMESTAMP`) VALUES ('$cust_id','$currentDateTime')";
-            if($conn->query($sql_message) === TRUE){
+            if ($conn->query($sql_message) === TRUE) {
                 $sql_message_content = "INSERT INTO `message`(`MESS_ID`, `SENDER_ID`, `MESSAGE_BODY`, `TIMESTAMP`) 
                                                         VALUES ('$cust_id','1','Hi New User','$currentDateTime')";
-                if($conn->query($sql_message_content) === TRUE){
+                if ($conn->query($sql_message_content) === TRUE) {
                     header("Location: download-app.html");
                     exit;
-                }                                         
+                }
             }
         }
-}
+    }
 }
 
 if (isset($_POST['submit'])) {
@@ -57,8 +57,6 @@ if (isset($_POST['submit'])) {
     $password = $_POST['password'];
     $cust_id = $_POST['cust_id'];
     $cart_id = $_POST['cart_id'];
-
-
 ?>
 
     <!DOCTYPE html>
@@ -74,25 +72,14 @@ if (isset($_POST['submit'])) {
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
         </style>
+        <link rel="shortcut icon" href="img/ggd-logo-plain.png" type="image/x-icon">
         <title>Terms and Condition</title>
     </head>
 
     <body>
         <div class="terms-condition">
             <h1><em>GOrder</em> Terms and Conditions</h1>
-            <p>• You retain ownership of any content that you submit, post, or display on
-                our platform, but you grant us a non-exclusive, transferable, sub-licensable,
-                royalty-free, worldwide license to use, copy, modify, create derivative works
-                based on, distribute, publicly display, publicly perform, and otherwise exploit
-                in any manner such content in all formats and distribution channels now known or
-                hereafter devised.</p>
-            <p>• You represent and warrant that you have all necessary rights to grant the
-                license described in Section 2.1 and that your content does not infringe or
-                violate the rights of any third party.</p>
-            <p>• You are solely responsible for any content that you submit, post, or
-                display on our platform, and for any consequences thereof.</p>
-            <p>• We reserve the right to remove any content that violates these Terms and
-                Conditions, or that we otherwise deem objectionable in our sole discretion.</p>
+            <p>You acknowledge that you have read, understand, and agree to be bound by the Terms & Conditions set forth below by accessing and using GOrder. These conditions apply to the whole website as well as any emails or other correspondence you may have with the company. The price of the next transaction after a product is returned and replaced should be the same as or higher than the price total of the initial transaction. At any time, we have the right to modify the pricing structure and the resource consumption guidelines.</p>
             <form method="post">
                 <input type="hidden" name="fname" value="<?php echo $fname ?>">
                 <input type="hidden" name="lname" value="<?php echo $lname ?>">
@@ -117,10 +104,7 @@ if (isset($_POST['submit'])) {
 
 <?php
 } else {
-    header('index.php');
+    header('Location: index.php');
     exit;
 }
-
-
-
 ?>

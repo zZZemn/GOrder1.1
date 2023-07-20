@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -97,7 +98,7 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
         </div>
     </body>
     </html>';
-    
+
     if ($mail->send() && !isset($_SESSION['email_sent'])) {
         $_SESSION['email_sent'] = true;
 ?>
@@ -114,11 +115,12 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
             <style>
                 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
             </style>
+            <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
             <title>Verification Code</title>
         </head>
 
         <body>
-            <form action="../terms-and-condition.php" method="post" class="verification-container">
+            <form action="../terms-and-condition.php" method="post" id="verify" class="verification-container">
                 <input type="hidden" name="fname" value="<?php echo $first_name ?>">
                 <input type="hidden" name="lname" value="<?php echo $last_name ?>">
                 <input type="hidden" name="mi" value="<?php echo $mi ?>">
@@ -135,7 +137,7 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
                 <input type="hidden" name="cart_id" value="<?php echo $cart_id ?>">
 
                 <!-- <h1>
-                    <?php 
+                    <?php
                     // echo $verification_code 
                     ?>
                 </h1> -->
@@ -163,6 +165,15 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
                             $('#submit-verification').prop('disabled', true);
                         }
                     });
+
+                    const form = $('#verify');
+
+                    function handleBeforeUnload(event) {
+                        event.preventDefault();
+                        event.returnValue = '';
+                    }
+
+                    form.on('beforeunload', handleBeforeUnload);
                 });
             </script>
             <script>
@@ -175,7 +186,8 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
         </html>
 <?php
     } else {
-        echo 'Error sending email: ' . $mail->ErrorInfo;
+        header('Location: ../signup.php');
+        exit;
     }
 } else {
     header('Location: ../index.php');
