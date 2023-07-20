@@ -139,7 +139,7 @@
                         <input type="submit" class="submit btn btn-primary" value="Log in" name="login">
                     </div>
 
-                    <a href="#" class="forgot-pass">Forgot password?</a>
+                    <a href="forgot-password.php" class="forgot-pass">Forgot password?</a>
 
                     <hr class="hr-forgot-pass">
 
