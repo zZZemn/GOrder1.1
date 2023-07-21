@@ -1,202 +1,76 @@
 .main {
-    position: relative;
+  position: relative;
+  background-color: white;
 }
 
 .cat-center {
-    font-size: 20px;
-    font-weight: 600;
-    margin-top: 10px;
-} 
-
-.add-new-region-form {
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    display: flex;
-    border-radius: 5px;
-    width: 290px;
-    height: 60px;
-    justify-content: center;
-    align-items: center;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 10px;
 }
 
-.add-new-region-form #txt-add-region {
-    width: 200px !important;
-    height: 40px;
-    margin-right: 5px;
-}
-.add-new-region-form #btn-add-region {
-    height: 40px;
+.select-main-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.no-region-found {
-    margin-top: 20% !important;
-} 
-.no-region-found h5 {
-    font-size: 25px;
-}
-
-.address-container {
-    background-color: rgb(255, 255, 255);
-    margin-top: 20px;
-    padding: 10px !important;
-
-    position: relative;
-    height: 81vh;
-
-    overflow-y: auto;
-}
-
-.address-table {
-    margin-bottom: 40px !important;
-    width: 90%;
-    margin: auto;
-
-    border: 1px solid black !important;
-}
-
-/*  */
-
-.edit-region{
-    display: flex;
-    
-}
-.btn-edit-municipality i, .btn-edit-province i, .edit-region-btn i{
-    padding: 0;
-}
-
-
-.edit-region a {
-    margin-left: 5px;
-}
-
-.add-province {
-    display: flex !important;
-    width: 300px;
-
-    float: right;
-}
-
-.add-province input {
-    margin-left: 5px;
-}
-
-.txt-add-province {
-    font-size: 13px !important;
-}
-
-.no-province-found center{
-    padding: 50px;
-}
-/*  */
-
-
-/*  */
-
-.province-table {
-    border: 1px solid black !important;
-}
-
-.edit-province {
-    display: flex;
-}
-
-.add-municipality {
+.add-new-barangay-form {
     display: flex;
     width: 300px;
-    float: right;
-}
-
-.add-municipality .txt-add-municipality {
-    font-size: 13px;
-}
-
-.btn-add-municipality, .btn-edit-province {
+} .add-new-barangay-form #btn-add-region {
     margin-left: 10px;
 }
 
-.municipality-table {
-    border: 1px solid rgb(0, 0, 0) !important;
+.select-main-container .select-container {
+  position: relative;
 }
 
-
-.add-barangay {
+.select-main-container .select-innner-container {
     display: flex;
-    float: right;
 }
 
-.add-barangay input {
+.select-container {
+    margin-left: 5px;
+}
+
+.select-main-container .select-container select {
+  min-width: 150px;
+}
+
+.select-main-container .select-container label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-size: 12px;
+  background-color: white;
+  padding: 0px 10px;
+  transform: translateY(-10px);
+}
+
+.table {
+    margin-top: 10px;
+}
+
+.table thead tr th {
     font-size: 12px;
-    margin-left: 5px;
-}
-
-.txt-add-barangay {
-    width: 150px;
-}
-
-.form-edit-municipality {
-    display: flex;
-}
-
-.form-edit-municipality a {
-    margin-left: 5px;
-}
-
-.barangay-table {
-    border: 1px solid black !important;
-}
-
-.bgy-edit-btn a i{
-    padding: 0;
-}
-
-.bgy-edit-btn a {
-    margin-left: 5px;
-}
-
-.address-not-found center{
-    font-size: 20px;
-    padding: 100px;
+    font-weight: 600;
 }
 
 /* The alert message box */
 .alert {
-    position: absolute !important;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
-    color: white !important;
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15px;
+  color: white !important;
 
-    height: 50px;
-    width: 330px;
-    font-size: 12px;
+  height: 50px;
+  width: 330px;
+  font-size: 12px;
 
-    z-index: 100000;
+  z-index: 100000;
 
-    opacity: 0;
-    transition: opacity 0.6s;
-  }
-
-  .alert-region {
-    width: 260px !important;
-  }
-  .alert-municipality-failed{
-    width: 350px !important;
-  }
-  
-  /* The close button */
-  .closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  /* When moving the mouse over the close button */
-  .closebtn:hover {
-    color: black;
-  }
+  opacity: 0;
+  transition: opacity 0.6s;
+}

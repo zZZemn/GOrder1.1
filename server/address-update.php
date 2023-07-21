@@ -12,194 +12,71 @@ if (isset($_SESSION['id'])) {
     $emp_status = $emp['EMP_STATUS'];
 
     if ($emp_type === 'Admin' && $emp_status === 'active') {
+        if (isset($_POST['region']) && isset($_POST['province']) && isset($_POST['municipality'])) {
+            if ($_POST['municipality'] !== '') {
+                $muni_id = $_POST['municipality'];
+                $muni_result = $conn->query("SELECT PROVINCE_ID, MUNICIPALITY FROM municipality WHERE MUNICIPALITY_ID = '$muni_id'");
+                if ($muni_result->num_rows > 0) {
+                    $muni = $muni_result->fetch_assoc();
+                    $pro_id = $muni['PROVINCE_ID'];
+                    $municipality = $muni['MUNICIPALITY'];
 
-        $regions_sql = "SELECT * FROM region WHERE REGION_STATUS = 'active'";
-        $regions_result = $conn->query($regions_sql);
-        if ($regions_result->num_rows > 0) {
-            while ($row = $regions_result->fetch_assoc()) {
-                $region_id = $row['REGION_ID'];
+                    $prov_result = $conn->query("SELECT REGION_ID, PROVINCE FROM province WHERE PROVINCE_ID = '$pro_id'");
+                    $prov = $prov_result->fetch_assoc();
+                    $region_id = $prov['REGION_ID'];
+                    $province = $prov['PROVINCE'];
 
+                    $region_result = $conn->query("SELECT REGION FROM region WHERE REGION_ID = '$region_id'");
+                    $reg = $region_result->fetch_assoc();
+                    $region = $reg['REGION'];
+
+                    $bgy_sql = "SELECT * FROM barangay WHERE MUNICIPALITY_ID = '$muni_id' AND BARANGAY_STATUS = 'active'";
+                    $bgy_result = $conn->query($bgy_sql);
+                    if ($bgy_result->num_rows > 0) {
+                        while ($bgy = $bgy_result->fetch_assoc()) {
 ?>
-
-                <table class="table table-striped address-table">
-                    <thead>
-                        <tr class="bg-success region-tr">
-                            <td>
-                                <form class="edit-region">
-                                    <input type="text" class="form-control" value="<?php echo $row['REGION'] ?>" maxlength="12">
-                                    <a href="#" class="edit-region-btn btn btn-light"><i class="fa-regular fa-pen-to-square"></i></a>
-                                </form>
-                            </td>
-                            <td class="add-province-td">
-                                <form class="add-province">
-                                    <input type="hidden" value="<?php echo $region_id ?>" id="region_id" class="region_id">
-                                    <input type="text" class="form-control txt-add-province" placeholder="Add new Province in <?php echo $row['REGION'] ?>" id="txt-add-province">
-                                    <input type="submit" class="btn btn-light submit-province btn-add-province" id="btn-add-province" value="Add">
-                                </form>
-                            </td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        $provinces_sql = "SELECT * FROM province WHERE REGION_ID = '$region_id' AND PROVINCE != 'Aurora' AND PROVINCE != 'Bulacan'";
-                        $provinces_result = $conn->query($provinces_sql);
-                        if ($provinces_result->num_rows > 0) {
-                        ?>
-                            <tr class="provinces-tr-center">
-                                <td colspan="2" class="bg-success text-light">
-                                    <center>Provinces In <?php echo $row['REGION'] ?></center>
-                                </td>
-                            </tr>
-                            <?php
-                            while ($province_row = $provinces_result->fetch_assoc()) {
-                                $province_id = $province_row['PROVINCE_ID'];
-
-                            ?>
-
-                                <tr class="provinces-table-tr">
-                                    <td colspan="2">
-                                        <table class="table table-stripe province-table">
-                                            <tr>
-                                                <th colspan="2">
-                                                    <center><?php echo $province_row['PROVINCE'] ?></center>
-                                                </th>
-                                            </tr>
-                                            <tr>
-                                                <td class="">
-                                                    <form class="edit-province">
-                                                        <input type="text" class="form-control" value="<?php echo $province_row['PROVINCE'] ?>">
-                                                        <a href="#" class="btn btn-success btn-edit-province"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                    </form>
-                                                </td>
-                                                <td>
-                                                    <form class="add-municipality">
-                                                        <input type="hidden" value="<?php echo $province_id ?>" id="province_id" class="province_id">
-                                                        <input type="text" class="form-control txt-add-municipality" placeholder="Add new Municipality in <?php echo $province_row['PROVINCE'] ?>" id="txt-add-municipality">
-                                                        <input type="submit" class="btn btn-success submit-municipality btn-add-municipality" id="btn-add-municipality">
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            $municipality_sql = "SELECT * FROM municipality WHERE PROVINCE_ID = '$province_id'";
-                                            $municipality_result = $conn->query($municipality_sql);
-                                            if ($municipality_result->num_rows > 0) {
-                                            ?>
-                                                <tr class="provinces-tr-center">
-                                                    <td colspan="2" class="bg-warning text-light municipalilty-td">
-                                                        <center class="municipality-center">Municipality In <?php echo $province_row['PROVINCE'] ?></center>
-                                                    </td>
-                                                </tr>
-                                                <?php
-                                                while ($municipality_row = $municipality_result->fetch_assoc()) {
-                                                    $municipality_id = $municipality_row['MUNICIPALITY_ID'];
-                                                ?>
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <table class="table table-stripe municipality-table">
-                                                                <tr>
-                                                                    <th colspan="2"><?php echo $municipality_row['MUNICIPALITY'] ?></th>
-                                                                </tr>
-
-                                                                <tr class="">
-                                                                    <td>
-                                                                        <form class="form-edit-municipality">
-                                                                            <input type="text" class="form-control" value="<?php echo $municipality_row['MUNICIPALITY'] ?>">
-                                                                            <a href="#" class="btn-edit-municipality btn btn-warning"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                                        </form>
-                                                                    </td>
-                                                                    <td>
-                                                                        <form class="add-barangay">
-                                                                            <input type="hidden" value="<?php echo $municipality_id ?>" id="municipality_id" class="municipality_id">
-                                                                            <input type="text" class="form-control txt-add-barangay" placeholder="Add New Barangay in <?php echo $municipality_row['MUNICIPALITY'] ?>" id="txt-add-barangay">
-                                                                            <input type="number" class="form-control txt-df" placeholder="Delivery Fee">
-                                                                            <input type="submit" class="btn btn-warning text-light submit-barangay btn-add-barangay" id="btn-add-barangay">
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                                <?php
-                                                                $barangay_sql = "SELECT * FROM barangay WHERE MUNICIPALITY_ID = '$municipality_id'";
-                                                                $barangay_result = $conn->query($barangay_sql);
-                                                                if ($barangay_result->num_rows > 0) {
-                                                                ?>
-                                                                    <tr class="provinces-tr-center">
-                                                                        <td colspan="2" class="bg-danger text-light">
-                                                                            <center>Barangay In <?php echo $municipality_row['MUNICIPALITY'] ?></center>
-                                                                        </td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td colspan="2">
-                                                                            <table class="table table-striped barangay-table">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th>Barangay</th>
-                                                                                        <th>Delivery Fee</th>
-                                                                                        <th>Action</th>
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <?php
-                                                                                    while ($barangay_row = $barangay_result->fetch_assoc()) { ?>
-
-
-                                                                                        <tr>
-                                                                                            <td><input type="text" class="form-control" value="<?php echo $barangay_row['BARANGAY'] ?>"></td>
-                                                                                            <td><input type="text" class="form-control" value="<?php echo $barangay_row['DELIVERY_FEE'] ?>"></td>
-                                                                                            <td class="bgy-edit-btn"><a href="#" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a><a href="#" class="btn btn-primary"><i class="fa-solid fa-trash"></i></a></td>
-                                                                                        </tr>
-                                                                                    <?php } ?>
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </td>
-                                                                    </tr>
-
-                                                                <?php
-                                                                } else {
-                                                                    //no barangay found
-                                                                }
-                                                                ?>
-                                                            </table>
-                                                        </td>
-
-                                                    <?php
-                                                }
-                                                    ?>
-                                                <?php
-                                            } else {
-                                                //no municipality found
-                                                ?>
-                                                    <tr>
-                                                        <td colspan="2">
-                                                            <center>No Municipalilty Found</center>
-                                                        </td>
-                                                    </tr>
-                                                <?php
-                                            }
-                                                ?>
-                                        </table>
-                                    </td>
-                                </tr>
-
-                            <?php
-                            }
-                        } else {
-                            ?>
                             <tr>
-                                <td colspan="2">
-                                    <center>No Province Found</center>
-                                </td>
+                                <td><?php echo $region ?></td>
+                                <td><?php echo $province ?></td>
+                                <td><?php echo $municipality ?></td>
+                                <td><?php echo $bgy['BARANGAY'] ?></td>
+                                <td><?php echo $bgy['DELIVERY_FEE'] ?></td>
+                                <td>Action</td>
                             </tr>
                         <?php
                         }
+                    } else {
                         ?>
-                    </tbody>
-                </table>
-
-            <?php
+                        <tr>
+                            <td colspan="6">
+                                <center>No Address Found</center>
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                } else {
+                    ?>
+                    <tr>
+                        <td colspan="6">
+                            <center>No Address Found</center>
+                        </td>
+                    </tr>
+<?php
+                }
+            } elseif ($_POST['province'] !== '') {
+                
+            } elseif ($_POST['region'] !== '') {
+            } else {
             }
         } else {
-            ?>
-            <center>No Address Found</center>
-<?php
+            echo "
+        <head>
+            <link rel='stylesheet' href='../css/access-denied.css'>
+        </head>
+        <div class='access-denied'>
+            <h1>Access Denied</h1>
+            <h5>Sorry, you are not authorized to access this page.</h5>
+        </div>";
         }
     } else {
         echo "

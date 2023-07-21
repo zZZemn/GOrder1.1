@@ -92,7 +92,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -248,14 +248,61 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
             <center class="cat-center">Address</center>
-            <form class="add-new-region-form">
-                <input type="text" class="form-control" id="txt-add-region" name="txt_add_region" placeholder="Add New Region" maxlength="12" required>
-                <input type="submit" class="btn btn-primary" id="btn-add-region" name="btn_add_region" value="Add">
-            </form>
 
-            <div class="address-container" id="address_container">
-                
+            <div class="select-main-container">
+                <form class="add-new-barangay-form">
+                    <input type="text" class="form-control" id="txt-add-barangay" name="txt_add_region" placeholder="Add New Barangay" required>
+                    <input type="submit" class="btn btn-primary" id="btn-add-region" name="btn_add_region" value="Add">
+                </form>
+                <div class="select-innner-container">
+                    <div class="select-container">
+                        <select class="form-control" id="select-region">
+                            <option value=""></option>
+                            <?php
+                            $region_sql = "SELECT REGION_ID, REGION FROM region";
+                            $region_result = $conn->query($region_sql);
+                            if ($region_result->num_rows > 0) {
+                                while ($region = $region_result->fetch_assoc()) {
+                            ?>
+                                    <option value="<?php echo $region['REGION_ID'] ?>"><?php echo $region['REGION'] ?></option>
+                            <?php
+                                }
+                            }
+                            ?>
+                        </select>
+                        <label>Region</label>
+                    </div>
+                    <div class="select-container">
+                        <select class="form-control" id="select-province">
+                            <option value=""></option>
+                        </select>
+                        <label>Province</label>
+                    </div>
+                    <div class="select-container">
+                        <select class="form-control" id="select-municipality">
+                            <option value=""></option>
+                        </select>
+                        <label>Municipality</label>
+                    </div>
+                </div>
             </div>
+
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Region</th>
+                        <th>Province</th>
+                        <th>Municipality</th>
+                        <th>Barangay</th>
+                        <th>Delivery Fee</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="address_container">
+
+                </tbody>
+            </table>
 
             <div class="message-container">
                 <?php
@@ -336,12 +383,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/address-realtime.js"></script>
-        <script src="../js/maintenance-add-region.js"></script>
-        <script src="../js/maintenance-add-province.js"></script>
-        <script src="../js/maintenance-add-municipality.js"></script>
-        <script src="../js/maintenance-add-barangay.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/address-realtime.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

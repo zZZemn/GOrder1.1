@@ -1,31 +1,26 @@
-function loadXMLDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("address_container").innerHTML =
-                this.responseText;
+$(document).ready(function () {
+    var region = $('#select-region').val();
+    var province = $('#select-province').val();
+    var municipality = $('#select-municipality').val();
+
+    function loadXMLDoc(region, province, municipality) {
+      $.ajax({
+        url: "../server/address-update.php",
+        method: "POST",
+        data: {
+            region: region,
+            province: province,
+            municipality: 'MUNI_64954378'
+        },
+        success: function (response) {
+          $("#address_container").html(response);
+          console.log(response);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error occurred:", error);
         }
-        console.log(this.response);
-    };
-    xhttp.open("GET", "../server/address-update.php", true);
-    xhttp.send();
-}
+      });
+    }
 
-window.onload = loadXMLDoc();
-
-$('#btn-add-region').click(function () {
-    setTimeout(loadXMLDoc, 500);
-})
-
-$(document).on('click', '.btn-add-province', function () {
-    setTimeout(loadXMLDoc, 500);
-})
-
-
-$(document).on('click', '.btn-add-municipality', function () {
-    setTimeout(loadXMLDoc, 500);
-})
-
-$(document).on('click', '.btn-add-barangay', function () {
-    setTimeout(loadXMLDoc, 500);
-})
+    loadXMLDoc(region, province, municipality);
+  });
