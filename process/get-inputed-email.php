@@ -22,7 +22,7 @@ if (isset($_POST['email']) && isset($_POST['acc_type'])) {
             } else {
                 $cust_id = $result['CUST_ID'];
                 $name = $result['FIRST_NAME'] . ' ' . $result['MIDDLE_INITIAL'] . ' ' . $result['LAST_NAME'] . ' ' . $result['SUFFIX'];
-                $response = [$cust_id, $name];
+                $response = [$cust_id, $name, $acc_type];
             }
 
             echo json_encode($response);
