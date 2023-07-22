@@ -14,7 +14,6 @@ $(document).ready(function () {
       },
       success: function (response) {
         $("#address_container").html(response);
-        console.log(response);
       },
       error: function (xhr, status, error) {
         console.error("Error occurred:", error);
@@ -94,7 +93,6 @@ $(document).ready(function () {
 
   $("#btn-add-region").click((e) => {
     e.preventDefault();
-    console.log('clicked');
     var input_bgy = $("#txt-add-barangay").val();
     $.ajax({
       type: "POST",
@@ -104,13 +102,102 @@ $(document).ready(function () {
       },
       success: function (response) {
         if (response === "updated") {
-          $("#txt-add-barangay").val('');
+          $("#txt-add-barangay").val("");
+          $(".alert-add-address").css("opacity", "1");
+          setTimeout(() => {
+            $(".alert-add-address").css("opacity", "0");
+          }, 2000);
           var region = $("#select-region").val();
           var province = $("#select-province").val();
           var municipality = $("#select-municipality").val();
           loadXMLDoc(region, province, municipality);
+        }
+      },
+    });
+  });
+
+  //
+
+  const editBGYClose = () => {
+    $("#df").val("");
+    $("#bgy-id").val("");
+    $("#barangay-name").val("");
+
+    $(".edit-bgy-container").css("display", "none");
+  };
+
+  $(document).on("click", "#edit-bgy", (e) => {
+    e.preventDefault();
+    var bgy_id = $(e.currentTarget).data("bgy_id");
+    var bgy = $(e.currentTarget).data("bgy");
+    var df = $(e.currentTarget).data("df");
+
+    $("#df").val(df);
+    $("#bgy-id").val(bgy_id);
+    $("#barangay-name").text(bgy);
+
+    $(".edit-bgy-container").css("display", "flex");
+  });
+
+  $("#close-edit-bgy-container").click((e) => {
+    e.preventDefault();
+    editBGYClose();
+  });
+
+  $("#save-df").click((e) => {
+    e.preventDefault();
+    var new_df = $("#df").val();
+    var bgy_id = $("#bgy-id").val();
+
+    $.ajax({
+      type: "POST",
+      url: "../process/edit-bgy-df.php",
+      data: {
+        new_df: new_df,
+        bgy_id: bgy_id,
+      },
+      success: function (response) {
+        if (response === "success") {
+          $(".alert-df-edit-success").css("opacity", "1");
+          setTimeout(() => {
+            $(".alert-df-edit-success").css("opacity", "0");
+          }, 2000);
+          var region = $("#select-region").val();
+          var province = $("#select-province").val();
+          var municipality = $("#select-municipality").val();
+          loadXMLDoc(region, province, municipality);
+          editBGYClose();
         } else {
-          console.log(response);
+          $(".alert-df-edit-not-success").css("opacity", "1");
+          setTimeout(() => {
+            $(".alert-df-edit-not-success").css("opacity", "0");
+          }, 2000);
+          editBGYClose();
+        }
+      },
+    });
+  });
+
+  $(document).on("click", "#disable-bgy", (e) => {
+    e.preventDefault();
+    var bgy_id = $(e.currentTarget).data("bgy_id");
+    $.ajax({
+      type: "POST",
+      url: "../process/edit-bgy-df.php",
+      data: {
+        bgy_id: bgy_id,
+        delete_this: true,
+      },
+      success: function (response) {
+        if (response === "success") {
+          $(".alert-add-disabled").css("opacity", "1");
+          setTimeout(() => {
+            $(".alert-add-disabled").css("opacity", "0");
+          }, 2000);
+          var region = $("#select-region").val();
+          var province = $("#select-province").val();
+          var municipality = $("#select-municipality").val();
+          loadXMLDoc(region, province, municipality);
         }
       },
     });

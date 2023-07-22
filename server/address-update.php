@@ -41,7 +41,10 @@ if (isset($_SESSION['id'])) {
                                 <td><?php echo $municipality ?></td>
                                 <td><?php echo $bgy['BARANGAY'] ?></td>
                                 <td><?php echo $bgy['DELIVERY_FEE'] ?></td>
-                                <td>Action</td>
+                                <td class="bgys-btn">
+                                    <a href="#" class="btn btn-primary" id="edit-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>" data-df="<?php echo $bgy['DELIVERY_FEE'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <a href="#" class="btn btn-danger" id="disable-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>">Disable</a>
+                                </td>
                             </tr>
                         <?php
                         }
@@ -96,7 +99,10 @@ if (isset($_SESSION['id'])) {
                                     <td><?php echo $municipality ?></td>
                                     <td><?php echo $bgy['BARANGAY'] ?></td>
                                     <td><?php echo $bgy['DELIVERY_FEE'] ?></td>
-                                    <td>Action</td>
+                                    <td class="bgys-btn">
+                                        <a href="#" class="btn btn-primary" id="edit-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>" data-df="<?php echo $bgy['DELIVERY_FEE'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
+                                        <a href="#" class="btn btn-danger" id="disable-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>">Disable</a>
+                                    </td>
                                 </tr>
                     <?php
                             }
@@ -154,7 +160,10 @@ if (isset($_SESSION['id'])) {
                                             <td><?php echo $municipality ?></td>
                                             <td><?php echo $bgy['BARANGAY'] ?></td>
                                             <td><?php echo $bgy['DELIVERY_FEE'] ?></td>
-                                            <td>Action</td>
+                                            <td class="bgys-btn">
+                                                <a href="#" class="btn btn-primary" id="edit-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>" data-df="<?php echo $bgy['DELIVERY_FEE'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
+                                                <a href="#" class="btn btn-danger" id="disable-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>">Disable</a>
+                                            </td>
                                         </tr>
                     <?php
                                     }
@@ -208,9 +217,9 @@ if (isset($_SESSION['id'])) {
                             <td><?php echo $municipality ?></td>
                             <td><?php echo $bgy['BARANGAY'] ?></td>
                             <td><?php echo $bgy['DELIVERY_FEE'] ?></td>
-                            <td>
-                                <a href="#" id="edit-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
-                                <a href="#" id="disable-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>">Disable</a>
+                            <td class="bgys-btn">
+                                <a href="#" class="btn btn-primary" id="edit-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>" data-df="<?php echo $bgy['DELIVERY_FEE'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
+                                <a href="#" class="btn btn-danger" id="disable-bgy" data-bgy_id="<?php echo $bgy['BARANGAY_ID'] ?>" data-bgy="<?php echo $bgy['BARANGAY'] ?>">Disable</a>
                             </td>
                         </tr>
                     <?php
