@@ -1,5 +1,4 @@
 .main {
-  position: relative;
   background-color: white;
 }
 
@@ -48,13 +47,25 @@
   transform: translateY(-10px);
 }
 
-.table {
-    margin-top: 10px;
+.address-table-container {
+  height: 73vh;
+  overflow: auto;
+  margin-top: 10px;
 }
 
-.table thead tr th {
+.address-table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+.address-table thead tr th {
     font-size: 12px;
     font-weight: 600;
+}
+
+.address-table tbody tr td {
+  font-size: 12px;
 }
 
 /* The alert message box */

@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+// error_reporting(0);
 if (isset($_SESSION['id'])) {
     include('../database/db.php');
 
@@ -251,7 +251,30 @@ if (isset($_SESSION['id'])) {
 
             <div class="select-main-container">
                 <form class="add-new-barangay-form">
-                    <input type="text" class="form-control" id="txt-add-barangay" name="txt_add_region" placeholder="Add New Barangay" required>
+                    <input type="text" class="form-control" id="txt-add-barangay" name="txt_add_region" placeholder="Add New Barangay" list="addressess-list" required>
+                    <datalist id="addressess-list">
+                        <?php
+                        $bgy_sql = "SELECT * FROM barangay WHERE BARANGAY_STATUS != 'active'";
+                        $bgy_result = $conn->query($bgy_sql);
+                        if ($bgy_result->num_rows > 0) {
+                            while ($bgy = $bgy_result->fetch_assoc()) {
+                                $muni_id = $bgy['MUNICIPALITY_ID'];
+                                $muni_result = $conn->query("SELECT MUNICIPALITY, PROVINCE_ID FROM municipality WHERE MUNICIPALITY_ID = '$muni_id'");
+                                $muni = $muni_result->fetch_assoc();
+
+                                $province_id = $muni['PROVINCE_ID'];
+                                $municipality = $muni['MUNICIPALITY'];
+
+                                $province_result = $conn->query("SELECT PROVINCE, REGION_ID FROM province WHERE PROVINCE_ID = '$province_id'");
+                                $prov = $province_result->fetch_assoc();
+                                $province = $prov['PROVINCE'];
+                        ?>
+                                <option value="<?php echo $bgy['BARANGAY_ID'] ?>"><?php echo $bgy['BARANGAY'] . ' ,' . $municipality . ' ,' . $province ?></option>
+                        <?php
+                            }
+                        }
+                        ?>
+                    </datalist>
                     <input type="submit" class="btn btn-primary" id="btn-add-region" name="btn_add_region" value="Add">
                 </form>
                 <div class="select-innner-container">
@@ -288,21 +311,24 @@ if (isset($_SESSION['id'])) {
             </div>
 
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Region</th>
-                        <th>Province</th>
-                        <th>Municipality</th>
-                        <th>Barangay</th>
-                        <th>Delivery Fee</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="address_container">
+            <div class="address-table-container">
+                <table class="table table-striped address-table">
+                    <thead>
+                        <tr>
+                            <th>Region</th>
+                            <th>Province</th>
+                            <th>Municipality</th>
+                            <th>Barangay</th>
+                            <th>Delivery Fee</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="address_container">
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
 
             <div class="message-container">
                 <?php
