@@ -267,29 +267,7 @@ if (isset($_SESSION['id'])) {
 
                         <select id="select2" class="form-control">
                             <option value="all">All</option>
-                            <?php
-                            if (isset($_GET['CAT_ID']) && is_numeric($_GET['CAT_ID'])) {
-                                $cat_id = $_GET['CAT_ID'];
-                                $sub_cat_id = "SELECT * FROM sub_category WHERE CAT_ID = $cat_id";
-
-                                $sub_cat_id_result = $conn->query($sub_cat_id);
-                                if ($sub_cat_id_result->num_rows > 0) {
-                                    while ($row = $sub_cat_id_result->fetch_assoc()) {
-                            ?>
-                                        <option value="<?php echo $row['SUB_CAT_ID'] ?>" <?php
-                                                                                            if (isset($_GET['SUB_CAT_ID'])) {
-                                                                                                if ($_GET['SUB_CAT_ID'] == $row['SUB_CAT_ID']) {
-                                                                                                    echo 'selected';
-                                                                                                }
-                                                                                            }
-                                                                                            ?>>
-                                            <?php echo $row['SUB_CAT_NAME'] ?></option>
-                            <?php
-                                    }
-                                }
-                            }
-                            ?>
-                            <!-- Options will be dynamically populated based on the selected value of select1 -->
+                            
                         </select>
                         <label class="product-add-label">Sub Category</label>
                     </div>
