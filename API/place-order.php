@@ -25,7 +25,7 @@ if ($requestMethod == "POST") {
         $bgy_status = $bgy['BARANGAY_STATUS'];
         if ($bgy_status !== 'active') {
             $data = [
-                'status' => 405,
+                'status' => 200,
                 'message' => 'Address Out of Coverage',
             ];
             header("HTTP/1.0 405 invalid");
@@ -164,7 +164,7 @@ if ($requestMethod == "POST") {
         }
     } else {
         $data = [
-            'status' => 405,
+            'status' => 200,
             'message' => 'Address Out of Coverage',
         ];
         header("HTTP/1.0 405 invalid");
