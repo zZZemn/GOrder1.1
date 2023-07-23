@@ -17,6 +17,29 @@ if ($requestMethod == "POST") {
     $unit_st = $_POST['unit_st'];
     $bgy_id = $_POST['bgy_id'];
 
+    //check bgy
+    $bgy_check_sql = "SELECT BARANGAY_STATUS FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
+    $bgy_check_result = $conn->query($bgy_check_sql);
+    if ($bgy_check_result->num_rows > 0) {
+        $bgy = $bgy_check_result->fetch_assoc();
+        $bgy_status = $bgy['BARANGAY_STATUS'];
+        if ($bgy_status !== 'active') {
+            $data = [
+                'status' => 405,
+                'message' => 'Address Out of Coverage',
+            ];
+            header("HTTP/1.0 405 invalid");
+            echo json_encode($data);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'Address Out of Coverage',
+        ];
+        header("HTTP/1.0 405 invalid");
+        echo json_encode($data);
+    }
+
     $cust_sql = "SELECT CART_ID FROM customer_user WHERE CUST_ID = '$cust_id'";
     $cust_result = $conn->query($cust_sql);
     if ($cust_result->num_rows > 0) {
