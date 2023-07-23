@@ -18,7 +18,7 @@ window.onload = loadXMLDoc;
 
 setInterval(function () {
     loadXMLDoc();
-}, 1000);
+}, 3000);
 
 $('#orders_filter').change(function () {
     loadXMLDoc();
