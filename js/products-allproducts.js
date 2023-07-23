@@ -34,6 +34,7 @@ $(document).ready(function () {
         cat: cat,
       },
       success: function (response) {
+        console.log(response);
         var responseData = JSON.parse(response);
         var selectElement = $("#select2");
         selectElement.empty();
