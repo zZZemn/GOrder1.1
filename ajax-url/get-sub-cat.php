@@ -1,4 +1,5 @@
 <?php 
+include('../database/db.php');
 if(isset($_POST['cat'])){
     $cat_id = $_POST['cat'];
     $subcat_result = $conn->query("SELECT SUB_CAT_NAME, SUB_CAT_ID FROM sub_category WHERE CAT_ID = '$cat_id'");

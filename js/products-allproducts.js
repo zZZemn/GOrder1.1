@@ -35,17 +35,21 @@ $(document).ready(function () {
       },
       success: function (response) {
         console.log(response);
-        var responseData = JSON.parse(response);
-        var selectElement = $("#select2");
-        selectElement.empty();
-        selectElement.append("<option value='all'>All</option>");
-        $.each(responseData, function (index, item) {
-          var option = $("<option></option>");
+        try {
+          var responseData = JSON.parse(response);
+          var selectElement = $("#select2");
+          selectElement.empty();
+          selectElement.append("<option value='all'>All</option>");
+          $.each(responseData, function (index, item) {
+            var option = $("<option></option>");
 
-          option.val(item.sub_cat_id);
-          option.text(item.sub_cat);
-          selectElement.append(option);
-        });
+            option.val(item.sub_cat_id);
+            option.text(item.sub_cat);
+            selectElement.append(option);
+          });
+        } catch {
+            console.log('Not json');
+        }
       },
     });
 
