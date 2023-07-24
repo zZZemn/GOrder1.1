@@ -165,7 +165,7 @@ if ($requestMethod == "POST") {
     } else {
         $data = [
             'status' => 405,
-            'message' => 'Barangay Not Found in The databse',
+            'message' => 'Invalid Barangay',
         ];
         header("HTTP/1.0 405 invalid");
         echo json_encode($data);
