@@ -1,6 +1,6 @@
 <?php
+error_reporting(0);
 session_start();
-// error_reporting(0);
 if (isset($_SESSION['id'])) {
     include('../database/db.php');
 

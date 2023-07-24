@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 if (!empty($_FILES['pof']['size'])) {
     $file_name = $prescription['name'];
     $file_tmp = $prescription['tmp_name'];
