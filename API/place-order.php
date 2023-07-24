@@ -165,7 +165,7 @@ if ($requestMethod == "POST") {
     } else {
         $data = [
             'status' => 200,
-            'message' => 'Address Out of Coverage',
+            'message' => 'Barangay Not Found in The databse',
         ];
         header("HTTP/1.0 405 invalid");
         echo json_encode($data);
