@@ -139,7 +139,7 @@ if ($requestMethod == "POST") {
                                         'status' => 405,
                                         'message' => 'Please Upload Proof of Payment',
                                     ];
-                                    header("HTTP/1.0 405 No prescription");
+                                    header("HTTP/1.0 405 No pof");
                                     echo json_encode($data);
                                 }
                             }
