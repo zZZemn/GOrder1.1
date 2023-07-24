@@ -53,7 +53,7 @@ if (isset($_SESSION['id'])) {
                         <td><?php echo $row['EXP_DATE'] ?></td>
                         <td><?php echo $row['QUANTITY'] ?></td>
                         <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light"><i class="fa-solid fa-trash"></i> Dispose</a>
+                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
                         </td>
 
                     </tr>

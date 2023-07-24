@@ -205,6 +205,12 @@ if (isset($_SESSION['id'])) {
         </div>
 
         <div class="main">
+            <div class="alert product-not-disposed bg-success">
+                Product Disposing Unsuccessful
+            </div>
+            <div class="alert product-disposed bg-success">
+                Product Disposed
+            </div>
             <div class="search-container">
                 <div class="search-bar-container">
                     <input type="text" id="inv-search" class="form-control" placeholder="Search Product...">
@@ -234,7 +240,7 @@ if (isset($_SESSION['id'])) {
                     <div class="select-container">
                         <select class="form-control" id="subcat-select">
                             <option value="">All</option>
- 
+
                         </select>
                         <label>Sub Category</label>
                     </div>
@@ -320,6 +326,23 @@ if (isset($_SESSION['id'])) {
                 ?>
             </div>
 
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"></h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to dispose this product?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="delete-this-product" data-inv_id="">Dispose</button>
+                        <button type="button" class="btn btn-secondary" id="close-delete-this-product" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
