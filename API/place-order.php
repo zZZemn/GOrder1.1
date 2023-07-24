@@ -164,7 +164,7 @@ if ($requestMethod == "POST") {
         }
     } else {
         $data = [
-            'status' => 200,
+            'status' => 405,
             'message' => 'Barangay Not Found in The databse',
         ];
         header("HTTP/1.0 405 invalid");
