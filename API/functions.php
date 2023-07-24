@@ -946,7 +946,7 @@ function paymentType($id)
                 'message' => 'Payment Types',
                 'payment_types' => $payment_types
             ];
-            header("HTTP/1.0 405 OK");
+            header("HTTP/1.0 200 OK");
             return json_encode($data);
         } else {
             $data = [
