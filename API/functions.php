@@ -578,7 +578,7 @@ function deleteCart($cust_id, $product_id)
                     'status' => 200,
                     'message' => $product_name . ' Deleted',
                 ];
-                header("HTTP/1.0 405 Access Deny");
+                header("HTTP/1.0 200 OK");
                 return json_encode($data);
             } else {
                 $data = [
@@ -590,7 +590,7 @@ function deleteCart($cust_id, $product_id)
             }
         } else {
             $data = [
-                'status' => 200,
+                'status' => 405,
                 'message' => 'Product Not Removed from Cart',
             ];
             header("HTTP/1.0 405 Access Deny");
@@ -860,7 +860,7 @@ function checkout($id, $payment_type, $delivery_type)
                             'bank_no' => $bank_number
                         ]
                     ];
-                    header("HTTP/1.0 405 OK");
+                    header("HTTP/1.0 200 OK");
                     return json_encode($data);
                 } else {
                     $message = 'Payment Type not found';
@@ -893,7 +893,7 @@ function checkout($id, $payment_type, $delivery_type)
                             'bank_no' => $bank_number
                         ]
                     ];
-                    header("HTTP/1.0 405 OK");
+                    header("HTTP/1.0 200 OK");
                     return json_encode($data);
                 } else {
                     $message = 'Payment Type not found';
