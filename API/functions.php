@@ -1146,7 +1146,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         'del_status' => 'Waiting',
                         'df' => $df
                     ];
-                    header("HTTP/1.0 405 OK");
+                    header("HTTP/1.0 200 OK");
                     return json_encode($data);
                 } elseif ($delivery_type === 'Pick Up') {
                     $data = [
@@ -1167,7 +1167,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         'total' => $total,
                         'del_status' => 'Waiting'
                     ];
-                    header("HTTP/1.0 405 OK");
+                    header("HTTP/1.0 200 OK");
                     return json_encode($data);
                 } else {
                     $message = 'Invalid Delivery Type';
@@ -1175,7 +1175,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                 }
             } else {
                 $data = [
-                    'status' => 200,
+                    'status' => 405,
                     'message' => 'Inserting Error'
                 ];
                 header("HTTP/1.0 405 OK");
@@ -1371,7 +1371,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                                     'del_status' => 'Waiting',
                                     'df' => $df
                                 ];
-                                header("HTTP/1.0 405 OK");
+                                header("HTTP/1.0 200 OK");
                                 return json_encode($data);
                             } elseif ($delivery_type === 'Pick Up') {
                                 $data = [
@@ -1392,7 +1392,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                                     'total' => $total,
                                     'del_status' => 'Waiting'
                                 ];
-                                header("HTTP/1.0 405 OK");
+                                header("HTTP/1.0 200 OK");
                                 return json_encode($data);
                             } else {
                                 $message = 'Invalid Delivery Type';
@@ -1465,7 +1465,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                             ];
                         } else {
                             $data = [
-                                'status' => 200,
+                                'status' => 405,
                                 'message' => 'Please Enter A Valid Quantity',
                             ];
                             header("HTTP/1.0 405 Access Deny");
@@ -1474,7 +1474,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                         }
                     } else {
                         $data = [
-                            'status' => 200,
+                            'status' => 405,
                             'message' => 'Please Enter A Valid Quantity',
                         ];
                         header("HTTP/1.0 405 Access Deny");
@@ -1615,7 +1615,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                                     'del_status' => 'Waiting',
                                     'df' => $df
                                 ];
-                                header("HTTP/1.0 405 OK");
+                                header("HTTP/1.0 200 OK");
                                 return json_encode($data);
                             } elseif ($delivery_type === 'Pick Up') {
                                 $data = [
@@ -1636,7 +1636,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                                     'total' => $total,
                                     'del_status' => 'Waiting'
                                 ];
-                                header("HTTP/1.0 405 OK");
+                                header("HTTP/1.0 200 OK");
                                 return json_encode($data);
                             } else {
                                 $message = 'Invalid Delivery Type';
