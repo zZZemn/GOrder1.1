@@ -300,8 +300,8 @@ if (isset($_SESSION['id'])) {
                                             $categories_result = $conn->query($categories);
 
                                             $cur_cat = "SELECT c.CAT_ID, c.CAT_NAME
-                                            FROM CATEGORY c
-                                            INNER JOIN SUB_CATEGORY sc ON c.CAT_ID = sc.CAT_ID
+                                            FROM category c
+                                            INNER JOIN sub_category sc ON c.CAT_ID = sc.CAT_ID
                                             INNER JOIN products p ON sc.SUB_CAT_ID = p.SUB_CAT_ID
                                             WHERE p.PRODUCT_ID = $productID";
 
