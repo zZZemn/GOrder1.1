@@ -1008,7 +1008,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                                 'status' => 200,
                                 'message' => 'Please Enter A Valid Quantity 2 5',
                                 'data' => [
-                                    'order_qty'=> $order_qty,
+                                    'order_qty' => $order_qty,
                                     'qty_left' => $pro_qty
                                 ]
                             ];
@@ -1843,7 +1843,7 @@ function order_details($ids)
                     $rider = 'The rider has not been assigned yet.';
                 }
 
-                if($order['STATUS'] === 'Waiting' && $order['PRES_REJECT_REASON'] === 'confirmed') {
+                if ($order['STATUS'] === 'Waiting' && $order['PRES_REJECT_REASON'] === 'confirmed') {
                     $upload_pof = true;
                 } else {
                     $upload_pof = false;
