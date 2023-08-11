@@ -235,8 +235,7 @@ function products($cust_id_search)
                 } else {
                     $data = [
                         'status' => 200,
-                        'message' => 'No Products Found',
-                        'sql' => $products_query
+                        'message' => 'No Products Found'
                     ];
                     header("HTTP/1.0 200 OK");
                     echo json_encode($data);
