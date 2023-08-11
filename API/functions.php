@@ -164,164 +164,90 @@ function products($cust_id_search)
         return error422('Enter Customer ID');
     } else {
         $id = $cust_id_search['id'];
-
         $cheking_cust_id = "SELECT * FROM customer_user WHERE CUST_ID = $id";
         $cheking_cust_id_result = $conn->query($cheking_cust_id);
-
         if ($cheking_cust_id_result->num_rows > 0) {
-            if (isset($cust_id_search['pro_search'])) {
-                if ($cust_id_search['pro_search'] != null) {
-                    //search here
-                    $pro_search = $cust_id_search['pro_search'];
-                    $product_search = "SELECT * FROM products WHERE PRODUCT_NAME LIKE '%$pro_search%'";
-                    $product_search_result = $conn->query($product_search);
-
-                    $product_search_data = [];
-
-                    if ($product_search_result->num_rows > 0) {
-                        while ($row = $product_search_result->fetch_assoc()) {
-                            $pro_id = $row['PRODUCT_ID'];
-                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$pro_id'";
-                            $inv_result = $conn->query($inv_sql);
-                            $qty_left = 0;
-                            if ($inv_result->num_rows > 0) {
-                                while ($inv = $inv_result->fetch_assoc()) {
-                                    $qty_left += $inv['QUANTITY'];
-                                }
-                            } else {
-                                $qty_left = 0;
-                            }
-                            $product_search_data[] = [
-                                'product_id' => $row['PRODUCT_ID'],
-                                'product_code' => $row['PRODUCT_CODE'],
-                                'product_name' => $row['PRODUCT_NAME'],
-                                'unit_measurement' => $row['UNIT_MEASUREMENT'],
-                                'selling_price' => $row['SELLING_PRICE'],
-                                'subcat_id' => $row['SUB_CAT_ID'],
-                                'description' => $row['DESCRIPTION'],
-                                'critical_level' => $row['CRITICAL_LEVEL'],
-                                'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
-                                'prescribe' => $row['PRESCRIBE'],
-                                'vatable' => $row['VATABLE'],
-                                'quantity' => $qty_left
-                            ];
-                        }
-                        $data = [
-                            'status' => 200,
-                            'message' => 'Product Fetch Success',
-                            'data' => $product_search_data
-                        ];
-                        header("HTTP/1.0 200 OK");
-                        return json_encode($data);
+            if ($cust_id_search['pro_search'] != null) {
+                $pro_search = $cust_id_search['pro_search'];
+                $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
+                                       FROM inventory
+                                       INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
+                                       WHERE products.PRODUCT_NAME LIKE '%$pro_search%'
+                                       GROUP BY products.PRODUCT_ID";
+            } else {
+                if ($cust_id_search['category'] != null || $cust_id_search['sub_cat'] != null) {
+                    $category = $cust_id_search['category'];
+                    $sub_cat = $cust_id_search['sub_cat'];
+                    if ($category === 'all') {
+                        $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
+                                               FROM inventory
+                                               INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
+                                               WHERE inventory.QUANTITY > 0
+                                               GROUP BY products.PRODUCT_ID";
                     } else {
-                        $data = [
-                            'status' => 404,
-                            'message' => 'No product found',
-                        ];
-                        header("HTTP/1.0 404 No product found");
-                        return json_encode($data);
+                        if ($sub_cat === 'all') {
+                            $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
+                                FROM inventory 
+                                INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
+                                INNER JOIN sub_category ON products.SUB_CAT_ID = sub_category.SUB_CAT_ID
+                                INNER JOIN category ON sub_category.CAT_ID = category.CAT_ID
+                                WHERE category.CAT_ID = '$category' AND inventory.QUANTITY > 0
+                                GROUP BY products.PRODUCT_ID;
+                                ";
+                        } else {
+                            $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
+                                                   FROM inventory
+                                                   INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
+                                                   WHERE products.SUB_CAT_ID = '$sub_cat'
+                                                   AND inventory.QUANTITY > 0
+                                                   GROUP BY products.PRODUCT_ID";
+                        }
                     }
                 } else {
-                    $products = "SELECT * FROM products";
-                    $products_result = $conn->query($products);
-
-                    $products_data = [];
-
-                    if ($products_result->num_rows > 0) {
-                        while ($row = $products_result->fetch_assoc()) {
-                            $pro_id = $row['PRODUCT_ID'];
-                            $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$pro_id'";
-                            $inv_result = $conn->query($inv_sql);
-                            $qty_left = 0;
-                            if ($inv_result->num_rows > 0) {
-                                while ($inv = $inv_result->fetch_assoc()) {
-                                    $qty_left += $inv['QUANTITY'];
-                                }
-                            } else {
-                                $qty_left = 0;
-                            }
-                            $products_data[] = [
-                                'product_id' => $row['PRODUCT_ID'],
-                                'product_code' => $row['PRODUCT_CODE'],
-                                'product_name' => $row['PRODUCT_NAME'],
-                                'unit_measurement' => $row['UNIT_MEASUREMENT'],
-                                'selling_price' => $row['SELLING_PRICE'],
-                                'subcat_id' => $row['SUB_CAT_ID'],
-                                'description' => $row['DESCRIPTION'],
-                                'critical_level' => $row['CRITICAL_LEVEL'],
-                                'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
-                                'prescribe' => $row['PRESCRIBE'],
-                                'vatable' => $row['VATABLE'],
-                                'quantity' => $qty_left
-                            ];
-                        }
-
-                        $data = [
-                            'status' => 200,
-                            'message' => 'Product Fetch Success',
-                            'data' => $products_data
-                        ];
-                        header("HTTP/1.0 200 OK");
-                        return json_encode($data);
-                    } else {
-                        $data = [
-                            'status' => 404,
-                            'message' => 'No product found',
-                        ];
-                        header("HTTP/1.0 404 No product found");
-                        return json_encode($data);
-                    }
+                    error422('Category or Subcategory is NULL');
                 }
-            } else {
-                $products = "SELECT * FROM products";
-                $products_result = $conn->query($products);
+            }
 
-                $products_data = [];
-
+            if ($products_result = $conn->query($products_query)) {
                 if ($products_result->num_rows > 0) {
-                    while ($row = $products_result->fetch_assoc()) {
-                        $pro_id = $row['PRODUCT_ID'];
-                        $inv_sql = "SELECT * FROM inventory WHERE PRODUCT_ID = '$pro_id'";
-                        $inv_result = $conn->query($inv_sql);
-                        $qty_left = 0;
-                        if ($inv_result->num_rows > 0) {
-                            while ($inv = $inv_result->fetch_assoc()) {
-                                $qty_left += $inv['QUANTITY'];
-                            }
-                        } else {
-                            $qty_left = 0;
-                        }
-                        $products_data[] = [
-                            'product_id' => $row['PRODUCT_ID'],
-                            'product_code' => $row['PRODUCT_CODE'],
-                            'product_name' => $row['PRODUCT_NAME'],
-                            'unit_measurement' => $row['UNIT_MEASUREMENT'],
-                            'selling_price' => $row['SELLING_PRICE'],
-                            'subcat_id' => $row['SUB_CAT_ID'],
-                            'description' => $row['DESCRIPTION'],
-                            'critical_level' => $row['CRITICAL_LEVEL'],
-                            'product_img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
-                            'prescribe' => $row['PRESCRIBE'],
-                            'vatable' => $row['VATABLE'],
-                            'quantity' => $qty_left
+                    $products = [];
+                    while ($pro_row = $products_result->fetch_assoc()) {
+                        $product_id = $pro_row['PRODUCT_ID'];
+                        $total_quantity = $pro_row['total_quantity'];
+
+                        $product = [
+                            'qty' => $total_quantity,
+                            'product_id' => $product_id,
+                            'product_name' => $pro_row['PRODUCT_NAME'],
+                            'unit_measurement' => $pro_row['UNIT_MEASUREMENT'],
                         ];
+
+                        $products[] = $product;
                     }
 
                     $data = [
                         'status' => 200,
-                        'message' => 'Product Fetch Success',
-                        'data' => $products_data
+                        'message' => 'Products Fetch Successfully',
+                        'products' => $products
                     ];
-                    header("HTTP/1.0 200 OK");
-                    return json_encode($data);
+                    header("HTTP/1.0 200 Access Deny");
+                    echo json_encode($data);
                 } else {
                     $data = [
-                        'status' => 404,
-                        'message' => 'No product found',
+                        'status' => 200,
+                        'message' => 'No Products Found',
+                        'sql' => $products_query
                     ];
-                    header("HTTP/1.0 404 No product found");
-                    return json_encode($data);
+                    header("HTTP/1.0 200 OK");
+                    echo json_encode($data);
                 }
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'Query Error',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                echo json_encode($data);
             }
         } else {
             $data = [
@@ -329,6 +255,74 @@ function products($cust_id_search)
                 'message' => 'Access Deny',
             ];
             header("HTTP/1.0 405 Access Deny");
+            echo json_encode($data);
+        }
+    }
+}
+
+function categories($cat)
+{
+    global $conn;
+
+    if (isset($cat['cat_id'])) {
+        $cat_id = $cat['cat_id'];
+        $cat_sql = "SELECT * FROM sub_category WHERE `CAT_ID` = '$cat_id'";
+        $cat_result = $conn->query($cat_sql);
+        if ($cat_result->num_rows > 0) {
+            $subcats = [];
+            while ($cat = $cat_result->fetch_assoc()) {
+                $subcat = [
+                    'cat_id' => $cat['CAT_ID'],
+                    'sub_cat_id' => $cat['SUB_CAT_ID'],
+                    'sub_cat_name' => $cat['SUB_CAT_NAME']
+                ];
+
+                $subcats[] = $subcat;
+            }
+
+            $data = [
+                'status' => 200,
+                'message' => 'Sub categories of category ' . $cat_id,
+                'subcategories' => $subcats
+            ];
+            header("HTTP/1.0 200 OK");
+            echo json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'No Sub-category Found'
+            ];
+            header("HTTP/1.0 200 OK");
+            echo json_encode($data);
+        }
+    } else {
+        $cat_sql = "SELECT * FROM category";
+
+        $cat_result = $conn->query($cat_sql);
+        if ($cat_result->num_rows > 0) {
+            $cats = [];
+            while ($cat = $cat_result->fetch_assoc()) {
+                $cat1 = [
+                    'cat_id' => $cat['CAT_ID'],
+                    'cat_name' => $cat['CAT_NAME']
+                ];
+
+                $cats[] = $cat1;
+            }
+
+            $data = [
+                'status' => 200,
+                'message' => 'All categories',
+                'categories' => $cats
+            ];
+            header("HTTP/1.0 200 OK");
+            echo json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'No Category Found'
+            ];
+            header("HTTP/1.0 200 OK");
             echo json_encode($data);
         }
     }
