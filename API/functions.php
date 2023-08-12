@@ -220,6 +220,10 @@ function products($cust_id_search)
                             'product_id' => $product_id,
                             'product_name' => $pro_row['PRODUCT_NAME'],
                             'unit_measurement' => $pro_row['UNIT_MEASUREMENT'],
+                            'description'=> $pro_row['DESCRIPTION'],
+                            'img'=> 'https://gorder.website/img/products/'.$pro_row['PRODUCT_IMG'],
+                            'price' => $pro_row['SELLING_PRICE'],
+                            'prescribe'=> ($pro_row['PRESCRIBE'] === 1) ? true : false
                         ];
 
                         $products[] = $product;
