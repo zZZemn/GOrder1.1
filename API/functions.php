@@ -1978,7 +1978,7 @@ function messages($id)
             $mess = [];
             while ($mess_row = $mess_result->fetch_assoc()) {
                 $pp = ($mess_row['MESS_ID'] === $mess_row['SENDER_ID'])
-                    ? 'https://gorder.website/img/userprofile/'.$photo
+                    ? 'https://gorder.website/img/userprofile/' . $photo
                     : 'https://gorder.website/img/ggd-logo.png';
 
                 $message = [
@@ -2003,6 +2003,35 @@ function messages($id)
             ];
             header("HTTP/1.0 200 OK");
             return json_encode($data);
+        }
+    } else {
+        $message = 'User not found';
+        return error422($message);
+    }
+}
+
+function sendMessage($id, $message)
+{
+    global $conn;
+    global $currentDateTime;
+
+    $check_user = "SELECT * FROM customer_user WHERE `CUST_ID` = '$id'";
+    $check_result = $conn->query($check_user);
+    if ($check_result->num_rows > 0) {
+        $update_current_time = "UPDATE `messages` SET `LATEST_MESS_TIMESTAMP`='$currentDateTime' WHERE `MESS_ID` = '$id'";
+
+        $insert_mess = "INSERT INTO `message`(`MESS_ID`, `SENDER_ID`, `MESSAGE_BODY`, `TIMESTAMP`) 
+                                      VALUES ('$id','$id','$message','$currentDateTime')";
+        if ($conn->query($update_current_time) === TRUE && $conn->query($insert_mess) === TRUE) {
+            $data = [
+                'status' => 200,
+                'message' => 'Message Sent'
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        } else {
+            $message = 'Sending Error';
+            return error422($message);
         }
     } else {
         $message = 'User not found';
