@@ -220,10 +220,10 @@ function products($cust_id_search)
                             'product_id' => $product_id,
                             'product_name' => $pro_row['PRODUCT_NAME'],
                             'unit_measurement' => $pro_row['UNIT_MEASUREMENT'],
-                            'description'=> $pro_row['DESCRIPTION'],
-                            'img'=> 'https://gorder.website/img/products/'.$pro_row['PRODUCT_IMG'],
+                            'description' => $pro_row['DESCRIPTION'],
+                            'img' => 'https://gorder.website/img/products/' . $pro_row['PRODUCT_IMG'],
                             'price' => $pro_row['SELLING_PRICE'],
-                            'prescribe'=> ($pro_row['PRESCRIBE'] === 1) ? true : false
+                            'prescribe' => ($pro_row['PRESCRIBE'] === 1) ? true : false
                         ];
 
                         $products[] = $product;
@@ -1958,6 +1958,54 @@ function uploadPOF($order_id, $pof)
         }
     } else {
         $message = 'Order Not Found!';
+        return error422($message);
+    }
+}
+
+function messages($id)
+{
+    global $conn;
+
+    $check_user = "SELECT `PICTURE` FROM customer_user WHERE `CUST_ID` = '$id'";
+    $check_result = $conn->query($check_user);
+    if ($check_result->num_rows > 0) {
+        $cust = $check_result->fetch_assoc();
+        $photo = $cust['PICTURE'];
+
+        $mess_sql = "SELECT * FROM `message` WHERE `MESS_ID` = '$id' ORDER BY `TIMESTAMP` ASC";
+        $mess_result = $conn->query($mess_sql);
+        if ($mess_result->num_rows > 0) {
+            $mess = [];
+            while ($mess_row = $mess_result->fetch_assoc()) {
+                $pp = ($mess_row['MESS_ID'] === $mess_row['SENDER_ID'])
+                    ? 'https://gorder.website/img/userprofile/'.$photo
+                    : 'https://gorder.website/img/ggd-logo.png';
+
+                $message = [
+                    'sender' => ($mess_row['MESS_ID'] === $mess_row['SENDER_ID']) ? 'You' : 'GOrder',
+                    'photo' => $pp,
+                    'message' => $mess_row['MESSAGE_BODY'],
+                    'timestamp' => date('M j, Y h:i A', strtotime($mess_row['TIMESTAMP']))
+                ];
+                $mess[] = $message;
+            }
+            $data = [
+                'status' => 200,
+                'message' => 'All messages',
+                'data' => $mess
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'No Message Found',
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        }
+    } else {
+        $message = 'User not found';
         return error422($message);
     }
 }
