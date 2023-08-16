@@ -157,7 +157,7 @@ if (isset($_SESSION['id'])) {
                             ?>
                                 <div class="change-stat-div">
                                     <div>
-                                        <a class="btn btn-primary prescription-confirm" data-id="<?php echo $transactionID ?>" data-status="Waiting" data-action="accept-prescription">Confirm</a>
+                                        <a class="btn btn-primary prescription-confirm" data-id="<?php echo $transactionID ?>" data-status="Accepted" data-action="accept-prescription">Confirm</a>
                                     </div>
                                     <label>Confirm this Order?</label>
                                 </div>
