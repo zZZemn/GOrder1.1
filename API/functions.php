@@ -1712,11 +1712,45 @@ function orders($user)
 {
     global $conn;
     $user_id = $user['id'];
+    $order_type = $user['order_type'];
+    $order_status = $user['status'];
 
     $customer_sql = "SELECT * FROM customer_user WHERE CUST_ID = '$user_id'";
     $customer_result = $conn->query($customer_sql);
     if ($customer_result->num_rows > 0) {
-        $orders_sql = "SELECT * FROM `order` WHERE CUST_ID = '$user_id'";
+        if ($order_type === 'Deliver') {
+            if ($order_status === 'Pending') {
+                $status = 'Waiting';
+            } elseif ($order_status === 'Accepted') {
+                $status = 'Accepted';
+            } elseif ($order_status === 'To Shipped') {
+                $status = 'For-Delivery';
+            } elseif ($order_status === 'To Receive') {
+                $status = 'Shipped';
+            } elseif ($order_status === 'Delivered') {
+                $status = 'Delivered';
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'Invalid order status',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
+            }
+            $orders_sql = "SELECT * FROM `order` WHERE CUST_ID = '$user_id' AND `DELIVERY_TYPE` = 'Deliver' AND `STATUS` = '$status'";
+        } else {
+            if ($order_status === 'Pending') {
+                $status = 'Waiting';
+            } elseif ($order_status === 'Accepted') {
+                $status = 'Accepted';
+            } elseif ($order_status === 'To Pick Up') {
+                $status = 'Ready To Pick Up';
+            } elseif ($order_status === 'Picked Up') {
+                $status = 'Picked Up';
+            }
+            $orders_sql = "SELECT * FROM `order` WHERE CUST_ID = '$user_id' AND `DELIVERY_TYPE` = 'Pick Up' AND `STATUS` = '$status'";
+        }
+
         $orders_sql_result = $conn->query($orders_sql);
         if ($orders_sql_result->num_rows > 0) {
             $orders = [];
@@ -1741,7 +1775,7 @@ function orders($user)
         } else {
             $data = [
                 'status' => 200,
-                'message' => "You haven't placed any orders yet.",
+                'message' => "Empty",
             ];
             header("HTTP/1.0 405 OK");
             return json_encode($data);

@@ -9,8 +9,7 @@ include('functions.php');
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 if ($requestMethod == "GET") {
-    if (isset($_GET['id'])) {
-
+    if (isset($_GET['id']) && isset($_GET['order_type']) && isset($_GET['status'])) {
         $order = orders($_GET);
         echo $order;
     } else {
