@@ -169,38 +169,21 @@ function products($cust_id_search)
         if ($cheking_cust_id_result->num_rows > 0) {
             if ($cust_id_search['pro_search'] != null) {
                 $pro_search = $cust_id_search['pro_search'];
-                $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
-                                       FROM inventory
-                                       INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
-                                       WHERE products.PRODUCT_NAME LIKE '%$pro_search%'
-                                       GROUP BY products.PRODUCT_ID";
+                $products_query = "SELECT * FROM products WHERE PRODUCT_NAME LIKE '%$pro_search%'";
             } else {
                 if ($cust_id_search['category'] != null || $cust_id_search['sub_cat'] != null) {
                     $category = $cust_id_search['category'];
                     $sub_cat = $cust_id_search['sub_cat'];
                     if ($category === 'all') {
-                        $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
-                                               FROM inventory
-                                               INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
-                                               WHERE inventory.QUANTITY > 0
-                                               GROUP BY products.PRODUCT_ID";
+                        $products_query = "SELECT * FROM products WHERE";
                     } else {
                         if ($sub_cat === 'all') {
-                            $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
-                                FROM inventory 
-                                INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
-                                INNER JOIN sub_category ON products.SUB_CAT_ID = sub_category.SUB_CAT_ID
-                                INNER JOIN category ON sub_category.CAT_ID = category.CAT_ID
-                                WHERE category.CAT_ID = '$category' AND inventory.QUANTITY > 0
-                                GROUP BY products.PRODUCT_ID;
-                                ";
+                            $products_query = "SELECT products.* FROM products
+                                               INNER JOIN sub_category ON products.SUB_CAT_ID = sub_category.SUB_CAT_ID
+                                               INNER JOIN category ON sub_category.CAT_ID = category.CAT_ID
+                                               WHERE category.CAT_ID = '$category'";
                         } else {
-                            $products_query = "SELECT products.*, SUM(inventory.QUANTITY) AS total_quantity
-                                                   FROM inventory
-                                                   INNER JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
-                                                   WHERE products.SUB_CAT_ID = '$sub_cat'
-                                                   AND inventory.QUANTITY > 0
-                                                   GROUP BY products.PRODUCT_ID";
+                            $products_query = "SELECT * FROM products WHERE `SUB_CAT_ID` = '$sub_cat'";
                         }
                     }
                 } else {
@@ -213,16 +196,25 @@ function products($cust_id_search)
                     $products = [];
                     while ($pro_row = $products_result->fetch_assoc()) {
                         $product_id = $pro_row['PRODUCT_ID'];
-                        $total_quantity = $pro_row['total_quantity'];
+                        $qty_sql = "SELECT SUM(QUANTITY) as total_quantity FROM inventory WHERE `PRODUCT_ID` = '$product_id'";
+                        $qty_result = $conn->query($qty_sql);
+                        if ($qty_result->num_rows > 0) {
+                            $qty = $qty_result->fetch_assoc();
+                            $total_quantity = $qty['total_quantity'];
+                        } else {
+                            $total_quantity = 0;
+                        }
+
+                        $total_quantity = (is_null($total_quantity)) ? 0 : $total_quantity;
 
                         $product = [
-                            'qty' => $total_quantity,
+                            'qty' => intval($total_quantity),
                             'product_id' => $product_id,
                             'product_name' => $pro_row['PRODUCT_NAME'],
                             'unit_measurement' => $pro_row['UNIT_MEASUREMENT'],
                             'description' => $pro_row['DESCRIPTION'],
                             'img' => 'https://gorder.website/img/products/' . $pro_row['PRODUCT_IMG'],
-                            'price' => $pro_row['SELLING_PRICE'],
+                            'price' => floatval($pro_row['SELLING_PRICE']),
                             'prescribe' => ($pro_row['PRESCRIBE'] === 1) ? true : false
                         ];
 
@@ -328,6 +320,58 @@ function categories($cat)
             header("HTTP/1.0 200 OK");
             echo json_encode($data);
         }
+    }
+}
+
+function addToWishlist($id, $product_id)
+{
+    global $conn;
+
+    $user_sql = "SELECT `CUST_ID` FROM customer_user WHERE `CUST_ID` = '$id'";
+    $user_result = $conn->query($user_sql);
+    if ($user_result->num_rows > 0) {
+        $check_product_id = "SELECT `PRODUCT_ID` FROM products WHERE `PRODUCT_ID` = '$product_id'";
+        $check_product_result = $conn->query($check_product_id);
+        if ($check_product_result->num_rows > 0) {
+            $check_wish = "SELECT * FROM wishlist WHERE `CUST_ID` = '$id' AND `PRODUCT_ID` = '$product_id'";
+            $check_wish_result = $conn->query($check_wish);
+            if ($check_wish_result->num_rows > 0) {
+                $data = [
+                    'status' => 405,
+                    'message' => 'This product is already in the wishlist',
+                ];
+                header("HTTP/1.0 405 Existing");
+                echo json_encode($data);
+            } else {
+                $insert_wish_sql = "INSERT INTO `wishlist`(`CUST_ID`, `PRODUCT_ID`) 
+                                                   VALUES ('$id','$product_id')";
+                if ($conn->query($insert_wish_sql) === TRUE) {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Product inserted to wishlist',
+                    ];
+                    header("HTTP/1.0 200 OK");
+                    echo json_encode($data);
+                } else {
+                    $data = [
+                        'status' => 405,
+                        'message' => 'Product not inserted',
+                    ];
+                    header("HTTP/1.0 405 Error");
+                    echo json_encode($data);
+                }
+            }
+        } else {
+            $message = 'Invalid Product ID';
+            return error422($message);
+        }
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'Access Deny',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        echo json_encode($data);
     }
 }
 
