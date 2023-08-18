@@ -1767,7 +1767,7 @@ function orders($user)
                 $status = 'Waiting';
             } elseif ($order_status === 'Accepted') {
                 $status = 'Accepted';
-            } elseif ($order_status === 'To Shipped') {
+            } elseif ($order_status === 'To Ship') {
                 $status = 'For-Delivery';
             } elseif ($order_status === 'To Receive') {
                 $status = 'Shipped';
@@ -1791,6 +1791,13 @@ function orders($user)
                 $status = 'Ready To Pick Up';
             } elseif ($order_status === 'Picked Up') {
                 $status = 'Picked Up';
+            } else {
+                $data = [
+                    'status' => 405,
+                    'message' => 'Invalid order status',
+                ];
+                header("HTTP/1.0 405 Access Deny");
+                return json_encode($data);
             }
             $orders_sql = "SELECT * FROM `order` WHERE CUST_ID = '$user_id' AND `DELIVERY_TYPE` = 'Pick Up' AND `STATUS` = '$status'";
         }
