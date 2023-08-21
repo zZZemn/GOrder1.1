@@ -55,7 +55,7 @@ if (isset($_GET['date']) && isset($_GET['transactionType']) && isset($_GET['cust
             <td>" . $row['TRANSACTION_ID'] . "</td>
             <td>" . $row['TRANSACTION_TYPE'] . "</td>
             <td>" . $row['CUST_TYPE'] . "</td>
-            <td>" . $row['TIME'] . "</td>
+            <td>" . date("h:i A", strtotime($row['TIME'])) . "</td>
             <td>" . $row['SUBTOTAL'] . "</td>
             <td>" . $row['VAT'] . "</td>
             <td>" . $row['DISCOUNT'] . "</td>
