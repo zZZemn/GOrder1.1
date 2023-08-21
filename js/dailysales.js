@@ -1,27 +1,43 @@
 $(document).ready(function () {
-  var date = $('#sales_date').val();
+  const getDailySales = () => {
+    var date = $("#sales_date").val();
+    var transactionType = $("#select-trans-type").val();
+    var custType = $("#select-cust-type").val();
+    var processBy = $("#select-process-by").val();
+    $.ajax({
+      url: "../ajax-url/get-daily-sales.php",
+      data: {
+        date: date,
+        transactionType: transactionType,
+        custType: custType,
+        processBy: processBy,
+      },
+      type: "GET",
+      success: function (data) {
+        $("#table-response-container").html(data);
+      },
+    });
+  };
 
-  // Make the AJAX request using the initial value of the category select
-  $.ajax({
-    url: '../ajax-url/get-daily-sales.php',
-    data: { date: date },
-    type: 'POST',
-    success: function (data) {
-      $('#table-response-container').html(data);
-    }
+  getDailySales();
+
+  $("#sales_date").change(function (e) {
+    e.preventDefault();
+    getDailySales();
   });
 
-});
+  $("#select-trans-type").change(function (e) {
+    e.preventDefault();
+    getDailySales();
+  });
 
-$('#sales_date').on('change', function () {
-  var date = $('#sales_date').val();
-  $.ajax({
-    url: '../ajax-url/get-daily-sales.php',
-    data: { date: date },
-    type: 'POST',
-    success: function (data) {
-      console.log(data);
-      $('#table-response-container').html(data);
-    }
+  $("#select-cust-type").change(function (e) {
+    e.preventDefault();
+    getDailySales();
+  });
+  
+  $("#select-process-by").change(function (e) {
+    e.preventDefault();
+    getDailySales();
   });
 });
