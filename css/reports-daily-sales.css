@@ -1,35 +1,60 @@
 .table-container {
-    font-family: 'poppins', sans-serif;
-    overflow: auto;
-    height: 88vh;
+  font-family: "poppins", sans-serif;
+  overflow: auto;
+  height: 88vh;
 }
 
 .table-container table {
-    border-collapse: separate;
-    border-spacing: 0;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .table-container table thead {
-    position: sticky;
-    top: 0;
-    background-color: white;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .table-container table thead tr th {
-    font-size: 12px;
-    font-weight: 600;
-    border: 1px solid rgb(255, 255, 255);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgb(255, 255, 255);
+}
+
+.filtering-container {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: right;
+}
+
+.filtering-container .input-container {
+  margin-right: 10px;
+  position: relative;
+}
+
+.filtering-container .input-container input,
+.filtering-container .input-container select {
+  padding-top: 15px;
+  font-size: 13px;
+  width: 150px;
+}
+
+.filtering-container .input-container label {
+  position: absolute;
+  top: 2px;
+  left: 5px;
+  font-size: 10px;
 }
 
 .table-container table tbody tr td {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .select-date {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .no-sales-found {
-    padding: 50px;
-    font-size: 20px;
+  padding: 50px;
+  font-size: 20px;
 }

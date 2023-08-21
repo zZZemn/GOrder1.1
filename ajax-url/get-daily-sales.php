@@ -1,9 +1,42 @@
 <?php
-if (isset($_POST['date'])) {
+if (isset($_GET['date']) && isset($_GET['transactionType']) && isset($_GET['custType']) && isset($_GET['processBy'])) {
     include('../database/db.php');
-    $date = $_POST['date'];
+    $date = $_GET['date'];
+    $transactionType = $_GET['transactionType'];
+    $custType = $_GET['custType'];
+    $processBy = $_GET['processBy'];
 
-    $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL ORDER BY TIME DESC";
+    if ($transactionType !== 'all') {
+        if ($custType !== 'all') {
+            if ($processBy !== 'all') {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `TRANSACTION_TYPE` = '$transactionType' AND `CUST_TYPE` = '$custType' AND `EMP_ID` = '$processBy' ORDER BY TIME DESC";
+            } else {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `TRANSACTION_TYPE` = '$transactionType' AND `CUST_TYPE` = '$custType' ORDER BY TIME DESC";
+            }
+        } else {
+            if ($processBy !== 'all') {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `TRANSACTION_TYPE` = '$transactionType' AND `EMP_ID` = '$processBy' ORDER BY TIME DESC";
+            } else {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `TRANSACTION_TYPE` = '$transactionType' ORDER BY TIME DESC";
+            }
+        }
+    } else {
+        if ($custType !== 'all') {
+            if ($processBy !== 'all') {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `CUST_TYPE` = '$custType' AND `EMP_ID` = '$processBy' ORDER BY TIME DESC";
+            } else {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `CUST_TYPE` = '$custType' ORDER BY TIME DESC";
+            }
+        } else {
+            if ($processBy !== 'all') {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL AND `EMP_ID` = '$processBy' ORDER BY TIME DESC";
+            } else {
+                $sales_sql = "SELECT * FROM sales WHERE DATE = '$date' AND PAYMENT >= TOTAL ORDER BY TIME DESC";
+            }
+        }
+    }
+
+    // echo '<center>' . $sales_sql . '</center>';
     $sales_sql_result = $conn->query($sales_sql);
     if ($sales_sql_result->num_rows > 0) {
         while ($row = $sales_sql_result->fetch_assoc()) {

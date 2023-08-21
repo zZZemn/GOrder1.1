@@ -93,7 +93,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -104,7 +104,7 @@ if (isset($_SESSION['id'])) {
                 </div>
 
                 <li class="avatar-dropdown dropdown">
-                    <em class="admin-em"><?php  echo $emp['EMP_TYPE'] ?></em>
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
                     <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
                 </li>
                 <div class="avatar-dropdown-container">
@@ -210,38 +210,89 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
-        <div class="table-container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th colspan="12">
-                        <?php 
-                        include('../time-date.php');
-                        ?>
-                        <center><p class="select-date">Daily Sales</p><input type="date" class="form-control" name="sales_date" id="sales_date" value="<?php echo $currentDate ?>"></center>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Transaction ID</th>
-                    <th>Transaction Type</th>
-                    <th>Customer Type</th>
-                    <th>Time</th>
-                    <th>Subtotal</th>
-                    <th>VAT</th>
-                    <th>Discount</th>
-                    <th>Total</th>
-                    <th>Payment</th>
-                    <th>Change</th>
-                    <th>Updated Total</th>
-                    <th>Process By</th>
-                </tr>
-            </thead>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="12">
+                                <?php
+                                include('../time-date.php');
+                                ?>
+                                <center>
+                                    <p class="select-date">Daily Sales</p>
+                                </center>
+                                <div class="filtering-container">
+                                    <div class="input-container">
+                                        <input type="date" class="form-control" name="sales_date" id="sales_date" value="<?php echo $currentDate ?>">
+                                        <label for="sales_date">Sales Date</label>
+                                    </div>
+                                    <div class="input-container">
+                                        <select class="form-control" id="select-trans-type">
+                                            <option value="all">All</option>
+                                            <option value="POS">POS</option>
+                                            <option value="GOrder">GOrder</option>
+                                            <option value="Replace">Replace</option>
+                                        </select>
+                                        <label for="select-trans-type">Transaction Type</label>
+                                    </div>
+                                    <div class="input-container">
+                                        <select class="form-control" id="select-cust-type">
+                                            <option value="all">All</option>
+                                            <?php
+                                            $custType_sql = "SELECT `DISCOUNT_NAME` FROM discount WHERE `DISCOUNT_STATUS` = 'active'";
+                                            $custType_result = $conn->query($custType_sql);
+                                            if ($custType_result->num_rows > 0) {
+                                                while ($custType_row = $custType_result->fetch_assoc()) {
+                                            ?>
+                                                    <option value="<?php echo $custType_row['DISCOUNT_NAME'] ?>"><?php echo $custType_row['DISCOUNT_NAME'] ?></option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                        <label for="select-cust-type">Customer Type</label>
+                                    </div>
+                                    <div class="input-container">
+                                        <select class="form-control" id="select-process-by">
+                                            <option value="all">All</option>
+                                            <?php
+                                            $emp_sql = "SELECT `EMP_ID`,`FIRST_NAME`,`LAST_NAME`,`MIDDLE_INITIAL` FROM employee WHERE `EMP_STATUS` = 'active'";
+                                            $emp_result = $conn->query($emp_sql);
+                                            if ($emp_result->num_rows > 0) {
+                                                while ($emp_row = $emp_result->fetch_assoc()) {
+                                            ?>
+                                                    <option value="<?php echo $emp_row['EMP_ID'] ?>"><?php echo $emp_row['FIRST_NAME'] . ' ' . $emp_row['LAST_NAME'] . ' ' . $emp_row['MIDDLE_INITIAL'] ?></option>
+                                            <?php
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                        <label for="select-process-by">Process By</label>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Transaction Type</th>
+                            <th>Customer Type</th>
+                            <th>Time</th>
+                            <th>Subtotal</th>
+                            <th>VAT</th>
+                            <th>Discount</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Change</th>
+                            <th>Updated Total</th>
+                            <th>Process By</th>
+                        </tr>
+                    </thead>
 
-            <tbody id="table-response-container">
-                    
-            </tbody>
-        </table>
-        </div>
+                    <tbody id="table-response-container">
+
+                    </tbody>
+                </table>
+            </div>
 
             <div class="message-container">
                 <?php
