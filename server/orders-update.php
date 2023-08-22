@@ -71,7 +71,7 @@ if (isset($_SESSION['id'])) {
                         <td><?php echo $full_address ?></td>
                         <td><?php echo $order_on ?></td>
                         <td><?php echo $order_row['TOTAL'] ?></td>
-                        <td><?php echo $order_row['STATUS'] ?></td>
+                        <td><?php echo ($order_row['STATUS'] === 'Waiting') ? 'Pending' : $order_row['STATUS'] ?></td>
                     </tr>
                 <?php
                 }

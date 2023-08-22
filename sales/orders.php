@@ -161,7 +161,7 @@ if (isset($_SESSION['id'])) {
                         <th colspan="11">
                             <center>
                                 <select class="today-this-week-sales form-control" id="orders_filter">
-                                    <option value="Waiting">Waiting</option>
+                                    <option value="Waiting">Pending</option>
                                     <option value="Accepted">Accepted</option>
                                     <option value="For-Delivery">For Delivery</option>
                                     <option value="Shipped">Shipped</option>

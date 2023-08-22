@@ -47,7 +47,7 @@ if (isset($_SESSION['id'])) {
                         <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="progress-circle">
-                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo $order_status ?></span></div>
+                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo ($order_status === 'Waiting') ? 'Pending' : $order_status ?></span></div>
                     </div>
                     <div class="progress-photo-container">
                         <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
@@ -81,7 +81,7 @@ if (isset($_SESSION['id'])) {
                         <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="progress-circle">
-                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo $order_status ?></span></div>
+                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo ($order_status === 'Waiting') ? 'Pending' : $order_status ?></span></div>
                     </div>
                     <div class="progress-photo-container">
                         <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>

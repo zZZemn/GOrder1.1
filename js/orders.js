@@ -1,32 +1,27 @@
-function loadXMLDoc() {
+$(document).ready(function () {
+  const loadXMLDoc = () => {
+    $.ajax({
+      url: "../server/orders-update.php",
+      method: "GET",
+      data: {
+        filter: encodeURIComponent($("#orders_filter").val()),
+      },
+      success: function (data) {
+        $("#orders_result").html(data);
+      },
+    });
+  };
 
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("orders_result").innerHTML =
-                this.responseText;
-        }
-    };
-    var selectedValue = $('#orders_filter').val();
-    var url = "../server/orders-update.php?filter=" + encodeURIComponent(selectedValue);
-    xhttp.open("GET", url, true);
-    xhttp.send();
-}
+  loadXMLDoc();
 
-window.onload = loadXMLDoc;
-
-
-setInterval(function () {
+  setInterval(function () {
     loadXMLDoc();
-}, 3000);
+  }, 3000);
 
-$('#orders_filter').change(function () {
+  $("#orders_filter").change(function () {
     loadXMLDoc();
+  });
 });
-
-
-
-
 
 // $('#btn-add-region').click(function () {
 //     setTimeout(loadXMLDoc, 500);
@@ -35,7 +30,6 @@ $('#orders_filter').change(function () {
 // $(document).on('click', '.btn-add-province', function () {
 //     setTimeout(loadXMLDoc, 500);
 // })
-
 
 // $(document).on('click', '.btn-add-municipality', function () {
 //     setTimeout(loadXMLDoc, 500);
