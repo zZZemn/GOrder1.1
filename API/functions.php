@@ -175,7 +175,7 @@ function products($cust_id_search)
                     $category = $cust_id_search['category'];
                     $sub_cat = $cust_id_search['sub_cat'];
                     if ($category === 'all') {
-                        $products_query = "SELECT * FROM products WHERE";
+                        $products_query = "SELECT * FROM products";
                     } else {
                         if ($sub_cat === 'all') {
                             $products_query = "SELECT products.* FROM products
