@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 if (isset($_SESSION['id'])) {
     include('../database/db.php');
@@ -48,7 +47,9 @@ if (isset($_SESSION['id'])) {
 
         $product_name = filter_var($_POST['product_name'], FILTER_SANITIZE_STRING);
         $product_code = filter_var($_POST['product_code'], FILTER_SANITIZE_STRING);
-        $unit_meas = filter_var($_POST['unit_meas_add'], FILTER_SANITIZE_STRING);
+        $g = filter_var($_POST['g'], FILTER_SANITIZE_NUMBER_FLOAT);
+        $mg = filter_var($_POST['mg'], FILTER_SANITIZE_NUMBER_FLOAT);
+        $ml = filter_var($_POST['ml'], FILTER_SANITIZE_NUMBER_FLOAT);
         $critical_level = filter_var($_POST['critical_level_add'], FILTER_SANITIZE_NUMBER_INT);
         $selling_price = filter_var($_POST['selling_price_add'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $sub_category_id = filter_var($_POST['sub_cat'], FILTER_SANITIZE_NUMBER_INT);
@@ -57,12 +58,12 @@ if (isset($_SESSION['id'])) {
         $is_vatable = isset($_POST['vatable']) ? 1 : 0;
         $is_discountable = isset($_POST['discountable']) ? 1 : 0;
 
-        if(empty($sub_category_id)){
-            $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
-            VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
+        if (empty($sub_category_id)) {
+            $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `G`, `MG`, `ML`, `SELLING_PRICE`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
+            VALUES ('$product_id','$product_code','$product_name','$g','$mg','$ml','$selling_price','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
         } else {
-            $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `UNIT_MEASUREMENT`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
-            VALUES ('$product_id','$product_code','$product_name','$unit_meas','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
+            $insert_products = "INSERT INTO `products`(`PRODUCT_ID`, `PRODUCT_CODE`, `PRODUCT_NAME`, `G`, `MG`, `ML`, `SELLING_PRICE`, `SUB_CAT_ID`, `DESCRIPTION`, `CRITICAL_LEVEL`, `PRODUCT_IMG`, `PRESCRIBE`, `VATABLE`,`DISCOUNTABLE` , `PRODUCT_STATUS`) 
+            VALUES ('$product_id','$product_code','$product_name','$g','$mg','$ml','$selling_price', '$sub_category_id','$description','$critical_level','$file_name','$is_prescribed','$is_vatable','$is_discountable', 'active')";
         }
 
         $addDate = $currentDate;

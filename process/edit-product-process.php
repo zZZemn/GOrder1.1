@@ -58,6 +58,9 @@ if (isset($_SESSION['id'])) {
         $product_name = filter_input(INPUT_POST, 'product_name', FILTER_SANITIZE_STRING);
         $product_code = filter_input(INPUT_POST, 'product_code', FILTER_SANITIZE_STRING);
         $unit_meas = filter_input(INPUT_POST, 'product_meas', FILTER_SANITIZE_STRING);
+        $g = filter_input(INPUT_POST, 'g', FILTER_SANITIZE_NUMBER_FLOAT);
+        $mg = filter_input(INPUT_POST, 'mg', FILTER_SANITIZE_NUMBER_FLOAT);
+        $ml = filter_input(INPUT_POST, 'ml', FILTER_SANITIZE_NUMBER_FLOAT);
         $critical_level = filter_input(INPUT_POST, 'critical_level', FILTER_SANITIZE_NUMBER_INT);
         $selling_price = filter_input(INPUT_POST, 'selling_price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $category_id = filter_input(INPUT_POST, 'cat', FILTER_SANITIZE_NUMBER_INT);
@@ -69,10 +72,10 @@ if (isset($_SESSION['id'])) {
 
         $product_code_final = !empty($product_code) ? $product_code : null;
 
-        if(empty($sub_category_id)){
-            $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price', `DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
+        if (empty($sub_category_id)) {
+            $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`G`='$g',`MG`='$mg',`ML`='$ml',`SELLING_PRICE`='$selling_price', `DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
         } else {
-            $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`UNIT_MEASUREMENT`='$unit_meas',`SELLING_PRICE`='$selling_price', `SUB_CAT_ID`='$sub_category_id',`DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
+            $update_product = "UPDATE `products` SET `PRODUCT_CODE`= '$product_code_final',`PRODUCT_NAME`='$product_name',`G`='$g',`MG`='$mg',`ML`='$ml',`SELLING_PRICE`='$selling_price', `SUB_CAT_ID`='$sub_category_id',`DESCRIPTION`='$description',`CRITICAL_LEVEL`='$critical_level',`PRODUCT_IMG`='$file_name',`PRESCRIBE`='$is_prescribed',`VATABLE`='$is_vatable', `DISCOUNTABLE`='$is_discountable' WHERE PRODUCT_ID = $productID";
         }
 
 

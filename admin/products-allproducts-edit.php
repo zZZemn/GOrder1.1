@@ -233,15 +233,9 @@ if (isset($_SESSION['id'])) {
                                         <input type="text" class="form-control" name="product_code" value="<?php echo $product['PRODUCT_CODE'] ?>">
                                         <label class="product-edit-label">Product Code</label>
                                     </div>
-                                </div>
-                                <div class="product-name-meas">
                                     <div class="contents-input-container">
                                         <input type="text" class="form-control" name="product_name" value="<?php echo $product['PRODUCT_NAME'] ?>">
                                         <label class="product-edit-label">Product Name</label>
-                                    </div>
-                                    <div class="contents-input-container unit-meas">
-                                        <input type="text" class="form-control" name="product_meas" value="<?php echo $product['UNIT_MEASUREMENT'] ?>">
-                                        <label class="product-edit-label">Unit Measurement</label>
                                     </div>
                                 </div>
                                 <div class="selling-price-crit-level">
@@ -252,6 +246,20 @@ if (isset($_SESSION['id'])) {
                                     <div class="contents-input-container critical-level">
                                         <input type="text" class="form-control" name="critical_level" value="<?php echo $product['CRITICAL_LEVEL'] ?>">
                                         <label class="product-edit-label">Critical Level</label>
+                                    </div>
+                                </div>
+                                <div class="product-name-meas">
+                                    <div class="contents-input-container unit-meas">
+                                        <input type="number" class="form-control" name="g" value="<?php echo $product['G'] ?>">
+                                        <label class="product-edit-label">g</label>
+                                    </div>
+                                    <div class="contents-input-container unit-meas">
+                                        <input type="number" class="form-control" name="mg" value="<?php echo $product['MG'] ?>">
+                                        <label class="product-edit-label">mg</label>
+                                    </div>
+                                    <div class="contents-input-container unit-meas">
+                                        <input type="number" class="form-control" name="ml" value="<?php echo $product['ML'] ?>">
+                                        <label class="product-edit-label">ml</label>
                                     </div>
                                 </div>
                             </div>

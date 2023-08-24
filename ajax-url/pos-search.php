@@ -2,12 +2,8 @@
 include('../database/db.php');
 
 if (isset($_POST['query'])) {
-    // get the search query from the POST data
     $query = filter_var($_POST['query'], FILTER_SANITIZE_STRING);
 
-    // connect to your database here
-
-    // prepare a SQL statement to search for products
     $search_sql = "SELECT * FROM products WHERE (PRODUCT_NAME LIKE '%$query%' OR PRODUCT_ID LIKE '%$query%' OR PRODUCT_CODE LIKE '%$query%') AND PRODUCT_STATUS = 'active' LIMIT 15";
     $search_result = $conn->query($search_sql);
     if ($search_result->num_rows > 0) {
@@ -39,21 +35,36 @@ if (isset($_POST['query'])) {
             }
 
             $result = "<form class='product-select' method='post'>
-                        <input type='hidden' name='productCode' value='" . $search['PRODUCT_CODE'] . "'>
-                        <input type='hidden' name='isPrescribe' value='" . $isPrescribe . "'>
-                        <input type='hidden' name='isDiscountable' value='" . $isDiscountable . "'>
-                        <input type='hidden' name='isVatable' value='" . $isVatable . "'>
-                        <input type='hidden' name='quantity_left' value='" . $pro_qty . "'>
-                        <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
-                        <input type='hidden' name='product_name' value='" . $search['PRODUCT_NAME'] . "'>
-                        <input type='hidden' name='selling_price' value='" . $search['SELLING_PRICE'] . "'>
-                        <input type='hidden' name='unit_meas' value='" . $search['UNIT_MEASUREMENT'] . "'>
-                        <button type='submit' name='submit_pro_id'><div>" . $search['PRODUCT_NAME'] . " <sup>" . $search['UNIT_MEASUREMENT'] . "</sup></div>
-                            <div class='details-container'>
-                                <div class='detail'>" . $search['SELLING_PRICE'] . " - " . $pro_qty . "pc/s</div>
-                            </div>
-                        </button>
-                    </form>";
+            <input type='hidden' name='productCode' value='" . $search['PRODUCT_CODE'] . "'>
+            <input type='hidden' name='isPrescribe' value='" . $isPrescribe . "'>
+            <input type='hidden' name='isDiscountable' value='" . $isDiscountable . "'>
+            <input type='hidden' name='isVatable' value='" . $isVatable . "'>
+            <input type='hidden' name='quantity_left' value='" . $pro_qty . "'>
+            <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
+            <input type='hidden' name='product_name' value='" . $search['PRODUCT_NAME'] . "'>
+            <input type='hidden' name='selling_price' value='" . $search['SELLING_PRICE'] . "'>
+            <input type='hidden' name='g' value='" . $search['G'] . "'>
+            <input type='hidden' name='mg' value='" . $search['MG'] . "'>
+            <input type='hidden' name='ml' value='" . $search['ML'] . "'>
+            <button type='submit' name='submit_pro_id'>
+                <div>" . $search['PRODUCT_NAME'];
+
+            if (!empty($search['G'])) {
+                $result .= " | <sup>" . $search['G'] . "g</sup>";
+            }
+            if (!empty($search['MG'])) {
+                $result .= " | <sup>" . $search['MG'] . "mg</sup>";
+            }
+            if (!empty($search['ML'])) {
+                $result .= " | <sup>" . $search['ML'] . "ml</sup>";
+            }
+
+            $result .= "</div>
+            <div class='details-container'>
+                <div class='detail'>" . $search['SELLING_PRICE'] . " - " . $pro_qty . "pc/s</div>
+            </div>
+        </button>
+        </form>";
 
             echo $result;
         }

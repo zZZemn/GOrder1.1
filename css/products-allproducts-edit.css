@@ -68,8 +68,7 @@
 
 .f-row-right .product-name-meas,
 .selling-price-crit-level {
-    display: flex;
-
+    display: flex;;
 }
 
 .contents-input-container {
@@ -109,8 +108,13 @@
 }
 
 .unit-meas input {
-    width: 130px;
+    width: 80px !important;
     text-align: center;
+}
+
+.product-name-meas {
+    display: flex;
+    justify-content: space-around;
 }
 
 

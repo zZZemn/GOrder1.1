@@ -292,8 +292,16 @@ if (isset($_SESSION['id'])) {
                 </div>
                 <div class="add-product-s-row">
                     <div class="contents-input-container unit-meas-add">
-                        <input class="form-control" ype="text" name="unit_meas_add" maxlength="9">
-                        <label class="product-add-label">Unit Measurement</label>
+                        <input class="form-control" type="number" name="mg">
+                        <label class="product-add-label">mg</label>
+                    </div>
+                    <div class="contents-input-container unit-meas-add">
+                        <input class="form-control" type="number" name="g">
+                        <label class="product-add-label">g</label>
+                    </div>
+                    <div class="contents-input-container unit-meas-add">
+                        <input class="form-control" type="number" name="ml">
+                        <label class="product-add-label">ml</label>
                     </div>
                     <div class="contents-input-container critical-level-add">
                         <input class="form-control" type="number" name="critical_level_add" required oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" />
@@ -365,7 +373,9 @@ if (isset($_SESSION['id'])) {
                         <tr>
                             <th class="pro-code">Product Code</th>
                             <th>Product Name</th>
-                            <th class="unit-meas">Unit Measurement</th>
+                            <th>mg</th>
+                            <th>g</th>
+                            <th>ml</th>
                             <th class="selling-price">Selling Price</th>
                             <th class="">Qty</th>
                             <th>Critical Level</th>

@@ -253,6 +253,9 @@ if (isset($_SESSION['id'])) {
                     <tr>
                         <th>Inventory ID</th>
                         <th>Product</th>
+                        <th>g</th>
+                        <th>mg</th>
+                        <th>ml</th>
                         <th>Expiration Date</th>
                         <th>Qty</th>
                         <th>Action</th>

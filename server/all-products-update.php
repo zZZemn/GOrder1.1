@@ -46,7 +46,9 @@ if (isset($_SESSION['id'])) {
                     <tr>
                         <td class="pro-code"><?php echo $product['PRODUCT_CODE'] ?></td>
                         <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td class="unit-meas"><?php echo $product['UNIT_MEASUREMENT'] ?></td>
+                        <td><?php echo $product['MG'] ?></td>
+                        <td><?php echo $product['G'] ?></td>
+                        <td><?php echo $product['ML'] ?></td>
                         <td class="selling-price"><?php echo $product['SELLING_PRICE'] ?></td>
                         <td><?php echo $qty ?></td>
                         <td><?php echo $product['CRITICAL_LEVEL'] ?></td>
@@ -55,7 +57,7 @@ if (isset($_SESSION['id'])) {
                                 <span>
                                     <?php
                                     $row_description = "";
-                                    ($product['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $row['DESCRIPTION'];
+                                    ($product['DESCRIPTION'] === '') ? $row_description = "No Description" : $row_description = $product['DESCRIPTION'];
                                     echo $row_description;
                                     ?>
                                 </span>
@@ -69,7 +71,7 @@ if (isset($_SESSION['id'])) {
             } else {
                 ?>
                 <tr class="no-pro-found">
-                    <td colspan="7">No products Found</td>
+                    <td colspan="9">No products Found</td>
                 </tr>
 <?php
             }

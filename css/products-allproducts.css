@@ -254,10 +254,14 @@
     padding-top: 20px;
 }
 
-.unit-meas-add input, .critical-level-add input, .selling-price-add input{
+.critical-level-add input, .selling-price-add input{
     width: 100%;
     text-align: center;
     padding-left: 0px;
+}
+
+.unit-meas-add input {
+    width: 50px;
 }
 
 .add-product-t-row {

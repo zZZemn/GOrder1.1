@@ -50,6 +50,9 @@ if (isset($_SESSION['id'])) {
 
                         <td><?php echo $row['INV_ID'] ?></td>
                         <td><?php echo $product['PRODUCT_NAME'] ?></td>
+                        <td><?php echo $product['G'] ?></td>
+                        <td><?php echo $product['MG'] ?></td>
+                        <td><?php echo $product['ML'] ?></td>
                         <td><?php echo $row['EXP_DATE'] ?></td>
                         <td><?php echo $row['QUANTITY'] ?></td>
                         <td>
