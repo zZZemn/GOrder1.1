@@ -1,8 +1,8 @@
 <?php 
 $dbservername = "localhost";
-$dbusername = "u711816221_goldengate627";
-$dbpassword = "Pabiligamot10";
-$dbname = "u711816221_gorder062723";
+$dbusername = "u711816221_gorder1";
+$dbpassword = "Gorder1.1passwordhardpassword";
+$dbname = "u711816221_Gorder1";
 
 // $dbservername = "localhost";
 // $dbusername = "root";
