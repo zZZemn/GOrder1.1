@@ -41,7 +41,20 @@ if (isset($_SESSION['id'])) {
                         <td><?php echo $emp_row['EMAIL'] ?></td>
                         <td><?php echo $emp_row['ADDRESS'] ?></td>
                         <td class="emp_actions">
-                            <a href="#" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i></a>
+                            <a href="#" id="btn-edit" class="btn btn-primary" 
+                            data-id="<?= $emp_row['EMP_ID'] ?>"
+                            data-fname="<?= $emp_row['FIRST_NAME']?>"
+                            data-lname="<?= $emp_row['LAST_NAME']?>"
+                            data-mi="<?= $emp_row['MIDDLE_INITIAL']?>"
+                            data-suffix="<?= $emp_row['SUFFIX']?>"
+                            data-sex="<?= $emp_row['SEX']?>"
+                            data-bday="<?= $emp_row['BIRTHDAY']?>"
+                            data-email="<?= $emp_row['EMAIL']?>"
+                            data-role="<?= $emp_row['EMP_TYPE']?>"
+                            data-contactno="<?= $emp_row['CONTACT_NO']?>"
+                            data-address="<?= $emp_row['ADDRESS']?>"
+                            data-username="<?= $emp_row['USERNAME']?>"
+                            ><i class="fa-regular fa-pen-to-square"></i></a>
                             <a href="#" class="btn btn-danger">
                                 Deactivate
                             </a>

@@ -224,6 +224,13 @@ if (isset($_SESSION['id'])) {
             Account creation unsuccessful.
         </div>
 
+        <div class="alert bg-success alert-success">
+
+        </div>
+        <div class="alert bg-danger alert-danger">
+
+        </div>
+
         <div class="main">
 
             <center>
@@ -357,6 +364,99 @@ if (isset($_SESSION['id'])) {
             </form>
 
             <a href="#" id="new_emloyee" class="btn-add-employee btn btn-primary">Add Employee</a>
+
+            <!-- Edit Form -->
+            <form class="edit-emp-form">
+                <a href="#" class="close-add-emp-form" id="close-edit-emp-form"><i class="fa-solid fa-xmark"></i></a>
+                <center class="center-add-emp">Edit Employee</center>
+
+                <div class="emp-form-f-row">
+                    <div class="new-emp-input-container">
+                        <input type="text" id="edit_f_name" class="form-control" required>
+                        <label>First Name</label>
+                    </div>
+                    <div class="new-emp-input-container">
+                        <input type="text" id="edit_l_name" class="form-control" required>
+                        <label>Last Name</label>
+                    </div>
+                </div>
+
+                <div class="emp-form-s-row">
+                    <div class="new-emp-input-container">
+                        <input type="text" id="edit_mi" class="form-control">
+                        <label>MI</label>
+                    </div>
+                    <div class="new-emp-input-container">
+                        <select id="edit_suffix" class="form-control">
+                            <option value=""></option>
+                            <option value="Sr">Sr</option>
+                            <option value="Jr">Jr</option>
+                            <option value="I">I</option>
+                            <option value="II">II</option>
+                            <option value="III">III</option>
+                            <option value="IV">IV</option>
+                            <option value="V">V</option>
+                        </select>
+                        <label>Suffix</label>
+                    </div>
+                    <div class="new-emp-input-container">
+                        <select id="edit_sex" class="form-control">
+                            <option disabled selected></option>
+                            <option value="m">Male</option>
+                            <option value="f">Female</option>
+                        </select>
+                        <label>Sex</label>
+                    </div>
+                </div>
+                <div class="emp-form-t-row">
+                    <div class="new-emp-input-container">
+                        <input type="date" class="form-control" id="edit_birthday">
+                        <label>Birthday</label>
+                    </div>
+                    <div class="new-emp-input-container">
+                        <select id="edit_emp_type" class="form-control">
+                            <option disabled selected></option>
+                            <option value="Admin">Admin</option>
+                            <option value="PA">Pharmacy Assistant</option>
+                            <option value="Pharmacists">Pharmacists</option>
+                            <option value="Rider">Rider</option>
+                        </select>
+                        <label>Role</label>
+                    </div>
+                </div>
+
+                <div class="emp-form-t-row">
+                    <div class="new-emp-input-container">
+                        <input type="email" class="form-control" id="edit_email">
+                        <label>Email</label>
+                    </div>
+                    <div class="new-emp-input-container">
+                        <input type="number" class="form-control" id="edit_contact_no">
+                        <label>Contact No</label>
+                    </div>
+                </div>
+                <div class="emp-form-t-row">
+                    <div class="new-emp-input-container">
+                        <input type="text" class="form-control" id="edit_address">
+                        <label>Address</label>
+                    </div>
+                </div>
+                <div class="emp-form-f-row">
+                    <div class="new-emp-input-container">
+                        <input type="text" class="form-control" id="edit_username">
+                        <label>Username</label>
+                    </div>
+                    <!-- <div class="new-emp-input-container">
+                        <input type="password" class="form-control" id="edit_password">
+                        <label>Password</label>
+                    </div> -->
+                </div>
+                <div class="emp-form-fi-row">
+                    <div class="new-emp-input-container">
+                        <center><input type="submit" id="edit_btn-save-employee" data-id="" class="btn btn-primary" value="Save"></input></center>
+                    </div>
+                </div>
+            </form>
 
             <div class="message-container">
                 <?php
