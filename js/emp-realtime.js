@@ -157,7 +157,7 @@ $(document).ready(function () {
     $("#edit_mi").val($(e.currentTarget).data("mi"));
     $("#edit_suffix").val($(e.currentTarget).data("suffix"));
     $("#edit_sex").val($(e.currentTarget).data("sex"));
-    $("#edit_birthday").val($(e.currentTarget).data("birthday"));
+    $("#edit_birthday").val($(e.currentTarget).data("bday"));
     $("#edit_emp_type").val($(e.currentTarget).data("role"));
     $("#edit_email").val($(e.currentTarget).data("email"));
     $("#edit_contact_no").val($(e.currentTarget).data("contactno"));
@@ -205,6 +205,7 @@ $(document).ready(function () {
         username: username,
       },
       success: function (response) {
+        empUpdate();
         closeEditForm();
         if (response === "success") {
           var text = "Editing Success";
@@ -230,5 +231,30 @@ $(document).ready(function () {
   $("#close-edit-emp-form").click(function (event) {
     event.preventDefault();
     closeEditForm();
+  });
+
+  // deactivate
+
+  $(document).on("click", "#deactivate-user", function (e) {
+    e.preventDefault();
+    var id = $(e.currentTarget).data("id");
+    var action = $(e.currentTarget).data("action");
+    $.ajax({
+      type: "POST",
+      url: "../ajax-url/deactivate-user.php",
+      data: {
+        id: id,
+        action: action,
+      },
+      success: function (response) {
+        empUpdate();
+        setTimeout(() => {
+          $(".alert-success").css("opacity", 1).text(response);
+          setTimeout(function () {
+            $(".alert-success").css("opacity", 0).text("");
+          }, 1000);
+        }, 1000);
+      },
+    });
   });
 });
