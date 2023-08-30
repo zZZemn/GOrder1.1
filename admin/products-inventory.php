@@ -248,24 +248,26 @@ if (isset($_SESSION['id'])) {
                 </div>
             </div>
 
-            <table class="inventory-container table table-striped">
-                <thead>
-                    <tr>
-                        <th>Inventory ID</th>
-                        <th>Product</th>
-                        <th>g</th>
-                        <th>mg</th>
-                        <th>ml</th>
-                        <th>Expiration Date</th>
-                        <th>Qty</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+            <div class="table-container">
+                <table class="inventory-container table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Inventory ID</th>
+                            <th>Product</th>
+                            <th>g</th>
+                            <th>mg</th>
+                            <th>ml</th>
+                            <th>Expiration Date</th>
+                            <th>Qty</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-                <tbody id="inventory_container">
+                    <tbody id="inventory_container">
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="message-container">
                 <?php
