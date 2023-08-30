@@ -11,6 +11,7 @@ body {
 .table-container {
     overflow: auto;
     height: 80%;
+    width: 100%;
 }
 
 .inventory-container thead {
