@@ -47,7 +47,6 @@ if (isset($_SESSION['id'])) {
                     $product = $product_result->fetch_assoc();
 ?>
                     <tr>
-
                         <td><?php echo $row['INV_ID'] ?></td>
                         <td><?php echo $product['PRODUCT_NAME'] ?></td>
                         <td><?php echo $product['G'] ?></td>
@@ -58,105 +57,6 @@ if (isset($_SESSION['id'])) {
                         <td>
                             <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
                         </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td><?php echo $row['INV_ID'] ?></td>
-                        <td><?php echo $product['PRODUCT_NAME'] ?></td>
-                        <td><?php echo $product['G'] ?></td>
-                        <td><?php echo $product['MG'] ?></td>
-                        <td><?php echo $product['ML'] ?></td>
-                        <td><?php echo $row['EXP_DATE'] ?></td>
-                        <td><?php echo $row['QUANTITY'] ?></td>
-                        <td>
-                            <a href="#" class="dispose-btn btn btn-dark text-light" id="dispose" data-inv_id="<?php echo $row['INV_ID'] ?>"><i class="fa-solid fa-trash"></i> Dispose</a>
-                        </td>
-
                     </tr>
                 <?php
                 }
