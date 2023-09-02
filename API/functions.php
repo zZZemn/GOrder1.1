@@ -1846,6 +1846,7 @@ function orders($user)
 function order_details($ids)
 {
     global $conn;
+    global $sevenDaysAgo;
     $cust_id = $ids['id'];
     $transaction_id = $ids['transaction_id'];
 
@@ -1933,6 +1934,8 @@ function order_details($ids)
                     $upload_pof = false;
                 }
 
+                $canReturn = ($order['DATE'] >= $sevenDaysAgo)  ? true : false;
+
                 $data = [
                     'status' => 200,
                     'message' => 'Order Details',
@@ -1953,7 +1956,8 @@ function order_details($ids)
                     'prescription' => $order['PRESCRIPTION'],
                     'rider' => $rider_name,
                     'order_status' => $order['STATUS'],
-                    'upload_pof' => $upload_pof
+                    'upload_pof' => $upload_pof,
+                    'canReturn' => $canReturn
                 ];
                 header("HTTP/1.0 405 OK");
                 return json_encode($data);
@@ -2124,4 +2128,9 @@ function sendMessage($id, $message)
         $message = 'User not found';
         return error422($message);
     }
+}
+
+function returnProducts()
+{
+
 }
