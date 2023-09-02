@@ -176,7 +176,7 @@ if (isset($_SESSION['id'])) {
                         <th>Transaction ID</th>
                         <th>Customer</th>
                         <th>Payment Type</th>
-                        <th>Del Type</th>
+                        <th>Delivery Type</th>
                         <th>Address</th>
                         <th>Order On</th>
                         <th>Total</th>
