@@ -31,6 +31,49 @@ function error422($message)
     return json_encode($data);
 }
 
+function checkUser($id)
+{
+    global $conn;
+    $sql = "SELECT `CUST_ID` FROM customer_user WHERE `CUST_ID` = '$id'";
+    return $conn->query($sql);
+}
+
+function checkOrderStatusDone($transaction_id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `order` WHERE `TRANSACTION_ID` = '$transaction_id' AND (`STATUS` = 'Delivered' OR `STATUS` = 'Picked Up')";
+    return $conn->query($sql);
+}
+
+function getSalesUsingOrderID($order_id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `sales` WHERE `ORDER_ID` = '$order_id'";
+    return $conn->query($sql);
+}
+
+function getSalesDetails($transaction_id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `sales_details` WHERE `TRANSACTION_ID` = '$transaction_id'";
+    return $conn->query($sql);
+}
+
+function getProductDetails($product_id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `products` WHERE `PRODUCT_ID` = '$product_id'";
+    return $conn->query($sql);
+}
+
+function getInvDetails($inv_id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `inventory` WHERE `INV_ID` = '$inv_id'";
+    return $conn->query($sql);
+}
+// end
+
 function login($email, $password)
 {
 
@@ -1934,7 +1977,9 @@ function order_details($ids)
                     $upload_pof = false;
                 }
 
-                $canReturn = ($order['DATE'] >= $sevenDaysAgo)  ? true : false;
+                $checkReturn = "SELECT * FROM `return` WHERE `TRANSACTION_ID` = '$transaction_id'";
+                $checkReturnResult = $conn->query($checkReturn);
+                $canReturn = ($order['DATE'] >= $sevenDaysAgo && !$checkReturnResult->num_rows > 0)  ? true : false;
 
                 $data = [
                     'status' => 200,
@@ -2096,8 +2141,7 @@ function messages($id)
             return json_encode($data);
         }
     } else {
-        $message = 'User not found';
-        return error422($message);
+        return error422('User not found');
     }
 }
 
@@ -2121,16 +2165,81 @@ function sendMessage($id, $message)
             header("HTTP/1.0 200 OK");
             return json_encode($data);
         } else {
-            $message = 'Sending Error';
-            return error422($message);
+            return error422('Sending Error');
         }
     } else {
-        $message = 'User not found';
-        return error422($message);
+        return error422('User not found');
     }
 }
 
-function returnProducts()
+function returnProducts($id, $order_id)
 {
+    global $conn;
 
+    $checkUser = checkUser($id);
+    if ($checkUser->num_rows > 0) {
+        $checkOrder = checkOrderStatusDone($order_id);
+        if ($checkOrder->num_rows > 0) {
+            $order = $checkOrder->fetch_assoc();
+            $getSales = getSalesUsingOrderID($order_id);
+            if ($getSales->num_rows > 0) {
+                $sales = $getSales->fetch_assoc();
+                $transaction_id = $sales['TRANSACTION_ID'];
+                $getSalesDetails = getSalesDetails($transaction_id);
+                if ($getSalesDetails->num_rows > 0) {
+                    $salesDetails = [];
+                    while ($salesDetailsRow = $getSalesDetails->fetch_assoc()) {
+                        $getProductDetails = getProductDetails($salesDetailsRow['PRODUCT_ID']);
+                        $productDetails = $getProductDetails->fetch_assoc();
+
+                        $getInvDetails = getInvDetails($salesDetailsRow['INV_ID']);
+                        $invDetails = $getInvDetails->fetch_assoc();
+
+                        $data = [
+                            'inventory_id' => $salesDetailsRow['INV_ID'],
+                            'product_id' => $salesDetailsRow['PRODUCT_ID'],
+                            'product_name' => $productDetails['PRODUCT_NAME'],
+                            'MG' => $productDetails['MG'],
+                            'G' => $productDetails['G'],
+                            'ML' => $productDetails['ML'],
+                            'img' => 'https://gorder.website/img/products/' . $productDetails['PRODUCT_IMG'],
+                            'quantity' => $salesDetailsRow['QUANTITY'],
+                            'amount' => $salesDetailsRow['AMOUNT'],
+                            'expiration_date' => $invDetails['EXP_DATE']
+                        ];
+                        $salesDetails[] = $data;
+                    }
+                    $data = [
+                        'status' => 200,
+                        'message' => 'All sales',
+                        'data' => [
+                            "sales_transaction_id" => $sales['TRANSACTION_ID'],
+                            "order_id" => $order['TRANSACTION_ID'],
+                            "payment_type" => $order['PAYMENT_TYPE'],
+                            "delivery_type" => $order['DELIVERY_TYPE'],
+                            "time" => $order['TIME'],
+                            "date" => $order['DATE'],
+                            "subtotal" => $order['SUBTOTAL'],
+                            "vat" => $order['VAT'],
+                            "discount" => $order['DISCOUNT'],
+                            "total" => $order['TOTAL'],
+                            "payment" => $order['PAYMENT'],
+                            "change" => $order['CHANGE']
+                        ],
+                        'products' => $salesDetails
+                    ];
+                    header("HTTP/1.0 200 OK");
+                    return json_encode($data);
+                } else {
+                    return error422('Empty');
+                }
+            } else {
+                return error422('Not found in sales');
+            }
+        } else {
+            return error422('Order not found');
+        }
+    } else {
+        return error422('User not found');
+    }
 }

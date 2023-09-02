@@ -8,9 +8,18 @@ include('functions.php');
 
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
-if ($requestMethod == "POST") {
-    $data = json_decode(file_get_contents("php://input"));
-
+if ($requestMethod == "GET") {
+    if (isset($_GET['id']) && isset($_GET['transaction_id'])) {
+        $returns = returnProducts($_GET['id'], $_GET['transaction_id']);
+        echo $returns;
+    } else {
+        $data = [
+            'status' => 405,
+            'message' => 'Access Deny',
+        ];
+        header("HTTP/1.0 405 Access Deny");
+        echo json_encode($data);
+    }
 } else {
     $data = [
         'status' => 405,
