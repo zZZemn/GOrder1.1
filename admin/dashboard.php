@@ -219,7 +219,6 @@ if (isset($_SESSION['id'])) {
             <div class="dash-board-container">
 
                 <div class="dashboard-f-row">
-
                     <div class="f-row-f-content-container content-container">
                         <div id="f-inv-status-container" class="status-container">
                             <div class="specific-element1">
@@ -270,10 +269,46 @@ if (isset($_SESSION['id'])) {
                             <a href="../sales/orders.php">View Orders >>></a>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="dashboard-s-row">
+
+                    <div class="content-container">
+                        <div class="s-row-top">
+                            <h5>Customers</h5>
+                            <a href="#">View Detailed Report >></a>
+                        </div>
+                        <div class="s-row-bottom">
+                            <div class="s-row-bottom-left">
+                                <h4 id="cust_tot"></h4>
+                                <p>Total no of Customers</p>
+                            </div>
+                            <div class="s-row-bottom-right">
+                                <h4 id="freqBItem"></h4>
+                                <p>Frequently bought item</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-container">
+                        <div class="s-row-top">
+                            <h5>Product</h5>
+                            <a href="#">View Detailed Report >></a>
+                        </div>
+                        <div class="s-row-bottom">
+                            <div class="s-row-bottom-left">
+                                <h4 id="ret_items"></h4>
+                                <p>Returned Items</p>
+                            </div>
+                            <div class="s-row-bottom-right">
+                                <h4 id="freqRItem"></h4>
+                                <p>Most common return reason</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-t-row">
                     <div id="chartContainer" class="chartContainer">
 
                     </div>
