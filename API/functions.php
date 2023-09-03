@@ -45,6 +45,13 @@ function checkOrderStatusDone($transaction_id)
     return $conn->query($sql);
 }
 
+function checkReturnExist($transaction_id)
+{
+    global $conn;
+    $checkReturn = "SELECT * FROM `return` WHERE `TRANSACTION_ID` = '$transaction_id'";
+    return $conn->query($checkReturn);
+}
+
 function getSalesUsingOrderID($order_id)
 {
     global $conn;
@@ -1977,9 +1984,16 @@ function order_details($ids)
                     $upload_pof = false;
                 }
 
-                $checkReturn = "SELECT * FROM `return` WHERE `TRANSACTION_ID` = '$transaction_id'";
-                $checkReturnResult = $conn->query($checkReturn);
-                $canReturn = ($order['DATE'] >= $sevenDaysAgo && !$checkReturnResult->num_rows > 0)  ? true : false;
+
+                if ($order['STATUS'] === 'Delivered' || $order['STATUS'] === 'Picked Up') {
+                    $getSales = getSalesUsingOrderID($order['TRANSACTION_ID']);
+                    $sales = $getSales->fetch_assoc();
+                    $checkReturnResult = checkReturnExist($sales['TRANSACTION_ID']);
+                    $canReturn = ($sales['DATE'] >= $sevenDaysAgo && !$checkReturnResult->num_rows > 0)  ? true : false;
+                } else {
+                    $canReturn = false;
+                }
+
 
                 $data = [
                     'status' => 200,
