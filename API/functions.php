@@ -79,6 +79,7 @@ function getInvDetails($inv_id)
     $sql = "SELECT * FROM `inventory` WHERE `INV_ID` = '$inv_id'";
     return $conn->query($sql);
 }
+
 // end
 
 function login($email, $password)
@@ -2261,4 +2262,14 @@ function returnProducts($id, $order_id)
     } else {
         return error422('User not found');
     }
+}
+
+
+function returnRequest($data)
+{
+    //transaction id from sales
+    //INV ID
+    //QTY
+
+    $transaction_id = $data->transaction_id;
 }
