@@ -976,6 +976,7 @@ $(document).ready(function () {
     });
 
     if (isAnyInputNotEmpty) {
+      $("#frm-add-money").css("display", "none");
       $.ajax({
         type: "POST",
         url: "../ajax-url/add-money.php",
@@ -986,8 +987,10 @@ $(document).ready(function () {
           setTimeout(function () {
             $("." + response).css("opacity", 0);
           }, 2000);
-          $("#frm-add-money").css("display", "none");
           $("#frm-add-money")[0].reset();
+          if (buttonType !== "Add") {
+            window.location.href = "../process/logout.php";
+          }
         },
       });
     } else {
