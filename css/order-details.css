@@ -2,6 +2,14 @@ body {
   font-family: "poppins", sans-serif !important;
 }
 
+.gdd-top-waybill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  display: none;
+}
+
 .top-contents-container {
   display: flex;
   justify-content: space-around;
@@ -179,7 +187,7 @@ body {
 }
 
 .two-div-print {
-    display: flex;
+  display: flex;
 }
 
 .third-container {
@@ -292,26 +300,59 @@ body {
 }
 
 #btn-print {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin: 10px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin: 10px;
 }
 
 @media print {
-    .top-contents-container {
-        display: none;
-    }
+  @page {
+    size: 80mm 200mm; /* Customize the size to your needs */
+    margin: 5mm; /* Adjust margins as necessary */
+  }
 
-    .two-div-print {
-        flex-direction: column;
-    }
+  * {
+    font-family: Arial, sans-serif;
+    font-size: 5pt !important;
+    font-weight: 500 !important;
+  }
 
-    .second-container .order-input-container {
-        margin: 10px;
-    }
+  table {
+    background-color: white!important;
+  }
 
-    #btn-print {
-        display: none;
-    }
+  .second-container {
+    flex-direction: column;
+  }
+
+  .gdd-top-waybill {
+    display: flex;
+  }
+
+  .gdd-top-waybill center {
+    font-size: 12px;
+  }
+
+  .top-contents-container {
+    display: none;
+  }
+
+  .two-div-print {
+    flex-direction: column;
+  }
+
+  .order-input-container label {
+    transform: translateY(-5px);
+  }
+
+  .order-input-container input, .order-input-container textarea, .order-input-container select {
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  #btn-print {
+    display: none;
+  }
 }

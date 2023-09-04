@@ -41,6 +41,10 @@ if (isset($_SESSION['id'])) {
                 </head>
 
                 <body>
+                    <div class="gdd-top-waybill">
+                        <center>Golden Gate Drugsore</center>
+                        <p>Sta. Rosa 2, Marilao, Bulacan</p>
+                    </div>
 
                     <div class="alert alert-payment-invalid bg-warning">
                         The payment must be greater than or equal to the total amount.
@@ -71,59 +75,55 @@ if (isset($_SESSION['id'])) {
                         if ($user_result->num_rows > 0) {
                             $user = $user_result->fetch_assoc();
                         ?>
-                            <div class="two-div-print">
 
-                                <div class="order-input-container">
-                                    <input type="text" class="form-control" readonly value="<?php echo $user['FIRST_NAME'] . " " . $user['LAST_NAME'] ?>">
-                                    <label>Order By</label>
-                                </div>
-                                <div class="order-input-container">
-                                    <input type="text" class="form-control" readonly value="<?php echo $order['DELIVERY_TYPE'] ?>">
-                                    <label>Delivery Type</label>
-                                </div>
-                                <div class="order-input-container">
-                                    <input type="text" class="form-control" readonly value="<?php echo $order['PAYMENT_TYPE'] ?>">
-                                    <label>Payment Type</label>
-                                </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $user['FIRST_NAME'] . " " . $user['LAST_NAME'] ?>">
+                                <label>Order By</label>
                             </div>
-                            <div class="two-div-print">
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $order['DELIVERY_TYPE'] ?>">
+                                <label>Delivery Type</label>
+                            </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $order['PAYMENT_TYPE'] ?>">
+                                <label>Payment Type</label>
+                            </div>
 
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo $order['DATE'] ?>">
+                                <label>Order Date</label>
+                            </div>
+                            <div class="order-input-container">
+                                <input type="text" class="form-control" readonly value="<?php echo date("h:i a", strtotime($order['TIME'])); ?>">
+                                <label>Order Time</label>
+                            </div>
+                            <?php
+                            if ($del_type === 'Deliver') {
+                            ?>
                                 <div class="order-input-container">
-                                    <input type="text" class="form-control" readonly value="<?php echo $order['DATE'] ?>">
-                                    <label>Order Date</label>
-                                </div>
-                                <div class="order-input-container">
-                                    <input type="text" class="form-control" readonly value="<?php echo date("h:i a", strtotime($order['TIME'])); ?>">
-                                    <label>Order Time</label>
-                                </div>
-                                <?php
-                                if ($del_type === 'Deliver') {
-                                ?>
-                                    <div class="order-input-container">
-                                        <select type="text" class="form-control" id="pick-delivery-man" placeholder="Select Rider">
-                                            <option value="" disabled selected style="font-size: 10px;">Select Rider</option>
-                                            <?php
-                                            $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider'";
-                                            $rider_result = $conn->query($rider_sql);
-                                            if ($rider_result->num_rows > 0) {
-                                                while ($rider = $rider_result->fetch_assoc()) {
-                                                    $rider_name = $rider['FIRST_NAME'] . " " . $rider['LAST_NAME'];
-                                                    $rider_id = $rider['EMP_ID'];
-                                            ?>
-                                                    <option value="<?php echo $rider_id ?>" <?php echo ($rider_id === $cur_rider_id) ? 'selected' : '' ?>><?php echo $rider_name ?></option>
-                                            <?php
-                                                }
+                                    <select type="text" class="form-control" id="pick-delivery-man" placeholder="Select Rider">
+                                        <option value="" disabled selected style="font-size: 10px;">Select Rider</option>
+                                        <?php
+                                        $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider'";
+                                        $rider_result = $conn->query($rider_sql);
+                                        if ($rider_result->num_rows > 0) {
+                                            while ($rider = $rider_result->fetch_assoc()) {
+                                                $rider_name = $rider['FIRST_NAME'] . " " . $rider['LAST_NAME'];
+                                                $rider_id = $rider['EMP_ID'];
+                                        ?>
+                                                <option value="<?php echo $rider_id ?>" <?php echo ($rider_id === $cur_rider_id) ? 'selected' : '' ?>><?php echo $rider_name ?></option>
+                                        <?php
                                             }
-                                            ?>
-                                        </select>
-                                        <label>Rider</label>
-                                    </div>
-                            </div>
-                    <?php
-                                }
-                            } else {
+                                        }
+                                        ?>
+                                    </select>
+                                    <label>Rider</label>
+                                </div>
+                        <?php
                             }
-                    ?>
+                        } else {
+                        }
+                        ?>
                     </div>
 
                     <?php if ($del_type === 'Deliver') {
@@ -162,7 +162,8 @@ if (isset($_SESSION['id'])) {
 
                         <div class="third-container">
                             <div class="order-input-container">
-                                <input type="text" class="form-control" readonly value="<?php echo $full_address ?>">
+                                <textarea class="form-control" readonly><?= $full_address ?></textarea>
+                                <!-- <input type="text" class="form-control" readonly value=""> -->
                                 <label>Address</label>
                             </div>
                         </div>
