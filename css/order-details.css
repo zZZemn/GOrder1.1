@@ -1,290 +1,317 @@
 body {
-    font-family: 'poppins', sans-serif !important;
+  font-family: "poppins", sans-serif !important;
 }
 
 .top-contents-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    min-height: 180px;
-    background-color: white;
-    box-shadow: 1px 1px 3px rgb(233, 233, 233);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 180px;
+  background-color: white;
+  box-shadow: 1px 1px 3px rgb(233, 233, 233);
 
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .top-contents-container select {
-    width: 200px;
-    height: 40px;
-    background-color: white !important;
+  width: 200px;
+  height: 40px;
+  background-color: white !important;
 }
 
 .transaction-id {
-    width: 200px !important;
-    height: 40px;
+  width: 200px !important;
+  height: 40px;
 }
 
 .order-input-container {
-    position: relative;
+  position: relative;
 }
 
 .order-input-container label {
-    position: absolute;
-    left: 10px;
-    top: 0;
-    font-size: 10px;
-    background-color: white;
-    padding: 0px 10px;
+  position: absolute;
+  left: 10px;
+  top: 0;
+  font-size: 10px;
+  background-color: white;
+  padding: 0px 10px;
 
-    transform: translateY(-10px);
+  transform: translateY(-10px);
 }
 
 .status-container {
-    width: 600px;
+  width: 600px;
 }
 
 .status-container .progress {
-    position: relative;
+  position: relative;
 }
 
 .progress-circle {
-    position: relative;
-    width: 600px !important;
-    height: 10px;
-    transform: translateY(-14px);
+  position: relative;
+  width: 600px !important;
+  height: 10px;
+  transform: translateY(-14px);
 }
 
 .progress-circle .circle {
-    position: absolute;
-    height: 20px;
-    width: 20px;
-    border-radius: 50%;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
 }
 
 .progress-circle .circle span {
-    position: absolute;
-    transform: translateY(-30px) !important;
-    padding: 2px 5px;
-    color: white;
-    border-radius: 3px;
-    transition: all 0.2s;
-    opacity: 0;
+  position: absolute;
+  transform: translateY(-30px) !important;
+  padding: 2px 5px;
+  color: white;
+  border-radius: 3px;
+  transition: all 0.2s;
+  opacity: 0;
 }
 
 .progress-circle .circle:hover span {
-    opacity: 1;
+  opacity: 1;
 }
 
-
 .progress-photo-container {
-    position: relative;
-    height: 40px;
-    width: 600px;
+  position: relative;
+  height: 40px;
+  width: 600px;
 }
 
 .progress-photo-container i {
-    position: absolute;
-    top: 50%;
-    font-size: 25px;
-    padding: 10px;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  font-size: 25px;
+  padding: 10px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #waiting {
-    transform: translateX(-10px);
+  transform: translateX(-10px);
 }
 
 #accepted {
-    left: 21%;
-    transform: translateX(3px);
+  left: 21%;
+  transform: translateX(3px);
 }
 
 #for-delivery {
-    left: 46%;
+  left: 46%;
 }
 
 #shipped {
-    left: 71%;
+  left: 71%;
 }
 
 #delivered {
-    left: 96%;
+  left: 96%;
 }
 
 #accepted-pickup {
-    left: 33%;
+  left: 33%;
 }
 
 #ready-to-pickup {
-    left: 66%;
+  left: 66%;
 }
 
 #picked-up {
-    left: 96%;
+  left: 96%;
 }
 
-#select_status_container div{
-    width: 250px;
-    text-align: center;
+#select_status_container div {
+  width: 250px;
+  text-align: center;
 }
 
 .change-stat-div {
-    position: relative;
-    height: 70px;
-    width: 250px;
-    box-shadow: 1px 1px 5px rgb(145, 145, 145);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 3px;
+  position: relative;
+  height: 70px;
+  width: 250px;
+  box-shadow: 1px 1px 5px rgb(145, 145, 145);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
 }
 
 .change-stat-div div {
-    display: flex;
-    justify-content: space-evenly;
-    padding: 0px 15px;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0px 15px;
 }
 
 .change-stat-div label {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    padding: 0px 10px;
-    background-color: white;
-    transform: translateY(-10px);
-    font-size: 12px;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 0px 10px;
+  background-color: white;
+  transform: translateY(-10px);
+  font-size: 12px;
 }
 
 .change-stat-div input {
-    width: 200px;
+  width: 200px;
 }
 
 .second-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding: 0px 20px;
 }
 
-.second-container input{
-    width: 200px;
+.second-container .order-input-container {
+  width: 200px;
+  margin: 10px;
+}
+
+.two-div-print {
+    display: flex;
 }
 
 .third-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding: 0px 20px;
 }
 
 .third-container div {
-    width: 100%;
+  width: 100%;
 }
 
 .fourt-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 30px;
-    padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding: 0px 20px;
 }
 
-.fourt-container table tr th{
-    font-weight: 600;
-    font-size: 15px;
+.fourt-container table tr th {
+  font-weight: 600;
+  font-size: 15px;
 }
 
-.fourt-container table tr td{
-    font-weight: 500;
-    font-size: 12px;
+.fourt-container table tr td {
+  font-weight: 500;
+  font-size: 12px;
 }
 
 .fourt-container table {
-    border-top: 1px solid rgb(212, 212, 212);
-    box-shadow: 1px 1px 2px rgb(241, 241, 241);
+  border-top: 1px solid rgb(212, 212, 212);
+  box-shadow: 1px 1px 2px rgb(241, 241, 241);
 }
 
-
 .payment-input-th {
-    padding: 0;
-    height: 60px;
-    position: relative;
+  padding: 0;
+  height: 60px;
+  position: relative;
 }
 
 .payment-input-div {
-    position: absolute;
-    right: 20px;
-    background-color: blue;
-    display: flex;
-    background-color: blue !important;
-    padding: 0 !important;
-    justify-content: right;
-    width: 0px;
+  position: absolute;
+  right: 20px;
+  background-color: blue;
+  display: flex;
+  background-color: blue !important;
+  padding: 0 !important;
+  justify-content: right;
+  width: 0px;
 }
 
 .add-payment-text {
- padding-top: 18px !important;
+  padding-top: 18px !important;
 }
 
 #payment-submit {
-width: 100px;
-height: 40px;
+  width: 100px;
+  height: 40px;
 }
 
 #payment {
-    height: 40px;
-    width: 150px;
-    margin-right: 10px;
+  height: 40px;
+  width: 150px;
+  margin-right: 10px;
 }
 
 .user-upload {
-    max-height: 700px;
-    max-width: 700px;
+  max-height: 700px;
+  max-width: 700px;
 }
 
-
 .alert {
-    position: fixed !important;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
-    color: black !important;
+  position: fixed !important;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15px;
+  color: black !important;
 
-    height: 50px;
-    width: auto;
-    font-size: 12px;
+  height: 50px;
+  width: auto;
+  font-size: 12px;
 
-    z-index: 100000;
+  z-index: 100000;
 
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.6s;
-  }
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
 
-  .alert-transaction-complete {
-    color: white !important;
-  }
+.alert-transaction-complete {
+  color: white !important;
+}
 
-   /* The close button */
-   .closebtn {
-    margin-left: 15px;
-    color: black;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  /* When moving the mouse over the close button */
-  .closebtn:hover {
-    color: black;
-  }
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: black;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
+
+#btn-print {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 10px;
+}
+
+@media print {
+    .top-contents-container {
+        display: none;
+    }
+
+    .two-div-print {
+        flex-direction: column;
+    }
+
+    .second-container .order-input-container {
+        margin: 10px;
+    }
+
+    #btn-print {
+        display: none;
+    }
+}
