@@ -21,13 +21,14 @@ if (isset($_SESSION['id'])) {
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
     </style>
-    <link rel="stylesheet" href="../css/profile.css">
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
+    <link rel="stylesheet" href="../css/rellero.css">
+    <link rel="stylesheet" href="../css/loading.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title><?php echo $emp['FIRST_NAME'] . " " . $emp['LAST_NAME']; ?></title>
+    <title>GOrder | Reports</title>
 </head>
 
 <body>
@@ -93,7 +94,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -128,7 +129,7 @@ if (isset($_SESSION['id'])) {
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="avatar-profile.php" class="nav-active"><i class="fa-solid fa-user-tie"></i>Profile</a>
+                <a href="avatar-profile.php"><i class="fa-solid fa-user-tie"></i>Profile</a>
                 <a href="messages.php"><i class="fa-solid fa-message"></i>Messages</a>
                 <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
                 <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>
@@ -170,7 +171,7 @@ if (isset($_SESSION['id'])) {
                 <a href="reports-monthly-sales.php"><i class="fa-solid fa-chart-column"></i>Monthly Sales</a>
                 <a href="reports-yearly-sales.php"><i class="fa-solid fa-chart-column"></i>Yearly Sales</a>
                 <a href="products-return.php"><i class="fa-solid fa-rotate-left"></i>Returns</a>
-                <a href="rellero.php"><i class="fa-solid fa-money-bill"></i>Rellero</a>
+                <a href="rellero.php" class="nav-active"><i class="fa-solid fa-money-bill"></i>Rellero</a>
             </div>
 
             <hr>
@@ -211,64 +212,58 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
-            <div class="profile-container">
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="15">
+                                <?php
+                                include('../time-date.php');
+                                ?>
+                                <center>
+                                    <p class="select-date">Rellero</p>
+                                </center>
+                                <div class="filtering-container">
+                                    <div class="input-container">
+                                        <input type="date" class="form-control" name="sales_date" id="rellero_date" value="<?php echo $currentDate ?>">
+                                        <label for="sales_date">Date</label>
+                                    </div>
+                                    <div class="input-container">
+                                        <select class="form-control" id="select-type">
+                                            <option value="all">All</option>
+                                            <option value="Add">Add</option>
+                                            <option value="Shift">Shift</option>
+                                            <option value="End">End of Day</option>
+                                        </select>
+                                        <label for="select-process-by">Process By</label>
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Date & Time</th>
+                            <th>Process By</th>
+                            <th>₱ 1000</th>
+                            <th>₱ 500</th>
+                            <th>₱ 200</th>
+                            <th>₱ 100</th>
+                            <th>₱ 50</th>
+                            <th>₱ 20</th>
+                            <th>₱ 10</th>
+                            <th>₱ 5</th>
+                            <th>₱ 1</th>
+                            <th>¢ 25</th>
+                            <th>Total</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
 
-                <div class="top-contents-container">
-                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
+                    <tbody id="table-response-container">
 
-                    <div class="top-right-contents">
-                        <?php if ($emp['SEX'] === "m") {
-                            $sex = "Male";
-                        } else {
-                            $sex = "Female";
-                        } ?>
-                        <h5 class="full-name"><?php echo $emp['FIRST_NAME'] . " " . $emp['MIDDLE_INITIAL'] . " " . $emp['LAST_NAME'] . " " . $emp['SUFFIX'] . "<em class='sex'>" . $sex . "</em>" ?></h5>
-
-
-                        <p class="emptype"><?php echo $emp['EMP_TYPE']; ?></p>
-
-                    </div>
-                </div>
-
-                <hr class="profile-line">
-
-                <div class="middle-contents-container">
-                    <div class="middle-left-contents">
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['USERNAME'] ?>" readonly>
-                            <label class="profile-contents-label">Username</label>
-                        </div>
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['EMAIL'] ?>" readonly>
-                            <label class="profile-contents-label">Email</label>
-                        </div>
-                    </div>
-
-                    <div class="middle-right-content">
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['CONTACT_NO'] ?>" readonly>
-                            <label class="profile-contents-label">Contact No.</label>
-                        </div>
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['BIRTHDAY'] ?>" readonly>
-                            <label class="profile-contents-label">Birthday</label>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="profile-line">
-
-                <div class="bottom-contents-container">
-                    <div class="contents-input-container">
-                        <input class="profile-content" value="<?php echo $emp['ADDRESS'] ?>" readonly>
-                        <label class="profile-contents-label">Address</label>
-                    </div>
-                </div>
-
+                    </tbody>
+                </table>
             </div>
-
-
-
 
             <div class="message-container">
                 <?php
@@ -350,6 +345,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/rellero.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
