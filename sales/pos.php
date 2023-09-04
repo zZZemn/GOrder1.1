@@ -183,6 +183,15 @@ if (isset($_SESSION['id'])) {
         <div class="alert bg-danger cust-not-added">
             <p class="">Customer Not Added.</p>
         </div>
+        <div class="alert bg-danger all-input-empty text-light">
+            <p class="">All inputs are empty.</p>
+        </div>
+        <div class="alert bg-danger insert-money-error text-light">
+            <p class="">Something Went Wrong :<</p>
+        </div>
+        <div class="alert bg-success insert-money-success text-light">
+            <p class="">Adding Money Success!</p>
+        </div>
 
         <div class="pos-container">
 
@@ -303,6 +312,59 @@ if (isset($_SESSION['id'])) {
 
 
         <div class="main">
+
+            <form id="frm-add-money" class="frm-add-money">
+                <button type="button" id="close-add-money"><i class="fa-solid fa-xmark"></i></button>
+                <center>Add Money</center>
+                <div class="inputs-money-container">
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="onek" name="onek" placeholder="How many ₱ 1000?">
+                        <label for="onek">1000</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="fiveHundred" name="fiveHundred" placeholder="How many ₱ 500?">
+                        <label for="fiveHundred">500</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="twoHundred" name="twoHundred" placeholder="How many ₱ 200?">
+                        <label for="twoHundred">200</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="oneHundred" name="oneHundred" placeholder="How many ₱ 100?">
+                        <label for="oneHundred">100</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="fifty" name="fifty" placeholder="How many ₱ 50?">
+                        <label for="fifty">50</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="twenty" name="twenty" placeholder="How many ₱ 20?">
+                        <label for="twenty">20</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="ten" name="ten" placeholder="How many ₱ 10?">
+                        <label for="ten">10</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="five" name="five" placeholder="How many ₱ 5?">
+                        <label for="five">5</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="one" name="one" placeholder="How many ₱ 1?">
+                        <label for="one">1</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="number" class="form-control" id="cents25" name="cents25" placeholder="How many ¢ 25?">
+                        <label for="cents25">25</label>
+                    </div>
+                </div>
+
+                <div class="form-control add-money-btns">
+                    <button type="submit" class="btn btn-primary" data-type="Add">Count</button>
+                    <button type="submit" class="btn btn-primary" data-type="Shift">Shift</button>
+                    <button type="submit" class="btn btn-primary" data-type="End">End of the day</button>
+                </div>
+            </form>
 
             <form id="frm-add-cust" class="frm-add-cust">
                 <a href="#" id="close-frm-add-cust"><i class="fa-solid fa-xmark"></i></a>
@@ -429,7 +491,11 @@ if (isset($_SESSION['id'])) {
                 </div>
             </form>
 
-            <a href="#" id="btn-add-customer" class="btn btn-primary"><i class="fa-solid fa-plus fa-beat"></i> Add Customer</a>
+            <div class="pos-add-buttons-container">
+                <a href="#" id="btn-save-money" class="btn btn-primary"><i class="fa-solid fa-plus fa-beat"></i> Save Money</a>
+                <a href="#" id="btn-add-customer" class="btn btn-primary"><i class="fa-solid fa-plus fa-beat"></i> Add Customer</a>
+            </div>
+
 
             <div class="message-container">
                 <?php

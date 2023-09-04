@@ -949,4 +949,52 @@ $(document).ready(function () {
       });
     }
   });
+
+  $("#btn-save-money").click(function () {
+    $("#frm-add-money").css("display", "block");
+  });
+
+  $("#close-add-money").click(function () {
+    $("#frm-add-money").css("display", "none");
+  });
+
+  $("#frm-add-money").submit(function (e) {
+    e.preventDefault();
+    var buttonType = $(document.activeElement).data("type");
+    var isAnyInputNotEmpty = false;
+
+    var formData = {
+      serializedData: $("#frm-add-money").serialize(),
+      buttonType: buttonType,
+    };
+
+    $('#frm-add-money input[type="number"]').each(function () {
+      if ($(this).val() !== "") {
+        isAnyInputNotEmpty = true;
+        return false;
+      }
+    });
+
+    if (isAnyInputNotEmpty) {
+      $.ajax({
+        type: "POST",
+        url: "../ajax-url/add-money.php",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          $("." + response).css("opacity", 1);
+          setTimeout(function () {
+            $("." + response).css("opacity", 0);
+          }, 2000);
+          $("#frm-add-money").css("display", "none");
+          $("#frm-add-money")[0].reset();
+        },
+      });
+    } else {
+      $(".all-input-empty").css("opacity", 1);
+      setTimeout(function () {
+        $(".all-input-empty").css("opacity", 0);
+      }, 2000);
+    }
+  });
 });

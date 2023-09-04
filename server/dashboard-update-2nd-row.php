@@ -70,6 +70,8 @@ if (isset($_SESSION['id'])) {
             $totreturn = 0;
         }
 
+        $most_return_reason = ($most_return_reason == null) ? 'NA' : $most_return_reason;
+
         $data = [
             "customer" => [
                 '0' => $freqBItem,
@@ -81,6 +83,7 @@ if (isset($_SESSION['id'])) {
             ]
         ];
 
+        // echo $most_return_reason;
         echo json_encode($data);
 ?>
         
