@@ -56,7 +56,19 @@ if (isset($_SESSION['id'])) {
                             echo $date_time;
                             ?>
                         </td>
-                        <td><?= $get_row['EMP_ID'] ?></td>
+                        <td>
+                            <?php
+                            $emp_id = $get_row['EMP_ID'];
+                            $emp_sql = "SELECT * FROM `employee` WHERE `EMP_ID` = '$emp_id'";
+                            $emp_result = $conn->query($emp_sql);
+                            if ($emp_result->num_rows > 0) {
+                                $emp_row = $emp_result->fetch_assoc();
+                                echo $emp_row['FIRST_NAME'].' '.$emp_row['MIDDLE_INITIAL'].' '.$emp_row['LAST_NAME'];
+                            } else {
+                                echo '';
+                            }
+                            ?>
+                        </td>
                         <td><?= $get_row['ONE_THOUSAND'] ?></td>
                         <td><?= $get_row['FIVE_HUNDRED'] ?></td>
                         <td><?= $get_row['TWO_HUNDRED'] ?></td>
