@@ -9,7 +9,7 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($_POST['branch']) && isset($_POST['date'])) {
+    if (isset($_POST['branch']) && isset($_POST['date']) && isset($_POST['add'])) {
         $branch = $_POST['branch'];
         $date = $_POST['date'];
         $emp_id = $emp['EMP_ID'];
@@ -27,6 +27,27 @@ if (isset($_SESSION['id'])) {
             echo 'Stock out added';
         } else {
             echo 'Stock out not added';
+        }
+    } elseif (isset($_POST['branch']) && isset($_POST['date']) && isset($_POST['id']) && isset($_POST['edit'])) {
+        $id = $_POST['id'];
+        $branch = $_POST['branch'];
+        $date = $_POST['date'];
+
+        $update_sql = "UPDATE `stock_out` SET `BRANCH_ID`='$branch', `DATE`='$date' WHERE `STOCK_OUT_ID` = '$id'";
+
+        if ($conn->query($update_sql)) {
+            echo 'Editing Success';
+        } else {
+            echo 'Editing Failed';
+        }
+    } elseif (isset($_POST['id']) && isset($_POST['delete'])) {
+        $id = $_POST['id'];
+        $update_sql = "UPDATE `stock_out` SET `STATUS` = 'Deactivated' WHERE `STOCK_OUT_ID` = '$id'";
+
+        if ($conn->query($update_sql)) {
+            echo 'Stock Out Report Deleted';
+        } else {
+            echo 'Deletion Unsuccessful';
         }
     }
 } else {

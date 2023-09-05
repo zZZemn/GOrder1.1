@@ -252,7 +252,6 @@ if (isset($_SESSION['id'])) {
                         <label class="product-add-label">Process By</label>
                     </div>
                 </div>
-
             </div>
 
 
@@ -304,6 +303,40 @@ if (isset($_SESSION['id'])) {
                 <center class="add-bnts">
                     <button type="reset" id="so-add-cancel" class="btn btn-dark">Cancel</button>
                     <button type="submit" id="so-add-save" class="btn btn-primary">Save</button>
+                </center>
+            </form>
+
+
+            <!-- edit form -->
+            <form class="add-stock-out" id="frm-edit-stock-out">
+                <center>Edit <span id="edit-stock-out-id"></span></center>
+                <div class="contents-input-container">
+                    <select class="stockout-select-branch form-control" name="edit_branch_select" id="edit_branch_select" required>
+                        <option disabled selected>Select Branch</option>
+                        <?php
+                        $branch_sql = $conn->query("SELECT * FROM `branch` WHERE `STATUS` = 'Active'");
+                        if ($branch_sql->num_rows > 0) {
+                            while ($branch = $branch_sql->fetch_assoc()) {
+                                echo '<option value="' . $branch['ID'] . '">' . $branch['BRANCH'] . '</option>';
+                            }
+                        }
+                        ?>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please Select Branch.
+                    </div>
+                    <label class="product-add-label">Select Branch</label>
+                </div>
+                <div class="contents-input-container">
+                    <input type="date" id="edit_date" class="form-control" name="edit_date" required max="<?php echo date('Y-m-d'); ?>">
+                    <label class="product-add-label">Delivery Date</label>
+                    <div class="invalid-feedback">
+                        Advance date are not allowed.
+                    </div>
+                </div>
+                <center class="add-bnts">
+                    <button type="reset" id="so-edit-cancel" class="btn btn-dark">Cancel</button>
+                    <button type="submit" id="so-edit-save" class="btn btn-primary">Save</button>
                 </center>
             </form>
 
@@ -370,6 +403,23 @@ if (isset($_SESSION['id'])) {
                     }
                 }
                 ?>
+            </div>
+
+            <div class="modal" tabindex="-1" role="dialog" id="myModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to dispose this stock out report?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="delete-this-stock-out" data-id="">Delete</button>
+                            <button type="button" class="btn btn-secondary" id="close-delete-this-stock-out" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>

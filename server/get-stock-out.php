@@ -21,16 +21,16 @@ if (isset($_SESSION['id'])) {
             $search = $_GET['search'];
 
             if ($search !== '') {
-                $response_sql = "SELECT * FROM `stock_out` WHERE `STOCK_OUT_ID` LIKE '%$search%'";
+                $response_sql = "SELECT * FROM `stock_out` WHERE `STOCK_OUT_ID` LIKE '%$search%' AND `STATUS` = 'Active'";
             } else {
                 if ($branch !== 'all' && $emp_id !== 'all') {
-                    $response_sql = "SELECT * FROM `stock_out` WHERE `BRANCH_ID` = '$branch' AND `EMP_ID` = '$emp_id'";
+                    $response_sql = "SELECT * FROM `stock_out` WHERE `BRANCH_ID` = '$branch' AND `EMP_ID` = '$emp_id' AND `STATUS` = 'Active'";
                 } elseif ($branch == 'all' && $emp_id !== 'all') {
-                    $response_sql = "SELECT * FROM `stock_out` WHERE `EMP_ID` = '$emp_id'";
+                    $response_sql = "SELECT * FROM `stock_out` WHERE `EMP_ID` = '$emp_id' AND `STATUS` = 'Active'";
                 } elseif ($branch !== 'all' && $emp_id == 'all') {
-                    $response_sql = "SELECT * FROM `stock_out` WHERE `BRANCH_ID` = '$branch'";
+                    $response_sql = "SELECT * FROM `stock_out` WHERE `BRANCH_ID` = '$branch' AND `STATUS` = 'Active'";
                 } else {
-                    $response_sql = "SELECT * FROM `stock_out`";
+                    $response_sql = "SELECT * FROM `stock_out` WHERE `STATUS` = 'Active'";
                 }
             }
 
@@ -54,7 +54,7 @@ if (isset($_SESSION['id'])) {
                                 $emp_sql = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '{$response_row['EMP_ID']}'");
                                 if ($emp_sql) {
                                     $emp_result = $emp_sql->fetch_assoc();
-                                    echo $emp_result['FIRST_NAME'].' '.$emp_result['MIDDLE_INITIAL'].' '.$emp_result['LAST_NAME'];
+                                    echo $emp_result['FIRST_NAME'] . ' ' . $emp_result['MIDDLE_INITIAL'] . ' ' . $emp_result['LAST_NAME'];
                                 }
                                 ?>
                             </td>
@@ -62,8 +62,8 @@ if (isset($_SESSION['id'])) {
                             <td><?= $response_row['TOTAL'] ?></td>
                             <td class="btns">
                                 <a href="stock-out-details.php?id=<?= $response_row['STOCK_OUT_ID'] ?>"><i class="fa-solid fa-eye"></i></a>
-                                <button><i class="fa-solid fa-pen-to-square"></i></button>
-                                <button><i class="fa-solid fa-trash"></i></button>
+                                <button type="button" id="btn-edit-stock-out" data-id="<?= $response_row['STOCK_OUT_ID'] ?>" data-branch="<?= $response_row['BRANCH_ID'] ?>" data-date="<?= $response_row['DATE'] ?>"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button type="button" id="btn-delete-stock-out" data-id="<?= $response_row['STOCK_OUT_ID'] ?>"><i class="fa-solid fa-trash"></i></button>
                             </td>
                         </tr>
                     <?php
