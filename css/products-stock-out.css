@@ -1,0 +1,158 @@
+.main {
+  background-color: white;
+}
+
+.stock-out-filtering-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-container {
+  left: 0px;
+  width: 450px;
+  display: flex;
+  margin-top: 5px;
+}
+
+.search-container input {
+  width: 400px;
+  height: 40px;
+  padding: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  border-right: none;
+  outline: none;
+  color: rgb(43, 43, 43);
+}
+
+.search-container button {
+  width: 50px;
+  height: 40px;
+  border: 1px solid #00000000;
+  padding-left: 10px;
+  border-radius: none !important;
+  background-color: #0d6efd;
+  color: white;
+  border-left: none;
+
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transform: translateX(-50px) !important;
+}
+
+.select-stockout-only {
+  display: flex;
+}
+
+.contents-input-container {
+  position: relative;
+  margin: 10px;
+}
+
+.contents-input-container select {
+  font-size: 12px;
+  padding: 3px 0px;
+  padding-left: 5px;
+  width: 160px;
+  height: 35px;
+}
+
+.contents-input-container label {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-size: 10px;
+  background-color: white;
+  transform: translateY(-6px);
+  padding: 0 8px;
+}
+
+/*  */
+
+.stock-out-list-table {
+  position: relative;
+  height: 80vh;
+  background-color: white;
+  overflow-y: auto;
+}
+
+.stock-out-list-table table thead {
+  position: sticky;
+  top: 0;
+  background-color: white;
+}
+
+.stock-out-list-table table thead tr th {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.stock-out-list-table table tbody tr td {
+  font-size: 13px;
+}
+
+.stock-out-list-table table tbody tr td a {
+  color: black;
+}
+
+.btnAddStockOut {
+  position: absolute;
+  bottom: 30px;
+  right: 20px;
+}
+
+/* add stock out */
+
+.add-stock-out {
+  position: absolute;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px rgb(160, 160, 160);
+  padding: 20px;
+  top: 20vh;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: none;
+}
+
+.add-stock-out .contents-input-container {
+    margin: 20px !important;
+}
+
+.add-stock-out .contents-input-container input,
+.add-stock-out .contents-input-container select {
+  width: 200px;
+}
+
+.add-bnts {
+    margin-top: 15px;
+}
+
+.add-bnts button{
+    font-size: 12px;
+}
+
+.invalid-feedback {
+    font-size: 12px !important;
+}
+
+.btns button{
+    border: none !important;
+    background-color: rgba(255, 255, 255, 0);
+    font-size: 13px;
+}
+
+/* alert */
+.alert {
+    position: fixed !important;
+    top: 20px;
+    color: white !important;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    font-size: 15px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 20;
+}
