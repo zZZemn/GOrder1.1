@@ -97,12 +97,28 @@ if (isset($_GET['id'])) {
         <form class="top-right-container" id="frm-add-sod">
             <center>Add Product</center>
             <div class="input-container">
-                <input class="form-control" type="number" id="product_name">
-                <label for="product_name">Total Value</label>
+                <input class="form-control" type="number" id="product_name" list="products" required>
+                <datalist id="products">
+                    <?php
+                    $products_sql = "SELECT p.*, COALESCE(SUM(i.QUANTITY), 0) AS total_quantity
+                                     FROM products p
+                                     LEFT JOIN inventory i ON p.PRODUCT_ID = i.PRODUCT_ID
+                                     GROUP BY p.PRODUCT_ID;";
+                    $products_result = $conn->query($products_sql);
+                    if ($products_result->num_rows > 0) {
+                        while ($product = $products_result->fetch_assoc()) {
+                    ?>
+                            <option value="<?= $product['PRODUCT_ID'] ?>"><?= $product['PRODUCT_NAME'].' - '.$product['total_quantity'] ?></option>
+                    <?php
+                        }
+                    }
+                    ?>
+                </datalist>
+                <label for="product_name">Product ID</label>
                 <div class="invalid-feedback">Please Input Valid Product ID.</div>
             </div>
             <div class="input-container">
-                <input class="form-control" type="number" id="qty">
+                <input class="form-control" type="number" id="qty" required>
                 <label for="qty">Quantity</label>
                 <div class="invalid-feedback">Please Input Valid Product ID.</div>
             </div>
