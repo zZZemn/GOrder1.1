@@ -62,4 +62,19 @@ body {
 /* table */
 .table-container {
     height: 50vh !important;
+    overflow-y: auto;
+}
+
+/* alert */
+
+.alert {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+
+    pointer-events: none;
+
+    opacity: 0;
 }

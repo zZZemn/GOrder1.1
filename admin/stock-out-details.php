@@ -69,6 +69,8 @@ if (isset($_GET['id'])) {
 </head>
 
 <body>
+    <div class="alert alert-success bg-success text-light"></div>
+    <div class="alert alert-danger bg-danger text-light"></div>
     <a class="btn-back" href="products-stock-out.php"><i class="fa-solid fa-arrow-left"></i> Back</a>
 
     <div class="top-container">
@@ -108,7 +110,7 @@ if (isset($_GET['id'])) {
                     if ($products_result->num_rows > 0) {
                         while ($product = $products_result->fetch_assoc()) {
                     ?>
-                            <option value="<?= $product['PRODUCT_ID'] ?>"><?= $product['PRODUCT_NAME'].' - '.$product['total_quantity'] ?></option>
+                            <option value="<?= $product['PRODUCT_ID'] ?>"><?= $product['PRODUCT_NAME'] . ' - ' . $product['total_quantity'] ?></option>
                     <?php
                         }
                     }

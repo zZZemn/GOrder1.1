@@ -20,6 +20,10 @@ if (isset($_SESSION['id'])) {
                           ORDER BY `EXP_DATE` ASC, `PRODUCT_ID` ASC, `INV_ID` ASC";
         $inventory_result = $conn->query($inventory_sql);
         if ($inventory_result->num_rows > 0) {
+            $product_sql = $conn->query("SELECT `SELLING_PRICE` FROM `products` WHERE `PRODUCT_ID` = '$id'");
+            $product = $product_sql->fetch_assoc();
+            $price = $product['SELLING_PRICE'];
+            $computedPrice = $price * $qty;
             while ($inv = $inventory_result->fetch_assoc()) {
                 $available_quantity = $inv['QUANTITY'];
                 $subtracted_quantity = min($qty, $available_quantity);
@@ -40,6 +44,13 @@ if (isset($_SESSION['id'])) {
                 if ($qty <= 0) {
                     break;
                 }
+            }
+
+            $update_price = "UPDATE `stock_out` SET `TOTAL`=`TOTAL` + '$computedPrice' WHERE `STOCK_OUT_ID` = '$soid'";
+            if ($conn->query($update_price)) {
+                echo true;
+            } else {
+                echo false;
             }
         } else {
             echo $id;

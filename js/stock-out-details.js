@@ -61,18 +61,42 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                   $("#frm-add-sod")[0].reset();
+                  console.log(response);
                   updateSODTable();
+                  if (response == 1) {
+                    $(".alert-success").css("opacity", 1).text("Success!");
+                    setTimeout(function () {
+                      $(".alert-success").css("opacity", 0).text("");
+                    }, 1000);
+                  } else {
+                    $(".alert-danger")
+                      .css("opacity", 1)
+                      .text("Something went wrong :<");
+                    setTimeout(function () {
+                      $(".alert-danger").css("opacity", 0).text("");
+                    }, 1000);
+                  }
                 },
               });
             } else {
               console.log("Invalid Quantity");
+              $("#qty").addClass("is-invalid");
             }
           });
         } else {
           console.log("Invalid Product ID");
+          $("#product_name").addClass("is-invalid");
         }
       },
     });
+  });
+
+  $("#qty").keydown(function (e) {
+    $(this).removeClass("is-invalid");
+  });
+
+  $("#product_name").keydown(function (e) {
+    $(this).removeClass("is-invalid");
   });
 
   //   delete
