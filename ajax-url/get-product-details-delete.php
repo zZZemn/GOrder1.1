@@ -11,12 +11,12 @@ if (isset($_SESSION['id'])) {
     if ($emp['EMP_TYPE'] === 'Admin' && $emp['EMP_STATUS'] === 'active') {
         if (isset($_GET['product_id'])) {
             $product_id = $_GET['product_id'];
-            $product_sql = "SELECT PRODUCT_NAME, UNIT_MEASUREMENT FROM products WHERE PRODUCT_ID = '$product_id'";
+            $product_sql = "SELECT * FROM products WHERE PRODUCT_ID = '$product_id'";
             $product_result = $conn->query($product_sql);
             if($product_result->num_rows > 0){
                 $product = $product_result->fetch_assoc();
 
-                $product_name = $product['PRODUCT_NAME'].' '.$product['UNIT_MEASUREMENT'];
+                $product_name = $product['PRODUCT_NAME'].' '.$product['MG'].' '.$product['G'].' '.$product['ML'];
                 $response = [$product_name, $product_id];
                 echo json_encode($response);
             } else {
