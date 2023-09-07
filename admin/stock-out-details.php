@@ -99,7 +99,7 @@ if (isset($_GET['id'])) {
         <form class="top-right-container" id="frm-add-sod">
             <center>Add Product</center>
             <div class="input-container">
-                <input class="form-control" type="number" id="product_name" list="products" required>
+                <input class="form-control" type="text" id="product_name" list="products" required>
                 <datalist id="products">
                     <?php
                     $products_sql = "SELECT p.*, COALESCE(SUM(i.QUANTITY), 0) AS total_quantity
@@ -135,6 +135,7 @@ if (isset($_GET['id'])) {
                     <th>#</th>
                     <th>Product</th>
                     <th>Quantity</th>
+                    <th>Price</th>
                     <th>Expiration Date</th>
                     <th>Action</th>
                 </tr>

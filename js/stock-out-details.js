@@ -101,7 +101,42 @@ $(document).ready(function () {
 
   //   delete
   $(document).on("click", ".btn-delete", function (e) {
-    console.log($(this).attr("data-invid"));
+    var inv_id = $(this).attr("data-invid"); //update qty of this
+    var qty = $(this).attr("data-qty"); //qty
+    var sodid = $(this).attr("data-sodid"); //delete this
+    var soid = $(this).attr("data-soid"); // update qty of this
+    var selling_price = $(this).attr("data-sellingprice");
+    // console.log(inv_id);
+    // console.log(qty);
+    // console.log(sodid);
+    // console.log(soid);
+
+    $.ajax({
+      type: "POST",
+      url: "../ajax-url/delete-sod.php",
+      data: {
+        inv_id: inv_id,
+        qty: qty,
+        soid: soid,
+        sodid: sodid,
+        selling_price: selling_price,
+      },
+      success: function (response) {
+        console.log(response);
+        updateSODTable();
+        if (response == "Deletion Success!") {
+          $(".alert-success").css("opacity", 1).text(response);
+          setTimeout(function () {
+            $(".alert-success").css("opacity", 0).text("");
+          }, 1000);
+        } else {
+          $(".alert-danger").css("opacity", 1).text(response);
+          setTimeout(function () {
+            $(".alert-danger").css("opacity", 0).text("");
+          }, 1000);
+        }
+      },
+    });
   });
 
   updateSODTable();

@@ -16,7 +16,7 @@ if (isset($_SESSION['id'])) {
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
 
-            $get_sql = "SELECT sod.*, i.EXP_DATE, p.PRODUCT_NAME
+            $get_sql = "SELECT sod.*, i.EXP_DATE, p.PRODUCT_NAME, p.SELLING_PRICE
             FROM stock_out_details AS sod
             JOIN inventory AS i ON sod.INV_ID = i.INV_ID
             JOIN products AS p ON i.PRODUCT_ID = p.PRODUCT_ID
@@ -32,15 +32,20 @@ if (isset($_SESSION['id'])) {
                             <td><?= $row ?></td>
                             <td><?= $get['PRODUCT_NAME'] ?></td>
                             <td><?= $get['QTY'] ?></td>
+                            <td><?= $get['SELLING_PRICE'] ?></td>
                             <td><?= $get['EXP_DATE'] ?></td>
                             <td>
-                                <button type="button" class="btn-delete btn btn-danger"
-                                data-invid="<?= $get['ID'] ?>"
-                                ><i class="fa-solid fa-trash"></i> Delete</button>
+                                <button type="button" class="btn-delete btn btn-danger" data-invid="<?= $get['INV_ID'] ?>" data-qty="<?= $get['QTY'] ?>" data-sodid="<?= $get['ID'] ?>" data-soid="<?= $get['STOCK_OUT_ID'] ?>" data-sellingprice="<?= $get['SELLING_PRICE'] ?>"><i class="fa-solid fa-trash"></i> Delete</button>
                             </td>
                         </tr>
-<?php
+                    <?php
                     }
+                } else {
+                    ?>
+                    <tr>
+                        <td colspan="6"><center>Empty</center></td>
+                    </tr>
+<?php
                 }
             }
         }
