@@ -1,5 +1,4 @@
 <?php
-
 require '../database/db.php';
 require '../PHPMailer/src/Exception.php';
 require '../PHPMailer/src/PHPMailer.php';
@@ -19,6 +18,19 @@ function randomTransaction_id()
     }
 
     return $transaction_id;
+}
+
+function randomReturnID()
+{
+    global $conn;
+    $return_id = 'RTN' . mt_rand(000000, 999999);
+    $check = $conn->query("SELECT * FROM `return` WHERE `RETURN_ID` = '$return_id'");
+    while ($check->num_rows > 0) {
+        $return_id = 'RTN' . mt_rand(000000, 999999);
+        $check = $conn->query("SELECT * FROM `return` WHERE `RETURN_ID` = '$return_id'");
+    }
+
+    return $return_id;
 }
 
 function error422($message)
@@ -2267,9 +2279,73 @@ function returnProducts($id, $order_id)
 
 function returnRequest($data)
 {
-    //transaction id from sales
-    //INV ID
-    //QTY
+    global $conn;
 
-    $transaction_id = $data->transaction_id;
+    $checkUser = checkUser($data->user_id);
+    if ($checkUser->num_rows > 0) {
+        $transaction_id = $data->transaction_id;
+        $return_reason = $data->return_reason;
+        $return_id = randomReturnID();
+        $retAmount = 0;
+        foreach ($data->returns as $ret) {
+            $amount = 0;
+            $inv_id = $ret->inv_id;
+            $qty = $ret->qty;
+
+            $inv_id_sql = "SELECT i.PRODUCT_ID, p.PRODUCT_ID, p.SELLING_PRICE
+            FROM inventory AS i
+            JOIN products AS p ON i.PRODUCT_ID = p.PRODUCT_ID
+            WHERE i.INV_ID = '$inv_id'";
+
+            $inv_result = $conn->query($inv_id_sql);
+            if ($inv_result) {
+                if ($inv_result->num_rows > 0) {
+                    $inv = $inv_result->fetch_assoc();
+                    $amount = $qty * $inv['SELLING_PRICE'];
+                } else {
+                    return error422('Some Inventory ID not exist');
+                }
+            } else {
+                return error422("SQL Error: " . $conn->error);
+            }
+
+            $retAmount += $amount;
+        }
+
+        // insert to return
+        $return_sql = "INSERT INTO `return`(`RETURN_ID`, `TRANSACTION_ID`, `RETURN_DATE`, `RETURN_AMOUNT`, `RETURN_REASON`, `STATUS`) 
+                                    VALUES ('$return_id','$transaction_id','CURRENT_DATE()','$retAmount','$return_reason','Pending')";
+
+        if ($conn->query($return_sql)) {
+            $insert_rItemsErr = false;
+            foreach ($data->returns as $ret) {
+                $inv_id = $ret->inv_id;
+                $qty = $ret->qty;
+
+                $sql = "INSERT INTO `return_items`(`RETURN_ID`, `INV_ID`, `QTY`) 
+                                           VALUES ('$return_id','$inv_id','$qty')";
+                if (!$conn->query($sql)) {
+                    $insert_rItemsErr = true;
+                }
+            }
+
+            if ($insert_rItemsErr == true) {
+                $message = 'Some items not inserted';
+            } else {
+                $message = 'Return request success';
+            }
+
+            $data = [
+                'status' => 200,
+                'message' => $message
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+
+        } else {
+            return error422("SQL Error: " . $conn->error);
+        }
+    } else {
+        return error422('User not found');
+    }
 }

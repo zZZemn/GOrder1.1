@@ -1,5 +1,4 @@
 <?php 
-error_reporting(0);
 // Set the time zone to Philippines (Asia/Manila)
 date_default_timezone_set('Asia/Manila');
 
