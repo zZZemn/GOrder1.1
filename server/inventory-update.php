@@ -63,7 +63,7 @@ if (isset($_SESSION['id'])) {
             } else {
                 ?>
                 <tr>
-                    <td colspan="6" class="text-center text-danger p-5 m-5" style="font-size: 15px;">Empty</td>
+                    <td colspan="8" class="text-center text-danger p-5 m-5" style="font-size: 15px;">Empty</td>
                 </tr>
 <?php
             }

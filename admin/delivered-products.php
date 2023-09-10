@@ -162,8 +162,8 @@ if (isset($_GET['del_id'])) {
                         <th>Selling Price</th>
                         <th>Mark up</th>
                         <th>Expiration Date</th>
-                        <th>Del Qty</th>
-                        <th>Qty</th>
+                        <th>Delivered Quantity</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
