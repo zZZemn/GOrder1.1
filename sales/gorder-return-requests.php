@@ -32,7 +32,7 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/sales.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder | Product Return</title>
+    <title>GOrder | Return Requests</title>
 </head>
 
 <body>
@@ -162,11 +162,11 @@ if (isset($_SESSION['id'])) {
                     <tr>
                         <th colspan="6">
                             <div class="search-select-container">
-                                <a class="btn btn-dark" href="gorder-return-requests.php">Return Requests</a>
-                                <select class="today-this-week-sales form-control" id="sales-filter">
+                                <a class="btn btn-dark" href="return.php">Add Return</a>
+                                <!-- <select class="today-this-week-sales form-control" id="sales-filter">
                                     <option value="today">Today</option>
                                     <option value="this-week">This Week</option>
-                                </select>
+                                </select> -->
                                 <div class="return-search">
                                     <input type="text" id="txt-return-search" class="form-control" placeholder="Search Transaction ID">
                                     <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -176,20 +176,18 @@ if (isset($_SESSION['id'])) {
                     </tr>
                     <tr>
                         <th>Transaction ID</th>
-                        <th>Transaction Type</th>
-                        <th class="time-date">Time</th>
-                        <th>Total</th>
-                        <th>Process By</th>
+                        <th>Request Date</th>
+                        <th>Request Amount</th>
+                        <th>Return Reason</th>
                         <th>Action</th>
                     </tr>
                 </thead>
 
-                <tbody id="sales-results">
+                <tbody id="ret-return-results">
 
                 </tbody>
             </table>
         </div>
-
 
         <div class="main">
 
@@ -271,8 +269,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/pos-sales.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/return-request.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

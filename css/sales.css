@@ -1,3 +1,7 @@
+i {
+    padding: 0;
+}
+
 .table-container {
     height: 91vh;
     overflow-y: auto;
@@ -34,7 +38,7 @@ table tbody tr td {
 }
 
 .search-select-container select {
-    width: 70%;
+    width: 50%;
 }
 
 .return-search {
