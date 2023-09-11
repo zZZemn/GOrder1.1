@@ -24,11 +24,10 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
-    <link rel="stylesheet" href="../css/loading.css">
+    <link rel="stylesheet" href="../css/maintenance-discount.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder</title>
+    <title>GOrder | Maintenance</title>
 </head>
 
 <body>
@@ -141,7 +140,7 @@ if (isset($_SESSION['id'])) {
 
             <hr class="mobile-only">
 
-            <a href="dashboard.php" class="nav-active"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+            <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
 
             <hr>
 
@@ -196,7 +195,7 @@ if (isset($_SESSION['id'])) {
                 <a href="maintenance-discount.php"><i class="fa-solid fa-percent"></i>Discount</a>
                 <a href="maintenance-category.php"><i class="fa-solid fa-list"></i>Category</a>
                 <a href="maintenance-address.php"><i class="fa-solid fa-location-dot"></i>Address</a>
-                <a href="maintenance-branch.php"><i class="fa-solid fa-code-branch"></i>Branch</a>
+                <a href="maintenance-branch.php" class="nav-active"><i class="fa-solid fa-code-branch"></i>Branch</a>
             </div>
 
             <hr>
@@ -211,113 +210,42 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <div class="alert alert-danger bg-danger">
+        </div>
+        <div class="alert alert-success bg-success">
+        </div>
+
+        <div class="add-discount">
+            <center>Add Discount</center>
+            <a href="#" class="close-add-discount"><i class="fa-solid fa-xmark"></i></a>
+            <div class="input">
+                <input type="text" name="new_discount_name" id="new_discount_name" class="form-control">
+                <label>Discount Name</label>
+            </div>
+            <div class="input">
+                <input type="number" name="new_discount_percentage" id="new_discount_percentage" class="form-control">
+                <label>Discount Percentage</label>
+            </div>
+            <input type="submit" id="add_new_discount" value="Add" class="btn btn-primary">
+        </div>
+
         <div class="main">
+            <center class="discount-center">Branches</center>
+            <a class="add-discount-open btn btn-primary" href="#">New Branch</a>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Branch</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="branch_container">
 
-            <div class="loading-overlay">
-                <div class="loading-spinner"></div>
+                    </tbody>
+                </table>
             </div>
-
-
-            <div class="dash-board-container">
-
-                <div class="dashboard-f-row">
-                    <div class="f-row-f-content-container content-container">
-                        <div id="f-inv-status-container" class="status-container">
-                            <div class="specific-element1">
-                                <center>
-                                    <i class="fa-solid fa-person"></i>
-                                    <h4 class="text-dark">
-                                        0
-                                    </h4>
-                                    <h5>No of Sales Today</h5>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="vdr-container1 vdr-container">
-                            <a href="reports-daily-sales.php">View Detailed Report >>></a>
-                        </div>
-                    </div>
-
-                    <div class="f-row-s-content-container content-container">
-                        <div id="s-inv-status-container" class="status-container">
-                            <div class="specific-element2">
-                                <center>
-                                    <i class="fa-solid fa-money-bill"></i>
-                                    <h4 class="text-dark">
-                                        ₱ 0
-                                    </h4>
-                                    <h5>Today's Sales</h5>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="vdr-container2 vdr-container">
-                            <a href="reports-daily-sales.php">View Detailed Report >>></a>
-                        </div>
-                    </div>
-
-                    <div class="f-row-t-content-container content-container">
-                        <div id="t-inv-status-container" class="status-container">
-                            <div class="specific-element3">
-                                <center>
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                    <h4 class="text-dark">
-                                        0
-                                    </h4>
-                                    <h5>Pending Order</h5>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="vdr-container3 vdr-container">
-                            <a href="../sales/orders.php">View Orders >>></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-s-row">
-
-                    <div class="content-container">
-                        <div class="s-row-top">
-                            <h5>Customers</h5>
-                            <a href="#">View Detailed Report >></a>
-                        </div>
-                        <div class="s-row-bottom">
-                            <div class="s-row-bottom-left">
-                                <h4 id="cust_tot"></h4>
-                                <p>Total no of Customers</p>
-                            </div>
-                            <div class="s-row-bottom-right">
-                                <h4 id="freqBItem"></h4>
-                                <p>Frequently bought item</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-container">
-                        <div class="s-row-top">
-                            <h5>Product</h5>
-                            <a href="#">View Detailed Report >></a>
-                        </div>
-                        <div class="s-row-bottom">
-                            <div class="s-row-bottom-left">
-                                <h4 id="ret_items"></h4>
-                                <p>Returned Items</p>
-                            </div>
-                            <div class="s-row-bottom-right">
-                                <h4 id="freqRItem"></h4>
-                                <p>Most common return reason</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-t-row">
-                    <div id="chartContainer" class="chartContainer">
-
-                    </div>
-                </div>
-
-            </div>
-
 
             <div class="message-container">
                 <?php
@@ -398,10 +326,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/dashboard.js"></script>
+        <script src="../js/branch.js"></script>
         <script src="../js/notifications.js"></script>
-        <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
-        <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 
     <?php else : ?>
         <div class="access-denied">

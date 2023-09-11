@@ -107,7 +107,7 @@
     color: rgb(255, 255, 255) !important;
 
     height: 50px;
-    width: 100px;
+    width: auto;
     font-size: 15px;
 
     z-index: 100000;
