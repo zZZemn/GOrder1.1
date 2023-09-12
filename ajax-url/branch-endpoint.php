@@ -31,6 +31,25 @@ if (isset($_SESSION['id'])) {
                 } else {
                     echo '404';
                 }
+            } elseif ($type == 'addDiscount') {
+                if (isset($_POST['name'])) {
+                    $branch = $_POST['name'];
+                    $randID = 'BCH_' . str_pad(mt_rand(0, 999), 3, '0', STR_PAD_LEFT);
+                    $check_id = $conn->query("SELECT * FROM `branch` WHERE `ID` = '$randID'");
+                    while ($check_id->num_rows > 0) {
+                        $randID = 'BCH_' . str_pad(mt_rand(0, 999), 3, '0', STR_PAD_LEFT);
+                        $check_id = $conn->query("SELECT * FROM `branch` WHERE `ID` = '$randID'");
+                    }
+                    $insert_sql = "INSERT INTO `branch`(`ID`, `BRANCH`, `STATUS`) 
+                                                VALUES ('$randID','$branch','Active')";
+                    if ($conn->query($insert_sql)) {
+                        echo '200';
+                    } else {
+                        echo '400';
+                    }
+                } else {
+                    echo '404';
+                }
             }
         } else {
             echo '404';

@@ -215,23 +215,20 @@ if (isset($_SESSION['id'])) {
         <div class="alert alert-success bg-success">
         </div>
 
-        <div class="add-discount">
-            <center>Add Discount</center>
-            <a href="#" class="close-add-discount"><i class="fa-solid fa-xmark"></i></a>
+        <form class="add-discount add-branch">
+            <center>Add Branch</center>
+            <button type="button" class="close-add-discount close-add-branch"><i class="fa-solid fa-xmark"></i></button>
             <div class="input">
-                <input type="text" name="new_discount_name" id="new_discount_name" class="form-control">
-                <label>Discount Name</label>
+                <input type="text" name="new_discount_name" id="new_branch_name" class="form-control" required>
+                <label>Branch Name</label>
             </div>
-            <div class="input">
-                <input type="number" name="new_discount_percentage" id="new_discount_percentage" class="form-control">
-                <label>Discount Percentage</label>
-            </div>
-            <input type="submit" id="add_new_discount" value="Add" class="btn btn-primary">
-        </div>
+            <input type="submit" id="add_new_branch" value="Add" class="btn btn-primary">
+        </form>
+
+        <button type="button" class="add-discount-open btn btn-primary" id="btn-open-add-branch">New Branch</button>
 
         <div class="main">
             <center class="discount-center">Branches</center>
-            <a class="add-discount-open btn btn-primary" href="#">New Branch</a>
             <div class="table-container">
                 <table class="table table-striped">
                     <thead>
