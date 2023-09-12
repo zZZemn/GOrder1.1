@@ -110,8 +110,6 @@ if (isset($_SESSION['id'])) {
                 <div class="avatar-dropdown-container">
                     <a href="avatar-profile.php"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
-                    <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
-                    <hr>
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>
@@ -195,6 +193,7 @@ if (isset($_SESSION['id'])) {
                 <a href="maintenance-discount.php" class="nav-active"><i class="fa-solid fa-percent"></i>Discount</a>
                 <a href="maintenance-category.php"><i class="fa-solid fa-list"></i>Category</a>
                 <a href="maintenance-address.php"><i class="fa-solid fa-location-dot"></i>Address</a>
+                <a href="maintenance-branch.php"><i class="fa-solid fa-code-branch"></i>Branch</a>
             </div>
 
             <hr>
