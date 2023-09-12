@@ -65,6 +65,10 @@
   overflow-y: auto;
 }
 
+.table-container i {
+  padding: 0 !important;
+}
+
 .table {
   background-color: white;
 }
@@ -130,7 +134,8 @@
   font-size: 12px;
 }
 
-.add-branch {
+.add-branch,
+.edit-branch {
   width: 260px;
   height: 220px;
 }

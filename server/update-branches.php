@@ -25,6 +25,7 @@ if (isset($_SESSION['id'])) {
                             <td class="<?= ($branches_row['STATUS'] !== 'Active') ? 'text-danger' : '' ?>"><?= $branches_row['ID'] ?></td>
                             <td class="<?= ($branches_row['STATUS'] !== 'Active') ? 'text-danger' : '' ?>"><?= $branches_row['BRANCH'] ?></td>
                             <td>
+                                <button data-id="<?= $branches_row['ID'] ?>" data-name="<?= $branches_row['BRANCH'] ?>" class="open-edit-branch btn btn-dark"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <button data-id="<?= $branches_row['ID'] ?>" <?= ($branches_row['STATUS'] == 'Active') ? 'class="deactivate-branch btn btn-danger" data-action="Deactivated"' : 'class="deactivate-branch btn btn-success" data-action="Active"' ?>><?= ($branches_row['STATUS'] == 'Active') ? 'Disable' : 'Enable' ?></button>
                             </td>
                         </tr>

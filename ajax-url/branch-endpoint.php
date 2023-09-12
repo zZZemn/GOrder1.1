@@ -31,7 +31,7 @@ if (isset($_SESSION['id'])) {
                 } else {
                     echo '404';
                 }
-            } elseif ($type == 'addDiscount') {
+            } elseif ($type == 'addBranch') {
                 if (isset($_POST['name'])) {
                     $branch = $_POST['name'];
                     $randID = 'BCH_' . str_pad(mt_rand(0, 999), 3, '0', STR_PAD_LEFT);
@@ -50,9 +50,23 @@ if (isset($_SESSION['id'])) {
                 } else {
                     echo '404';
                 }
+            } elseif ($type == 'edit') {
+                if (isset($_POST['name'], $_POST['id'])) {
+                    $name = $_POST['name'];
+                    $id = $_POST['id'];
+
+                    $edit_branch_sql = "UPDATE `branch` SET `BRANCH`='$name' WHERE `ID` = '$id'";
+                    if ($conn->query($edit_branch_sql)) {
+                        echo '200';
+                    } else {
+                        echo '1';
+                    }
+                } else {
+                    echo '2';
+                }
             }
         } else {
-            echo '404';
+            echo '3';
         }
     } else {
         echo "

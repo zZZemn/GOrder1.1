@@ -14,6 +14,16 @@ $(document).ready(function () {
     });
   };
 
+  const closeFrnEditBranch = () => {
+    $("#edit_branch_name").val("");
+    $("#edit_branch").data("id", "");
+
+    $(".edit-branch").css({
+      opacity: "0",
+      "pointer-events": "none",
+    });
+  };
+
   const updateBranches = () => {
     $.ajax({
       type: "GET",
@@ -71,9 +81,9 @@ $(document).ready(function () {
 
   $(".add-branch").submit(function (e) {
     e.preventDefault();
-    closeFrmAddBranch();
     var name = $("#new_branch_name").val();
-    var type = "addDiscount";
+    var type = "addBranch";
+    closeFrmAddBranch();
     $.ajax({
       type: "POST",
       url: "../ajax-url/branch-endpoint.php",
@@ -82,7 +92,6 @@ $(document).ready(function () {
         type: type,
       },
       success: function (response) {
-        console.log(response);
         if (response == "200") {
           notif(".alert-success", "Branch Added");
         } else {
@@ -91,6 +100,55 @@ $(document).ready(function () {
         updateBranches();
       },
     });
+  });
+
+  // edit branch
+  $(document).on("click", ".open-edit-branch", function (e) {
+    e.preventDefault();
+    var id = $(this).data("id");
+    var name = $(this).data("name");
+
+    $("#edit_branch_name").val(name);
+    $("#edit_branch").data("id", id);
+
+    $(".edit-branch").css({
+      opacity: "1",
+      "pointer-events": "auto",
+    });
+  });
+
+  $(".close-edit-branch").click(function (e) {
+    e.preventDefault();
+    closeFrnEditBranch();
+  });
+
+  $(".edit-branch").submit(function (e) {
+    e.preventDefault();
+    var newBranchName = $("#edit_branch_name").val();
+    var id = $("#edit_branch").data("id");
+
+    closeFrnEditBranch();
+    if (id !== "" && newBranchName !== "") {
+      $.ajax({
+        type: "POST",
+        url: "../ajax-url/branch-endpoint.php",
+        data: {
+          type: "edit",
+          name: newBranchName,
+          id: id,
+        },
+        success: function (response) {
+          if (response == "200") {
+            notif(".alert-success", "Branch Edited");
+          } else {
+            notif(".alert-danger", "Branch Editing Failed");
+          }
+          updateBranches();
+        },
+      });
+    } else {
+      notif(".alert-danger", "Please input proper branch name");
+    }
   });
 
   updateBranches();

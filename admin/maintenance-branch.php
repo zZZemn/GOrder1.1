@@ -215,6 +215,16 @@ if (isset($_SESSION['id'])) {
         <div class="alert alert-success bg-success">
         </div>
 
+        <form class="add-discount edit-branch">
+            <center>Edit Branch</center>
+            <button type="button" class="close-add-discount close-edit-branch"><i class="fa-solid fa-xmark"></i></button>
+            <div class="input">
+                <input type="text" name="new_discount_name" id="edit_branch_name" class="form-control" required>
+                <label>Branch Name</label>
+            </div>
+            <input type="submit" data-id="" id="edit_branch" value="Save" class="btn btn-primary">
+        </form>
+
         <form class="add-discount add-branch">
             <center>Add Branch</center>
             <button type="button" class="close-add-discount close-add-branch"><i class="fa-solid fa-xmark"></i></button>
