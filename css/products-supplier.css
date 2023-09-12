@@ -1,198 +1,217 @@
 .supplier-search-add {
-    height: 80px;
-    position: relative;
-
-    display: flex;
-    align-items: center;
-    padding-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  height: 40px;
 }
 
 .search-container {
-    position: absolute;
-    left: 0px;
-    width: 450px;
-    display: flex;
+  position: relative;
+  width: 400px;
 }
 
 .search-container input {
-    width: 400px;
-    height: 40px;
-    border: 1px solid rgb(112, 112, 112);
-    padding: 5px;
-    font-size: 15px;
-    font-weight: 500;
-    border-right: none;
-    outline: none;
-    color: rgb(43, 43, 43)
+  height: 100%;
 }
 
 .search-container button {
-    width: 50px;
-    border: 1px solid #00000000;
-    padding-left: 10px;
-    border-radius: none !important;
-    background-color: #0d6efd;
-    color: white;
-    border-left: none;
-
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    transform: translateX(-50px) !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #0d6efd;
+  color: white;
+  border-left: none;
+  border: 1px solid #00000000;
+  height: 100%;
+  width: 50px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
 
-.add-supplier {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    right: 0;
-    width: 170px;
-    height: 40px;
-    font-size: 15px;
-}
-
-.add-supplier i {
-    margin-left: 10px;
+.search-container button i {
+  margin-left: 10px;
 }
 
 .suppliers-container {
-    height: 75vh;
-    overflow: auto;
-    padding: 15px;
-    background-color: white;
-    margin-top: 5px;
+  height: 75vh;
+  overflow: auto;
+  padding: 15px;
+  background-color: white;
+  margin-top: 5px;
 }
 
 .supplier-container {
-    box-shadow: 1px 1px 5px rgb(163, 163, 163);
-    padding: 20px;
-    margin: 10px;
-    padding-bottom: 200px;
+  box-shadow: 1px 1px 5px rgb(163, 163, 163);
+  padding: 20px;
+  margin: 10px;
+  padding-bottom: 200px;
 
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    height: 200px;
-    position: relative;
+  height: 200px;
+  position: relative;
 }
 
 .supplier-f-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 0px 20px;
-    padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px;
+  padding-bottom: 10px;
 
-    border-bottom: 1px solid rgb(151, 151, 151);
+  border-bottom: 1px solid rgb(151, 151, 151);
 }
 
 .supplier-s-row {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .supplier-s-row-bottom {
-    display: flex;
-    justify-content: space-between;
-    padding: 0px 20px;
-    padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px;
+  padding-top: 20px;
 }
 
 .supplier-s-row-bottom p {
-    font-size: 15px;
+  font-size: 15px;
 }
 
 .supplier-s-row-bottom .head {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 .add-edit-container {
-    position: absolute;
-    bottom: 10px;
-    right: 5px;
+  position: absolute;
+  bottom: 10px;
+  right: 5px;
 }
 
 .add-edit-container a {
-    color: black;
-    text-decoration: none;
-    font-size: 14px;
+  color: black;
+  text-decoration: none;
+  font-size: 14px;
 }
 
 .contents-input-container {
-    position: relative;
-    margin: 20px;
+  position: relative;
+  margin: 20px;
 }
 
 .contents-input-container label {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    font-size: 10px;
-    background-color: white;
-    transform: translateY(-6px);
-    padding: 0 8px;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-size: 10px;
+  background-color: white;
+  transform: translateY(-6px);
+  padding: 0 8px;
 }
 
 .contents-input-container input {
-    font-size: 13px;
-    padding: 5px;
-    outline: none;
+  font-size: 13px;
+  padding: 5px;
+  outline: none;
 
-    height: 40px;
-    width: 300px;
+  height: 40px;
+  width: 95%;
 }
 
 .add-supplier-container {
-    position: absolute;
-    background-color: rgb(255, 255, 255);
-    left: 50%;
-    transform: translateX(-50%);
-    box-shadow: 1px 1px 5px rgb(216, 216, 216);
-    padding: 20px;
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 1px 1px 5px rgb(216, 216, 216);
+  padding: 20px;
 
-    z-index: 5;
+  z-index: 5;
 
-    font-family: 'poppins', sans-serif;
-    border-radius: 5px;
-    display: none;
+  font-family: "poppins", sans-serif;
+  border-radius: 5px;
+  display: none;
 }
 
-#closeAddSupplier, #closeEditSupplier {
-    position: absolute;
-    right: 0;
-    top: 5px;
-    padding-left: 15px;
-    background-color: rgba(255, 255, 255, 0);
-    border: none;
+#closeAddSupplier,
+#closeEditSupplier {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  padding-left: 15px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
 }
 
 .no-sup-found {
-    margin-top: 30vh;
+  margin-top: 30vh;
 }
 
 /* edit-sup */
 
 .edit-supplier-container {
-
 }
 
 .alert {
-    position: absolute !important;
-    top: 20px;
-    color: white !important;
+  position: absolute !important;
+  top: 20px;
+  color: white !important;
 
-    left: 50%;
-    transform: translateX(-50%);
+  left: 50%;
+  transform: translateX(-50%);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-    height: 50px;
-    width: auto;
-    font-size: 12px;
-    z-index: 5;
+  height: 50px;
+  width: auto;
+  font-size: 12px;
+  z-index: 5;
 
-    opacity: 0;
-    transition: opacity 0.6s;
-    pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+
+@media (max-width: 830px) {
+  .supplier-search-add {
+    margin-bottom: 40px;
   }
+}
+
+@media (max-width: 500px) {
+  .supplier-container {
+    padding-bottom: 50px;
+    height: auto;
+  }
+
+  .supplier-f-row {
+    flex-direction: column-reverse;
+  }
+
+  .supplier-f-row h5 {
+    font-size: 13px;
+  }
+
+  .supplier-s-row-bottom {
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .supplier-s-row-bottom p{
+    font-size: 13px;
+  }
+
+  .supplier-s-row-bottom .head {
+    margin-top: 30px;
+  } 
+/* 
+.contents-input-container {
+
+}
+
+  .contents-input-container input {
+    width: 200px;
+  } */
+}
