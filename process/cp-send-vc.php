@@ -30,12 +30,12 @@ if (isset($_POST['id']) && isset($_POST['user_id']) && isset($_POST['email']) &&
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'goldengate.gorder@gmail.com';
-            $mail->Password = 'igwuzryiyygirllf';
+            $mail->Username = 'ugabane0516@gmail.com';
+            $mail->Password = 'owwj dmzb hypq lsfu';
             $mail->SMTPSecure = 'ssl'; // or 'ssl' if applicable
             $mail->Port = 465; // or the appropriate SMTP port provided by Hostinger
 
-            $mail->setFrom('goldengate.gorder@gmail.com', 'GOrder');
+            $mail->setFrom('ugabane0516@gmail.com', 'GOrder');
             $mail->addAddress($email);
             $mail->isHTML(true);
             $mail->Subject = 'Change Password';
