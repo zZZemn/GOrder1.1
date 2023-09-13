@@ -213,7 +213,7 @@ if (isset($_SESSION['id'])) {
             <div class="table-container">
                 <table class="table table-striped">
                     <thead>
-                        <tr>
+                        <tr class="heading">
                             <th colspan="12">
                                 <?php
                                 include('../time-date.php');

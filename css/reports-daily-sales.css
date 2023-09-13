@@ -1,7 +1,7 @@
 .table-container {
   font-family: "poppins", sans-serif;
-  overflow: auto;
   height: 88vh;
+  overflow: auto;
 }
 
 .table-container table {
@@ -23,6 +23,7 @@
 
 .filtering-container {
   display: flex !important;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: right;
 }
