@@ -51,12 +51,12 @@ if (isset($_POST['email']) && isset($_POST['username']) && isset($_POST['first_n
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'goldengate.gorder@gmail.com';
-    $mail->Password = 'igwuzryiyygirllf';
-    $mail->SMTPSecure = 'ssl'; // or 'ssl' if applicable
+    $mail->Username = 'ugabane0516@gmail.com';
+    $mail->Password = 'owwj dmzb hypq lsfu';
     $mail->Port = 465; // or the appropriate SMTP port provided by Hostinger
+    $mail->SMTPSecure = 'ssl'; // or 'ssl' if applicable
 
-    $mail->setFrom('goldengate.gorder@gmail.com', 'GOrder');
+    $mail->setFrom('ugabane0516@gmail.com', 'GOrder');
     $mail->addAddress($email);
     $mail->isHTML(true);
     $mail->Subject = 'Verification Code';
