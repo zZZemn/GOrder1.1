@@ -133,6 +133,7 @@ body {
   top: 60px;
   height: 80vh;
   background-color: rgb(255, 255, 255);
+  overflow-x: auto;
 }
 
 .delivery-list-table table thead tr th {

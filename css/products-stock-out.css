@@ -5,18 +5,20 @@
 .stock-out-filtering-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .search-container {
   left: 0px;
-  width: 450px;
-  display: flex;
+  height: 40px;
+  width: 400px;
   margin-top: 5px;
+  position: relative;
 }
 
 .search-container input {
-  width: 400px;
-  height: 40px;
+  width: 100%;
+  height: 100%;
   padding: 5px;
   font-size: 15px;
   font-weight: 500;
@@ -26,8 +28,9 @@
 }
 
 .search-container button {
+  position: absolute;
   width: 50px;
-  height: 40px;
+  height: 100%;
   border: 1px solid #00000000;
   padding-left: 10px;
   border-radius: none !important;
@@ -37,11 +40,13 @@
 
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  transform: translateX(-50px) !important;
+  top: 0;
+  right: 0;
 }
 
 .select-stockout-only {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .contents-input-container {
@@ -155,4 +160,12 @@
     pointer-events: none;
     opacity: 0;
     z-index: 20;
+}
+
+@media (max-width: 500px) {
+  .search-container {
+    width: 300px;
+    margin: auto;
+  }
+
 }
