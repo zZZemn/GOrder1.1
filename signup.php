@@ -13,6 +13,7 @@ include('time-date.php');
     <title>Sign up | GOrder</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="css/signup-form.css">
+    <link rel="stylesheet" href="css/loading.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,900;1,200;1,500&family=Roboto+Condensed:wght@300;400&display=swap');
     </style>
@@ -20,42 +21,14 @@ include('time-date.php');
 </head>
 
 <body class="">
+    <div class="alert alert-danger bg-danger">
 
-    <div class="alert alert-no-qty-left bg-danger contact_no_min">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        Please ensure that the contact number entered contains a minimum of 10 digits.
     </div>
+    <div class="alert alert-success bg-success">
 
-    <div class="alert alert-no-qty-left bg-danger age_min">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        You're not allowed to sign up for Gorder. Minimum age requirement is 16 years old.
     </div>
 
-    <div class="alert alert-no-qty-left bg-danger set-up-add">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        Please set up your address to proceed with the registration process.
-    </div>
-
-    <div class="alert alert-no-qty-left bg-danger username_min_char">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        Invalid username. Please ensure that the username is 7 characters or more, does not contain special characters, and is not comprised only of numbers.
-    </div>
-
-    <div class="alert alert-no-qty-left bg-danger password-format">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        Password needs to have at least 8 characters, including letters, digits, and a special symbol.
-    </div>
-    
-    <div class="alert alert-no-qty-left bg-danger email-exists">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        The email you entered already exists. Please use a different email address.
-    </div>
-    <div class="alert alert-no-qty-left bg-danger username-exists">
-        <span class="closebtn" onclick="this.parentElement.style.opacity=0;">&times;</span>
-        The username you entered already exists. Please choose a different username address.
-    </div>
-
-    <form class="signup-container" id="sign-up-form" method="POST" action="process/signup-process.php">
+    <form class="signup-container" id="sign-up-form" method="POST" action="terms-and-condition.php">
         <div class="create-account-container">
             <h1 class="create-account">Sign up To <em>GOrder</em></h1>
         </div>
@@ -187,10 +160,24 @@ include('time-date.php');
 
         <div class="buttons">
             <a href="index.php" class="btn btn-dark">Cancel</a>
-            <input type="submit" name="create" class="btn btn-primary" value="Sign up">
+            <input type="submit" name="create-account" id="btn-create-account" class="btn btn-primary" value="Sign up">
         </div>
-
     </form>
+
+    <div class="container verification-container">
+        <div class="card p-5">
+            <center class="text-success">
+                Please enter verification code that sent to <span id="verificationEmail"></span>
+            </center>
+            <div class="input-container">
+                <input type="number" class="form-control" id="txtVerificationCode">
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/sign-up.js"></script>

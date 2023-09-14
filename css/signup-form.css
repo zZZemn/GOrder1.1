@@ -1,482 +1,486 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
-
-    background-color: #1673ff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: "Poppins",sans-serif;
+  background-color: #1673ff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .signup-container {
-    background-color: white;
-    width: 70%;
-    padding: 40px 0;
+  background-color: white;
+  width: 70%;
+  padding: 40px 0;
 
-    margin-bottom: 50px;
-    margin-top: 50px;
-    position: relative;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  position: relative;
 
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .create-account-container {
-    top: 0;
-    width: 100%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
+  top: 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .create-account {
-    position: absolute;
-    font-size: 30px;
-    padding: 0 30px;
+  position: absolute;
+  font-size: 30px;
+  padding: 0 30px;
 }
 
 .create-account em {
-    color: red;
+  color: red;
 }
 
 .first-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 80%;
-    margin: auto;
-    height: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: auto;
+  height: 250px;
 
-    margin-top: 50px;
+  margin-top: 50px;
 
-    border: 1px solid rgb(80, 80, 80);
-    position: relative;
+  border: 1px solid rgb(80, 80, 80);
+  position: relative;
 
-    padding: 0 60px;
+  padding: 0 60px;
 }
 
 .cust-info {
-    position: absolute;
-    left: 30px;
+  position: absolute;
+  left: 30px;
 
-    background-color: white;
-    padding: 10px 20px;
-    transform: translateY(-120px);
-    font-size: 13px;
+  background-color: white;
+  padding: 10px 20px;
+  transform: translateY(-120px);
+  font-size: 13px;
 }
 
 .input {
-    position: relative;
-    margin-top: 20px;
+  position: relative;
+  margin-top: 20px;
 }
 
 .input input,
 select {
-    height: 40px;
-    outline: none;
-    font-size: 13px;
+  height: 40px;
+  outline: none;
+  font-size: 13px;
 }
 
 .input select {
-    text-align: center;
+  text-align: center;
 }
 
 .input input {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 #birthday {
-    text-align: center;
+  text-align: center;
 }
 
 #contact {
-    width: 100%;
-    padding-left: 55px;
-    letter-spacing: 1px;
+  width: 100%;
+  padding-left: 55px;
+  letter-spacing: 1px;
 }
 
 .contactplus {
-    position: absolute;
-    top: 8px;
-    height: 60%;
-    width: 50px;
-    border-right: 1px solid rgb(80, 80, 80);
-    font-size: 13px;
-    letter-spacing: 1px;
+  position: absolute;
+  top: 8px;
+  height: 60%;
+  width: 50px;
+  border-right: 1px solid rgb(80, 80, 80);
+  font-size: 13px;
+  letter-spacing: 1px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ph-flag {
-    position: absolute;
-    height: 100%;
-    top: 0;
-    right: 0;
-    border: 1px solid rgba(80, 80, 80, 0);
-    border-left: none;
-    border-top-right-radius: 2.5px;
-    border-bottom-right-radius: 2.5px;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  border: 1px solid rgba(80, 80, 80, 0);
+  border-left: none;
+  border-top-right-radius: 2.5px;
+  border-bottom-right-radius: 2.5px;
 }
 
 #email {
-    width: 100%;
+  width: 100%;
 }
 
 .input label {
-    position: absolute;
-    left: 10px;
-    font-size: 12px;
-    background-color: white;
-    transform: translateY(-10px);
-    padding: 0 10px;
+  position: absolute;
+  left: 10px;
+  font-size: 12px;
+  background-color: white;
+  transform: translateY(-10px);
+  padding: 0 10px;
 }
 
 .mi-suff {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .mi-suff input,
 select {
-    width: 80px;
+  width: 80px;
 }
 
 .bday-sex {
-    display: flex;
+  display: flex;
 }
 
 .bday-sex input {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 /* -------------------- */
 
 .second-row {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 80%;
-    margin: auto;
-    height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  height: 240px;
 
-    margin-top: 40px;
+  margin-top: 40px;
 
-    border: 1px solid rgb(80, 80, 80);
-    position: relative;
+  border: 1px solid rgb(80, 80, 80);
+  position: relative;
 
-    padding: 0 60px;
+  padding: 0 60px;
 }
 
 .address-label {
-    position: absolute;
-    left: 30px;
+  position: absolute;
+  left: 30px;
 
-    background-color: white;
-    padding: 10px 20px;
-    transform: translateY(-113px);
-    font-size: 13px;
+  background-color: white;
+  padding: 10px 20px;
+  transform: translateY(-113px);
+  font-size: 13px;
 }
 
 .unit {
-    display: flex;
+  display: flex;
 }
 
 .unit .input {
-    width: 100%;
+  width: 100%;
 }
 
 .unit .input input {
-    width: 100%;
+  width: 100%;
 }
 
 .region-province {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .municipality-bgy {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .municipality-bgy select {
-    width: 250px;
+  width: 250px;
 }
 
 .region-province select {
-    width: 250px;
+  width: 250px;
 }
 
 /* -------------- */
 
 .third-row {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 80%;
-    margin: auto;
-    height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  height: 100px;
 
-    margin-top: 40px;
+  margin-top: 40px;
 
-    border: 1px solid rgb(80, 80, 80);
-    position: relative;
+  border: 1px solid rgb(80, 80, 80);
+  position: relative;
 
-    padding: 0 60px;
+  padding: 0 60px;
 }
 
 .account {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .account input {
-    width: 250px;
+  width: 250px;
 }
 
 .account-label {
-    position: absolute;
-    left: 30px;
+  position: absolute;
+  left: 30px;
 
-    background-color: white;
-    padding: 10px 20px;
-    transform: translateY(-43px);
-    font-size: 13px;
+  background-color: white;
+  padding: 10px 20px;
+  transform: translateY(-43px);
+  font-size: 13px;
 }
 
 .buttons {
-    margin-top: 40px;
-    text-align: center;
+  margin-top: 40px;
+  text-align: center;
 }
 
 .buttons a {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .buttons input {
-    margin-left: 5px;
+  margin-left: 5px;
 }
 
 @media (max-width: 1120px) {
-    .signup-container {
-        width: 75%;
-    }
+  .signup-container {
+    width: 75%;
+  }
 }
 
 @media (max-width: 1185px) {
-    .signup-container {
-        width: 80%;
-    }
+  .signup-container {
+    width: 80%;
+  }
 }
 
 @media (max-width: 975px) {
-    .signup-container {
-        width: 85%;
-    }
+  .signup-container {
+    width: 85%;
+  }
 }
 
 @media (max-width: 915px) {
-    .region-province {
-        flex-direction: column;
-    }
+  .region-province {
+    flex-direction: column;
+  }
 
-    .municipality-bgy {
-        flex-direction: column;
-    }
+  .municipality-bgy {
+    flex-direction: column;
+  }
 
-    .second-row {
-        height: 400px;
-    }
+  .second-row {
+    height: 400px;
+  }
 
-    .address-label {
-        transform: translateY(-195px);
-    }
+  .address-label {
+    transform: translateY(-195px);
+  }
 
-    .municipality-bgy select {
-        width: 100%;
-    }
+  .municipality-bgy select {
+    width: 100%;
+  }
 
-    .region-province select {
-        width: 100%;
-    }
+  .region-province select {
+    width: 100%;
+  }
 
-    .account {
-        flex-direction: column;
-    }
+  .account {
+    flex-direction: column;
+  }
 
-    .account input {
-        width: 100%;
-    }
+  .account input {
+    width: 100%;
+  }
 
-    .third-row {
-        height: 200px;
-    }
+  .third-row {
+    height: 200px;
+  }
 
-    .account-label {
-        transform: translateY(-94px);
-    }
+  .account-label {
+    transform: translateY(-94px);
+  }
 }
 
 @media (max-width: 790px) {
-    .first-row {
-        flex-direction: column;
-        justify-content: center;
-        height: 500px;
+  .first-row {
+    flex-direction: column;
+    justify-content: center;
+    height: 500px;
 
-        position: relative;
-    }
+    position: relative;
+  }
 
-    .cust-info {
-        transform: translateY(-245px);
-    }
+  .cust-info {
+    transform: translateY(-245px);
+  }
 
-    .fname-lname {
-        width: 300px;
-    }
+  .fname-lname {
+    width: 300px;
+  }
 
-    .fname-lname .input input {
-        width: 100%;
-    }
+  .fname-lname .input input {
+    width: 100%;
+  }
 
-    .mi-suff {
-        justify-content: left;
-    }
+  .mi-suff {
+    justify-content: left;
+  }
 
-    .mi-suff #suffix {
-        margin-left: 10px;
-    }
+  .mi-suff #suffix {
+    margin-left: 10px;
+  }
 
-    .suffix-label {
-        left: 20px !important;
-    }
+  .suffix-label {
+    left: 20px !important;
+  }
 
-    .bday-sex {
-        width: 300px;
-    }
+  .bday-sex {
+    width: 300px;
+  }
 
-    .other-info-container {
-        border-top: 1px solid rgba(0, 0, 0, 0.445);
-        margin-top: 40px;
-        padding-top: 20px;
-    }
-
+  .other-info-container {
+    border-top: 1px solid rgba(0, 0, 0, 0.445);
+    margin-top: 40px;
+    padding-top: 20px;
+  }
 }
 
 @media (max-width: 520px) {
-    .fname-lname {
-        width: 250px;
-    }
+  .fname-lname {
+    width: 250px;
+  }
 
-    .bday-sex {
-        width: 250px;
-    }
+  .bday-sex {
+    width: 250px;
+  }
 }
 
 @media (max-width: 440px) {
-    .create-account {
-        font-size: 25px !important;
-    }
+  .create-account {
+    font-size: 25px !important;
+  }
 
-    .second-row {
-        padding: 0 20px;
-    }
-    .third-row {
-        padding: 0 20px;
-    }
+  .second-row {
+    padding: 0 20px;
+  }
+  .third-row {
+    padding: 0 20px;
+  }
 }
 
 @media (max-width: 400px) {
-    .fname-lname {
-        width: 230px;
-    }
-    .bday-sex {
-        width: 230px;
-    }
+  .fname-lname {
+    width: 230px;
+  }
+  .bday-sex {
+    width: 230px;
+  }
 }
 
 @media (max-width: 350px) {
-    .first-row {
-        width: 95%;
-    }
+  .first-row {
+    width: 95%;
+  }
 
-    .second-row {
-        width: 95%;
-    }
+  .second-row {
+    width: 95%;
+  }
 
-    .third-row {
-        width: 95%;
-    }
-    .create-account {
-        font-size: 20px !important;
-    }
+  .third-row {
+    width: 95%;
+  }
+  .create-account {
+    font-size: 20px !important;
+  }
 
-    .signup-container {
-        width: 90%;
-    }
+  .signup-container {
+    width: 90%;
+  }
 
-    .fname-lname {
-        width: 200px;
-    }
-    .bday-sex {
-        width: 200px;
-    }
+  .fname-lname {
+    width: 200px;
+  }
+  .bday-sex {
+    width: 200px;
+  }
 
-    .bday-sex #birthday {
-        width: 110px;
-        font-size: 10px;
-    }
+  .bday-sex #birthday {
+    width: 110px;
+    font-size: 10px;
+  }
 }
 
 @media (max-width: 275px) {
-    .create-account {
-        font-size: 17px !important;
-    }
+  .create-account {
+    font-size: 17px !important;
+  }
 }
-
-
 
 /*  */
 
-
 /* The alert message box */
 .alert {
-    position: fixed;
-    top: 20px;
-    background-color: #f44336; /* Red */
-    color: white;
+  position: fixed;
+  top: 20px;
+  background-color: #f44336; /* Red */
+  color: white;
 
-    height: auto;
-    width: 250px;
+  height: auto;
+  width: 250px;
 
-    z-index: 1;
-    opacity: 0;
+  z-index: 1;
+  opacity: 0;
 
-    transition: opacity 0.6s;
-    pointer-events: none;
-  }
-  
-  /* The close button */
-  .closebtn {
-    margin-left: 15px;
-    color: white;
-    font-weight: bold;
-    float: right;
-    font-size: 22px;
-    line-height: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  
-  /* When moving the mouse over the close button */
-  .closebtn:hover {
-    color: black;
-  }
+  transition: opacity 0.6s;
+  pointer-events: none;
+}
+
+/* verification code */
+.verification-container {
+  width: 60%;
+  position: absolute;
+  top: 50px;
+
+  display: none;
+}
+
+.input-container {
+  margin-top: 20px;
+}
+
+.input-container input {
+  width: 250px;
+  margin: auto;
+  text-align: center;
+  letter-spacing: 20px;
+}
+
+.info {
+  font-size: 12px;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+}

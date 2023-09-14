@@ -3,7 +3,7 @@ error_reporting(0);
 include('database/db.php');
 include('time-date.php');
 
-if (isset($_POST['agree'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['agree'])) {
     $fname = $_POST['fname'];
     $lname = $_POST['lname'];
     $mi = $_POST['mi'];
@@ -20,7 +20,6 @@ if (isset($_POST['agree'])) {
     $cart_id = $_POST['cart_id'];
 
     $firstLetter = strtoupper(substr($fname, 0, 1));
-    echo $firstLetter;
     $picture = $firstLetter . '.png';
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
@@ -43,23 +42,38 @@ if (isset($_POST['agree'])) {
     }
 }
 
-if (isset($_POST['submit'])) {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
-    $mi = $_POST['mi'];
-    $suffix = $_POST['suffix'];
-    $bday = $_POST['bday'];
-    $sex = $_POST['sex'];
-    $contact_no = $_POST['contact_no'];
-    $email = $_POST['email'];
-    $unit = $_POST['unit'];
-    $barangay = $_POST['barangay'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $cust_id = $_POST['cust_id'];
-    $cart_id = $_POST['cart_id'];
-?>
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['first_name'])) {
+    $_SESSION['fname'] = $_POST['first_name'];
+    $_SESSION['lname'] = $_POST['last_name'];
+    $_SESSION['mi'] = $_POST['mi'];
+    $_SESSION['suffix'] = $_POST['suffix'];
+    $_SESSION['bday'] = $_POST['birthday'];
+    $_SESSION['sex'] = $_POST['sex'];
+    $_SESSION['contact_no'] = $_POST['contact'];
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['unit'] = $_POST['unit'];
+    $_SESSION['barangay'] = $_POST['barangay'];
+    $_SESSION['username'] = $_POST['username'];
+    $_SESSION['password'] = $_POST['password'];
 
+    $cust_id = rand(00000000, 99999999);
+    $cust_sql = $conn->query("SELECT * FROM `customer_user` WHERE `CUST_ID` = '$cust_id'");
+    while ($cust_sql->num_rows > 0) {
+        $cust_id = rand(00000000, 99999999);
+        $cust_sql = $conn->query("SELECT * FROM `customer_user` WHERE `CUST_ID` = '$cust_id'");
+    }
+
+    $cart_id = rand(0000000, 9999999);
+    $cart_sql = $conn->query("SELECT * FROM `cart` WHERE `CART_ID` = '$cart_id'");
+    while ($cart_sql->num_rows > 0) {
+        $cart_id = rand(0000000, 9999999);
+        $cart_sql = $conn->query("SELECT * FROM `cart` WHERE `CART_ID` = '$cart_id'");
+    }
+
+    $_SESSION['cust_id'] = $cust_id;
+    $_SESSION['cart_id'] = $cart_id;
+
+?>
     <!DOCTYPE html>
     <html lang="en">
 
@@ -82,30 +96,28 @@ if (isset($_POST['submit'])) {
             <h1><em>GOrder</em> Terms and Conditions</h1>
             <p>You acknowledge that you have read, understand, and agree to be bound by the Terms & Conditions set forth below by accessing and using GOrder. These conditions apply to the whole website as well as any emails or other correspondence you may have with the company. The price of the next transaction after a product is returned and replaced should be the same as or higher than the price total of the initial transaction. At any time, we have the right to modify the pricing structure and the resource consumption guidelines.</p>
             <form method="post">
-                <input type="hidden" name="fname" value="<?php echo $fname ?>">
-                <input type="hidden" name="lname" value="<?php echo $lname ?>">
-                <input type="hidden" name="mi" value="<?php echo $mi ?>">
-                <input type="hidden" name="suffix" value="<?php echo $suffix ?>">
-                <input type="hidden" name="bday" value="<?php echo $bday ?>">
-                <input type="hidden" name="sex" value="<?php echo $sex ?>">
-                <input type="hidden" name="contact_no" value="<?php echo $contact_no ?>">
-                <input type="hidden" name="email" value="<?php echo $email ?>">
-                <input type="hidden" name="unit" value="<?php echo $unit ?>">
-                <input type="hidden" name="barangay" value="<?php echo $barangay ?>">
-                <input type="hidden" name="username" value="<?php echo $username ?>">
-                <input type="hidden" name="password" value="<?php echo $password ?>">
-                <input type="hidden" name="cust_id" value="<?php echo $cust_id ?>">
-                <input type="hidden" name="cart_id" value="<?php echo $cart_id ?>">
+                <input type="hidden" name="fname" value="<?= $_SESSION['fname'] ?>">
+                <input type="hidden" name="lname" value="<?= $_SESSION['lname'] ?>">
+                <input type="hidden" name="mi" value="<?= $_SESSION['mi'] ?>">
+                <input type="hidden" name="suffix" value="<?= $_SESSION['suffix'] ?>">
+                <input type="hidden" name="bday" value="<?= $_SESSION['bday'] ?>">
+                <input type="hidden" name="sex" value="<?= $_SESSION['sex'] ?>">
+                <input type="hidden" name="contact_no" value="<?= $_SESSION['contact_no'] ?>">
+                <input type="hidden" name="email" value="<?= $_SESSION['email'] ?>">
+                <input type="hidden" name="unit" value="<?= $_SESSION['unit'] ?>">
+                <input type="hidden" name="barangay" value="<?= $_SESSION['barangay'] ?>">
+                <input type="hidden" name="username" value="<?= $_SESSION['username'] ?>">
+                <input type="hidden" name="password" value="<?= $_SESSION['password'] ?>">
+                <input type="hidden" name="cust_id" value="<?= $_SESSION['cust_id'] ?>">
+                <input type="hidden" name="cart_id" value="<?= $_SESSION['cart_id'] ?>">
                 <input type="submit" name="agree" class="btn btn-primary" value="Agree">
             </form>
         </div>
     </body>
 
     </html>
-
 <?php
 } else {
     header('Location: index.php');
     exit;
 }
-?>
