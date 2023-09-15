@@ -15,6 +15,7 @@
 .select-main-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   margin-top: 20px;
 }
 
@@ -32,6 +33,7 @@
 
 .select-main-container .select-innner-container {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .select-container {
@@ -146,4 +148,17 @@
   opacity: 0;
   transition: opacity 0.6s;
   text-align: center;
+}
+
+
+@media (max-width: 1020px) {
+  .select-container {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 1020px) {
+  .select-main-container {
+    justify-content: center;
+  }
 }
