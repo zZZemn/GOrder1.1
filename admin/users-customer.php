@@ -170,7 +170,7 @@ if (isset($_SESSION['id'])) {
                 <a href="reports-monthly-sales.php"><i class="fa-solid fa-chart-column"></i>Monthly Sales</a>
                 <a href="reports-yearly-sales.php"><i class="fa-solid fa-chart-column"></i>Yearly Sales</a>
                 <a href="products-return.php"><i class="fa-solid fa-rotate-left"></i>Returns</a>
-                <a href="rellero.php" class="nav-active"><i class="fa-solid fa-money-bill"></i>Cash Register</a>
+                <a href="rellero.php"><i class="fa-solid fa-money-bill"></i>Cash Register</a>
             </div>
 
             <hr>
