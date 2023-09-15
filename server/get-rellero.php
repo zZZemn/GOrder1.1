@@ -88,7 +88,7 @@ if (isset($_SESSION['id'])) {
                 ?>
                 <tr>
                     <td colspan="15">
-                        <center class="no-sales-found">Rellero not found</center>
+                        <center class="no-sales-found">No Cash found.</center>
                     </td>
                 </tr>
 <?php
