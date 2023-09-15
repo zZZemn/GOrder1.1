@@ -1,260 +1,279 @@
 .main {
-    background-color: white;
-    font-family: 'poppins', sans-serif;
+  background-color: white;
+  font-family: "poppins", sans-serif;
 }
 
 .table-container {
-    overflow: auto;
-    height: 75vh;
-    margin-top: 10px;
+  overflow: auto;
+  height: 75vh;
+  margin-top: 10px;
 }
 
 .table-container table {
-    border-collapse: separate;
-    border-spacing: 0;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .table-container table thead {
-    position: sticky;
-    top: 0;
-    background-color: white;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .table-container table thead tr th {
-    font-size: 12px;
-    font-weight: 600;
-    border: 1px solid rgb(255, 255, 255);
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgb(255, 255, 255);
 }
 
 .table-container table tbody tr td {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .employee-title {
-    font-size: 20px !important;
-    font-weight: 600;
-    margin-top: 10px;
+  font-size: 20px !important;
+  font-weight: 600;
+  margin-top: 10px;
 }
 
 .search-filter-container {
-    margin-top: 10px;
-    position: relative;
-    height: 40px;
+  margin-top: 10px;
+  position: relative;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
-
 .input {
-    position: absolute;
-    right: 0;
+  position: relative;
 }
 
 .input label {
-    position: absolute;
-    background-color: white;
-    font-size: 10px;
-    font-weight: 400;
-    top: 0;
-    left: 10px;
-    padding: 0px 10px;
-    transform: translateY(-7px);
+  position: absolute;
+  background-color: white;
+  font-size: 10px;
+  font-weight: 400;
+  top: 0;
+  left: 10px;
+  padding: 0px 10px;
+  transform: translateY(-7px);
 }
 
 .input select {
-    right: 0;
-    width: 200px;
-    height: 40px;
+  right: 0;
+  width: 200px;
+  height: 40px;
 }
-
 /*  */
 
 .search-container {
-    position: absolute;
-    left: 0px;
-    width: 450px;
-    display: flex;
+  width: 300px;
+  height: 40px;
+  display: flex;
+  position: relative;
 }
 
 .search-container input {
-    width: 400px;
-    height: 40px;
-    border: 1px solid rgb(112, 112, 112);
-    padding: 5px;
-    font-size: 15px;
-    font-weight: 500;
-    border-right: none !important;
-    outline: none;
-    color: rgb(43, 43, 43)
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgb(112, 112, 112);
+  padding: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  border-right: none !important;
+  outline: none;
+  color: rgb(43, 43, 43);
 }
 
 .search-container button {
-    width: 50px;
-    border: 1px solid #00000000;
-    border-radius: none !important;
-    background-color: #0d6efd;
-    color: white;
-    border-left: none;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
-    transform: translateX(-50px);
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 100%;
+  border: 1px solid #00000000;
+  border-radius: none !important;
+  background-color: #0d6efd;
+  color: white;
+  border-left: none;
+  border-top-right-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 .search-container i,
 td a i {
-    padding: 0 !important;
+  padding: 0 !important;
 }
 
 .actions-btn a {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .frm-edit-cust {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    width: 800px;
-    height: 560px;
-    position: absolute;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: auto;
-    padding: 30px;
-    box-shadow: 1px 1px 3px rgb(173, 173, 173);
-    border-radius: 3px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  width: 800px;
+  height: 560px;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: auto;
+  padding: 30px;
+  box-shadow: 1px 1px 3px rgb(173, 173, 173);
+  border-radius: 3px;
 
-    display: none;
+  display: none;
 }
 
 #close-frm-edit-cust {
-    position: absolute;
-    right: 0;
-    top: 5px;
-    color: black;
-    font-size: 25px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+  color: black;
+  font-size: 25px;
 }
 
 .edit-cust-title {
-    padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 .first-div {
-    display: flex;
+  display: flex;
 }
 
 .first-div img {
-    height: 100px;
-    width: 100px;
+  height: 100px;
+  width: 100px;
 }
 
 .first-div .cust-details {
-    display: flex;
-    flex-direction: column;
-    height: 100px;
-    width: 600px;
-    justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 600px;
+  justify-content: space-around;
 }
 
 .first-div .cust-details div {
-    display: flex;
-    justify-content: space-between;
-    padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 20px;
 }
 
 .cust-details-f-row input {
-    width: 200px;
+  width: 200px;
 }
 
 .cust-details-f-row #mi {
-    width: 70px;
+  width: 70px;
 }
 
 .cust-details-f-row #suffix {
-    width: 80px;
+  width: 80px;
 }
 
 .cust-details-s-row {
-    width: 450px;
+  width: 450px;
 }
 
 .cust-details-s-row #discount-type {
-    width: 130px;
+  width: 130px;
 }
 
 .second-div {
-    margin-top: 30px;
+  margin-top: 30px;
 }
 
 .second-div div {
-    display: flex;
-    justify-content: space-between;
-    width: 700px;
-    margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 700px;
+  margin-top: 10px;
 }
 
-.second-div .region-province .input-container, .municipality-barangay .input-container {
-    width: 330px;
+.second-div .region-province .input-container,
+.municipality-barangay .input-container {
+  width: 330px;
 }
 
 .second-div div select {
-    width: 100%;
+  width: 100%;
 }
 
-
 .third-div {
-    display: flex;
-    flex-direction: column;
-    width: 700px;
-    margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  margin-top: 30px;
 }
 
 .third-div .third-div-f-row {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .third-div .third-div-s-row {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
-.third-div .third-div-s-row a,.third-div-s-row input{
-    margin: 10px;
-    width: 100px;
+.third-div .third-div-s-row a,
+.third-div-s-row input {
+  margin: 10px;
+  width: 100px;
 }
 
 .input-container {
-    position: relative;
-    padding: 0 !important;
+  position: relative;
+  padding: 0 !important;
 }
 
 .input-container label {
-    position: absolute;
-    font-size: 12px;
-    top: 0;
-    background-color: white;
-    margin-left: 10px !important;
-    transform: translateY(-10px);
-    padding: 0px 10px;
+  position: absolute;
+  font-size: 12px;
+  top: 0;
+  background-color: white;
+  margin-left: 10px !important;
+  transform: translateY(-10px);
+  padding: 0px 10px;
 }
 
 .alert {
-    position: absolute !important;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
-    color: rgb(255, 255, 255) !important;
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15px;
+  color: rgb(255, 255, 255) !important;
 
-    height: 50px;
-    width: auto;
-    font-size: 12px;
+  height: 50px;
+  width: auto;
+  font-size: 12px;
 
-    z-index: 100000;
+  z-index: 100000;
 
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.6s;
-    text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s;
+  text-align: center;
+}
+
+@media (max-width: 770px) {
+  .search-filter-container {
+    margin-bottom: 50px;
+  }
+}
+@media (max-width: 519px) {
+  .search-filter-container {
+    justify-content: center;
+  }
+}
+@media (max-width: 519px) {
+  .search-filter-container .input {
+    margin-top: 10px;
+  }
 }
