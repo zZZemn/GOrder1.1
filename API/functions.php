@@ -92,6 +92,13 @@ function getInvDetails($inv_id)
     return $conn->query($sql);
 }
 
+function checkOrderStatus($id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `order` WHERE `TRANSACTION_ID` = '$id'";
+    return $conn->query($sql);
+}
+
 // end
 
 function login($email, $password)
@@ -2341,9 +2348,42 @@ function returnRequest($data)
             ];
             header("HTTP/1.0 200 OK");
             return json_encode($data);
-
         } else {
             return error422("SQL Error: " . $conn->error);
+        }
+    } else {
+        return error422('User not found');
+    }
+}
+
+function cancelOrder($data)
+{
+    global $conn;
+
+    $user_id = $data->user_id;
+    $order_id = $data->order_id;
+    $check_user = checkUser($user_id);
+    if ($check_user->num_rows > 0) {
+        $order_sql = checkOrderStatus($order_id);
+        if ($order_sql->num_rows > 0) {
+            $order = $order_sql->fetch_assoc();
+            if ($order['STATUS'] === 'Waiting') {
+                $cancel_sql = "UPDATE `order` SET `STATUS` = 'Cancelled' WHERE `TRANSACTION_ID` = '$order_id'";
+                if ($conn->query($cancel_sql)) {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Order cancelation success'
+                    ];
+                    header("HTTP/1.0 200 OK");
+                    return json_encode($data);
+                } else {
+                    return error422('Cancel order is not available');
+                }
+            } else {
+                return error422('Cancel order is not available');
+            }
+        } else {
+            return error422('Invalid Order ID');
         }
     } else {
         return error422('User not found');
