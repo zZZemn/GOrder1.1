@@ -46,7 +46,7 @@ function error422($message)
 function checkUser($id)
 {
     global $conn;
-    $sql = "SELECT `CUST_ID` FROM customer_user WHERE `CUST_ID` = '$id'";
+    $sql = "SELECT * FROM customer_user WHERE `CUST_ID` = '$id'";
     return $conn->query($sql);
 }
 
@@ -96,6 +96,13 @@ function checkOrderStatus($id)
 {
     global $conn;
     $sql = "SELECT * FROM `order` WHERE `TRANSACTION_ID` = '$id'";
+    return $conn->query($sql);
+}
+
+function checkCart($cart_id, $product_id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `cart_items` WHERE `CART_ID` = '$cart_id' AND `PRODUCT_ID` = '$product_id'";
     return $conn->query($sql);
 }
 
@@ -599,6 +606,43 @@ function minusToCart($productID, $custID)
         ];
         header("HTTP/1.0 405 Access Deny");
         return json_encode($data);
+    }
+}
+
+function editCart($data)
+{
+    global $conn;
+
+    $user_id = $data->user_id;
+    $product_id = $data->product_id;
+    $quantity = $data->quantity;
+
+    $check_user = checkUser($user_id);
+    if ($check_user->num_rows > 0) {
+        $user = $check_user->fetch_assoc();
+        $cart_id = $user['CART_ID'];
+        $checkCart = checkCart($cart_id, $product_id);
+        if ($checkCart->num_rows > 0) {
+            $product_sql = getProductDetails($product_id);
+            $product = $product_sql->fetch_assoc();
+            $price = $product['SELLING_PRICE'];
+            $amount = $quantity * $price;
+            $update_sql = "UPDATE `cart_items` SET `QTY` = '$quantity', `AMOUNT` = '$amount' WHERE `CART_ID` = '$cart_id' AND `PRODUCT_ID` = '$product_id'";
+            if ($conn->query($update_sql)) {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Success',
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                return error422('Something went wrong');
+            }
+        } else {
+            return error422('Something went wrong 1');
+        }
+    } else {
+        return error422('No user found');
     }
 }
 
