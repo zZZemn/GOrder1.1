@@ -397,7 +397,17 @@ function returnDetails($id, $returnID)
     global $conn;
     $checkRider = checkRider($id);
     if ($checkRider->num_rows > 0) {
-        $retSql = "SELECT * FROM `return` WHERE `RETURN_ID` = '$returnID' AND `RIDER_ID` = '$id' AND `STATUS` = 'Pending'";
+        $retSql = "SELECT r.*, s.*, c.*, bgy.BARANGAY, muni.MUNICIPALITY, prov.PROVINCE, reg.REGION
+                   FROM `return` AS r
+                   JOIN `sales` AS s ON r.TRANSACTION_ID = s.TRANSACTION_ID
+                   JOIN `customer_user` AS c ON s.CUST_ID = c.CUST_ID
+                   JOIN `barangay` AS bgy ON c.BARANGAY_ID = bgy.BARANGAY_ID
+                   JOIN `municipality` AS muni ON bgy.MUNICIPALITY_ID = muni.MUNICIPALITY_ID
+                   JOIN `province` AS prov ON muni.PROVINCE_ID = prov.PROVINCE_ID
+                   JOIN `REGION` AS reg ON prov.REGION_ID = reg.REGION_ID
+                   WHERE r.RETURN_ID = '$returnID' AND r.RIDER_ID = '$id' 
+                   AND r.STATUS = 'Pending'";
+
         $retResult = $conn->query($retSql);
         if ($retResult->num_rows > 0) {
             $returnDetails = $retResult->fetch_assoc();
@@ -429,10 +439,12 @@ function returnDetails($id, $returnID)
                     'message' => 'Return Fetch Successfully',
                     'return_details' => [
                         "return_id" => $returnDetails['RETURN_ID'],
-                        "transaction_id" => $returnDetails['TRANSACTION_ID'],
                         "return_reason" => $returnDetails['RETURN_REASON'],
                         "return_amount" => $returnDetails['RETURN_AMOUNT'],
-                        "return_date" => $returnDetails['RETURN_DATE']
+                        "return_date" => $returnDetails['RETURN_DATE'],
+                        "name" => $returnDetails['FIRST_NAME'].' '.$returnDetails['MIDDLE_INITIAL'].' '.$returnDetails['LAST_NAME'],
+                        "address" => $returnDetails['UNIT_STREET'].', '.$returnDetails['BARANGAY'].', '.$returnDetails['MUNICIPALITY'].', '.$returnDetails['PROVINCE'].', '.$returnDetails['REGION'],
+                        "contact_no"=> $returnDetails['CONTACT_NO']
                     ],
                     'items' => $returnItems
                 ];
