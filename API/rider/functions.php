@@ -405,7 +405,7 @@ function returnDetails($id, $returnID)
                    JOIN `barangay` AS bgy ON c.BARANGAY_ID = bgy.BARANGAY_ID
                    JOIN `municipality` AS muni ON bgy.MUNICIPALITY_ID = muni.MUNICIPALITY_ID
                    JOIN `province` AS prov ON muni.PROVINCE_ID = prov.PROVINCE_ID
-                   JOIN `REGION` AS reg ON prov.REGION_ID = reg.REGION_ID
+                   JOIN `region` AS reg ON prov.REGION_ID = reg.REGION_ID
                    WHERE r.RETURN_ID = '$returnID' AND r.RIDER_ID = '$id' 
                    AND r.STATUS = 'Pending'";
 
