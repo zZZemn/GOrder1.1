@@ -461,3 +461,22 @@ function returnDetails($id, $returnID)
         return error422("Invalid Rider ID");
     }
 }
+
+function acceptReturn($riderID, $returnID)
+{
+    global $conn;
+
+    $checkRider = checkRider($riderID);
+    if ($checkRider->num_rows > 0) {
+        $return_sql = $conn->query("SELECT `TRANSACTION_ID`, `RETURN_AMOUNT` FROM `return` WHERE `RETURN_ID` = '$returnID' AND `RIDER_ID` = '$riderID' AND `STATUS` = 'Pending'");
+        if ($return_sql->num_rows > 0) {
+            $return_result = $return_sql->fetch_assoc();
+
+            
+        } else {
+            return error422("Invalid Request");
+        }
+    } else {
+        return error422("Invalid Rider ID");
+    }
+}

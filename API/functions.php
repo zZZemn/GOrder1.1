@@ -301,7 +301,7 @@ function products($cust_id_search)
                             'description' => $pro_row['DESCRIPTION'],
                             'img' => 'https://gorder.website/img/products/' . $pro_row['PRODUCT_IMG'],
                             'price' => floatval($pro_row['SELLING_PRICE']),
-                            'prescribe' => ($pro_row['PRESCRIBE'] === 1) ? true : false
+                            'prescribe' => ($pro_row['PRESCRIBE'] == '1') ? true : false
                         ];
 
                         $products[] = $product;
@@ -920,7 +920,7 @@ function checkout($id)
                             'QTY_LEFT' => intval($qty),
                             'QTY' => intval($order_items_row['QTY']),
                             'AMOUNT' => floatval($order_items_row['AMOUNT']),
-                            'PRESCRIBE' => ($isPrescibe == 1) ? true : false
+                            'PRESCRIBE' => ($isPrescibe == '1') ? true : false
                         ];
                     } else {
                         $order_item = [
@@ -930,7 +930,7 @@ function checkout($id)
                             'QTY_LEFT' => 0,
                             'QTY' => intval($order_items_row['QTY']),
                             'AMOUNT' => floatval($order_items_row['AMOUNT']),
-                            'PRESCRIBE' => ($isPrescibe == 1) ? true : false
+                            'PRESCRIBE' => ($isPrescibe == '1') ? true : false
                         ];
                     }
                     $order_items_array[] = $order_item;
