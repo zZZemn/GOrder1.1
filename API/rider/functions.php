@@ -409,7 +409,7 @@ function returnDetails($id, $returnID)
                    AND r.STATUS = 'Pending'";
 
         $retResult = $conn->query($retSql);
-        if ($retResult->num_rows > 0) {
+        if ($retResult) {
             $returnDetails = $retResult->fetch_assoc();
 
             $returnItemsSQL = "SELECT ri.*, inv.*, p.* 
