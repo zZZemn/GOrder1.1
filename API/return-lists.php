@@ -9,8 +9,8 @@ include('functions.php');
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 if ($requestMethod == "GET") {
-    if (isset($_GET['id']) && isset($_GET['transaction_id'])) {
-        $returns = returnProducts($_GET['id'], $_GET['transaction_id']);
+    if (isset($_GET['id'])) {
+        $returns = returnLists($_GET['id']);
         echo $returns;
     } else {
         $data = [

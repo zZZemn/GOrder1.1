@@ -2470,6 +2470,45 @@ function returnRequest($data)
     }
 }
 
+function returnLists($id)
+{
+    global $conn;
+    $check_user = checkUser($id);
+    if ($check_user->num_rows > 0) {
+        $getReturns = $conn->query("SELECT r.*, s.* FROM `return` AS r
+                                    JOIN `sales` AS s ON r.TRANSACTION_ID = s.TRANSACTION_ID
+                                    WHERE s.CUST_ID = '$id'");
+        if ($getReturns->num_rows > 0) {
+            $details = [];
+            while ($returnRow = $getReturns->fetch_assoc()) {
+                $ret = [
+                    "return_id" => $returnRow['RETURN_ID'],
+                    "return_date" => $returnRow['RETURN_DATE'],
+                    "return_amount" => $returnRow['RETURN_AMOUNT'],
+                    "status" => $returnRow['STATUS']
+                ];
+                $details[] = $ret;
+            }
+            $data = [
+                'status' => 200,
+                'message' => 'Empty',
+                'data' => $details
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'Empty'
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        }
+    } else {
+        return error422('User not found');
+    }
+}
+
 function cancelOrder($data)
 {
     global $conn;
