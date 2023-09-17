@@ -2491,7 +2491,7 @@ function returnLists($id)
             }
             $data = [
                 'status' => 200,
-                'message' => 'Empty',
+                'message' => 'Success',
                 'data' => $details
             ];
             header("HTTP/1.0 200 OK");
@@ -2503,6 +2503,63 @@ function returnLists($id)
             ];
             header("HTTP/1.0 200 OK");
             return json_encode($data);
+        }
+    } else {
+        return error422('User not found');
+    }
+}
+
+function returnListsDetails($id, $return_id)
+{
+    global $conn;
+    $check_user = checkUser($id);
+    if ($check_user->num_rows > 0) {
+        $return_sql = $conn->query("SELECT r.*, e.* FROM `return` AS r 
+                                    JOIN `employee` AS e ON r.RIDER_ID = e.EMP_ID
+                                    WHERE r.RETURN_ID = '$return_id'");
+        if ($return_sql->num_rows > 0) {
+            $returnDetails = $return_sql->fetch_assoc();
+            $returnProductsSql = $conn->query("SELECT ri.QTY, i.EXP_DATE, p.*
+                                               FROM `return_items` AS ri
+                                               JOIN `inventory` AS i ON ri.INV_ID = i.INV_ID
+                                               JOIN `products` AS p ON i.PRODUCT_ID = p.PRODUCT_ID
+                                               WHERE ri.RETURN_ID = '$return_id'");
+            if ($returnProductsSql->num_rows > 0) {
+                $items = [];
+                while ($item_row = $returnProductsSql->fetch_assoc()) {
+                    $item = [
+                        "product_name" => $item_row['PRODUCT_NAME'],
+                        "img" => 'https://gorder.website/img/products/' . $item_row['PRODUCT_IMG'],
+                        "MG" => $item_row['MG'],
+                        "ML" => $item_row['ML'],
+                        "G" => $item_row['G'],
+                        "expitation_date" => $item_row['EXP_DATE'],
+                        "quantity" => $item_row['QTY'],
+                        "price" => $item_row['SELLING_PRICE']
+                    ];
+                    $items[] = $item;
+                }
+
+                $data = [
+                    'status' => 200,
+                    'message' => 'Success',
+                    'data' => [
+                        "return_id" => $returnDetails['RETURN_ID'],
+                        "return_date" => $returnDetails['RETURN_DATE'],
+                        "return_amount" => $returnDetails['RETURN_AMOUNT'],
+                        "return_reason" => $returnDetails['RETURN_REASON'],
+                        "rider" => $returnDetails['FIRST_NAME'] . ' ' . $returnDetails['MIDDLE_INITIAL'] . ' ' . $returnDetails['LAST_NAME'],
+                        "status" => $returnDetails['STATUS']
+                    ],
+                    'items' => $items
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                return error422('Something Went Wrong');
+            }
+        } else {
+            return error422('Invalid return ID');
         }
     } else {
         return error422('User not found');
