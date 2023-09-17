@@ -9,11 +9,9 @@ include('functions.php');
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 
 if ($requestMethod == "GET") {
-    if (isset($_GET['id']) && isset($_GET['payment_type']) && isset($_GET['delivery_type'])) {
+    if (isset($_GET['id'])) {
         $id = $_GET['id'];
-        $payment_type = $_GET['payment_type'];
-        $delivery_type = $_GET['delivery_type'];
-        $order = checkout($id, $payment_type, $delivery_type);
+        $order = checkout($id);
         echo $order;
     } else {
         $data = [
