@@ -468,11 +468,30 @@ function acceptReturn($riderID, $returnID)
 
     $checkRider = checkRider($riderID);
     if ($checkRider->num_rows > 0) {
-        $return_sql = $conn->query("SELECT `TRANSACTION_ID`, `RETURN_AMOUNT` FROM `return` WHERE `RETURN_ID` = '$returnID' AND `RIDER_ID` = '$riderID' AND `STATUS` = 'Pending'");
+        $return_sql = $conn->query("SELECT r.TRANSACTION_ID, r.RETURN_AMOUNT, s.CUST_ID
+                                    FROM `return` AS r
+                                    JOIN `sales` AS s ON r.TRANSACTION_ID = s.TRANSACTION_ID
+                                    WHERE r.RETURN_ID = '$returnID' AND r.RIDER_ID = '$riderID' AND r.STATUS = 'Pending'");
         if ($return_sql->num_rows > 0) {
             $return_result = $return_sql->fetch_assoc();
+            $custID = $return_result['CUST_ID'];
+            $transactionID = $return_result['TRANSACTION_ID'];
+            $returnAmount = $return_result['RETURN_AMOUNT'];
 
-            
+            $updateReturnStatus = "UPDATE `return` SET `STATUS` = 'Done' WHERE `RETURN_ID` = '$returnID'";
+            $updateSalesNewTotal = "UPDATE `sales` SET `UPDATED_TOTAL` = UPDATED_TOTAL - '$returnAmount' WHERE `TRANSACTION_ID` = '$transactionID'";
+            $addVoucher = "UPDATE `customer_user` SET `VOUCHER` = '$returnAmount' WHERE `CUST_ID` = '$custID'";
+
+            if ($conn->query($updateReturnStatus) === TRUE && $conn->query($updateSalesNewTotal) === TRUE && $conn->query($addVoucher) === TRUE) {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Return Transaction Completed.'
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                return error422("Something Went Wrong");
+            }
         } else {
             return error422("Invalid Request");
         }
