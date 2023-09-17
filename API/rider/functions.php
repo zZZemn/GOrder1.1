@@ -391,6 +391,7 @@ function returns($id)
     }
 }
 
+error_reporting(1);
 
 function returnDetails($id, $returnID)
 {
@@ -442,9 +443,9 @@ function returnDetails($id, $returnID)
                         "return_reason" => $returnDetails['RETURN_REASON'],
                         "return_amount" => $returnDetails['RETURN_AMOUNT'],
                         "return_date" => $returnDetails['RETURN_DATE'],
-                        "name" => $returnDetails['FIRST_NAME'].' '.$returnDetails['MIDDLE_INITIAL'].' '.$returnDetails['LAST_NAME'],
-                        "address" => $returnDetails['UNIT_STREET'].', '.$returnDetails['BARANGAY'].', '.$returnDetails['MUNICIPALITY'].', '.$returnDetails['PROVINCE'].', '.$returnDetails['REGION'],
-                        "contact_no"=> $returnDetails['CONTACT_NO']
+                        "name" => $returnDetails['FIRST_NAME'] . ' ' . $returnDetails['MIDDLE_INITIAL'] . ' ' . $returnDetails['LAST_NAME'],
+                        "address" => $returnDetails['UNIT_STREET'] . ', ' . $returnDetails['BARANGAY'] . ', ' . $returnDetails['MUNICIPALITY'] . ', ' . $returnDetails['PROVINCE'] . ', ' . $returnDetails['REGION'],
+                        "contact_no" => $returnDetails['CONTACT_NO']
                     ],
                     'items' => $returnItems
                 ];
