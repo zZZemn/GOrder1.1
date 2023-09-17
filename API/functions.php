@@ -636,9 +636,16 @@ function editCart($data)
             $amount = $quantity * $price;
             $update_sql = "UPDATE `cart_items` SET `QTY` = '$quantity', `AMOUNT` = '$amount' WHERE `CART_ID` = '$cart_id' AND `PRODUCT_ID` = '$product_id'";
             if ($conn->query($update_sql)) {
+                $getSubtotal = $conn->query("SELECT SUM(`AMOUNT`) AS total_amount FROM `cart_items` WHERE `CART_ID` = '$cart_id'");
+                if ($getSubtotal->num_rows > 0) {
+                    $amountResult = $getSubtotal->fetch_assoc();
+                    $amount = $amountResult['total_amount'];
+                }
+
                 $data = [
                     'status' => 200,
                     'message' => 'Success',
+                    'amount' => $amount,
                 ];
                 header("HTTP/1.0 200 OK");
                 return json_encode($data);
