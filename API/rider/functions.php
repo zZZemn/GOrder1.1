@@ -12,6 +12,13 @@ function error422($message)
     return json_encode($data);
 }
 
+function checkRider($id)
+{
+    global $conn;
+    $sql = "SELECT * FROM `employee` WHERE `EMP_ID` = '$id' AND `EMP_TYPE` = 'Rider' AND `EMP_STATUS` = 'active'";
+    return $conn->query($sql);
+}
+
 function login($email, $password)
 {
     global $conn;
@@ -314,25 +321,26 @@ function scanQR($transaction_id, $rider_id)
     }
 }
 
-function rider($id){
+function rider($id)
+{
     global $conn;
 
     $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider' AND EMP_ID = '$id' AND EMP_STATUS = 'active'";
     $rider_result = $conn->query($rider_sql);
-    if($rider_result->num_rows > 0){
+    if ($rider_result->num_rows > 0) {
         $rider = $rider_result->fetch_assoc();
         $data = [
             'status' => 200,
             'message' => 'Rider Fetch Successfully',
             'data' => [
                 'emp_id' => $rider['EMP_ID'],
-                'name' => $rider['FIRST_NAME'].' '.$rider['MIDDLE_INITIAL'].' '.$rider['LAST_NAME'].' '.$rider['SUFFIX'],
+                'name' => $rider['FIRST_NAME'] . ' ' . $rider['MIDDLE_INITIAL'] . ' ' . $rider['LAST_NAME'] . ' ' . $rider['SUFFIX'],
                 'email' => $rider['EMAIL'],
                 'username' => $rider['USERNAME'],
                 'contact_no' => $rider['CONTACT_NO'],
                 'address' => $rider['ADDRESS'],
                 'birthday' => $rider['BIRTHDAY'],
-                'picture' => 'https://gorder.website/img/userprofile/'.$rider['PICTURE']
+                'picture' => 'https://gorder.website/img/userprofile/' . $rider['PICTURE']
             ]
         ];
         header("HTTP/1.0 200 OK");
@@ -340,5 +348,103 @@ function rider($id){
     } else {
         $message = 'No Rider Found';
         return error422($message);
+    }
+}
+
+function returns($id)
+{
+    global $conn;
+    $checkRider = checkRider($id);
+    if ($checkRider->num_rows > 0) {
+        $retSql = "SELECT * FROM `return` WHERE `RIDER_ID` = '$id' AND `STATUS` = 'Pending'";
+        $retResult = $conn->query($retSql);
+        if ($retResult->num_rows > 0) {
+            $returns = [];
+            while ($ret = $retResult->fetch_assoc()) {
+                $retRow = [
+                    "return_id" => $ret['RETURN_ID'],
+                    "transaction_id" => $ret['TRANSACTION_ID'],
+                    "return_reason" => $ret['RETURN_REASON'],
+                    "return_amount" => $ret['RETURN_AMOUNT'],
+                    "return_date" => $ret['RETURN_DATE']
+                ];
+                $returns[] = $retRow;
+            }
+
+            $data = [
+                'status' => 200,
+                'message' => 'All return requests Fetch Successfully',
+                'data' => $returns
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'No returns found.'
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        }
+    } else {
+        return error422("Invalid Rider ID");
+    }
+}
+
+
+function returnDetails($id, $returnID)
+{
+    global $conn;
+    $checkRider = checkRider($id);
+    if ($checkRider->num_rows > 0) {
+        $retSql = "SELECT * FROM `return` WHERE `RETURN_ID` = '$returnID' AND `RIDER_ID` = '$id' AND `STATUS` = 'Pending'";
+        $retResult = $conn->query($retSql);
+        if ($retResult->num_rows > 0) {
+            $returnDetails = $retResult->fetch_assoc();
+
+            $returnItemsSQL = "SELECT ri.*, inv.*, p.* 
+                               FROM `return_items` AS ri
+                               JOIN `inventory` AS inv ON ri.INV_ID = inv.INV_ID
+                               JOIN `products` AS p ON inv.PRODUCT_ID = p.PRODUCT_ID
+                               WHERE ri.RETURN_ID = '$returnID'";
+
+            $returnItemsResult = $conn->query($returnItemsSQL);
+            if ($returnItemsResult->num_rows > 0) {
+                $returnItems = [];
+                while ($returnItemsDetailsRow = $returnItemsResult->fetch_assoc()) {
+                    $item = [
+                        "product_name" => $returnItemsDetailsRow['PRODUCT_NAME'],
+                        "MG" => $returnItemsDetailsRow['MG'],
+                        "G" => $returnItemsDetailsRow['G'],
+                        "ML" => $returnItemsDetailsRow['ML'],
+                        "product_img" => $returnItemsDetailsRow['PRODUCT_IMG'],
+                        "expiration_date" => $returnItemsDetailsRow['EXP_DATE'],
+                        "qty" => $returnItemsDetailsRow['QTY']
+                    ];
+                    $returnItems[] = $item;
+                }
+
+                $data = [
+                    'status' => 200,
+                    'message' => 'Return Fetch Successfully',
+                    'return_details' => [
+                        "return_id" => $returnDetails['RETURN_ID'],
+                        "transaction_id" => $returnDetails['TRANSACTION_ID'],
+                        "return_reason" => $returnDetails['RETURN_REASON'],
+                        "return_amount" => $returnDetails['RETURN_AMOUNT'],
+                        "return_date" => $returnDetails['RETURN_DATE']
+                    ],
+                    'items' => $returnItems
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                return error422("Something went wrong!");
+            }
+        } else {
+            return error422("Invalid Return ID");
+        }
+    } else {
+        return error422("Invalid Rider ID");
     }
 }
