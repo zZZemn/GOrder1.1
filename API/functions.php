@@ -2356,6 +2356,7 @@ function returnProducts($id, $order_id)
                                 'ML' => $productDetails['ML'],
                                 'img' => 'https://gorder.website/img/products/' . $productDetails['PRODUCT_IMG'],
                                 'quantity' => $salesDetailsRow['QUANTITY'],
+                                'selling_price'=> $productDetails['SELLING_PRICE'],
                                 'amount' => $salesDetailsRow['AMOUNT'],
                                 'expiration_date' => $invDetails['EXP_DATE']
                             ];
