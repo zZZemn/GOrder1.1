@@ -93,7 +93,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -208,66 +208,18 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <div class="alert"></div>
+
         <div class="main">
 
             <div class="profile-container">
-
-                <div class="top-contents-container">
-                    <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
-
-                    <div class="top-right-contents">
-                        <?php if ($emp['SEX'] === "m") {
-                            $sex = "Male";
-                        } else {
-                            $sex = "Female";
-                        } ?>
-                        <h5 class="full-name"><?php echo $emp['FIRST_NAME'] . " " . $emp['MIDDLE_INITIAL'] . " " . $emp['LAST_NAME'] . " " . $emp['SUFFIX'] . "<em class='sex'>" . $sex . "</em>" ?></h5>
-
-
-                        <p class="emptype"><?php echo $emp['EMP_TYPE']; ?></p>
-
-                    </div>
-                </div>
-
-                <hr class="profile-line">
-
-                <div class="middle-contents-container">
-                    <div class="middle-left-contents">
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['USERNAME'] ?>" readonly>
-                            <label class="profile-contents-label">Username</label>
-                        </div>
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['EMAIL'] ?>" readonly>
-                            <label class="profile-contents-label">Email</label>
-                        </div>
-                    </div>
-
-                    <div class="middle-right-content">
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['CONTACT_NO'] ?>" readonly>
-                            <label class="profile-contents-label">Contact No.</label>
-                        </div>
-                        <div class="contents-input-container">
-                            <input class="profile-content" value="<?php echo $emp['BIRTHDAY'] ?>" readonly>
-                            <label class="profile-contents-label">Birthday</label>
-                        </div>
-                    </div>
-                </div>
-
-                <hr class="profile-line">
-
-                <div class="bottom-contents-container">
-                    <div class="contents-input-container">
-                        <input class="profile-content" value="<?php echo $emp['ADDRESS'] ?>" readonly>
-                        <label class="profile-contents-label">Address</label>
-                    </div>
-                </div>
 
             </div>
 
 
 
+
+            <button type="button" id="open-frm-edit-profile" class="btn-edit-profile btn btn-primary">Edit Profile</button>
 
             <div class="message-container">
                 <?php
@@ -349,6 +301,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/profile.js"></script>
+
 
     <?php else : ?>
         <div class="access-denied">
