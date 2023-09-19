@@ -1040,7 +1040,7 @@ function checkout($id)
                     'vat' => $vat,
                     'discount' => $discount,
                     'available_voucher' => $voucher,
-                    'total' =>  ($voucher > $total) ? 0 : $total - $voucher,
+                    'total' => ($voucher > $total) ? 0 : $total - $voucher,
                     'presribe_pro' => $prescribe_products,
                     'payment_type' => $paymentTypes
                 ]
@@ -2360,7 +2360,7 @@ function returnRequest($data)
 
         // insert to return
         $return_sql = "INSERT INTO `return`(`RETURN_ID`, `TRANSACTION_ID`, `RETURN_DATE`, `RETURN_AMOUNT`, `RETURN_REASON`, `STATUS`) 
-                                    VALUES ('$return_id','$transaction_id','CURRENT_DATE()','$retAmount','$return_reason','Pending')";
+                                    VALUES ('$return_id','$transaction_id', NOW(),'$retAmount','$return_reason','Pending')";
 
         if ($conn->query($return_sql)) {
             $insert_rItemsErr = false;
