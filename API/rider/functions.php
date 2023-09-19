@@ -480,7 +480,7 @@ function acceptReturn($riderID, $returnID)
 
             $updateReturnStatus = "UPDATE `return` SET `STATUS` = 'Done' WHERE `RETURN_ID` = '$returnID'";
             $updateSalesNewTotal = "UPDATE `sales` SET `UPDATED_TOTAL` = UPDATED_TOTAL - '$returnAmount' WHERE `TRANSACTION_ID` = '$transactionID'";
-            $addVoucher = "UPDATE `customer_user` SET `VOUCHER` = '$returnAmount' WHERE `CUST_ID` = '$custID'";
+            $addVoucher = "UPDATE `customer_user` SET `VOUCHER` = VOUCHER + '$returnAmount' WHERE `CUST_ID` = '$custID'";
 
             if ($conn->query($updateReturnStatus) === TRUE && $conn->query($updateSalesNewTotal) === TRUE && $conn->query($addVoucher) === TRUE) {
                 $data = [
