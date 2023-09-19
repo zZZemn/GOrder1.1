@@ -216,10 +216,26 @@ if (isset($_SESSION['id'])) {
 
             </div>
 
+            <form class="frm-change-pw card p-3" id="frm-change-pw">
+                <center>Change Password</center>
+                <div class="input-container">
+                    <input type="password" id="old-pw" name="old-pw" class="form-control" required>
+                    <label for="old-pw">Old Password</label>
+                </div>
+                <div class="input-container">
+                    <input type="password" id="new-pw" name="new-pw" class="form-control" required>
+                    <label for="new-pw">New Password</label>
+                </div>
+                <div class="change-pw-btns">
+                    <button type="reset" id="close-frm-change-pw" class="btn btn-dark">Cancel</button>
+                    <input type="submit" value="Change" class="btn btn-success">
+                </div>
+            </form>
 
-
-
-            <button type="button" id="open-frm-edit-profile" class="btn-edit-profile btn btn-primary">Edit Profile</button>
+            <div class="buttons">
+                <button type="button" id="open-frm-edit-profile" class="btn-edit-profile btn btn-primary">Edit Profile</button>
+                <button type="button" id="open-frm-change-pw" class="btn-change-pw btn btn-primary">Change Password</button>
+            </div>
 
             <div class="message-container">
                 <?php
