@@ -93,6 +93,7 @@ if (isset($_POST['login'])) {
             </div>
             <div class="input-field">
                 <input name="password" type="password" class="input" id="password" required placeholder="Password">
+                <button type="button" id="viewPassword"><i class="fa-regular fa-eye"></i></button>
                 <label for="password">Password</label>
             </div>
             <div class="input-field">
@@ -106,13 +107,9 @@ if (isset($_POST['login'])) {
             <a href="signup.php" class="create-new-account btn">Create new account</a>
         </div>
     </form>
-    <script>
-        if (window.history.replaceState) {
-            window
-                .history
-                .replaceState(null, null, window.location.href);
-        }
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
+    <script src="js/login.js"></script>
 </body>
 
 </html>
