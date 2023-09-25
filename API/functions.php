@@ -839,7 +839,7 @@ function user($user_id)
                         'region' => $region_name,
                         'picture' => 'https://gorder.website/img/userprofile/' . $user['PICTURE'],
                         'bday' => $user['BIRTHDAY'],
-                        'id_picture' => 'https://gorder.website/img/valid_id/' .$user['ID_PICTURE']
+                        'id_picture' => ($user['ID_PICTURE'] != null) ? 'https://gorder.website/img/valid_id/' .$user['ID_PICTURE'] : null
                     ]
                 ];
                 header("HTTP/1.0 200 OK");
