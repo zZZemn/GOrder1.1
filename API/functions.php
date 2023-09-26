@@ -1131,6 +1131,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
         if ($cust['STATUS'] === "active") {
             $cart_id = $cust['CART_ID'];
             $discount_type = $cust['DISCOUNT_TYPE'];
+            $availableVoucher = $cust['VOUCHER'];
 
             $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
             $order_items_result = $conn->query($order_items_sql);
@@ -1238,7 +1239,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                 $discount = $discountable_subtotal * $discountPercentage;
             }
 
-            $total = ($subtotal + $vat) - $discount;
+            $total1 = ($subtotal + $vat) - $discount;
 
             if ($delivery_type === 'Deliver') {
                 $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
@@ -1246,15 +1247,24 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                 $delivery = $df_result->fetch_assoc();
                 $df = $delivery['DELIVERY_FEE'];
 
-                $total += $df;
+                $total1 += $df;
             }
+
+            if ($availableVoucher > $total1) {
+                $excessVoucher = $availableVoucher - $total1;
+                $voucherUsed = $total1;
+            } else {
+                $excessVoucher = 0;
+                $voucherUsed = $availableVoucher;
+            }
+            $total = $total1 - $voucherUsed;
 
             $transaction_id = randomTransaction_id();
 
-            $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`) 
-                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting')";
-
-            if ($conn->query($insert_order_sql) === TRUE) {
+            $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`,`VOUCHER` ,`TOTAL`, `STATUS`) 
+                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$voucherUsed','$total','Waiting')";
+            $updateUserVoucher = "UPDATE `customer_user` SET `VOUCHER`='$excessVoucher' WHERE `CUST_ID` = '$cust_id'";
+            if ($conn->query($insert_order_sql) === TRUE && $conn->query($updateUserVoucher) === TRUE) {
                 foreach ($order_items_array as $order_item) {
                     $product_id = $order_item['PRODUCT_ID'];
                     $qty = $order_item['QTY'];
@@ -1293,6 +1303,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         'subtotal' => $subtotal,
                         'VAT' => $vat,
                         'discount' => $discount,
+                        'voucher' => $voucherUsed,
                         'total' => $total,
                         'del_status' => 'Waiting',
                         'df' => $df
@@ -1315,6 +1326,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                         'subtotal' => $subtotal,
                         'VAT' => $vat,
                         'discount' => $discount,
+                        'voucher' => $voucherUsed,
                         'total' => $total,
                         'del_status' => 'Waiting'
                     ];
@@ -1364,6 +1376,8 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
         if ($cust['STATUS'] === "active") {
             $cart_id = $cust['CART_ID'];
             $discount_type = $cust['DISCOUNT_TYPE'];
+            $availableVoucher = $cust['VOUCHER'];
+
             $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
             $order_items_result = $conn->query($order_items_sql);
             $order_items_array = [];
@@ -1448,7 +1462,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                 $discount = $discountable_subtotal * $discountPercentage;
             }
 
-            $total = ($subtotal + $vat) - $discount;
+            $total1 = ($subtotal + $vat) - $discount;
 
             if ($delivery_type === 'Deliver') {
                 $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
@@ -1456,9 +1470,17 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                 $delivery = $df_result->fetch_assoc();
                 $df = $delivery['DELIVERY_FEE'];
 
-                $total += $df;
+                $total1 += $df;
             }
 
+            if ($availableVoucher > $total1) {
+                $excessVoucher = $availableVoucher - $total1;
+                $voucherUsed = $total1;
+            } else {
+                $excessVoucher = 0;
+                $voucherUsed = $availableVoucher;
+            }
+            $total = $total1 - $voucherUsed;
 
             //pof handling
             if (!empty($_FILES['pof']['size'])) {
@@ -1481,10 +1503,10 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                     if (move_uploaded_file($file_tmp, $destination)) {
                         $transaction_id = randomTransaction_id();
 
-                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`, `PROOF_OF_PAYMENT`) 
-                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting', '$new_file_name')";
-
-                        if ($conn->query($insert_order_sql) === TRUE) {
+                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`,`VOUCHER`,`TOTAL`, `STATUS`, `PROOF_OF_PAYMENT`) 
+                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$voucherUsed','$total','Waiting', '$new_file_name')";
+                        $updateUserVoucher = "UPDATE `customer_user` SET `VOUCHER`='$excessVoucher' WHERE `CUST_ID` = '$cust_id'";
+                        if ($conn->query($insert_order_sql) === TRUE && $conn->query($updateUserVoucher) === TRUE) {
                             foreach ($order_items_array as $order_item) {
                                 $product_id = $order_item['PRODUCT_ID'];
                                 $qty = $order_item['QTY'];
@@ -1518,6 +1540,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                                     'subtotal' => $subtotal,
                                     'VAT' => $vat,
                                     'discount' => $discount,
+                                    'voucher' => $voucherUsed,
                                     'total' => $total,
                                     'del_status' => 'Waiting',
                                     'df' => $df
@@ -1540,6 +1563,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                                     'subtotal' => $subtotal,
                                     'VAT' => $vat,
                                     'discount' => $discount,
+                                    'voucher' => $voucherUsed,
                                     'total' => $total,
                                     'del_status' => 'Waiting'
                                 ];
@@ -1591,6 +1615,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
         if ($cust['STATUS'] === "active") {
             $cart_id = $cust['CART_ID'];
             $discount_type = $cust['DISCOUNT_TYPE'];
+            $availableVoucher = $cust['VOUCHER'];
 
             $order_items_sql = "SELECT * FROM cart_items WHERE CART_ID = '$cart_id'";
             $order_items_result = $conn->query($order_items_sql);
@@ -1694,7 +1719,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                 $discount = $discountable_subtotal * $discountPercentage;
             }
 
-            $total = ($subtotal + $vat) - $discount;
+            $total1 = ($subtotal + $vat) - $discount;
 
             if ($delivery_type === 'Deliver') {
                 $df_sql = "SELECT DELIVERY_FEE FROM barangay WHERE BARANGAY_ID = '$bgy_id'";
@@ -1702,8 +1727,17 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                 $delivery = $df_result->fetch_assoc();
                 $df = $delivery['DELIVERY_FEE'];
 
-                $total += $df;
+                $total1 += $df;
             }
+
+            if ($availableVoucher > $total1) {
+                $excessVoucher = $availableVoucher - $total1;
+                $voucherUsed = $total1;
+            } else {
+                $excessVoucher = 0;
+                $voucherUsed = $availableVoucher;
+            }
+            $total = $total1 - $voucherUsed;
 
             if (!empty($_FILES['prescription']['size'])) {
                 $file_name = $prescription['name'];
@@ -1725,10 +1759,11 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                     if (move_uploaded_file($file_tmp, $destination)) {
                         $transaction_id = randomTransaction_id();
 
-                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`, `TOTAL`, `STATUS`, `PRESCRIPTION`) 
-                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$total','Waiting', '$new_file_name')";
+                        $insert_order_sql = "INSERT INTO `order`(`TRANSACTION_ID`, `CUST_ID`, `PAYMENT_TYPE`, `DELIVERY_TYPE`, `UNIT_STREET`, `BARANGAY_ID`, `TIME`, `DATE`, `SUBTOTAL`, `VAT`, `DISCOUNT`,`VOUCHER` ,`TOTAL`, `STATUS`, `PRESCRIPTION`) 
+                                                    VALUES ('$transaction_id','$cust_id','$payment_type','$delivery_type','$unit_st','$bgy_id','$currentTime','$currentDate','$subtotal','$vat','$discount','$voucherUsed','$total','Waiting', '$new_file_name')";
+                        $updateUserVoucher = "UPDATE `customer_user` SET `VOUCHER`='$excessVoucher' WHERE `CUST_ID` = '$cust_id'";
 
-                        if ($conn->query($insert_order_sql) === TRUE) {
+                        if ($conn->query($insert_order_sql) === TRUE && $conn->query($updateUserVoucher) === TRUE) {
                             foreach ($order_items_array as $order_item) {
                                 $product_id = $order_item['PRODUCT_ID'];
                                 $qty = $order_item['QTY'];
@@ -1762,6 +1797,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                                     'subtotal' => $subtotal,
                                     'VAT' => $vat,
                                     'discount' => $discount,
+                                    'voucher' => $voucherUsed,
                                     'total' => $total,
                                     'del_status' => 'Waiting',
                                     'df' => $df
@@ -1784,6 +1820,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                                     'subtotal' => $subtotal,
                                     'VAT' => $vat,
                                     'discount' => $discount,
+                                    'voucher' => $voucherUsed,
                                     'total' => $total,
                                     'del_status' => 'Waiting'
                                 ];
