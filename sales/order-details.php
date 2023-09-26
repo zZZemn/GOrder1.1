@@ -52,6 +52,7 @@ if (isset($_SESSION['id'])) {
                     <div class="alert alert-transaction-complete bg-success">
                         Transaction Completed.
                     </div>
+                    <div class="alert alert-danger bg-danger text-light">asd</div>
 
 
                     <div class="top-contents-container">
@@ -101,8 +102,8 @@ if (isset($_SESSION['id'])) {
                             if ($del_type === 'Deliver') {
                             ?>
                                 <div class="order-input-container">
-                                    <select type="text" class="form-control" id="pick-delivery-man" placeholder="Select Rider">
-                                        <option value="" disabled selected style="font-size: 10px;">Select Rider</option>
+                                    <select type="text" class="form-control" id="pick-delivery-man" placeholder="Select Rider" <?= ($cur_rider_id !== null && $order_status === 'Shipped') ? 'disabled' : '' ?>>
+                                        <option disabled selected style="font-size: 10px;">Select Rider</option>
                                         <?php
                                         $rider_sql = "SELECT * FROM employee WHERE EMP_TYPE = 'Rider'";
                                         $rider_result = $conn->query($rider_sql);

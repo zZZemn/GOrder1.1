@@ -68,25 +68,62 @@ $(document).ready(function () {
     var orderID = $(this).data("id");
     var new_status = $(this).data("status");
     var action = $(this).data("action");
-    console.log(new_status);
-    console.log(orderID);
-    console.log(action);
+    var deliverySelect = $("#pick-delivery-man").val();
+    console.log("New Status:" + new_status);
+    // console.log(orderID);
+    // console.log(action);
+    console.log("Delivery:" + deliverySelect);
 
-    $.ajax({
-      url: "../ajax-url/order-status-update.php",
-      data: {
-        new_status: new_status,
-        transaction_id: orderID,
-        action: action,
-      },
-      type: "POST",
-      success: function (data) {
-        orderSelect();
+    if (new_status === "Shipped") {
+      if (deliverySelect == null) {
+        console.log("Please Select Rider");
+        $(".alert-danger")
+          .text("Please Select Rider")
+          .css("opacity", 1)
+          .css("pointer-events", "auto");
         setTimeout(function () {
-          loadOrderDetails();
-        }, 1000);
-      },
-    });
+          $(".alert-danger")
+            .css("opacity", 0)
+            .css("pointer-events", "none")
+            .text("");
+        }, 2000);
+      } else {
+        console.log(deliverySelect);
+        $.ajax({
+          url: "../ajax-url/order-status-update.php",
+          data: {
+            new_status: new_status,
+            transaction_id: orderID,
+            action: action,
+          },
+          type: "POST",
+          success: function (data) {
+            $("#pick-delivery-man").prop("disabled", true);
+            orderSelect();
+            setTimeout(function () {
+              loadOrderDetails();
+            }, 1000);
+          },
+        });
+      }
+    } else {
+      console.log(deliverySelect);
+      $.ajax({
+        url: "../ajax-url/order-status-update.php",
+        data: {
+          new_status: new_status,
+          transaction_id: orderID,
+          action: action,
+        },
+        type: "POST",
+        success: function (data) {
+          orderSelect();
+          setTimeout(function () {
+            loadOrderDetails();
+          }, 1000);
+        },
+      });
+    }
   });
 
   $("#pick-delivery-man").change(function () {
