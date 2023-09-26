@@ -97,6 +97,10 @@ if (isset($_SESSION['id'])) {
                         }
                         ?>
                         <tr>
+                            <th colspan="3">Voucher</th>
+                            <th><?= $order['VOUCHER'] ?></th>
+                        </tr>
+                        <tr>
                             <th colspan="3">Total</th>
                             <th><?php echo $order['TOTAL'] ?></th>
                         </tr>
