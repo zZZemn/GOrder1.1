@@ -839,7 +839,7 @@ function user($user_id)
                         'region' => $region_name,
                         'picture' => 'https://gorder.website/img/userprofile/' . $user['PICTURE'],
                         'bday' => $user['BIRTHDAY'],
-                        'id_picture' => ($user['ID_PICTURE'] != null) ? 'https://gorder.website/img/valid_id/' .$user['ID_PICTURE'] : null
+                        'id_picture' => ($user['ID_PICTURE'] != null) ? 'https://gorder.website/img/valid_id/' . $user['ID_PICTURE'] : null
                     ]
                 ];
                 header("HTTP/1.0 200 OK");
@@ -2036,7 +2036,7 @@ function order_details($ids)
                     $rider = 'The rider has not been assigned yet.';
                 }
 
-                if ($order['STATUS'] === 'Waiting' && $order['PRES_REJECT_REASON'] === 'confirmed') {
+                if ($order['STATUS'] === 'Waiting' && $order['PRES_REJECT_REASON'] === 'confirmed' && $order['PROOF_OF_PAYMENT'] === null) {
                     $upload_pof = true;
                 } else {
                     $upload_pof = false;
@@ -2109,7 +2109,7 @@ function uploadPOF($order_id, $pof)
 {
     global $conn;
 
-    $order_query = "SELECT PAYMENT_TYPE, PROOF_OF_PAYMENT FROM `order` WHERE TRANSACTION_ID = '$order_id'";
+    $order_query = "SELECT `PAYMENT_TYPE`, `PROOF_OF_PAYMENT` FROM `order` WHERE `TRANSACTION_ID` = '$order_id'";
     $order_result = $conn->query($order_query);
     if ($order_result->num_rows > 0) {
         $order = $order_result->fetch_assoc();
@@ -2135,7 +2135,7 @@ function uploadPOF($order_id, $pof)
 
                         $destination = "../img/pofs/" . $new_file_name;
                         if (move_uploaded_file($file_tmp, $destination)) {
-                            $update_order = "UPDATE `order` SET PROOF_OF_PAYMENT = '$new_file_name'";
+                            $update_order = "UPDATE `order` SET PROOF_OF_PAYMENT = '$new_file_name' WHERE `TRANSACTION_ID` = '$order_id'";
                             if ($conn->query($update_order) === TRUE) {
                                 $data = [
                                     'status' => 200,
