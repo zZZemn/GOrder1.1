@@ -9,7 +9,8 @@ const showMessage = () => {
       const sender = "message" + clicked_message.classList[1] + "message";
       const senderClass = document.querySelectorAll("." + sender);
       if (current_message !== null && current_message !== clicked_message) {
-        const current_sender = current_message.classList[1] + "message";
+        const current_sender =
+          "message" + current_message.classList[1] + "message";
         const current_senderClass = document.querySelectorAll(
           "." + current_sender
         );

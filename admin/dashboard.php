@@ -47,7 +47,7 @@ if (isset($_SESSION['id'])) {
                 </li>
                 <div class="message-dropdown-container">
                     <?php
-                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP ASC";
+                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                     $messages_result = $conn->query($messages);
                     if ($messages_result->num_rows > 0) {
                     ?>
@@ -319,7 +319,7 @@ if (isset($_SESSION['id'])) {
 
             <div class="message-container">
                 <?php
-                $messages = "SELECT * FROM messages";
+                $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                 $messages_result = $conn->query($messages);
                 if ($messages_result->num_rows > 0) {
                     while ($messages_row = $messages_result->fetch_assoc()) {
