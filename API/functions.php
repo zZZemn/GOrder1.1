@@ -1979,7 +1979,7 @@ function province($regionId)
 function municipality($provinceId)
 {
     global $conn;
-    $sql = "SELECT * FROM `MUNICIPALITY` WHERE `PROVINCE_ID` = '$provinceId'";
+    $sql = "SELECT * FROM `municipality` WHERE `PROVINCE_ID` = '$provinceId'";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
         $municipaities = [];
