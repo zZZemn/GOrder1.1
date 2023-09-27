@@ -461,6 +461,52 @@ function addToWishlist($id, $product_id)
     }
 }
 
+function wishlists($custId)
+{
+    global $conn;
+
+    $checkUser =  checkUser($custId);
+    if ($checkUser->num_rows > 0) {
+        $sql = "SELECT p.* FROM wishlist w
+                JOIN products p ON w.PRODUCT_ID = p.PRODUCT_ID
+                WHERE w.CUST_ID = '$custId'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $wishlists = [];
+            while ($row = $result->fetch_assoc()) {
+                $wishlist = [
+                    'product_id' => $row['PRODUCT_ID'],
+                    'product_name' => $row['PRODUCT_NAME'],
+                    'g' => $row['G'],
+                    'mg' => $row['MG'],
+                    'ml' => $row['ML'],
+                    'description' => $row['DESCRIPTION'],
+                    'img' => 'https://gorder.website/img/products/' . $row['PRODUCT_IMG'],
+                    'price' => floatval($row['SELLING_PRICE']),
+                    'prescribe' => ($row['PRESCRIBE'] == '1') ? true : false
+                ];
+                $wishlists[] = $wishlist;
+            }
+            $data = [
+                'status' => 200,
+                'message' => 'Wishlist fetch success.',
+                'products' => $wishlists
+            ];
+            header("HTTP/1.0 200 OK");
+            echo json_encode($data);
+        } else {
+            $data = [
+                'status' => 200,
+                'message' => 'Empty'
+            ];
+            header("HTTP/1.0 200 OK");
+            echo json_encode($data);
+        }
+    } else {
+        return error422('User not found');
+    }
+}
+
 function addToCart($productID, $custID)
 {
     global $conn;
