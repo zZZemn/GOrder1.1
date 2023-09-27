@@ -1939,7 +1939,7 @@ function regions()
             'status' => 200,
             'message' => 'No Region Found',
         ];
-        header("HTTP/1.0 405 OK");
+        header("HTTP/1.0 200 OK");
         return json_encode($data);
     }
 }
@@ -1971,7 +1971,7 @@ function province($regionId)
             'status' => 200,
             'message' => 'No Province Found',
         ];
-        header("HTTP/1.0 405 OK");
+        header("HTTP/1.0 200 OK");
         return json_encode($data);
     }
 }
@@ -2003,7 +2003,7 @@ function municipality($provinceId)
             'status' => 200,
             'message' => 'No Municipality Found',
         ];
-        header("HTTP/1.0 405 OK");
+        header("HTTP/1.0 200 OK");
         return json_encode($data);
     }
 }
@@ -2035,8 +2035,39 @@ function barangay($municipalityId)
             'status' => 200,
             'message' => 'No Barangay Found',
         ];
-        header("HTTP/1.0 405 OK");
+        header("HTTP/1.0 200 OK");
         return json_encode($data);
+    }
+}
+
+function changeAddress($data)
+{
+    global $conn;
+
+    $userId = $data->user_id;
+    $unitSt = $data->unit_st;
+    $bgyId = $data->bgy_id;
+
+    $checkUser = checkUser($userId);
+    if ($checkUser->num_rows > 0) {
+        $check_sql = $conn->query("SELECT * FROM `barangay` WHERE  `BARANGAY_ID` = '$bgyId'");
+        if ($check_sql->num_rows > 0) {
+            $updateSql = "UPDATE `customer_user` SET `UNIT_STREET`='$unitSt',`BARANGAY_ID`='$bgyId' WHERE `CUST_ID` = '$userId'";
+            if ($conn->query($updateSql)) {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Address Changed',
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                return error422('Something went wrong');
+            }
+        } else {
+            return error422('Invalid Barangay ID');
+        }
+    } else {
+        return error422('User not found');
     }
 }
 
