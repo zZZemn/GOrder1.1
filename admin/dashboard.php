@@ -70,7 +70,7 @@ if (isset($_SESSION['id'])) {
                                 $customer_row = $customer_result->fetch_assoc();
 
                         ?>
-                                <a href="#" class="dropdown-message <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] ?>">
+                                <a href="#" class="dropdown-message <?php echo $customer_row['CUST_ID'] ?>">
                                     <div class="from">
                                         <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>">
                                         <h3><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME']; ?></h3>
@@ -330,7 +330,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] . "message" ?>">
+                        <div class="message-content <?php echo "message".$customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
@@ -366,7 +366,7 @@ if (isset($_SESSION['id'])) {
 
                                 ?>
                             </div>
-                            <form class="send-message" id="send-message">
+                            <form class="send-message send-message-form" id="send-message">
                                 <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
                                 <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
                                 <input type="text" name="message" class="textfield">
