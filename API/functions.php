@@ -1915,7 +1915,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
 function regions()
 {
     global $conn;
-    $regions_sql = "SELECT * FROM region WHERE REGION_STATUS = 'active'";
+    $regions_sql = "SELECT * FROM region";
     $regions_result = $conn->query($regions_sql);
     if ($regions_result->num_rows > 0) {
         $regions = [];
@@ -1944,6 +1944,101 @@ function regions()
     }
 }
 
+function province($regionId)
+{
+    global $conn;
+    $sql = "SELECT * FROM `province` WHERE `REGION_ID` = '$regionId'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $provinces = [];
+        while ($row = $result->fetch_assoc()) {
+            $province_data = [
+                'province_id' => $row['PROVINCE_ID'],
+                'province' => $row['PROVINCE'],
+            ];
+            $provinces[] = $province_data;
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => 'All Provinces in selected region',
+            'provinces' => $provinces
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    } else {
+        $data = [
+            'status' => 200,
+            'message' => 'No Province Found',
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    }
+}
+
+function municipality($provinceId)
+{
+    global $conn;
+    $sql = "SELECT * FROM `MUNICIPALITY` WHERE `PROVINCE_ID` = '$provinceId'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $municipaities = [];
+        while ($row = $result->fetch_assoc()) {
+            $municipality_data = [
+                'municipality_id' => $row['MUNICIPALITY_ID'],
+                'municipality' => $row['MUNICIPALITY'],
+            ];
+            $municipaities[] = $municipality_data;
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => 'All Municipality in selected province',
+            'municipality' => $municipaities
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    } else {
+        $data = [
+            'status' => 200,
+            'message' => 'No Municipality Found',
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    }
+}
+
+function barangay($municipalityId)
+{
+    global $conn;
+    $sql = "SELECT * FROM `barangay` WHERE `MUNICIPALITY_ID` = '$municipalityId'";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        $barangays = [];
+        while ($row = $result->fetch_assoc()) {
+            $barangay_data = [
+                'barangay_id' => $row['BARANGAY_ID'],
+                'barangay' => $row['BARANGAY'],
+            ];
+            $barangays[] = $barangay_data;
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => 'All Barangay in selected municipality',
+            'provinces' => $barangays
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    } else {
+        $data = [
+            'status' => 200,
+            'message' => 'No Barangay Found',
+        ];
+        header("HTTP/1.0 405 OK");
+        return json_encode($data);
+    }
+}
 
 function orders($user)
 {
