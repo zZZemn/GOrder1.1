@@ -2649,8 +2649,8 @@ function returnListsDetails($id, $return_id)
     $check_user = checkUser($id);
     if ($check_user->num_rows > 0) {
         $return_sql = $conn->query("SELECT r.*, e.* FROM `return` AS r 
-                                    JOIN `employee` AS e ON r.RIDER_ID = e.EMP_ID
-                                    WHERE r.RETURN_ID = '$return_id'");
+                            LEFT JOIN `employee` AS e ON r.RIDER_ID = e.EMP_ID
+                            WHERE r.RETURN_ID = '$return_id'");
         if ($return_sql->num_rows > 0) {
             $returnDetails = $return_sql->fetch_assoc();
             $returnProductsSql = $conn->query("SELECT ri.QTY, i.EXP_DATE, p.*
