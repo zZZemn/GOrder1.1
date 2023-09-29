@@ -65,5 +65,5 @@ if (!empty($sqlScript)) {
     ob_clean();
     flush();
     readfile($back_up_file_name);
-    exec('rm ' . $back_up_file_name);
+    // exec('rm ' . $back_up_file_name);
 }
