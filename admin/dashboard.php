@@ -207,6 +207,10 @@ if (isset($_SESSION['id'])) {
                 <a href="logs-employee.php"><i class="fa-solid fa-user-tie"></i>Employee</a>
                 <a href="logs-customer.php"><i class="fa-solid fa-people-group"></i>Customer</a>
             </div>
+
+            <hr>
+
+            <a href="../backup/backup.php"><i class="fa-solid fa-database"></i>Backup</a>
         </div>
 
         <div class="main">
