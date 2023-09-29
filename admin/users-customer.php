@@ -48,7 +48,7 @@ if (isset($_SESSION['id'])) {
                 </li>
                 <div class="message-dropdown-container">
                     <?php
-                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP ASC";
+                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                     $messages_result = $conn->query($messages);
                     if ($messages_result->num_rows > 0) {
                     ?>
@@ -71,7 +71,7 @@ if (isset($_SESSION['id'])) {
                                 $customer_row = $customer_result->fetch_assoc();
 
                         ?>
-                                <a href="#" class="dropdown-message <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] ?>">
+                                <a href="#" class="dropdown-message <?php echo $customer_row['CUST_ID'] ?>">
                                     <div class="from">
                                         <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>">
                                         <h3><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME']; ?></h3>
@@ -237,7 +237,7 @@ if (isset($_SESSION['id'])) {
             <div class="alert bg-warning enter-unit">
                 <p class="">Please enter the unit/street/village.</p>
             </div>
-            
+
 
             <center>
                 <p class="employee-title">Customers</p>
@@ -422,7 +422,7 @@ if (isset($_SESSION['id'])) {
 
             <div class="message-container">
                 <?php
-                $messages = "SELECT * FROM messages";
+                $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                 $messages_result = $conn->query($messages);
                 if ($messages_result->num_rows > 0) {
                     while ($messages_row = $messages_result->fetch_assoc()) {
@@ -433,7 +433,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] . "message" ?>">
+                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
@@ -469,7 +469,7 @@ if (isset($_SESSION['id'])) {
 
                                 ?>
                             </div>
-                            <form class="send-message" id="send-message">
+                            <form class="send-message send-message-form" id="send-message">
                                 <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
                                 <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
                                 <input type="text" name="message" class="textfield">

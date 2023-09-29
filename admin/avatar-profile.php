@@ -46,7 +46,7 @@ if (isset($_SESSION['id'])) {
                 </li>
                 <div class="message-dropdown-container">
                     <?php
-                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP ASC";
+                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                     $messages_result = $conn->query($messages);
                     if ($messages_result->num_rows > 0) {
                     ?>
@@ -69,7 +69,7 @@ if (isset($_SESSION['id'])) {
                                 $customer_row = $customer_result->fetch_assoc();
 
                         ?>
-                                <a href="#" class="dropdown-message <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] ?>">
+                                <a href="#" class="dropdown-message <?php echo $customer_row['CUST_ID'] ?>">
                                     <div class="from">
                                         <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>">
                                         <h3><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME']; ?></h3>
@@ -239,7 +239,7 @@ if (isset($_SESSION['id'])) {
 
             <div class="message-container">
                 <?php
-                $messages = "SELECT * FROM messages";
+                $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                 $messages_result = $conn->query($messages);
                 if ($messages_result->num_rows > 0) {
                     while ($messages_row = $messages_result->fetch_assoc()) {
@@ -250,7 +250,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] . "message" ?>">
+                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
@@ -286,7 +286,7 @@ if (isset($_SESSION['id'])) {
 
                                 ?>
                             </div>
-                            <form class="send-message" id="send-message">
+                            <form class="send-message send-message-form" id="send-message">
                                 <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
                                 <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
                                 <input type="text" name="message" class="textfield">
@@ -300,32 +300,30 @@ if (isset($_SESSION['id'])) {
                 ?>
             </div>
 
-        </div>
+            <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
 
-        <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
-
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
-        <script src="../js/side-nav-dropdown.js"></script>
-        <script src="../js/nav-avatar-dropdown.js"></script>
-        <script src="../js/nav-notif-dropdown.js"></script>
-        <script src="../js/nav-message-dropdown.js"></script>
-        <script src="../js/side-nav-show.js"></script>
-        <script src="../js/message.js"></script>
-        <script src="../js/mess-send.js"></script>
-        <script src="../js/mess-scroll.js"></script>
-        <script src="../js/notifications.js"></script>
-        <script src="../js/profile.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
+            <script src="../js/side-nav-dropdown.js"></script>
+            <script src="../js/nav-avatar-dropdown.js"></script>
+            <script src="../js/nav-notif-dropdown.js"></script>
+            <script src="../js/nav-message-dropdown.js"></script>
+            <script src="../js/side-nav-show.js"></script>
+            <script src="../js/message.js"></script>
+            <script src="../js/mess-send.js"></script>
+            <script src="../js/mess-scroll.js"></script>
+            <script src="../js/notifications.js"></script>
+            <script src="../js/profile.js"></script>
 
 
-    <?php else : ?>
-        <div class="access-denied">
-            <h1>Access Denied</h1>
-            <h5>Sorry, you are not authorized to access this page.</h5>
-        </div>
-    <?php endif; ?>
+        <?php else : ?>
+            <div class="access-denied">
+                <h1>Access Denied</h1>
+                <h5>Sorry, you are not authorized to access this page.</h5>
+            </div>
+        <?php endif; ?>
 </body>
 
 </html>

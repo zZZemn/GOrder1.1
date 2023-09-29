@@ -9,7 +9,6 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 } else {
-
 }
 ?>
 
@@ -48,7 +47,7 @@ if (isset($_SESSION['id'])) {
                 </li>
                 <div class="message-dropdown-container">
                     <?php
-                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP ASC";
+                    $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                     $messages_result = $conn->query($messages);
                     if ($messages_result->num_rows > 0) {
                     ?>
@@ -71,7 +70,7 @@ if (isset($_SESSION['id'])) {
                                 $customer_row = $customer_result->fetch_assoc();
 
                         ?>
-                                <a href="#" class="dropdown-message <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] ?>">
+                                <a href="#" class="dropdown-message <?php echo $customer_row['CUST_ID'] ?>">
                                     <div class="from">
                                         <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>">
                                         <h3><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME']; ?></h3>
@@ -95,7 +94,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -106,7 +105,7 @@ if (isset($_SESSION['id'])) {
                 </div>
 
                 <li class="avatar-dropdown dropdown">
-                    <em class="admin-em"><?php  echo $emp['EMP_TYPE'] ?></em>
+                    <em class="admin-em"><?php echo $emp['EMP_TYPE'] ?></em>
                     <img src="../img/userprofile/<?php echo $emp['PICTURE'] ?>">
                 </li>
                 <div class="avatar-dropdown-container">
@@ -212,33 +211,35 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
-        <div class="table-container">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th colspan="11">
-                        <center><p class="select-date">Returns</p><input type="date" class="form-control" name="sales_date" id="sales_date" value="${DateTime.now().toString().split(' ')[0]}"></center>
-                    </th>
-                </tr>
-                <tr>
-                    <th>Return ID</th>
-                    <th>Transaction ID</th>
-                    <th>Date Returned</th>
-                    <th>Return Amount</th>
-                    <th>Return Reason</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th colspan="11">
+                                <center>
+                                    <p class="select-date">Returns</p><input type="date" class="form-control" name="sales_date" id="sales_date" value="${DateTime.now().toString().split(' ')[0]}">
+                                </center>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Return ID</th>
+                            <th>Transaction ID</th>
+                            <th>Date Returned</th>
+                            <th>Return Amount</th>
+                            <th>Return Reason</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
 
-            <tbody id="table-response-container">
-                    
-            </tbody>
-        </table>
-        </div>
+                    <tbody id="table-response-container">
+
+                    </tbody>
+                </table>
+            </div>
 
             <div class="message-container">
                 <?php
-                $messages = "SELECT * FROM messages";
+                $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                 $messages_result = $conn->query($messages);
                 if ($messages_result->num_rows > 0) {
                     while ($messages_row = $messages_result->fetch_assoc()) {
@@ -249,7 +250,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo $customer_row['FIRST_NAME'] . $customer_row['LAST_NAME'] . "message" ?>">
+                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
@@ -285,7 +286,7 @@ if (isset($_SESSION['id'])) {
 
                                 ?>
                             </div>
-                            <form class="send-message" id="send-message">
+                            <form class="send-message send-message-form" id="send-message">
                                 <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
                                 <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
                                 <input type="text" name="message" class="textfield">
