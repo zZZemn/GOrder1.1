@@ -593,6 +593,8 @@ $(document).ready(function () {
   $("#cust_id").on("keyup", function () {
     // Get the value of the input element
     var custId = $(this).val();
+    var total = $("#total").val();
+    var payment = parseFloat($('#payment').val());
 
     // Send an AJAX request to the server to check if the customer ID exists
     $.ajax({
@@ -601,20 +603,39 @@ $(document).ready(function () {
       data: { cust_id: custId },
       success: function (data) {
         if (custId == "") {
+          if (total > 0) {
+            console.log(payment)
+            console.log(total)
+            if (payment >= total) {
+              $("#save").prop("disabled", false);
+              $("#save_print").prop("disabled", false);
+            } else {
+              $("#save").prop("disabled", true);
+              $("#save_print").prop("disabled", true);
+            }
+          }
           $("#cust_id")
             .removeClass("outline-danger")
             .addClass("outline-primary");
-
-          $("#save").prop("disabled", false);
-          $("#save_print").prop("disabled", false);
+          // $("#save").prop("disabled", false);
+          // $("#save_print").prop("disabled", false);
         } else if (data == "exists") {
           // If the customer ID exists, set the border color to blue
+          if (total > 0) {
+            if (payment >= total) {
+              $("#save").prop("disabled", false);
+              $("#save_print").prop("disabled", false);
+            } else {
+              $("#save").prop("disabled", true);
+              $("#save_print").prop("disabled", true);
+            }
+          }
           $("#cust_id")
             .removeClass("outline-danger")
             .addClass("outline-primary");
 
-          $("#save").prop("disabled", false);
-          $("#save_print").prop("disabled", false);
+          // $("#save").prop("disabled", false);
+          // $("#save_print").prop("disabled", false);
         } else {
           // If the customer ID does not exist, set the border color to red
           $("#cust_id")
