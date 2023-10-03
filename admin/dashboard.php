@@ -210,7 +210,7 @@ if (isset($_SESSION['id'])) {
 
             <hr>
 
-            <a href="../backup/backup.php"><i class="fa-solid fa-database"></i>Backup</a>
+            <a href="../backup/backup.php" target="_blank"><i class="fa-solid fa-database"></i>Backup</a>
         </div>
 
         <div class="main">

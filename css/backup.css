@@ -1,0 +1,9 @@
+.alert {
+    position: absolute !important;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 10px;
+    pointer-events: none;
+
+    opacity: 0;
+}
