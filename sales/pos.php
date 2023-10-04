@@ -4,6 +4,7 @@ session_start();
 
 if (isset($_SESSION['id'])) {
     include('../database/db.php');
+    include('../time-date.php');
 
     $sql = "SELECT * FROM employee WHERE EMP_ID = {$_SESSION['id']}";
     $result  = $conn->query($sql);
@@ -176,6 +177,9 @@ if (isset($_SESSION['id'])) {
         </div>
         <div class="alert bg-warning enter-birthday">
             <p class="">Please enter customers birthdate.</p>
+        </div>
+        <div class="alert bg-warning invalid-birthdate">
+            <p class="">Please enter valid birthdate.</p>
         </div>
         <div class="alert bg-success text-light cust-added">
             <p class="">Customer Added.</p>
@@ -408,7 +412,7 @@ if (isset($_SESSION['id'])) {
                                 <label>Sex</label>
                             </div>
                             <div class="input-container">
-                                <input type="date" id="birthday" class="form-control">
+                                <input type="date" id="birthday" class="form-control" required>
                                 <label>Birthday</label>
                             </div>
                             <div class="input-container">

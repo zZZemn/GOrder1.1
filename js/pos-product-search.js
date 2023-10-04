@@ -594,7 +594,7 @@ $(document).ready(function () {
     // Get the value of the input element
     var custId = $(this).val();
     var total = $("#total").val();
-    var payment = parseFloat($('#payment').val());
+    var payment = parseFloat($("#payment").val());
 
     // Send an AJAX request to the server to check if the customer ID exists
     $.ajax({
@@ -604,8 +604,8 @@ $(document).ready(function () {
       success: function (data) {
         if (custId == "") {
           if (total > 0) {
-            console.log(payment)
-            console.log(total)
+            console.log(payment);
+            console.log(total);
             if (payment >= total) {
               $("#save").prop("disabled", false);
               $("#save_print").prop("disabled", false);
@@ -798,6 +798,19 @@ $(document).ready(function () {
       $(".enter-birthday").css("opacity", 1);
       setTimeout(function () {
         $(".enter-birthday").css("opacity", 0);
+      }, 2000);
+      return false;
+    }
+
+    var birthdayDate = new Date(birthday);
+    var today = new Date();
+    console.log(today);
+    console.log(birthdayDate);
+
+    if (birthdayDate > today) {
+      $(".invalid-birthdate").css("opacity", 1);
+      setTimeout(function () {
+        $(".invalid-birthdate").css("opacity", 0);
       }, 2000);
       return false;
     }
