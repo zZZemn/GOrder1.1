@@ -110,6 +110,11 @@ $(document).ready(function () {
         var data = JSON.parse(response);
         console.log(data);
         //../img/userprofile/E.png
+        if (data.id_pic && data.id_pic.trim() !== "") {
+          $("#idPicture").attr("src", "../img/valid_id/" + data.id_pic);
+        } else {
+          $("#idPicture").attr("src", "");
+        }
         $("#cust_id_hidden").val(data.cust_id);
         $("#edit-cust-title").text("Edit Customer " + data.cust_id);
         $("#cust-photo").attr("src", "../img/userprofile/" + data.picture);

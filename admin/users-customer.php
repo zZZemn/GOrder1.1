@@ -413,6 +413,10 @@ if (isset($_SESSION['id'])) {
                             <label>Contact No.</label>
                         </div>
                     </div>
+                    <div class="id-container container mt-5">
+                        <h5>Valid ID:</h5>
+                        <img src="#" id="idPicture">
+                    </div>
                     <div class="third-div-s-row">
                         <a href="#" id="btn-cancel" class="btn btn-dark">Cancel</a>
                         <input type="submit" id="btn-submit" class="btn btn-primary" value="Save">

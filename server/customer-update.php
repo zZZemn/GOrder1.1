@@ -17,13 +17,18 @@ if (isset($_SESSION['id'])) {
             $search = $_POST['search'];
 
             if ($search === '') {
-                if($cust_type === ''){
-                    $cust_sql = "SELECT * FROM customer_user";
+                if ($cust_type === '') {
+                    $cust_sql = "SELECT c.*, d.DISCOUNT_NAME FROM customer_user c
+                                 JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID";
                 } else {
-                    $cust_sql = "SELECT * FROM customer_user WHERE DISCOUNT_TYPE = '$cust_type'";
+                    $cust_sql = "SELECT c.*, d.DISCOUNT_NAME FROM customer_user c 
+                                 JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID
+                                 WHERE c.DISCOUNT_TYPE = '$cust_type'";
                 }
             } else {
-                $cust_sql = "SELECT * FROM customer_user WHERE FIRST_NAME LIKE '%$search%' OR LAST_NAME LIKE '%$search%' OR CUST_ID LIKE '%$search%'";
+                $cust_sql = "SELECT c.*, d.DISCOUNT_NAME FROM customer_user c 
+                             JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID
+                             WHERE c.FIRST_NAME LIKE '%$search%' OR c.LAST_NAME LIKE '%$search%' OR c.CUST_ID LIKE '%$search%'";
             }
 
             if ($cust_result = $conn->query($cust_sql)) {
@@ -34,7 +39,7 @@ if (isset($_SESSION['id'])) {
                             <td><?php echo $cust['CUST_ID'] ?></td>
                             <td><?php echo $cust['FIRST_NAME'] . ' ' . $cust['MIDDLE_INITIAL'] . ' ' . $cust['LAST_NAME'] . ' ' . $cust['SUFFIX'] ?></td>
                             <td><?php echo $cust['CONTACT_NO'] ?></td>
-                            <td><?php echo $cust['DISCOUNT_TYPE'] ?></td>
+                            <td><?php echo $cust['DISCOUNT_NAME'] ?></td>
                             <td class="actions-btn">
                                 <a href="#" id="edit-customer" data-cust_id="<?php echo $cust['CUST_ID'] ?>" class="btn btn-primary text-light"><i class="fa-regular fa-pen-to-square"></i></a>
                                 <a href="#" id="change-status" data-cust_id="<?php echo $cust['CUST_ID'] ?>" data-new_status="<?php echo ($cust['STATUS'] === 'active') ? 'deact' : 'active' ?>" class="btn <?php echo ($cust['STATUS'] === 'active') ? 'btn-danger' : 'btn-success' ?> ?>"><?php echo ($cust['STATUS'] === 'active') ? 'Deactivate' : 'Activate' ?></a>
@@ -44,11 +49,11 @@ if (isset($_SESSION['id'])) {
                     }
                 } else {
                     ?>
-                        <tr>
-                            <td colspan="5">
-                                <center>No Customer Found</center>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td colspan="5">
+                            <center>No Customer Found</center>
+                        </td>
+                    </tr>
 <?php
                 }
             }
