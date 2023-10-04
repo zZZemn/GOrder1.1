@@ -19,15 +19,15 @@ if (isset($_SESSION['id'])) {
             if ($search === '') {
                 if ($cust_type === '') {
                     $cust_sql = "SELECT c.*, d.DISCOUNT_NAME FROM customer_user c
-                                 JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID";
+                                 LEFT JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID";
                 } else {
                     $cust_sql = "SELECT c.*, d.DISCOUNT_NAME FROM customer_user c 
-                                 JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID
+                                 LEFT JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID
                                  WHERE c.DISCOUNT_TYPE = '$cust_type'";
                 }
             } else {
                 $cust_sql = "SELECT c.*, d.DISCOUNT_NAME FROM customer_user c 
-                             JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID
+                             LEFT JOIN discount d ON c.DISCOUNT_TYPE = d.DISCOUNT_ID
                              WHERE c.FIRST_NAME LIKE '%$search%' OR c.LAST_NAME LIKE '%$search%' OR c.CUST_ID LIKE '%$search%'";
             }
 
