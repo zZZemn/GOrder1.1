@@ -2799,3 +2799,69 @@ function uploadValidId($user_id, $valid_id)
         return error422('User not found');
     }
 }
+
+
+function uploadProfilePicture($user_id, $profile_picture)
+{
+    global $conn;
+
+    $checkUser = checkUser($user_id);
+    if ($checkUser->num_rows > 0) {
+        $user = $checkUser->fetch_assoc();
+        $userId = $user['CUST_ID'];
+        if (!empty($_FILES['profile_picture']['size'])) {
+            $file_name = $profile_picture['name'];
+            $file_tmp = $profile_picture['tmp_name'];
+            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+
+            if ($extension === 'jpg' || $extension === 'jpeg' || $extension === 'png') {
+
+                $new_file_name = $userId . '.' . $extension;
+                $destination = "../img/userprofile/" . $new_file_name;
+
+                if (file_exists($destination)) {
+                    // If it exists, delete it
+                    if (unlink($destination)) {
+                        // File deleted successfully
+                        if (move_uploaded_file($file_tmp, $destination)) {
+                            $update_sql = "UPDATE `customer_user` SET `PICTURE`='$new_file_name' WHERE `CUST_ID` = '$userId'";
+                        } else {
+                            $message = 'Upload Unsuccessful';
+                            return error422($message);
+                        }
+                    } else {
+                        $message = 'Failed to delete existing file';
+                        return error422($message);
+                    }
+                } else {
+                    // If it doesn't exist, simply move the uploaded file
+                    if (move_uploaded_file($file_tmp, $destination)) {
+                        $update_sql = "UPDATE `customer_user` SET `PICTURE`='$new_file_name' WHERE `CUST_ID` = '$userId'";
+                    } else {
+                        $message = 'Upload Unsuccessful';
+                        return error422($message);
+                    }
+                }
+
+                if ($conn->query($update_sql)) {
+                    $data = [
+                        'status' => 200,
+                        'message' => 'Success!'
+                    ];
+                    header("HTTP/1.0 200 OK");
+                    return json_encode($data);
+                } else {
+                    return error422('Something Went Wrong');
+                }
+            } else {
+                $message = 'File Extension Not Accepted';
+                return error422($message);
+            }
+        } else {
+            $message = 'Please Upload valid ID';
+            return error422($message);
+        }
+    } else {
+        return error422('User not found');
+    }
+}
