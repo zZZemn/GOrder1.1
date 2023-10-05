@@ -114,7 +114,7 @@ if (isset($_SESSION['id'])) {
                         </tr>
                         <?php if ($del_type === 'Pick Up' && $order_status != 'Picked Up' && $payment_type === 'Cash') {
                         ?>
-                            <tr>
+                            <tr class="hide-me-print">
                                 <th colspan="3" class="text-success add-payment-text">Add Payment</th>
                                 <th class="payment-input-th">
                                     <div class="payment-input-div">
