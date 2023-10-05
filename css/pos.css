@@ -321,7 +321,7 @@ table thead th {
 
 @media print {
   @page {
-    size: 3in auto !important; /* Set the width to 3 inches */
+    size: 5in auto !important; /* Set the width to 3 inches */
   }
 
   nav {
@@ -332,15 +332,25 @@ table thead th {
     display: none !important;
   }
 
+  .pos-add-buttons-container {
+    display: none !important;
+  }
+
   .pos-orders-container {
     width: 100%;
+    overflow: hidden !important;
+  }
+
+  .emptype-name {
+   position: absolute;
+   bottom: 0;
   }
 
   .pos-orders-container table thead tr th,
   .pos-orders-container table tbody tr td,
   .pos-orders-container table tbody tr td input,
   .only-print p {
-    font-size: 8px !important;
+    font-size: 14px !important;
     font-weight: 400;
   }
 
