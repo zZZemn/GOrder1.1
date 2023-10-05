@@ -100,6 +100,7 @@ body {
 
 .message-dropdown-container .from img {
     height: 25px;
+    width: 25px;
 }
 
 .message-dropdown-container .from h3 {
