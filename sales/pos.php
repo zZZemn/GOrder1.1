@@ -210,8 +210,8 @@ if (isset($_SESSION['id'])) {
                         <tr>
                             <th class="product-receipt-header">Product</th>
                             <th>Price</th>
-                            <th>Quantity</th>
-                            <th>Amount</th>
+                            <th class="th-qty"><span>Quantity</span></th>
+                            <th class="th-amt"><span>Amount</span></th>
                             <th class="remove-when-print">Action</th>
                         </tr>
                     </thead>
@@ -565,7 +565,7 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
-        <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
+        <p class="emptype-name">Printed By: <?php echo $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>

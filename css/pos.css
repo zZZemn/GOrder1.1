@@ -341,17 +341,52 @@ table thead th {
     overflow: hidden !important;
   }
 
+  #receipt-table {
+    margin-top: 10px;
+  }
+
+  #receipt-table thead tr th {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #receipt-table tbody tr td {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #receipt-table tbody tr td input {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 50px !important;
+  }
+
+  .th-amt span,
+  .th-qty span {
+    display: none !important;
+  }
+
+  .th-qty::before {
+    content: "Qty";
+  }
+
+  .th-amt::before {
+    content: "Amt";
+  }
+
   .emptype-name {
-   position: absolute;
-   bottom: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0 !important;
+    margin: 0 !important;
+    font-size: 8px;
   }
 
   .pos-orders-container table thead tr th,
   .pos-orders-container table tbody tr td,
   .pos-orders-container table tbody tr td input,
   .only-print p {
-    font-size: 14px !important;
-    font-weight: 400;
+    font-size: 8px !important;
+    font-weight: 300 !important;
+    margin: 0 !important;
   }
 
   .remove-when-print {
@@ -364,7 +399,7 @@ table thead th {
 
   .pos-orders-container table thead tr th {
     padding: 0 !important;
-    background-color: blue;
+    font-size: 8px;
   }
 
   .product-receipt-header {
@@ -378,8 +413,7 @@ table thead th {
   #computation-container-receipt div {
     display: flex;
     width: 100%;
-    padding-left: 10px;
-    justify-content: left;
+    justify-content: space-between;
   }
 
   #computation-container-receipt div p {
