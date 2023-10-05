@@ -23,7 +23,7 @@ if (isset($_SESSION['id'])) {
                 } elseif ($priceSort === 'desc') {
                     $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE DESC";
                 } else {
-                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' AND DELIVERY_STATUS = 'active'";
+                    $del_sql = "SELECT * FROM delivery WHERE SUPPLIER_ID = '$supplier' AND DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
                 }
             } else {
                 if ($priceSort === 'asc') {
@@ -31,7 +31,7 @@ if (isset($_SESSION['id'])) {
                 } elseif ($priceSort === 'desc') {
                     $del_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_PRICE DESC";
                 } else {
-                    $del_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active'";
+                    $del_sql = "SELECT * FROM delivery WHERE DELIVERY_STATUS = 'active' ORDER BY DELIVERY_DATE DESC";
                 }
             }
             if ($del_result = $conn->query($del_sql)) {
@@ -43,7 +43,7 @@ if (isset($_SESSION['id'])) {
                         if ($sup_result->num_rows > 0) {
                             $sup = $sup_result->fetch_assoc();
                             $supname = $sup['NAME'];
-                        } 
+                        }
                         // else {
                         //     $supname = '';
                         // }
