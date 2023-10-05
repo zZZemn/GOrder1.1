@@ -146,7 +146,7 @@ if (isset($_SESSION['id'])) {
                             }
                         } else {
                             ?>
-                            <tr>
+                            <tr class="hide-me-print">
                                 <?php echo ($order_prescription != null) ? '<th colspan="2"><center>Prescription</center></th>' : '' ?>
                                 <th colspan="4">
                                     <center>
@@ -155,8 +155,8 @@ if (isset($_SESSION['id'])) {
                                 </th>
                             </tr>
                             <tr>
-                            <tr>
-                            <?php echo ($order_prescription != null) ? '<td colspan="2"><center><img class="user-upload" src="../img/prescriptions/'.$order_prescription.'"</center></td>' : '' ?>
+                            <tr class="hide-me-print">
+                                <?php echo ($order_prescription != null) ? '<td colspan="2"><center><img class="user-upload" src="../img/prescriptions/' . $order_prescription . '"</center></td>' : '' ?>
                                 <td colspan="4">
                                     <center>
                                         <?php

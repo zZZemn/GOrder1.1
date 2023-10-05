@@ -314,7 +314,7 @@ body {
 
   * {
     font-family: Arial, sans-serif;
-    font-size: 5pt !important;
+    font-size: 10px !important;
     font-weight: 500 !important;
   }
 
@@ -343,7 +343,7 @@ body {
   }
 
   .order-input-container label {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
   }
 
   .order-input-container input, .order-input-container textarea, .order-input-container select {
@@ -352,11 +352,22 @@ body {
     border-right: none;
   }
 
+  .order-input-container textarea {
+    height: 50px;
+    overflow: hidden;
+    resize: none !important;
+  }
+
   #btn-print {
     display: none;
   }
 
-  #fourt_container {
-    /* display: none !important; */
+  .hide-me-print {
+    display: none !important;
+  }
+
+  #orders-product-table {
+    /* background-color: none !important;  */
+    /* border: none !important; */
   }
 }
