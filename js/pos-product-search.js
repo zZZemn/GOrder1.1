@@ -51,7 +51,7 @@ $(document).ready(function () {
                 var productName = $(this)
                   .find('input[name="product_name"]')
                   .val();
-                unitMeasurement = $(this).find('input[name="unit_meas"]').val();
+                // unitMeasurement = $(this).find('input[name="unit_meas"]').val();
                 var sellingPrice = $(this)
                   .find('input[name="selling_price"]')
                   .val();
@@ -91,7 +91,6 @@ $(document).ready(function () {
                       "<td class='pro-name-receipt'>" +
                       productName +
                       " " +
-                      unitMeasurement +
                       "</td>" +
                       "<input type='hidden' name='isDiscountable' id='isDiscountable' value='" +
                       isDiscountable +
@@ -220,7 +219,7 @@ $(document).ready(function () {
     // extract the product details from the hidden input fields
     var productId = $(this).find('input[name="product_id"]').val();
     var productName = $(this).find('input[name="product_name"]').val();
-    unitMeasurement = $(this).find('input[name="unit_meas"]').val();
+    // unitMeasurement = $(this).find('input[name="unit_meas"]').val();
     var sellingPrice = $(this).find('input[name="selling_price"]').val();
     var quantity_left = $(this).find('input[name="quantity_left"]').val();
     var isVatable = $(this).find('input[name="isVatable"]').val();
@@ -246,7 +245,6 @@ $(document).ready(function () {
           "<td class='pro-name-receipt'>" +
           productName +
           " " +
-          unitMeasurement +
           "</td>" +
           "<input type='hidden' name='isDiscountable' id='isDiscountable' value='" +
           isDiscountable +

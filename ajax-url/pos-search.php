@@ -34,6 +34,11 @@ if (isset($_POST['query'])) {
                 }
             }
 
+            $productName = $search['PRODUCT_NAME'];
+            (!empty($search['G'])) ? $productName .= "  <sup>" . $search['G'] . "g</sup>" : '';
+            (!empty($search['MG'])) ? $productName .= "  <sup>" . $search['MG'] . "mg</sup>" : '';
+            (!empty($search['ML'])) ? $productName .= "  <sup>" . $search['ML'] . "ml</sup>" : '';
+
             $result = "<form class='product-select' method='post'>
             <input type='hidden' name='productCode' value='" . $search['PRODUCT_CODE'] . "'>
             <input type='hidden' name='isPrescribe' value='" . $isPrescribe . "'>
@@ -41,7 +46,7 @@ if (isset($_POST['query'])) {
             <input type='hidden' name='isVatable' value='" . $isVatable . "'>
             <input type='hidden' name='quantity_left' value='" . $pro_qty . "'>
             <input type='hidden' name='product_id' value='" . $search['PRODUCT_ID'] . "'>
-            <input type='hidden' name='product_name' value='" . $search['PRODUCT_NAME'] . "'>
+            <input type='hidden' name='product_name' value='" . $productName . "'>
             <input type='hidden' name='selling_price' value='" . $search['SELLING_PRICE'] . "'>
             <input type='hidden' name='g' value='" . $search['G'] . "'>
             <input type='hidden' name='mg' value='" . $search['MG'] . "'>
