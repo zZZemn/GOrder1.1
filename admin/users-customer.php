@@ -206,8 +206,12 @@ if (isset($_SESSION['id'])) {
             </button>
             <div class="dropdown-container">
                 <a href="logs-employee.php"><i class="fa-solid fa-user-tie"></i>Employee</a>
-                <a href="logs-customer.php"><i class="fa-solid fa-people-group"></i>Customer</a>
+                <!-- <a href="logs-customer.php"><i class="fa-solid fa-people-group"></i>Customer</a> -->
             </div>
+
+            <hr>
+
+            <a href="../backup/backup.php" target="_blank"><i class="fa-solid fa-database"></i>Backup</a>
         </div>
 
         <div class="main">
