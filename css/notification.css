@@ -1,0 +1,10 @@
+.notif-page-notification-container {
+  height: 80vh;
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 500px) {
+  .notif-page-notification-container  {
+    font-size: 14px !important;
+  }
+}
