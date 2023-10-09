@@ -823,6 +823,33 @@ function deleteCart($cust_id, $product_id)
     }
 }
 
+function cartItemQty($userId)
+{
+    global $conn;
+    $checkUser = checkUser($userId);
+    if ($checkUser->num_rows > 0) {
+        $cartItems = 0;
+        $user = $checkUser->fetch_assoc();
+        $cartId = $user['CART_ID'];
+        $sql = "SELECT COUNT(*) as total_items FROM `cart_items` WHERE `CART_ID` = '$cartId'";
+        $result = $conn->query($sql);
+        if ($result->num_rows > 0) {
+            $cart = $result->fetch_assoc();
+            $cartItems = $cart['total_items'];
+        }
+
+        $data = [
+            'status' => 200,
+            'message' => 'Cart Items',
+            'qty' => $cartItems
+        ];
+        header("HTTP/1.0 200 OK");
+        return json_encode($data);
+    } else {
+        return error422('Invalid Customer ID');
+    }
+}
+
 function user($user_id)
 {
     global $conn;
