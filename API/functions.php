@@ -2892,3 +2892,54 @@ function uploadProfilePicture($user_id, $profile_picture)
         return error422('User not found');
     }
 }
+
+function editProfile($data)
+{
+    global $conn;
+
+    $id = $data->id;
+    $firstName = $data->first_name;
+    $lastName = $data->last_name;
+    $mi = $data->mi;
+    $suffix = $data->suffix;
+    $sex = $data->sex;
+    $contactNo = $data->contact_no;
+    $birthday = $data->birthday;
+
+    $checkUser = checkUser($id);
+    if ($checkUser->num_rows > 0) {
+        if ($firstName == '') {
+            return error422('Please input first name');
+        }
+
+        if ($lastName == '') {
+            return error422('Please input last name');
+        }
+
+        if ($sex == '') {
+            return error422('Please input sex');
+        }
+
+        if ($contactNo == '') {
+            return error422('Please input contact no');
+        }
+
+        if ($birthday == '') {
+            return error422('Please input birthday');
+        }
+
+        $sql = "UPDATE `customer_user` SET `FIRST_NAME`='$firstName',`LAST_NAME`='$lastName',`MIDDLE_INITIAL`='$mi',`SUFFIX`='$suffix',`SEX`='$sex',`CONTACT_NO`='$contactNo', `BIRTHDAY`='$birthday' WHERE `CUST_ID` = '$id'";
+        if ($conn->query($sql)) {
+            $data = [
+                'status' => 200,
+                'message' => 'Editing Success!'
+            ];
+            header("HTTP/1.0 200 OK");
+            return json_encode($data);
+        } else {
+            return error422('Something Went Wrong.');
+        }
+    } else {
+        return error422('User not found');
+    }
+}
