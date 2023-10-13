@@ -59,7 +59,7 @@ if (isset($_SESSION['id'])) {
                                         <center><img class="logo" src="img/ggd-logo.png"></center>
                                         <center>Golden Gate Drugstore</center>
                                         <center>Patubig, Marilao, Bulacan</center>
-                                        <center>Printed by <?= $emp['FIRST_NAME'].' '.$emp['LAST_NAME'] ?></center>
+                                        <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
                                         <center>Printed on <?= $currentDate ?></center>
                                         <center class="m-2">
                                             <h5>Daily Sales</h5>
@@ -129,7 +129,7 @@ if (isset($_SESSION['id'])) {
                             <!-- <script>
                                 window.print();
                             </script> -->
-                    <?php
+                        <?php
                         } else {
                             echo "<title>Access Denied</title>
                           <div class='access-denied'>
@@ -138,10 +138,63 @@ if (isset($_SESSION['id'])) {
                           </div>";
                         }
                     } // End of Daily Sales
+                    elseif ($_GET['rpt_type'] === 'MonthlySales') {
+                        if (isset($_GET['year'])) {
+                            $year = $_GET['year'];
+                            $sales_sql = "SELECT DATE_FORMAT(DATE, '%M') AS month, SUM(VAT) AS total_vat, SUM(UPDATED_TOTAL) AS total_sales FROM sales WHERE YEAR(DATE) = '$year' AND PAYMENT >= TOTAL GROUP BY MONTH(DATE)";
+
+                        ?>
+                            <table class="table">
+                                <tr>
+                                    <th colspan="3">
+                                        <center><img class="logo" src="img/ggd-logo.png"></center>
+                                        <center>Golden Gate Drugstore</center>
+                                        <center>Patubig, Marilao, Bulacan</center>
+                                        <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
+                                        <center>Printed on <?= $currentDate ?></center>
+                                        <center class="m-2">
+                                            <h5>Monthly Sales</h5>
+                                        </center>
+                                        <div class="filter-container">
+                                            Filter:
+                                            <br>
+                                            <span>Year: <?= $year ?></span>
+                                        </div>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Total Vat</th>
+                                    <th>Total Sales</th>
+                                </tr>
+                        <?php
+                            $salesResult = $conn->query($sales_sql);
+                            if ($salesResult->num_rows > 0) {
+                                while ($salesRow = $salesResult->fetch_assoc()) {
+                                    echo "<tr>
+                                        <td>" . $salesRow['month'] . "</td>
+                                        <td>" . $salesRow['total_vat'] . "</td>
+                                        <td>" . $salesRow['total_sales'] . "</td>
+                                      </tr>";
+                                }
+                                echo '<tr><td colspan="3"><center>End</center></td></tr>';
+                            } else {
+                                echo "<tr>
+                                        <td colspan='3'><center>No data found.</center></td>
+                                      </tr>";
+                            }
+                        } else {
+                            echo "<title>Access Denied</title>
+                          <div class='access-denied'>
+                              <h1>Access Denied</h1>
+                              <h5>Sorry, you are not authorized to access this page.</h5>
+                          </div>";
+                        }
+                    } //End of Monthly Sales
                     else {
                         echo 'endddd';
                     }
-                    ?>
+                        ?>
                 </div>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="js/print-report.js"></script>
