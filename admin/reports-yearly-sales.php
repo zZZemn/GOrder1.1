@@ -259,6 +259,8 @@ if (isset($_SESSION['id'])) {
                 </table>
             </div>
 
+            <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
+
             <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
@@ -339,6 +341,15 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/notifications.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#printReport').click(function(e) {
+                    e.preventDefault();
+                    var url = "../print.php?rpt_type=YearlySales";
+                    window.open(url, "_blank");
+                });
+            });
+        </script>
 
     <?php else : ?>
         <div class="access-denied">

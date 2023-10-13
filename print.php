@@ -167,7 +167,7 @@ if (isset($_SESSION['id'])) {
                                     <th>Total Vat</th>
                                     <th>Total Sales</th>
                                 </tr>
-                        <?php
+                            <?php
                             $salesResult = $conn->query($sales_sql);
                             if ($salesResult->num_rows > 0) {
                                 while ($salesRow = $salesResult->fetch_assoc()) {
@@ -191,10 +191,50 @@ if (isset($_SESSION['id'])) {
                           </div>";
                         }
                     } //End of Monthly Sales
-                    else {
-                        echo 'endddd';
-                    }
-                        ?>
+
+                    elseif ($_GET['rpt_type'] === 'YearlySales') {
+                        $year_sql = "SELECT YEAR(DATE) AS year, SUM(UPDATED_TOTAL) AS total_sales, SUM(VAT) AS total_vat FROM sales WHERE PAYMENT >= TOTAL GROUP BY YEAR(DATE)";
+                        $year_result = $conn->query($year_sql);
+                            ?>
+                            <table class="table">
+                                <tr>
+                                    <th colspan="3">
+                                        <center><img class="logo" src="img/ggd-logo.png"></center>
+                                        <center>Golden Gate Drugstore</center>
+                                        <center>Patubig, Marilao, Bulacan</center>
+                                        <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
+                                        <center>Printed on <?= $currentDate ?></center>
+                                        <center class="m-2">
+                                            <h5>Yearly Sales</h5>
+                                        </center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Year</th>
+                                    <th>Total Vat</th>
+                                    <th>Total Sales</th>
+                                </tr>
+                            <?php
+                            if ($year_result->num_rows > 0) {
+                                while ($row = $year_result->fetch_assoc()) {
+                                    echo
+                                    "<tr>
+                                            <td>" . $row['year'] . "</td>
+                                            <td>" . $row['total_vat'] . "</td>
+                                            <td>" . $row['total_sales'] . "</td>
+                                        </tr>";
+                                }
+                                echo '<tr><td colspan="3"><center>End</center></td></tr>';
+                            } else {
+                                echo "<tr>
+                                <td colspan='3'><center>No data found.</center></td>
+                              </tr>";
+                            }
+                        } //End of Yearly Sales
+                        else {
+                            echo 'endddd';
+                        }
+                            ?>
                 </div>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="js/print-report.js"></script>
