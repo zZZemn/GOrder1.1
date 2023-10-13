@@ -297,6 +297,9 @@ if (isset($_SESSION['id'])) {
                     </tbody>
                 </table>
             </div>
+            
+            <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
+
 
             <div class="message-container">
                 <?php

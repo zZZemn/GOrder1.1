@@ -35,9 +35,28 @@ $(document).ready(function () {
     e.preventDefault();
     getDailySales();
   });
-  
+
   $("#select-process-by").change(function (e) {
     e.preventDefault();
     getDailySales();
+  });
+
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var date = $("#sales_date").val();
+    var transactionType = $("#select-trans-type").val();
+    var custType = $("#select-cust-type").val();
+    var processBy = $("#select-process-by").val();
+
+    var url =
+      "../print.php?rpt_type=DailySales&date=" +
+      date +
+      "&transaction_type=" +
+      transactionType +
+      "&cust_type=" +
+      custType +
+      "&process_by=" +
+      processBy;
+    window.open(url, "_blank");
   });
 });
