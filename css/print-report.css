@@ -1,0 +1,24 @@
+.logo {
+  height: 100px;
+  width: 100px;
+}
+
+* {
+  opacity: 0;
+}
+
+/* global */
+.filter-container span {
+  font-weight: 600 !important;
+}
+/* global end */
+
+/* Daily Sales */
+
+/* Daily Sales End */
+
+@media print {
+  * {
+    opacity: 1;
+  }
+}
