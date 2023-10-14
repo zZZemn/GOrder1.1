@@ -1,4 +1,19 @@
 <?php
+function accessDenied()
+{
+    echo <<<HTML
+        <head>
+            <link rel="shortcut icon" href="img/ggd-logo-plain.png" type="image/x-icon">
+            <title>Access Denied!</title>
+            <link rel='stylesheet' href='css/access-denied.css'>
+        </head>
+        <div class='access-denied'>
+            <h1>Access Denied</h1>
+            <h5>Sorry, you are not authorized to access this page.</h5>
+        </div>
+        HTML;
+}
+
 session_start();
 if (isset($_SESSION['id'])) {
     include('database/db.php');
@@ -126,16 +141,9 @@ if (isset($_SESSION['id'])) {
                                 }
                                 ?>
                             </table>
-                            <!-- <script>
-                                window.print();
-                            </script> -->
                         <?php
                         } else {
-                            echo "<title>Access Denied</title>
-                          <div class='access-denied'>
-                              <h1>Access Denied</h1>
-                              <h5>Sorry, you are not authorized to access this page.</h5>
-                          </div>";
+                            accessDenied();
                         }
                     } // End of Daily Sales
                     elseif ($_GET['rpt_type'] === 'MonthlySales') {
@@ -184,14 +192,11 @@ if (isset($_SESSION['id'])) {
                                       </tr>";
                             }
                         } else {
-                            echo "<title>Access Denied</title>
-                          <div class='access-denied'>
-                              <h1>Access Denied</h1>
-                              <h5>Sorry, you are not authorized to access this page.</h5>
-                          </div>";
+                            accessDenied();
                         }
                     } //End of Monthly Sales
 
+                    // yearly sales
                     elseif ($_GET['rpt_type'] === 'YearlySales') {
                         $year_sql = "SELECT YEAR(DATE) AS year, SUM(UPDATED_TOTAL) AS total_sales, SUM(VAT) AS total_vat FROM sales WHERE PAYMENT >= TOTAL GROUP BY YEAR(DATE)";
                         $year_result = $conn->query($year_sql);
@@ -214,27 +219,84 @@ if (isset($_SESSION['id'])) {
                                     <th>Total Vat</th>
                                     <th>Total Sales</th>
                                 </tr>
-                            <?php
-                            if ($year_result->num_rows > 0) {
-                                while ($row = $year_result->fetch_assoc()) {
-                                    echo
-                                    "<tr>
+                                <?php
+                                if ($year_result->num_rows > 0) {
+                                    while ($row = $year_result->fetch_assoc()) {
+                                        echo
+                                        "<tr>
                                             <td>" . $row['year'] . "</td>
                                             <td>" . $row['total_vat'] . "</td>
                                             <td>" . $row['total_sales'] . "</td>
                                         </tr>";
-                                }
-                                echo '<tr><td colspan="3"><center>End</center></td></tr>';
-                            } else {
-                                echo "<tr>
+                                    }
+                                    echo '<tr><td colspan="3"><center>End</center></td></tr>';
+                                } else {
+                                    echo "<tr>
                                 <td colspan='3'><center>No data found.</center></td>
                               </tr>";
-                            }
+                                }
+                                ?>
+                            </table>
+                            <?php
                         } //End of Yearly Sales
-                        else {
+                        elseif ($_GET['rpt_type'] === 'Return') {
+                            if (isset($_GET['date'])) {
+                                $date = $_GET['date'];
+                                $return_sql = "SELECT * FROM `return` WHERE RETURN_DATE = '$date'";
+                                $return_result = $conn->query($return_sql);
+                            ?>
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="4">
+                                            <center><img class="logo" src="img/ggd-logo.png"></center>
+                                            <center>Golden Gate Drugstore</center>
+                                            <center>Patubig, Marilao, Bulacan</center>
+                                            <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
+                                            <center>Printed on <?= $currentDate ?></center>
+                                            <center class="m-2">
+                                                <h5>Return</h5>
+                                            </center>
+                                            <div class="filter-container">
+                                                Filter:
+                                                <br>
+                                                <span>Date: <?= $date ?></span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Transaction ID</th>
+                                        <th>Return Amount</th>
+                                        <th>Return Reason</th>
+                                    </tr>
+                                    <?php
+                                    if ($return_result->num_rows > 0) {
+                                        while ($returnRow = $return_result->fetch_assoc()) {
+                                    ?>
+                                            <tr>
+                                                <td><?php echo $returnRow['RETURN_ID'] ?></td>
+                                                <td><?php echo $returnRow['TRANSACTION_ID'] ?></td>
+                                                <td><?php echo $returnRow['RETURN_AMOUNT'] ?></td>
+                                                <td><?php echo $returnRow['RETURN_REASON'] ?></td>
+                                            </tr>
+                                    <?php
+                                        }
+                                        echo '<tr><td colspan="4"><center>End</center></td></tr>';
+                                    } else {
+                                        echo "<tr>
+                                                <td colspan='4'><center>No data found.</center></td>
+                                              </tr>";
+                                    }
+                                    ?>
+                                </table>
+                        <?php
+                            } else {
+                                accessDenied();
+                            }
+                        } else {
                             echo 'endddd';
                         }
-                            ?>
+                        ?>
                 </div>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="js/print-report.js"></script>
@@ -243,18 +305,10 @@ if (isset($_SESSION['id'])) {
             </html>
 <?php
         } else {
-            echo "<title>Access Denied</title>
-                  <div class='access-denied'>
-                      <h1>Access Denied</h1>
-                      <h5>Sorry, you are not authorized to access this page.</h5>
-                  </div>";
+            accessDenied();
         }
     } else {
-        echo "<title>Access Denied</title>
-                    <div class='access-denied'>
-                        <h1>Access Denied</h1>
-                        <h5>Sorry, you are not authorized to access this page.</h5>
-                    </div>";
+        accessDenied();
     }
 } else {
     header("Location: index.php");
