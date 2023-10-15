@@ -27,4 +27,18 @@ $(document).ready(function () {
     e.preventDefault();
     getRellero();
   });
+
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var date = $("#rellero_date").val();
+    var type = $("#select-type").val();
+
+    var url =
+      "../print.php?rpt_type=CashRegistered&date=" +
+      date +
+      "&process_type=" +
+      type;
+      
+    window.open(url, "_blank");
+  });
 });

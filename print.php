@@ -239,6 +239,7 @@ if (isset($_SESSION['id'])) {
                             </table>
                             <?php
                         } //End of Yearly Sales
+                        // Return
                         elseif ($_GET['rpt_type'] === 'Return') {
                             if (isset($_GET['date'])) {
                                 $date = $_GET['date'];
@@ -289,7 +290,127 @@ if (isset($_SESSION['id'])) {
                                     }
                                     ?>
                                 </table>
+                                <?php
+                            } else {
+                                accessDenied();
+                            }
+                        } //End of Return
+                        elseif ($_GET['rpt_type'] === 'CashRegistered') {
+                            if (isset($_GET['date'])) {
+                                $date = $_GET['date'];
+                                if (isset($_GET['process_type'])) {
+                                    if ($_GET['process_type'] === 'all') {
+                                        $sql = "SELECT r.*, e.* FROM rellero r JOIN employee e ON r.EMP_ID = e.EMP_ID WHERE DATE(r.DATE_TIME) = '$date'";
+                                    } else {
+                                        $type = $_GET['process_type'];
+                                        $sql = "SELECT r.*, e.* FROM rellero r JOIN employee e ON r.EMP_ID = e.EMP_ID WHERE DATE(r.DATE_TIME) = '$date' AND r.TYPE = '$type'";
+                                    }
+                                    $result = $conn->query($sql);
+                                ?>
+                                    <table class="table">
+                                        <tr>
+                                            <th colspan="14">
+                                                <center><img class="logo" src="img/ggd-logo.png"></center>
+                                                <center>Golden Gate Drugstore</center>
+                                                <center>Patubig, Marilao, Bulacan</center>
+                                                <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
+                                                <center>Printed on <?= $currentDate ?></center>
+                                                <center class="m-2">
+                                                    <h5>Cash Register Report</h5>
+                                                </center>
+                                                <div class="filter-container">
+                                                    Filter:
+                                                    <br>
+                                                    <span>Date: <?= $date ?></span>
+                                                    <br>
+                                                    <span>Type: <?= $_GET['process_type'] ?></span>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>Date & Time</th>
+                                            <th>Process By</th>
+                                            <th>₱ 1000</th>
+                                            <th>₱ 500</th>
+                                            <th>₱ 200</th>
+                                            <th>₱ 100</th>
+                                            <th>₱ 50</th>
+                                            <th>₱ 20</th>
+                                            <th>₱ 10</th>
+                                            <th>₱ 5</th>
+                                            <th>₱ 1</th>
+                                            <th>¢ 25</th>
+                                            <th>Total</th>
+                                            <th>Type</th>
+                                        </tr>
+                                        <?php
+                                        if ($result->num_rows > 0) {
+                                            while ($row = $result->fetch_assoc()) {
+                                                $denominations = [
+                                                    'ONE_THOUSAND' => 1000,
+                                                    'FIVE_HUNDRED' => 500,
+                                                    'TWO_HUNDRED' => 200,
+                                                    'ONE_HUNDRED' => 100,
+                                                    'FIFTY' => 50,
+                                                    'TWENTY' => 20,
+                                                    'TEN' => 10,
+                                                    'FIVE' => 5,
+                                                    'ONE' => 1,
+                                                    'TWENTY_FIVE_CENTS' => 0.25
+                                                ];
+
+                                                $total = 0;
+
+                                                foreach ($denominations as $key => $value) {
+                                                    $total += $row[$key] * $value;
+                                                }
+                                        ?>
+                                                <tr>
+                                                    <td>
+                                                        <?php
+                                                        $date_time = date("g:i A, F j, Y", strtotime($row['DATE_TIME']));
+                                                        echo $date_time;
+                                                        ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php
+                                                        $emp_id = $row['EMP_ID'];
+                                                        $emp_result = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '$emp_id'");
+                                                        if ($emp_result->num_rows > 0) {
+                                                            $emp_row = $emp_result->fetch_assoc();
+                                                            echo $emp_row['FIRST_NAME'] . ' ' . $emp_row['MIDDLE_INITIAL'] . ' ' . $emp_row['LAST_NAME'];
+                                                        } else {
+                                                            echo '';
+                                                        }
+                                                        ?>
+                                                    </td>
+                                                    <td><?= $row['ONE_THOUSAND'] ?></td>
+                                                    <td><?= $row['FIVE_HUNDRED'] ?></td>
+                                                    <td><?= $row['TWO_HUNDRED'] ?></td>
+                                                    <td><?= $row['ONE_HUNDRED'] ?></td>
+                                                    <td><?= $row['FIFTY'] ?></td>
+                                                    <td><?= $row['TWENTY'] ?></td>
+                                                    <td><?= $row['TEN'] ?></td>
+                                                    <td><?= $row['FIVE'] ?></td>
+                                                    <td><?= $row['ONE'] ?></td>
+                                                    <td><?= $row['TWENTY_FIVE_CENTS'] ?></td>
+                                                    <td class="total-td"><?= $total ?></td>
+                                                    <td><?= $row['TYPE'] ?></td>
+                                                </tr>
+                                        <?php
+                                            }
+                                            echo '<tr><td colspan="14"><center>End</center></td></tr>';
+                                        } else {
+                                            echo "<tr>
+                                                <td colspan='14'><center>No data found.</center></td>
+                                              </tr>";
+                                        }
+                                        ?>
+                                    </table>
                         <?php
+                                } else {
+                                    accessDenied();
+                                }
                             } else {
                                 accessDenied();
                             }

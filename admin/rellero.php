@@ -268,6 +268,8 @@ if (isset($_SESSION['id'])) {
                 </table>
             </div>
 
+            <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
+
             <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";

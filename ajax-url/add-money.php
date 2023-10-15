@@ -18,7 +18,7 @@ if (isset($_SESSION['id'])) {
         $onek = $formData["onek"];
         $fiveHundred = $formData["fiveHundred"];
         $twoHundred = $formData["twoHundred"];
-        $oneHundred = $_POST["oneHundred"];
+        $oneHundred = $formData["oneHundred"];
         $fifty = $formData["fifty"];
         $twenty = $formData["twenty"];
         $ten = $formData["ten"];
