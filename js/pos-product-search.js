@@ -705,13 +705,63 @@ $(document).ready(function () {
       contentType: "application/json",
       success: function (response) {
         // Parse the response JSON object
-        console.log(response);
+        // console.log(response);
         var responseData = JSON.parse(response);
         if (responseData.success) {
           // Get the date and time from the response
           var date = responseData.date;
           var time = responseData.time;
+          var transactionID = responseData.transaction_id;
 
+          // Parse the date and time strings into Date objects
+          var dateObj = new Date(date);
+          var timeObj = new Date("1970-01-01T" + time);
+
+          // Format the date
+          var optionsDate = { year: "numeric", month: "long", day: "numeric" };
+          var formattedDate = dateObj.toLocaleString("en-US", optionsDate);
+
+          // Format the time
+          var optionsTime = {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+          };
+          var formattedTime = timeObj.toLocaleString("en-US", optionsTime);
+
+          var processBy = $("#personLoggedIn").val();
+          var dataToPrint = {
+            sales: {
+              date: formattedDate,
+              time: formattedTime,
+              transactionID: transactionID,
+              processBy: processBy,
+              custId: salesData.sales.cust_id,
+              subtotal: salesData.sales.subtotal,
+              vat: salesData.sales.vat,
+              discount: salesData.sales.discount,
+              total: salesData.sales.total,
+              payment: salesData.sales.payment,
+              change: salesData.sales.change,
+              hey: "hey",
+            },
+            salesDetails: salesData.salesDetails,
+          };
+
+          console.log(dataToPrint);
+
+          $.ajax({
+            type: "POST",
+            url: "../print-receipt.php",
+            data: JSON.stringify(dataToPrint),
+            contentType: "application/json",
+            success: function (response) {
+              console.log(response);
+            },
+          });
+
+          //End
           $("#receipt-table tr td").addClass("border-0");
           // Rest of your code
 
@@ -740,8 +790,8 @@ $(document).ready(function () {
             "<p>Change </p> <p>:</p><p>" + $("#change").val() + "</p>"
           );
 
-          window.print();
-          location.reload();
+          // window.print();
+          // location.reload();
         } else {
           console.log(responseData.error);
         }

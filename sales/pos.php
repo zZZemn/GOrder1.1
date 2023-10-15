@@ -314,6 +314,7 @@ if (isset($_SESSION['id'])) {
 
         </div>
 
+        <!-- End -->
 
         <div class="main">
 
@@ -565,6 +566,7 @@ if (isset($_SESSION['id'])) {
             </div>
         </div>
 
+        <input type="hidden" id="personLoggedIn" value="<?= $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?>">
         <p class="emptype-name">Printed By: <?php echo $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
