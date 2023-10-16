@@ -691,6 +691,7 @@ $(document).ready(function () {
         product_id: $(row).find('[name="product_id"]').val(),
         quantity: $(row).find('[name="quantity"]').val(),
         amount: $(row).find('[name="amount"]').val(),
+        product_name: $(row).find(".pro-name-receipt").text(),
       };
 
       // Add the details to the salesData object
@@ -751,47 +752,71 @@ $(document).ready(function () {
 
           console.log(dataToPrint);
 
-          $.ajax({
-            type: "POST",
-            url: "../print-receipt.php",
-            data: JSON.stringify(dataToPrint),
-            contentType: "application/json",
-            success: function (response) {
-              console.log(response);
-            },
+          // receipt window.print
+          $("#finalReceipttotal").text(dataToPrint.sales.total);
+          $("#finalReceiptCash").text(
+            parseFloat(dataToPrint.sales.payment).toFixed(2)
+          );
+          $("#finalReceiptChange").text(dataToPrint.sales.change);
+          $("#finalReceiptDiscount").text(dataToPrint.sales.discount);
+          $("#finalReceiptVat").text(dataToPrint.sales.discount);
+          $("#finalReceiptProcessBy").text(dataToPrint.sales.processBy);
+          $("#finalReceiptDate").text(dataToPrint.sales.date);
+          $("#finalReceiptTime").text(dataToPrint.sales.time);
+          $("#finalReceiptOrNo").text(dataToPrint.sales.transactionID);
+
+          dataToPrint.salesDetails.forEach((saleDetail) => {
+            var $container = $("<div>").addClass("receipt-items-container");
+            var $itemName = $("<article>")
+              .addClass("item-name")
+              .text(saleDetail.product_name);
+            var $quantity = $("<article>").text(saleDetail.quantity);
+            var $price = $("<article>").text(saleDetail.amount);
+            $container.append($itemName, $quantity, $price);
+            $container.appendTo("#receiptProductsMainContainer");
           });
 
+          // $.ajax({
+          //   type: "POST",
+          //   url: "../print-receipt.php",
+          //   data: JSON.stringify(dataToPrint),
+          //   contentType: "application/json",
+          //   success: function (response) {
+          //     console.log(response);
+          //   },
+          // });
+
           //End
-          $("#receipt-table tr td").addClass("border-0");
+          // $("#receipt-table tr td").addClass("border-0");
           // Rest of your code
 
           // Append the date and time to the HTML element with ID "date-time-print"
-          $(".table").removeClass("table-striped");
-          $("#ggd").append("Golden Gate Drugstore");
-          $("#ggd-add").append("Patubig, Marilao, Bulacan");
-          $("#date-time-print").append(date + "  |  " + time);
+          // $(".table").removeClass("table-striped");
+          // $("#ggd").append("Golden Gate Drugstore");
+          // $("#ggd-add").append("Patubig, Marilao, Bulacan");
+          // $("#date-time-print").append(date + "  |  " + time);
 
-          $("#receipt-subtotal").append(
-            "<p>Subtotal </p> <p>:</p><p>" + $("#subtotal").val() + "</p>"
-          );
-          $("#receipt-vat").append(
-            "<p>VAT </p> <p>:</p><p>" + $("#vat").val() + "</p>"
-          );
-          $("#receipt-discount").append(
-            "<p>Discount </p> <p>:</p><p>" + $("#discount").val() + "</p>"
-          );
-          $("#receipt-total").append(
-            "<p>Total </p> <p>:</p><p>" + $("#total").val() + "</p>"
-          );
-          $("#receipt-payment").append(
-            "<p>Payment </p> <p>:</p><p>" + $("#payment").val() + "</p>"
-          );
-          $("#receipt-change").append(
-            "<p>Change </p> <p>:</p><p>" + $("#change").val() + "</p>"
-          );
+          // $("#receipt-subtotal").append(
+          //   "<p>Subtotal </p> <p>:</p><p>" + $("#subtotal").val() + "</p>"
+          // );
+          // $("#receipt-vat").append(
+          //   "<p>VAT </p> <p>:</p><p>" + $("#vat").val() + "</p>"
+          // );
+          // $("#receipt-discount").append(
+          //   "<p>Discount </p> <p>:</p><p>" + $("#discount").val() + "</p>"
+          // );
+          // $("#receipt-total").append(
+          //   "<p>Total </p> <p>:</p><p>" + $("#total").val() + "</p>"
+          // );
+          // $("#receipt-payment").append(
+          //   "<p>Payment </p> <p>:</p><p>" + $("#payment").val() + "</p>"
+          // );
+          // $("#receipt-change").append(
+          //   "<p>Change </p> <p>:</p><p>" + $("#change").val() + "</p>"
+          // );
 
-          // window.print();
-          // location.reload();
+          window.print();
+          location.reload();
         } else {
           console.log(responseData.error);
         }

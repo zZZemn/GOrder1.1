@@ -319,12 +319,16 @@ table thead th {
   margin: 5px;
 }
 
-@media print {
-  @page {
-    size: 5in auto !important; /* Set the width to 3 inches */
-  }
+/* receipt final styling */
+.receipt-table-final {
+  display: none;
+}
 
+@media print {
   nav {
+    display: none !important;
+  }
+  /* nav {
     display: none !important;
   }
 
@@ -429,6 +433,35 @@ table thead th {
   .no-border {
     border: none !important;
     background-color: none !important;
+  } */
+
+  /* end */
+
+  /* pos final code */
+  .hide-me-final {
+    display: none !important;
+  }
+
+  .receipt-table-final {
+    display: block !important;
+  }
+
+  /* font size */
+  .receipt-table-final center article,
+  .receipt-table-final div article {
+    font-size: 12px !important;
+  }
+
+  /* container */
+  .receipt-items-container,
+  .receipt-calculate-container {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .item-name {
+    background-color: blue;
+    max-width: 60px;
   }
 }
 

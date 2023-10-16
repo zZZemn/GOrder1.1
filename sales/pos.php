@@ -197,8 +197,7 @@ if (isset($_SESSION['id'])) {
             <p class="">Adding Money Success!</p>
         </div>
 
-        <div class="pos-container">
-
+        <div class="pos-container hide-me-final">
             <form class="pos-orders-container" id="order_list">
                 <center class="only-print">
                     <p id="ggd"></p>
@@ -317,8 +316,7 @@ if (isset($_SESSION['id'])) {
         <!-- End -->
 
         <div class="main">
-
-            <form id="frm-add-money" class="frm-add-money">
+            <form id="frm-add-money" class="frm-add-money hide-me-final">
                 <button type="button" id="close-add-money"><i class="fa-solid fa-xmark"></i></button>
                 <center>Add Money</center>
                 <div class="inputs-money-container">
@@ -371,7 +369,7 @@ if (isset($_SESSION['id'])) {
                 </div>
             </form>
 
-            <form id="frm-add-cust" class="frm-add-cust">
+            <form id="frm-add-cust" class="frm-add-cust hide-me-final">
                 <a href="#" id="close-frm-add-cust"><i class="fa-solid fa-xmark"></i></a>
                 <center id="add-cust-title" class="add-cust-title">Add Customer</center>
                 <div class="first-div">
@@ -496,10 +494,68 @@ if (isset($_SESSION['id'])) {
                 </div>
             </form>
 
-            <div class="pos-add-buttons-container">
+            <div class="pos-add-buttons-container hide-me-final">
                 <a href="#" id="btn-save-money" class="btn btn-primary"><i class="fa-solid fa-plus fa-beat"></i> Save Money</a>
                 <a href="#" id="btn-add-customer" class="btn btn-primary"><i class="fa-solid fa-plus fa-beat"></i> Add Customer</a>
             </div>
+
+
+            <!-- Receipt -->
+            <div class="receipt-table-final">
+                <center>
+                    <article>Golden Gate Drugstore</article>
+                    <article>Patubig, Marilao, Bulacan</article>
+                    <!-- <article>TEL NO : 09123456789</article> -->
+                    <article>------------------------</article>
+                </center>
+                <div class="products-receipt-container-main" id="receiptProductsMainContainer">
+                    <!-- <div class="receipt-items-container">
+                        <article class="item-name">Advil Liquid Gel</article>
+                        <article>1</article>
+                        <article>12</article>
+                    </div> -->
+                </div>
+                <center>
+                    <article>------------------------</article>
+                </center>
+                <div class="receipt-calculate-container">
+                    <article>TOTAL : </article>
+                    <article id="finalReceiptTotal">10.00</article>
+                </div>
+                <div class="receipt-calculate-container">
+                    <article>CASH : </article>
+                    <article id="finalReceiptCash">10.00</article>
+                </div>
+                <div class="receipt-calculate-container">
+                    <article>CHANGE : </article>
+                    <article id="finalReceiptChange">0.00</article>
+                </div>
+                <center>
+                    <article>------------------------</article>
+                </center>
+                <div class="receipt-calculate-container">
+                    <article>Discount : </article>
+                    <article id="finalReceiptDiscount">0.00</article>
+                </div>
+                <div class="receipt-calculate-container">
+                    <article>VAT : </article>
+                    <article id="finalReceiptVat">0.00</article>
+                </div>
+                <center>
+                    <article>------------------------</article>
+                </center>
+                <div class="process-by-container-date-time-or#">
+                    <article>PROCESS BY: <span id="finalReceiptProcessBy"></span></article>
+                    <article>DATE: <span id="finalReceiptDate"></span></article>
+                    <article>TIME: <span id="finalReceiptTime"></span></article>
+                    <article>OR#: <span id="finalReceiptOrNo"></span></article>
+                </div>
+                <center>
+                    <article>===================</article>
+                </center>
+            </div>
+            <!-- End Receipt -->
+
 
 
             <div class="message-container">
@@ -567,7 +623,7 @@ if (isset($_SESSION['id'])) {
         </div>
 
         <input type="hidden" id="personLoggedIn" value="<?= $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?>">
-        <p class="emptype-name">Printed By: <?php echo $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
+        <p class="emptype-name remove-when-print">Printed By: <?php echo $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
