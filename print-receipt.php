@@ -23,7 +23,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 try {
     // Enter the share name for your USB printer here
     // $connector = null;
-    $connector = new WindowsPrintConnector("GOrder");
+    $connector = new WindowsPrintConnector("112.211.128.108", "USB002");
 
     $printer = new Printer($connector);
     $printer->text("     Golden Gate Drugstore\n");
