@@ -304,22 +304,24 @@ body {
   bottom: 0;
   right: 0;
   margin: 10px;
-} 
+}
 
 @media print {
-  @page {
-    size: 80mm 200mm; /* Customize the size to your needs */
-    margin: 5mm; /* Adjust margins as necessary */
-  }
-
   * {
     font-family: Arial, sans-serif;
-    font-size: 10px !important;
+    font-size: 14px !important;
     font-weight: 500 !important;
   }
 
-  table {
-    background-color: white!important;
+  body {
+    padding: 0;
+    padding-top: 10px;
+  }
+
+  .fourt-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .second-container {
@@ -331,7 +333,7 @@ body {
   }
 
   .gdd-top-waybill center {
-    font-size: 12px;
+    font-size: 15px;
   }
 
   .top-contents-container {
@@ -342,20 +344,31 @@ body {
     flex-direction: column;
   }
 
-  .order-input-container label {
-    transform: translateY(-10px);
+  .order-input-container {
+    margin: auto;
   }
 
-  .order-input-container input, .order-input-container textarea, .order-input-container select {
+  .order-input-container label {
+    transform: translateY(-10px);
+    font-size: 12px !important;
+  }
+
+  .order-input-container input,
+  .order-input-container textarea,
+  .order-input-container select {
     border-bottom: none;
     border-left: none;
     border-right: none;
+    /* border: none !important; */
+    margin: 0 !important;
+    width: 100% !important;
   }
 
   .order-input-container textarea {
-    height: 50px;
+    height: max-content;
     overflow: hidden;
     resize: none !important;
+    height: 100px;
   }
 
   #btn-print {

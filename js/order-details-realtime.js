@@ -184,6 +184,15 @@ $(document).ready(function () {
 
   $("#btn-print").click(function (e) {
     e.preventDefault();
-    window.print();
+    var rider = $("#pick-delivery-man").val();
+    if (rider == null) {
+      $(".alert-danger").css("opacity", 1).text("Please pick a rider!");
+      setTimeout(function () {
+        $(".alert-danger").css("opacity", 0).text("");
+      }, 2000);
+    } else {
+      console.log(rider);
+      window.print();
+    }
   });
 });

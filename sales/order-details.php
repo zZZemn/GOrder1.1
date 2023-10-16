@@ -175,6 +175,54 @@ if (isset($_SESSION['id'])) {
 
                     <button type="button" id="btn-print" class="btn btn-success">Print Waybill</button>
 
+                    <!-- <div class="waybill-main-container">
+                        <center>
+                            <article>Golden Gate Drugstore</article>
+                            <article>Patubig, Marilao, Bulacan</article>
+                            <article>TEL NO : 09123456789</article>
+                            <article>------------------------</article>
+                        </center>
+                        <div class="waybill-details-container">
+                            <article>Order By</article>
+                            <article id="waybillOrderBy"></article>
+                        </div>
+                        <div class="waybill-details-container">
+                            <article>Delivery Type</article>
+                            <article id="waybillDeliveryType"></article>
+                        </div>
+                        <div class="waybill-details-container">
+                            <article>Payment Type</article>
+                            <article id="waybillPaymentType"></article>
+                        </div>
+                        <div class="waybill-details-container">
+                            <article>Order Date</article>
+                            <article id="waybillOrderDate"></article>
+                        </div>
+                        <div class="waybill-details-container">
+                            <article>Order Time</article>
+                            <article id="waybillOrderTime"></article>
+                        </div>
+                        <div class="waybill-details-container">
+                            <article>Rider</article>
+                            <article id="waybillRider"></article>
+                        </div>
+                        <div class="waybill-details-container">
+                            <article>Address</article>
+                            <article id="waybillAddress"></article>
+                        </div>
+                        <div class="products-waybill-container">
+                            <table>
+                                <tr>
+                                    <td>Product</td>
+                                    <td>Price</td>
+                                    <td>Qty</td>
+                                    <td>Amt</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div> -->
+
                     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
