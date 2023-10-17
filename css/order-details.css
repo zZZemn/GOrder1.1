@@ -316,6 +316,7 @@ body {
   body {
     padding: 0;
     padding-top: 10px;
+    transform: translateX(-10px);
   }
 
   .fourt-container {
@@ -345,7 +346,7 @@ body {
   }
 
   .order-input-container {
-    margin: auto;
+    /* margin: auto; */
   }
 
   .order-input-container label {
@@ -360,7 +361,6 @@ body {
     border-left: none;
     border-right: none;
     /* border: none !important; */
-    margin: 0 !important;
     width: 100% !important;
   }
 
