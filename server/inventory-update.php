@@ -15,9 +15,10 @@ if (isset($_SESSION['id'])) {
     $emp_status = $emp['EMP_STATUS'];
 
     if ($emp_type === 'Admin' && $emp_status === 'active') {
-        if (isset($_GET['search']) && isset($_GET['subcat'])) {
+        if (isset($_GET['search'], $_GET['subcat'], $_GET['cat'])) {
             $search = $_GET['search'];
             $subcat = $_GET['subcat'];
+            $cat = $_GET['cat'];
             if ($search != '') {
                 $inventory_sql = "SELECT inventory.*
                 FROM inventory
@@ -32,6 +33,16 @@ if (isset($_SESSION['id'])) {
                 JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
                 WHERE inventory.QUANTITY > 0
                   AND products.SUB_CAT_ID = '$subcat'
+                ORDER BY inventory.EXP_DATE;
+                ";
+            } elseif ($cat != 'all') {
+                $inventory_sql = "SELECT inventory.*
+                FROM inventory
+                JOIN products ON inventory.PRODUCT_ID = products.PRODUCT_ID
+                JOIN sub_category ON products.SUB_CAT_ID = sub_category.SUB_CAT_ID
+                JOIN category ON sub_category.CAT_ID = category.CAT_ID
+                WHERE inventory.QUANTITY > 0
+                AND category.CAT_ID = '$cat'
                 ORDER BY inventory.EXP_DATE;
                 ";
             } else {

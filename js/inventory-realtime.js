@@ -1,9 +1,14 @@
 $(document).ready(function () {
-  const updateInventory = (search, subcat) => {
+  const updateInventory = (search, subcat, cat) => {
     $.ajax({
       type: "GET",
       url:
-        "../server/inventory-update.php?search=" + search + "&subcat=" + subcat,
+        "../server/inventory-update.php?search=" +
+        search +
+        "&subcat=" +
+        subcat +
+        "&cat=" +
+        cat,
       dataType: "HTML",
       success: function (response) {
         $("#inventory_container").html(response);
@@ -11,19 +16,21 @@ $(document).ready(function () {
     });
   };
 
-  updateInventory("", "");
+  updateInventory("", "", "");
 
   setInterval(() => {
     var search = $("#inv-search").val();
     var sub_cat = $("#subcat-select").val();
-    updateInventory(search, sub_cat);
+    var cat = $("#category-pick").val();
+    updateInventory(search, sub_cat, cat);
   }, 2000);
 
   $("#inv-search").keyup((e) => {
     e.preventDefault();
     var search = $("#inv-search").val();
     var sub_cat = $("#subcat-select").val();
-    updateInventory(search, sub_cat);
+    var cat = $("#category-pick").val();
+    updateInventory(search, sub_cat, cat);
   });
 
   $("#category-pick").on("change", (e) => {
@@ -38,12 +45,18 @@ $(document).ready(function () {
         }
       },
     });
+
+    var search = $("#inv-search").val();
+    var sub_cat = $("#subcat-select").val();
+    var cat = $("#category-pick").val();
+    updateInventory(search, sub_cat, cat);
   });
 
   $("#subcat-select").on("change", (e) => {
     var search = $("#inv-search").val();
     var sub_cat = $("#subcat-select").val();
-    updateInventory(search, sub_cat);
+    var cat = $("#category-pick").val();
+    updateInventory(search, sub_cat, cat);
   });
 
   //   dispose
@@ -107,10 +120,7 @@ $(document).ready(function () {
     var sub_cat = $("#subcat-select").val();
 
     var url =
-      "../print.php?rpt_type=Inventory&cat=" +
-      category +
-      "&sub_cat=" +
-      sub_cat;
+      "../print.php?rpt_type=Inventory&cat=" + category + "&sub_cat=" + sub_cat;
 
     window.open(url, "_blank");
   });
