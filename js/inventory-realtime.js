@@ -99,4 +99,19 @@ $(document).ready(function () {
     $("#myModal").modal("hide");
     $("#myModal").trigger("hidden.bs.modal");
   });
+
+  // print
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var category = $("#category-pick").val();
+    var sub_cat = $("#subcat-select").val();
+
+    var url =
+      "../print.php?rpt_type=Inventory&cat=" +
+      category +
+      "&sub_cat=" +
+      sub_cat;
+
+    window.open(url, "_blank");
+  });
 });

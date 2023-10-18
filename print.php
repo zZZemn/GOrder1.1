@@ -407,10 +407,103 @@ if (isset($_SESSION['id'])) {
                                         }
                                         ?>
                                     </table>
-                        <?php
+                                <?php
                                 } else {
                                     accessDenied();
                                 }
+                            } else {
+                                accessDenied();
+                            }
+                        } elseif ($_GET['rpt_type'] === 'Inventory') {
+                            if (isset($_GET['cat'], $_GET['sub_cat'])) {
+                                $cat = $_GET['cat'];
+                                $sub_cat = $_GET['sub_cat'];
+
+                                $categorySql = "SELECT * FROM `category` WHERE `CAT_ID` = '$cat'";
+                                $subCatSql = "SELECT * FROM `sub_category` WHERE `SUB_CAT_ID` = '$sub_cat'";
+
+                                if (($categoryResult = $conn->query($categorySql)) && ($subCatResult = $conn->query($subCatSql))) {
+                                    if ($categoryResult->num_rows > 0) {
+                                        $categoryRow = $categoryResult->fetch_assoc();
+                                        $categoryFinal = $categoryRow['CAT_NAME'];
+                                    } else {
+                                        $categoryFinal = 'All';
+                                    }
+
+                                    if ($subCatResult->num_rows > 0) {
+                                        $subCatRow = $subCatResult->fetch_assoc();
+                                        $subCatFinal = $subCatRow['SUB_CAT_NAME'];
+                                    } else {
+                                        $subCatFinal = 'All';
+                                    }
+                                }
+
+
+                                if ($cat == 'all' && $sub_cat == '') {
+                                    $sql = "SELECT i.*, p.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID";
+                                } elseif ($sub_cat == '') {
+                                    $sql = "SELECT i.*, p.*, c.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID JOIN sub_category sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID JOIN category c ON sc.CAT_ID = c.CAT_ID WHERE c.CAT_ID = '$cat'";
+                                } else {
+                                    $sql = "SELECT i.*,p.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID WHERE p.SUB_CAT_ID = '$sub_cat'";
+                                }
+
+                                $result = $conn->query($sql);
+                                ?>
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="4">
+                                            <center><img class="logo" src="img/ggd-logo.png"></center>
+                                            <center>Golden Gate Drugstore</center>
+                                            <center>Patubig, Marilao, Bulacan</center>
+                                            <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
+                                            <center>Printed on <?= $currentDate ?></center>
+                                            <center class="m-2">
+                                                <h5>Inventory Report</h5>
+                                            </center>
+                                            <div class="filter-container">
+                                                Filter:
+                                                <br>
+                                                <span>Category: <?= $categoryFinal ?></span>
+                                                <br>
+                                                <span>Sub Category: <?= $subCatFinal ?></span>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Inventory ID</th>
+                                        <th>Product</th>
+                                        <th>Expiration Date</th>
+                                        <th>Quantity</th>
+                                    </tr>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                            <tr>
+                                                <td><?= $row['INV_ID'] ?></td>
+                                                <td>
+                                                    <?php
+                                                    echo $row['PRODUCT_NAME'];
+                                                    echo (isset($row['MG']) && $row['MG'] !== '') ? ' ' . $row['MG'] . 'mg ' : '';
+                                                    echo (isset($row['G']) && $row['G'] !== '') ? ' ' . $row['G'] . 'g ' : '';
+                                                    echo (isset($row['ML']) && $row['ML'] !== '') ? ' ' . $row['ML'] . 'ml ' : '';
+
+                                                    ?>
+                                                </td>
+                                                <td><?= $row['EXP_DATE'] ?></td>
+                                                <td><?= $row['QUANTITY'] ?></td>
+                                            </tr>
+                                    <?php
+                                        }
+                                        echo '<tr><td colspan="14"><center>End</center></td></tr>';
+                                    } else {
+                                        echo "<tr>
+                                                <td colspan='14'><center>No data found.</center></td>
+                                              </tr>";
+                                    }
+                                    ?>
+                                </table>
+                        <?php
                             } else {
                                 accessDenied();
                             }
