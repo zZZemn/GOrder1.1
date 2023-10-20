@@ -7,8 +7,9 @@
   opacity: 0;
 }
 
-body {
-  padding: 30px;
+.report-details {
+  font-size: 17px;
+  font-weight: 600 !important;
 }
 
 /* global */
@@ -25,4 +26,26 @@ body {
   * {
     opacity: 1;
   }
+
+  body {
+    height: 70%;
+    padding: 20px;
+  }
+
+  .print-footer {
+    page-break-before: always;
+    position: fixed;
+    padding: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0px 15px !important;
+  }
+
+  /* .print-footer::after {
+    counter-increment: page;
+    content: counter(page) ' of ' counter(pages);
+  } */
 }

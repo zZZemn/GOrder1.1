@@ -66,30 +66,33 @@ if (isset($_SESSION['id'])) {
                                 $processBy = true;
                                 $processByValue = $_GET['process_by'];
                                 $sql .= " AND s.EMP_ID = '$processByValue'";
+
+                                $empSql = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '$processByValue'");
+                                if ($empSql->num_rows > 0) {
+                                    $empProcessBy = $empSql->fetch_assoc();
+                                    $empName = $empProcessBy['FIRST_NAME'] . ' ' . $empProcessBy['LAST_NAME'];
+                                } else {
+                                    $empName = '';
+                                }
                             }
                     ?>
                             <table class="table">
                                 <tr>
                                     <th colspan="12">
                                         <center><img class="logo" src="img/ggd-logo.png"></center>
-                                        <center>Golden Gate Drugstore</center>
-                                        <center>Patubig, Marilao, Bulacan</center>
-                                        <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
-                                        <center>Printed on <?= $currentDate ?></center>
-                                        <center class="m-2">
-                                            <h5>Daily Sales</h5>
+                                        <center>
+                                            <h4>Golden Gate Drugstore</h4>
                                         </center>
-                                        <div class="filter-container">
-                                            Filters:
-                                            <br>
-                                            <span>Sales Date: <?= $salesDate ?></span>
-                                            <br>
-                                            <span>Type: <?= ($transactionType) ? $_GET['transaction_type'] : 'All' ?></span>
-                                            <br>
-                                            <span>Type: <?= ($customerType) ? $_GET['cust_type'] : 'All' ?></span>
-                                            <br>
-                                            <span>Process By: <?= ($processBy) ? $_GET['process_by'] : 'All' ?></span>
-                                        </div>
+                                        <center>Sta Rosa 2, Marilao, Bulacan</center>
+                                        <center class="m-5">
+                                            <p class="report-details">
+                                                Daily Sales
+                                                <?= ($customerType) ? '<br> Of ' . $_GET['cust_type'] . ' buyer' : '' ?>
+                                                <?= ($transactionType) ? '<br>From ' . $_GET['transaction_type'] : '' ?>
+                                                <?= ($customerType) ? '<br>Process By ' . $empName : '' ?>
+                                                <br>As of <?= $salesDate ?>
+                                            </p>
+                                        </center>
                                     </th>
                                 </tr>
                                 <tr>
@@ -511,6 +514,10 @@ if (isset($_SESSION['id'])) {
                             echo 'endddd';
                         }
                         ?>
+                        <div class="print-footer">
+                            <article>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></article>
+                            <article>Printed on <?= $currentDate ?></article>
+                        </div>
                 </div>
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script src="js/print-report.js"></script>

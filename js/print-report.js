@@ -6,6 +6,5 @@ $(document).ready(function () {
 
   // Add an event listener for the afterprint event
   window.addEventListener("afterprint", closeTab);
-
   window.print();
 });
