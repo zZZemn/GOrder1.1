@@ -1,35 +1,40 @@
 $(document).ready(function () {
-  var year = $("#sales_year").val();
+  const GetMonthlySales = () => {
+    var year = $("#sales_year").val();
+    var month = $("#monthlySalesMonth").val();
+    var transacationType = $("#select-trans-type").val();
+    var custType = $("#select-cust-type").val();
+    var processBy = $("#select-process-by").val();
 
-  // Make the AJAX request using the initial value of the category select
-  $.ajax({
-    url: "../ajax-url/get-monthly-sales.php",
-    data: { year: year },
-    type: "POST",
-    success: function (data) {
-      console.log(data);
-      $("#table-response-container").html(data);
-    },
+    $.ajax({
+      url: "../ajax-url/get-monthly-sales.php",
+      data: {
+        year: year,
+        month: month,
+        transactionType: transacationType,
+        custType: custType,
+        processBy: processBy,
+      },
+      type: "GET",
+      success: function (data) {
+        $("#table-response-container").html(data);
+      },
+    });
+  };
+
+  $(
+    "#sales_year, #monthlySalesMonth, #select-trans-type, #select-cust-type, #select-process-by"
+  ).on("change", function () {
+    GetMonthlySales();
   });
-});
 
-$("#sales_year").on("change", function () {
-  var year = $("#sales_year").val();
-  $.ajax({
-    url: "../ajax-url/get-monthly-sales.php",
-    data: { year: year },
-    type: "POST",
-    success: function (data) {
-      console.log(data);
-      $("#table-response-container").html(data);
-    },
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var year = $("#sales_year").val();
+    var url = "../print.php?rpt_type=MonthlySales&year=" + year;
+
+    window.open(url, "_blank");
   });
-});
 
-$("#printReport").click(function (e) {
-  e.preventDefault();
-  var year = $("#sales_year").val();
-  var url = "../print.php?rpt_type=MonthlySales&year=" + year;
-
-  window.open(url, "_blank");
+  GetMonthlySales();
 });

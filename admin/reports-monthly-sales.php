@@ -218,36 +218,102 @@ if (isset($_SESSION['id'])) {
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th colspan="11">
+                            <th colspan="13">
                                 <center>
                                     <p class="select-date">Monthly Sales</p>
-                                    <div class="input">
-                                        <select name="sales_year" id="sales_year" class="form-control">
-                                            <?php
-                                            $current_year = date("Y");
-                                            $year_sql = "SELECT DISTINCT YEAR(DATE) AS year FROM sales";
-                                            $year_result = $conn->query($year_sql);
-                                            if ($year_result->num_rows > 0) {
-                                                while ($year_row = $year_result->fetch_assoc()) {
-                                                    $year_value = $year_row['year'];
-                                            ?>
-                                                    <option value="<?php echo $year_value ?>" <?php echo ($year_value === $current_year) ?  "selected" : "" ?>><?php echo $year_value ?></option>
-                                            <?php
+                                    <div class="year-month-container">
+                                        <div class="input">
+                                            <select id="monthlySalesMonth" class="form-control">
+                                                <?php
+                                                $currentMonth = date("n");
+                                                for ($month = 1; $month <= 12; $month++) {
+                                                    $selected = ($month == $currentMonth) ? 'selected' : '';
+                                                    $monthName = date("F", mktime(0, 0, 0, $month, 1));
+                                                    echo "<option value='$month' $selected>$monthName</option>";
                                                 }
-                                            }
-                                            ?>
-                                            <option value="2022">2022</option>
-                                        </select>
-
-                                        <center>Year</center>
+                                                ?>
+                                            </select>
+                                            <label for="monthlySalesMonth">Month</label>
+                                        </div>
+                                        <div class="input">
+                                            <select name="sales_year" id="sales_year" class="form-control">
+                                                <?php
+                                                $current_year = date("Y");
+                                                $year_sql = "SELECT DISTINCT YEAR(DATE) AS year FROM sales";
+                                                $year_result = $conn->query($year_sql);
+                                                if ($year_result->num_rows > 0) {
+                                                    while ($year_row = $year_result->fetch_assoc()) {
+                                                        $year_value = $year_row['year'];
+                                                ?>
+                                                        <option value="<?php echo $year_value ?>" <?php echo ($year_value === $current_year) ?  "selected" : "" ?>><?php echo $year_value ?></option>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                            <label for="sales_year">Year</label>
+                                        </div>
+                                        <div class="input">
+                                            <select class="form-control" id="select-trans-type">
+                                                <option value="all">All</option>
+                                                <option value="POS">POS</option>
+                                                <option value="GOrder">GOrder</option>
+                                                <option value="Replace">Replace</option>
+                                            </select>
+                                            <label for="select-trans-type">Transaction Type</label>
+                                        </div>
+                                        <div class="input">
+                                            <select class="form-control" id="select-cust-type">
+                                                <option value="all">All</option>
+                                                <?php
+                                                $custType_sql = "SELECT `DISCOUNT_NAME` FROM discount WHERE `DISCOUNT_STATUS` = 'active'";
+                                                $custType_result = $conn->query($custType_sql);
+                                                if ($custType_result->num_rows > 0) {
+                                                    while ($custType_row = $custType_result->fetch_assoc()) {
+                                                ?>
+                                                        <option value="<?php echo $custType_row['DISCOUNT_NAME'] ?>"><?php echo $custType_row['DISCOUNT_NAME'] ?></option>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                            <label for="select-cust-type">Customer Type</label>
+                                        </div>
+                                        <div class="input">
+                                            <select class="form-control" id="select-process-by">
+                                                <option value="all">All</option>
+                                                <?php
+                                                $emp_sql = "SELECT `EMP_ID`,`FIRST_NAME`,`LAST_NAME`,`MIDDLE_INITIAL` FROM employee WHERE `EMP_STATUS` = 'active'";
+                                                $emp_result = $conn->query($emp_sql);
+                                                if ($emp_result->num_rows > 0) {
+                                                    while ($emp_row = $emp_result->fetch_assoc()) {
+                                                ?>
+                                                        <option value="<?php echo $emp_row['EMP_ID'] ?>"><?php echo $emp_row['FIRST_NAME'] . ' ' . $emp_row['LAST_NAME'] . ' ' . $emp_row['MIDDLE_INITIAL'] ?></option>
+                                                <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                            <label for="select-process-by">Process By</label>
+                                        </div>
                                     </div>
                                 </center>
                             </th>
                         </tr>
                         <tr>
-                            <th>Month</th>
-                            <th>Total VAT</th>
-                            <th>Total Sales</th>
+                            <th>Transaction ID</th>
+                            <th>Transaction Type</th>
+                            <th>Customer Type</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Subtotal</th>
+                            <th>VAT</th>
+                            <th>Discount</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Change</th>
+                            <th>Updated Total</th>
+                            <th>Process By</th>
                         </tr>
                     </thead>
 
