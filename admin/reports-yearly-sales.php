@@ -218,10 +218,25 @@ if (isset($_SESSION['id'])) {
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th colspan="11">
+                            <th colspan="3">
                                 <center>
                                     <p class="year-text">Yearly Sales</p>
                                 </center>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="3" class="year-select-th">
+                                <div class="year-select">
+                                    <select id="selectYear" name="year" class="form-control">
+                                        <?php
+                                        $currentYear = date("Y");
+                                        for ($year = 2020; $year <= $currentYear; $year++) {
+                                            $selected = ($year == $currentYear) ? "selected" : "";
+                                            echo "<option value='$year' $selected>$year</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                             </th>
                         </tr>
                         <tr>
@@ -232,29 +247,7 @@ if (isset($_SESSION['id'])) {
                     </thead>
 
                     <tbody id="table-response-container">
-                        <?php
-                        $year_sql = "SELECT YEAR(DATE) AS year, SUM(UPDATED_TOTAL) AS total_sales, SUM(VAT) AS total_vat FROM sales WHERE PAYMENT >= TOTAL GROUP BY YEAR(DATE)";
-                        $year_result = $conn->query($year_sql);
-                        if ($year_result->num_rows > 0) {
-                            while ($row = $year_result->fetch_assoc()) {
-                        ?>
-                                <tr>
-                                    <td><?php echo $row['year'] ?></td>
-                                    <td><?php echo $row['total_vat'] ?></td>
-                                    <td><?php echo $row['total_sales'] ?></td>
-                                </tr>
-                            <?php
-                            }
-                        } else {
-                            ?>
-                            <tr>
-                                <td colspan="3">
-                                    <center class="text-danger">No Sales Found</center>
-                                </td>
-                            </tr>
-                        <?php
-                        }
-                        ?>
+
                     </tbody>
                 </table>
             </div>
@@ -341,15 +334,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/notifications.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#printReport').click(function(e) {
-                    e.preventDefault();
-                    var url = "../print.php?rpt_type=YearlySales";
-                    window.open(url, "_blank");
-                });
-            });
-        </script>
+        <script src="../js/yearly-sales.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
