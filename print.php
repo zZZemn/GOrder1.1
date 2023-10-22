@@ -539,15 +539,12 @@ if (isset($_SESSION['id'])) {
                                         <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
                                         <center>Printed on <?= $currentDate ?></center>
                                         <center class="m-2">
-                                            <h5>Inventory Report</h5>
+                                            <p class="report-details">
+                                                Inventory Report
+                                                <?= ($categoryFinal !== 'All') ? '<br>' . $categoryFinal : '' ?>
+                                                <?= ($subCatFinal !== 'All') ? '<br>' . $subCatFinal : '' ?>
+                                            </p>
                                         </center>
-                                        <div class="filter-container">
-                                            Filter:
-                                            <br>
-                                            <span>Category: <?= $categoryFinal ?></span>
-                                            <br>
-                                            <span>Sub Category: <?= $subCatFinal ?></span>
-                                        </div>
                                     </th>
                                 </tr>
                                 <tr>
