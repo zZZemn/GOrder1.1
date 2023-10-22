@@ -18,5 +18,12 @@ $(document).ready(function () {
     GetYearlySales();
   });
 
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var year = $("#selectYear").val();
+    var url = "../print.php?rpt_type=YearlySales&year=" + year;
+    window.open(url, "_blank");
+  });
+
   GetYearlySales();
 });

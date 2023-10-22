@@ -31,8 +31,22 @@ $(document).ready(function () {
   $("#printReport").click(function (e) {
     e.preventDefault();
     var year = $("#sales_year").val();
-    var url = "../print.php?rpt_type=MonthlySales&year=" + year;
+    var month = $("#monthlySalesMonth").val();
+    var transactionType = $("#select-trans-type").val();
+    var custType = $("#select-cust-type").val();
+    var processBy = $("#select-process-by").val();
 
+    var url =
+      "../print.php?rpt_type=MonthlySales&year=" +
+      year +
+      "&month=" +
+      month +
+      "&transaction_type=" +
+      transactionType +
+      "&cust_type=" +
+      custType +
+      "&process_by=" +
+      processBy;
     window.open(url, "_blank");
   });
 
