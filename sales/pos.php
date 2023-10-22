@@ -504,8 +504,9 @@ if (isset($_SESSION['id'])) {
             <div class="receipt-table-final">
                 <center>
                     <article>Golden Gate Drugstore</article>
-                    <article>Patubig, Marilao, Bulacan</article>
-                    <!-- <article>TEL NO : 09123456789</article> -->
+                    <article>Sta Rosa 1, Marilao, Bulacan</article>
+                    <article>TEL NO : 09123456789</article>
+                    <article>goldengate@gmail.com</article>
                     <article>------------------------</article>
                 </center>
                 <div class="products-receipt-container-main" id="receiptProductsMainContainer">
@@ -520,26 +521,26 @@ if (isset($_SESSION['id'])) {
                 </center>
                 <div class="receipt-calculate-container">
                     <article>TOTAL : </article>
-                    <article id="finalReceiptTotal">10.00</article>
+                    <article id="finalReceiptTotal"></article>
                 </div>
                 <div class="receipt-calculate-container">
                     <article>CASH : </article>
-                    <article id="finalReceiptCash">10.00</article>
+                    <article id="finalReceiptCash"></article>
                 </div>
                 <div class="receipt-calculate-container">
                     <article>CHANGE : </article>
-                    <article id="finalReceiptChange">0.00</article>
+                    <article id="finalReceiptChange"></article>
                 </div>
                 <center>
                     <article>------------------------</article>
                 </center>
                 <div class="receipt-calculate-container">
                     <article>Discount : </article>
-                    <article id="finalReceiptDiscount">0.00</article>
+                    <article id="finalReceiptDiscount"></article>
                 </div>
                 <div class="receipt-calculate-container">
                     <article>VAT : </article>
-                    <article id="finalReceiptVat">0.00</article>
+                    <article id="finalReceiptVat"></article>
                 </div>
                 <center>
                     <article>------------------------</article>
