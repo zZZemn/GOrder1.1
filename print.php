@@ -338,16 +338,12 @@ if (isset($_SESSION['id'])) {
                                         <center><img class="logo" src="img/ggd-logo.png"></center>
                                         <center>Golden Gate Drugstore</center>
                                         <center>Patubig, Marilao, Bulacan</center>
-                                        <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
-                                        <center>Printed on <?= $currentDate ?></center>
                                         <center class="m-2">
-                                            <h5>Return</h5>
+                                            <p class="report-details">
+                                                Return Report
+                                                <br>As of <?= $date ?>
+                                            </p>
                                         </center>
-                                        <div class="filter-container">
-                                            Filter:
-                                            <br>
-                                            <span>Date: <?= $date ?></span>
-                                        </div>
                                     </th>
                                 </tr>
                                 <tr>
@@ -384,12 +380,14 @@ if (isset($_SESSION['id'])) {
                     elseif ($_GET['rpt_type'] === 'CashRegistered') {
                         if (isset($_GET['date'])) {
                             $date = $_GET['date'];
+                            $processType = false;
                             if (isset($_GET['process_type'])) {
                                 if ($_GET['process_type'] === 'all') {
                                     $sql = "SELECT r.*, e.* FROM rellero r JOIN employee e ON r.EMP_ID = e.EMP_ID WHERE DATE(r.DATE_TIME) = '$date'";
                                 } else {
                                     $type = $_GET['process_type'];
                                     $sql = "SELECT r.*, e.* FROM rellero r JOIN employee e ON r.EMP_ID = e.EMP_ID WHERE DATE(r.DATE_TIME) = '$date' AND r.TYPE = '$type'";
+                                    $processType = true;
                                 }
                                 $result = $conn->query($sql);
                             ?>
@@ -402,15 +400,12 @@ if (isset($_SESSION['id'])) {
                                             <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
                                             <center>Printed on <?= $currentDate ?></center>
                                             <center class="m-2">
-                                                <h5>Cash Register Report</h5>
+                                                <p class="report-details">
+                                                    Cash Register Report
+                                                    <?= ($processType) ? '<br> Process Type ' . $_GET['process_type'] : '' ?>
+                                                    <br>As of <?= $date ?>
+                                                </p>
                                             </center>
-                                            <div class="filter-container">
-                                                Filter:
-                                                <br>
-                                                <span>Date: <?= $date ?></span>
-                                                <br>
-                                                <span>Type: <?= $_GET['process_type'] ?></span>
-                                            </div>
                                         </th>
                                     </tr>
                                     <tr>
