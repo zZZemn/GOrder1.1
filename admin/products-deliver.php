@@ -294,6 +294,11 @@ if (isset($_SESSION['id'])) {
                 </table>
             </div>
 
+            <div class="print-add-btn-container">
+                <button id="addDeliverOpen" class="addDeliver btn btn-primary" type="button"><i class="fa-solid fa-plus"></i>New Deliver</button>
+                <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
+            </div>
+
             <!-- edit -->
             <div class="deliver-add-form" id="deliverEditForm">
                 <button id="closeEditDeliver" type="reset"><i class="fa-solid fa-xmark"></i></button>
@@ -324,8 +329,6 @@ if (isset($_SESSION['id'])) {
                 <input type="submit" class="add-delivery btn btn-primary" id="edit-delivery" name="edit_deliver" value="Save">
             </div>
             <!--  -->
-
-            <button id="addDeliverOpen" class="addDeliver btn btn-primary" type="button"><i class="fa-solid fa-plus"></i>New Deliver</button>
 
             <div class="deliver-add-form" id="deliverAddForm">
                 <button id="closeAddDeliver" type="reset"><i class="fa-solid fa-xmark"></i></button>

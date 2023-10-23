@@ -662,6 +662,73 @@ if (isset($_SESSION['id'])) {
                                 }
                                 ?>
                             </table>
+                        <?php
+                        } else {
+                            accessDenied();
+                        }
+                    } elseif ($_GET['rpt_type'] === 'ProductsDeliver') {
+                        if (isset($_GET['supplier'])) {
+                            $supplier = $_GET['supplier'];
+
+                            $supplierSql = "SELECT `NAME` FROM `supplier` WHERE `SUPPLIER_ID` = '$supplier'";
+
+                            if ($supplierResult = $conn->query($supplierSql)) {
+                                if ($supplierResult->num_rows > 0) {
+                                    $supplierRow = $supplierResult->fetch_assoc();
+                                    $supplierFinal = $supplierRow['NAME'];
+                                } else {
+                                    $supplierFinal = 'All';
+                                }
+                            }
+
+                            if ($supplier == 'all') {
+                                $sql = "SELECT d.*, s.NAME FROM `delivery` d JOIN `supplier` s ON d.SUPPLIER_ID = s.SUPPLIER_ID";
+                            } else {
+                                $sql = "SELECT d.*, s.NAME FROM `delivery` d JOIN `supplier` s ON d.SUPPLIER_ID = s.SUPPLIER_ID WHERE d.SUPPLIER_ID = '$supplier'";
+                            }
+
+                            $result = $conn->query($sql);
+                        ?>
+                            <table class="table">
+                                <tr>
+                                    <th colspan="7">
+                                        <center><img class="logo" src="img/ggd-logo.png"></center>
+                                        <center>Golden Gate Drugstore</center>
+                                        <center>Patubig, Marilao, Bulacan</center>
+                                        <center class="m-2">
+                                            <p class="report-details">
+                                                Delivery Report
+                                                <?= ($supplierFinal !== 'All') ? '<br>Delivered By ' . $supplierFinal : '' ?>
+                                            </p>
+                                        </center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Delivery ID</th>
+                                    <th>Supplier</th>
+                                    <th>Delivery Date</th>
+                                    <th>Delivery Price</th>
+                                </tr>
+                                <?php
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                ?>
+                                        <tr>
+                                            <td><?= $row['DELIVERY_ID'] ?></td>
+                                            <td><?= $row['NAME'] ?></td>
+                                            <td><?= $row['DELIVERY_DATE'] ?></td>
+                                            <td><?= $row['DELIVERY_PRICE'] ?></td>
+                                        </tr>
+                                <?php
+                                    }
+                                    echo '<tr><td colspan="7"><center>End</center></td></tr>';
+                                } else {
+                                    echo "<tr>
+                                                <td colspan='7'><center>No data found.</center></td>
+                                              </tr>";
+                                }
+                                ?>
+                            </table>
                     <?php
                         } else {
                             accessDenied();
