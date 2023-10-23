@@ -2943,3 +2943,50 @@ function editProfile($data)
         return error422('User not found');
     }
 }
+
+function getBestSeller($id)
+{
+    global $conn;
+    $checkUser = checkUser($id);
+    if ($checkUser->num_rows > 0) {
+        $bestSellerSql = "SELECT p.*, sd.PRODUCT_ID, COUNT(*) AS usage_count FROM sales_details sd JOIN products p ON sd.PRODUCT_ID = p.PRODUCT_ID GROUP BY sd.PRODUCT_ID, p.PRODUCT_ID ORDER BY usage_count DESC LIMIT 5";
+        if ($bestSellerResult = $conn->query($bestSellerSql)) {
+            $bestSellingProducts = [];
+            if ($bestSellerResult->num_rows > 0) {
+                while ($bestSellerRow = $bestSellerResult->fetch_assoc()) {
+                    $bestSellingProduct = [
+                        "product_id" => $bestSellerRow['PRODUCT_ID'],
+                        "sold" => $bestSellerRow['usage_count'],
+                        'product_name' => $bestSellerRow['PRODUCT_NAME'],
+                        'g' => $bestSellerRow['G'],
+                        'mg' => $bestSellerRow['MG'],
+                        'ml' => $bestSellerRow['ML'],
+                        'description' => $bestSellerRow['DESCRIPTION'],
+                        'img' => 'https://gorder.website/img/products/' . $bestSellerRow['PRODUCT_IMG'],
+                        'price' => floatval($bestSellerRow['SELLING_PRICE']),
+                        'prescribe' => ($bestSellerRow['PRESCRIBE'] == '1') ? true : false
+                    ];
+                    $bestSellingProducts[] = $bestSellingProduct;
+                }
+                $data = [
+                    'status' => 200,
+                    'message' => 'Success',
+                    'data' => $bestSellingProducts
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                $data = [
+                    'status' => 200,
+                    'message' => 'No bestseller found.',
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            }
+        } else {
+            return error422('Somethin went wrong.');
+        }
+    } else {
+        return error422('User not found');
+    }
+}
