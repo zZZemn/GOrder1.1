@@ -133,4 +133,16 @@ $(document).ready(function () {
     $("#myModal").modal("hide");
     $("#myModal").trigger("hidden.bs.modal");
   });
+
+  // print
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var category = $("#select1").val();
+    var sub_cat = $("#select2").val();
+
+    var url =
+      "../print.php?rpt_type=AllProducts&cat=" + category + "&sub_cat=" + sub_cat;
+
+    window.open(url, "_blank");
+  });
 });

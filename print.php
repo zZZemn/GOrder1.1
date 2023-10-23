@@ -536,8 +536,6 @@ if (isset($_SESSION['id'])) {
                                         <center><img class="logo" src="img/ggd-logo.png"></center>
                                         <center>Golden Gate Drugstore</center>
                                         <center>Patubig, Marilao, Bulacan</center>
-                                        <center>Printed by <?= $emp['FIRST_NAME'] . ' ' . $emp['LAST_NAME'] ?></center>
-                                        <center>Printed on <?= $currentDate ?></center>
                                         <center class="m-2">
                                             <p class="report-details">
                                                 Inventory Report
@@ -577,6 +575,89 @@ if (isset($_SESSION['id'])) {
                                 } else {
                                     echo "<tr>
                                                 <td colspan='14'><center>No data found.</center></td>
+                                              </tr>";
+                                }
+                                ?>
+                            </table>
+                        <?php
+                        } else {
+                            accessDenied();
+                        }
+                    } elseif ($_GET['rpt_type'] === 'AllProducts') {
+                        if (isset($_GET['cat'], $_GET['sub_cat'])) {
+                            $cat = $_GET['cat'];
+                            $sub_cat = $_GET['sub_cat'];
+
+                            $categorySql = "SELECT * FROM `category` WHERE `CAT_ID` = '$cat'";
+                            $subCatSql = "SELECT * FROM `sub_category` WHERE `SUB_CAT_ID` = '$sub_cat'";
+
+                            if (($categoryResult = $conn->query($categorySql)) && ($subCatResult = $conn->query($subCatSql))) {
+                                if ($categoryResult->num_rows > 0) {
+                                    $categoryRow = $categoryResult->fetch_assoc();
+                                    $categoryFinal = $categoryRow['CAT_NAME'];
+                                } else {
+                                    $categoryFinal = 'All';
+                                }
+
+                                if ($subCatResult->num_rows > 0) {
+                                    $subCatRow = $subCatResult->fetch_assoc();
+                                    $subCatFinal = $subCatRow['SUB_CAT_NAME'];
+                                } else {
+                                    $subCatFinal = 'All';
+                                }
+                            }
+
+                            if ($cat == 'all' && $sub_cat == 'all') {
+                                $sql = "SELECT * FROM `products`";
+                            } elseif ($sub_cat == 'all') {
+                                $sql = "SELECT p.* FROM products p JOIN sub_category sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID JOIN category c ON sc.CAT_ID = c.CAT_ID WHERE c.CAT_ID = '$cat'";
+                            } else {
+                                $sql = "SELECT p.* FROM products p JOIN sub_category sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID WHERE sc.SUB_CAT_ID = '$sub_cat'";
+                            }
+
+                            $result = $conn->query($sql);
+                        ?>
+                            <table class="table">
+                                <tr>
+                                    <th colspan="7">
+                                        <center><img class="logo" src="img/ggd-logo.png"></center>
+                                        <center>Golden Gate Drugstore</center>
+                                        <center>Patubig, Marilao, Bulacan</center>
+                                        <center class="m-2">
+                                            <p class="report-details">
+                                                Product List Report
+                                                <?= ($categoryFinal !== 'All') ? '<br>' . $categoryFinal : '' ?>
+                                                <?= ($subCatFinal !== 'All') ? '<br>' . $subCatFinal : '' ?>
+                                            </p>
+                                        </center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Product Code</th>
+                                    <th>Product Name</th>
+                                    <th>mg</th>
+                                    <th>g</th>
+                                    <th>ml</th>
+                                    <th>Selling Price</th>
+                                </tr>
+                                <?php
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                ?>
+                                        <tr>
+                                            <td><?= $row['PRODUCT_CODE'] ?></td>
+                                            <td><?= $row['PRODUCT_NAME'] ?></td>
+                                            <td><?= $row['MG'] ?></td>
+                                            <td><?= $row['G'] ?></td>
+                                            <td><?= $row['ML'] ?></td>
+                                            <td><?= $row['SELLING_PRICE'] ?></td>
+                                        </tr>
+                                <?php
+                                    }
+                                    echo '<tr><td colspan="7"><center>End</center></td></tr>';
+                                } else {
+                                    echo "<tr>
+                                                <td colspan='7'><center>No data found.</center></td>
                                               </tr>";
                                 }
                                 ?>

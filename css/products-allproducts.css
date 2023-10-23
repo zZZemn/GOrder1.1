@@ -357,6 +357,12 @@ select {
   pointer-events: none;
 }
 
+#printReport {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
 @media (max-width: 1150px) {
   .all-producst-container th {
     font-size: 13px !important;
@@ -415,9 +421,9 @@ select {
 }
 
 @media (max-width: 550px) {
-    .search-container {
-        margin-top: 10px;
-    }
+  .search-container {
+    margin-top: 10px;
+  }
   .category-pick {
     top: 60px;
     position: absolute;
