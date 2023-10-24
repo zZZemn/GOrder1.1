@@ -1,4 +1,7 @@
 <?php
+include('database/db.php');
+include('time-date.php');
+
 function accessDenied()
 {
     echo <<<HTML
@@ -14,11 +17,21 @@ function accessDenied()
         HTML;
 }
 
+function getEmployee($id)
+{
+    global $conn;
+
+    $sql = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '$id'");
+    if ($sql->num_rows > 0) {
+        $result = $sql->fetch_assoc();
+        return $result['FIRST_NAME'] . ' ' . $result['LAST_NAME'];
+    } else {
+        return '';
+    }
+}
+
 session_start();
 if (isset($_SESSION['id'])) {
-    include('database/db.php');
-    include('time-date.php');
-
     $sql = "SELECT * FROM employee WHERE EMP_ID = {$_SESSION['id']}";
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
@@ -453,18 +466,7 @@ if (isset($_SESSION['id'])) {
                                                     echo $date_time;
                                                     ?>
                                                 </td>
-                                                <td>
-                                                    <?php
-                                                    $emp_id = $row['EMP_ID'];
-                                                    $emp_result = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '$emp_id'");
-                                                    if ($emp_result->num_rows > 0) {
-                                                        $emp_row = $emp_result->fetch_assoc();
-                                                        echo $emp_row['FIRST_NAME'] . ' ' . $emp_row['MIDDLE_INITIAL'] . ' ' . $emp_row['LAST_NAME'];
-                                                    } else {
-                                                        echo '';
-                                                    }
-                                                    ?>
-                                                </td>
+                                                <td><?= getEmployee($row['EMP_ID']) ?></td>
                                                 <td><?= $row['ONE_THOUSAND'] ?></td>
                                                 <td><?= $row['FIVE_HUNDRED'] ?></td>
                                                 <td><?= $row['TWO_HUNDRED'] ?></td>
@@ -671,7 +673,7 @@ if (isset($_SESSION['id'])) {
                             $supplier = $_GET['supplier'];
 
                             $supplierSql = "SELECT `NAME` FROM `supplier` WHERE `SUPPLIER_ID` = '$supplier'";
-
+                            $supplierFinal = 'All';
                             if ($supplierResult = $conn->query($supplierSql)) {
                                 if ($supplierResult->num_rows > 0) {
                                     $supplierRow = $supplierResult->fetch_assoc();
@@ -729,12 +731,146 @@ if (isset($_SESSION['id'])) {
                                 }
                                 ?>
                             </table>
+                        <?php
+                        } else {
+                            accessDenied();
+                        }
+                    } elseif ($_GET['rpt_type'] === 'ProductsSuppliers') {
+                        $sql = "SELECT * FROM `supplier` WHERE `SUPPLIER_STATUS` = 'active'";
+                        if ($result = $conn->query($sql)) {
+                        ?>
+                            <table class="table">
+                                <tr>
+                                    <th colspan="7">
+                                        <center><img class="logo" src="img/ggd-logo.png"></center>
+                                        <center>Golden Gate Drugstore</center>
+                                        <center>Patubig, Marilao, Bulacan</center>
+                                        <center class="m-2">
+                                            <p class="report-details">
+                                                Suppliers Report
+                                            </p>
+                                        </center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <th>Supplier</th>
+                                    <th>Contact Person</th>
+                                    <th>Contact no.</th>
+                                    <th>Address</th>
+                                </tr>
+                                <?php
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                ?>
+                                        <tr>
+                                            <td><?= $row['NAME'] ?></td>
+                                            <td><?= $row['CONTACT_PERSON'] ?></td>
+                                            <td><?= $row['CONTACT_NO'] ?></td>
+                                            <td><?= $row['ADDRESS'] ?></td>
+                                        </tr>
+                                <?php
+                                    }
+                                    echo '<tr><td colspan="7"><center>End</center></td></tr>';
+                                } else {
+                                    echo "<tr>
+                                            <td colspan='7'><center>No data found.</center></td>
+                                          </tr>";
+                                }
+                                ?>
+                            </table>
+                            <?php
+                        }
+                    } elseif ($_GET['rpt_type'] === 'StockOut') {
+                        if (isset($_GET['branch'], $_GET['process_by'])) {
+                            $branch = $_GET['branch'];
+                            $processBy = $_GET['process_by'];
+
+                            $branchSql = "SELECT * FROM `branch` WHERE `ID` = '$branch'";
+                            $branchFinal = 'All';
+                            if ($branchResult = $conn->query($branchSql)) {
+                                if ($branchResult->num_rows > 0) {
+                                    $branchRow = $branchResult->fetch_assoc();
+                                    $branchFinal = $branchRow['BRANCH'];
+                                }
+                            }
+
+                            $empName = 'All';
+                            if ($empSql = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '$processBy'")) {
+                                if ($empSql->num_rows > 0) {
+                                    $empProcessBy = $empSql->fetch_assoc();
+                                    $empName = $empProcessBy['FIRST_NAME'] . ' ' . $empProcessBy['LAST_NAME'];
+                                }
+                            }
+
+                            if ($branch != 'all' && $processBy != 'all') {
+                                $sql = "SELECT * FROM `stock_out` WHERE `BRANCH_ID` = '$branch' AND `EMP_ID` = '$processBy' AND `STATUS` = 'Active'";
+                            } elseif ($branch != 'all') {
+                                $sql = "SELECT * FROM `stock_out` WHERE `BRANCH_ID` = '$branch' AND `STATUS` = 'Active'";
+                            } elseif ($processBy != 'all') {
+                                $sql = "SELECT * FROM `stock_out` WHERE `EMP_ID` = '$processBy' AND `STATUS` = 'Active'";
+                            } else {
+                                $sql = "SELECT * FROM `stock_out` WHERE `STATUS` = 'Active'";
+                            }
+
+                            if ($result = $conn->query($sql)) {
+                            ?>
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="7">
+                                            <center><img class="logo" src="img/ggd-logo.png"></center>
+                                            <center>Golden Gate Drugstore</center>
+                                            <center>Patubig, Marilao, Bulacan</center>
+                                            <center class="m-2">
+                                                <p class="report-details">
+                                                    Stock Out Report
+                                                    <?= ($branchFinal !== 'All') ? '<br>For ' . $branchFinal . ' Branch' : '' ?>
+                                                    <?= ($empName !== 'All') ? '<br>Process By ' . $empName : '' ?>
+                                                </p>
+                                            </center>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Stock Out ID</th>
+                                        <th>Branch</th>
+                                        <th>Process by</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                    </tr>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                            $getBranchSql = $conn->query("SELECT `BRANCH` FROM `branch` WHERE `ID` = '$branch'");
+                                            if ($getBranchSql->num_rows > 0) {
+                                                $getBranchResult = $getBranchSql->fetch_assoc();
+                                                $branchName = $getBranchResult['BRANCH'];
+                                            } else {
+                                                $branchName = '';
+                                            }
+                                    ?>
+                                            <tr>
+                                                <td><?= $row['STOCK_OUT_ID'] ?></td>
+                                                <td><?= $branchName ?></td>
+                                                <td><?= getEmployee($row['EMP_ID']) ?></td>
+                                                <td><?= $row['DATE'] ?></td>
+                                                <td><?= $row['TOTAL'] ?></td>
+                                            </tr>
+                                    <?php
+                                        }
+                                        echo '<tr><td colspan="7"><center>End</center></td></tr>';
+                                    } else {
+                                        echo "<tr>
+                                            <td colspan='7'><center>No data found.</center></td>
+                                          </tr>";
+                                    }
+                                    ?>
+                                </table>
                     <?php
+                            }
                         } else {
                             accessDenied();
                         }
                     } else {
-                        echo 'endddd';
+                        accessDenied();
                     }
                     ?>
                     <div class="print-footer">

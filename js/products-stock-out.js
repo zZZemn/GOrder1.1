@@ -187,7 +187,7 @@ $(document).ready(function () {
   const deleteStockOut = (id) => {
     $("#myModal").modal("hide");
     $("#myModal").trigger("hidden.bs.modal");
-    
+
     $.ajax({
       type: "POST",
       url: "../ajax-url/add-stock-out.php",
@@ -239,5 +239,20 @@ $(document).ready(function () {
   $("#myModal").on("click", "#close-delete-this-stock-out", () => {
     $("#myModal").modal("hide");
     $("#myModal").trigger("hidden.bs.modal");
+  });
+
+  // print
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var branch = $("#branch_select").val();
+    var processBy = $("#emp_select").val();
+
+    var url =
+      "../print.php?rpt_type=StockOut&branch=" +
+      branch +
+      "&process_by=" +
+      processBy;
+
+    window.open(url, "_blank");
   });
 });

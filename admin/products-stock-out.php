@@ -277,6 +277,11 @@ if (isset($_SESSION['id'])) {
                 </table>
             </div>
 
+            <div class="print-add-btn-container">
+                <button id="addStockOutOpen" class="btnAddStockOut btn btn-primary" type="button"><i class="fa-solid fa-plus"></i>New Stock Out</button>
+                <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
+            </div>
+
             <form class="add-stock-out" id="frm-add-stock-out">
                 <center>Add Stock Out</center>
                 <div class="contents-input-container">
@@ -343,8 +348,6 @@ if (isset($_SESSION['id'])) {
                 </center>
             </form>
 
-            <button id="addStockOutOpen" class="btnAddStockOut btn btn-primary" type="button"><i class="fa-solid fa-plus"></i>New Stock Out</button>
-
             <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
@@ -358,7 +361,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo "message".$customer_row['CUST_ID'] . "message" ?>">
+                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
