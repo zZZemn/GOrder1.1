@@ -2990,3 +2990,48 @@ function getBestSeller($id)
         return error422('User not found');
     }
 }
+
+function changePassword($data)
+{
+    global $conn;
+
+    $userResult = checkUser($data->id);
+    if ($userResult->num_rows > 0) {
+        $user = $userResult->fetch_assoc();
+        if (password_verify($data->old_password, $user['PASSWORD'])) {
+            if (strlen($data->new_password) < 8) {
+                return error422('Password must be at least 8 characters long.');
+            }
+
+            if (!preg_match('/[a-zA-Z]/', $data->new_password)) {
+                return error422('Password must contain at least one letter.');
+            }
+
+            if (!preg_match('/\d/', $data->new_password)) {
+                return error422('Password must contain at least one digit.');
+            }
+
+            if (!preg_match('/[!@#$%^&*()_+{}\[\]:;<>,.?~\\\-]/', $data->new_password)) {
+                return error422('Password must contain at least one special symbol.');
+            }
+
+            $newPassword = password_hash($data->new_password, PASSWORD_DEFAULT);
+
+            $sql = "UPDATE `customer_user` SET `PASSWORD`='$newPassword' WHERE `CUST_ID` = '$data->id'";
+            if ($conn->query($sql)) {
+                $data = [
+                    'status' => 200,
+                    'message' => 'Password Changed!',
+                ];
+                header("HTTP/1.0 200 OK");
+                return json_encode($data);
+            } else {
+                return error422('Somethin went wrong.');
+            }
+        } else {
+            return error422('Incorrect Password');
+        }
+    } else {
+        return error422('User not found');
+    }
+}
