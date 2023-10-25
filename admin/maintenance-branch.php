@@ -194,7 +194,6 @@ if (isset($_SESSION['id'])) {
                 <a href="maintenance-category.php"><i class="fa-solid fa-list"></i>Category</a>
                 <a href="maintenance-address.php"><i class="fa-solid fa-location-dot"></i>Address</a>
                 <a href="maintenance-branch.php" class="nav-active"><i class="fa-solid fa-code-branch"></i>Branch</a>
-                <a href="maintenance-branch.php"><i class="fa-solid fa-code-branch"></i>Branch</a>
             </div>
 
             <hr>
