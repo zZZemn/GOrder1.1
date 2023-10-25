@@ -864,6 +864,95 @@ if (isset($_SESSION['id'])) {
                                     }
                                     ?>
                                 </table>
+                            <?php
+                            }
+                        } else {
+                            accessDenied();
+                        }
+                    } elseif ($_GET['rpt_type'] === 'EmpLogs') {
+                        if (isset($_GET['emp_id'], $_GET['log_type'])) {
+                            $empId = $_GET['emp_id'];
+                            $logType = $_GET['log_type'];
+
+                            $sql = "SELECT el.*, e.* FROM `emp_log` el JOIN `employee` e ON el.EMP_ID = e.EMP_ID";
+
+                            if ($empId != 'all' && $logType != 'all') {
+                                $sql .= " WHERE el.EMP_ID = '$empId' AND el.LOG_TYPE LIKE '%$logType%'";
+                            } elseif ($empId != 'all') {
+                                $sql .= " WHERE el.EMP_ID = '$empId'";
+                            } elseif ($logType != 'all') {
+                                $sql .= " WHERE el.LOG_TYPE LIKE '%$logType%'";
+                            }
+
+                            $empName = 'All';
+                            if ($empSql = $conn->query("SELECT * FROM `employee` WHERE `EMP_ID` = '$empId'")) {
+                                if ($empSql->num_rows > 0) {
+                                    $empProcessBy = $empSql->fetch_assoc();
+                                    $empName = $empProcessBy['FIRST_NAME'] . ' ' . $empProcessBy['LAST_NAME'];
+                                }
+                            }
+
+                            $logTypeFinal = 'All';
+                            if ($logType == 'Log') {
+                                $logTypeFinal = 'Login / Log out';
+                            } elseif ($logType == 'product') {
+                                $logTypeFinal = 'Product';
+                            } elseif ($logType == 'supplier') {
+                                $logTypeFinal = 'Supplier';
+                            } elseif ($logType == 'delivery') {
+                                $logTypeFinal = 'Delivery';
+                            } elseif ($logType == 'tax') {
+                                $logTypeFinal = 'TAX';
+                            } elseif ($logType == 'discount') {
+                                $logTypeFinal = 'Discount';
+                            } elseif ($logType == 'category') {
+                                $logTypeFinal = 'Category';
+                            }
+
+
+                            if ($result = $conn->query($sql)) {
+                            ?>
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="7">
+                                            <center><img class="logo" src="img/ggd-logo.png"></center>
+                                            <center>Golden Gate Drugstore</center>
+                                            <center>Patubig, Marilao, Bulacan</center>
+                                            <center class="m-2">
+                                                <p class="report-details">
+                                                    Employee Logs
+                                                    <?= ($empName !== 'All') ? '<br>Logs of ' . $empName : '' ?>
+                                                    <?= ($logTypeFinal !== 'All') ? '<br>Log Type: ' . $logTypeFinal : '' ?>
+                                                </p>
+                                            </center>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Log Type</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                    </tr>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                            <tr>
+                                                <td><?= $row['FIRST_NAME'] . ' ' . $row['LAST_NAME'] ?></td>
+                                                <td><?= $row['LOG_TYPE'] ?></td>
+                                                <td><?= $row['LOG_DATE'] ?></td>
+                                                <td><?= date('h:i A', strtotime($row['LOG_TIME'])) ?></td>
+                                            </tr>
+                                    <?php
+                                        }
+                                        echo '<tr><td colspan="7"><center>End</center></td></tr>';
+                                    } else {
+                                        echo "<tr>
+                                                <td colspan='7'><center>No data found.</center></td>
+                                              </tr>";
+                                    }
+                                    ?>
+                                </table>
                     <?php
                             }
                         } else {

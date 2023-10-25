@@ -361,7 +361,7 @@ if (isset($_SESSION['id'])) {
             }
             ?>
 
-<div class="message-container">
+            <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                 $messages_result = $conn->query($messages);
@@ -374,7 +374,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo "message".$customer_row['CUST_ID'] . "message" ?>">
+                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>

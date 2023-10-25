@@ -222,6 +222,36 @@ if (isset($_SESSION['id'])) {
                                 <center>
                                     <p class="year-text">Employee Logs</p>
                                 </center>
+                                <div class="filtering-container d-flex justify-content-end">
+                                    <div class="input-container m-2">
+                                        <label for="selectEmployee">Employee</label>
+                                        <select id="selectEmployee" class="form-control">
+                                            <option value="all">All</option>
+                                            <?php
+                                            if ($allEmpSql = $conn->query("SELECT * FROM `employee`")) {
+                                                if ($allEmpSql->num_rows > 0) {
+                                                    while ($allEmpRow = $allEmpSql->fetch_assoc()) {
+                                                        echo '<option value="' . $allEmpRow['EMP_ID'] . '">' . $allEmpRow['FIRST_NAME'] . ' ' . $allEmpRow['LAST_NAME'] . '</option>';
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="input-container m-2">
+                                        <label for="logType">Log Type</label>
+                                        <select id="logType" class="form-control">
+                                            <option value="all">All</option>
+                                            <option value="Log">Log in / Log out</option>
+                                            <option value="product">Product</option>
+                                            <option value="supplier">Supplier</option>
+                                            <option value="supplier">Delivery</option>
+                                            <option value="tax">TAX</option>
+                                            <option value="discount">Discount</option>
+                                            <option value="category">Category</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </th>
                         </tr>
                         <tr>
@@ -233,31 +263,12 @@ if (isset($_SESSION['id'])) {
                     </thead>
 
                     <tbody id="table-response-container">
-                        <?php
-                        $emplog_sql = "SELECT * FROM emp_log ORDER BY LOG_DATE DESC, LOG_TIME DESC";
-                        $emplog_result = $conn->query($emplog_sql);
-                        if ($emplog_result->num_rows > 0) {
-                            while ($row = $emplog_result->fetch_assoc()) {
-                                $emp_id = $row['EMP_ID'];
-                                $emp_sql = "SELECT * FROM employee WHERE EMP_ID = '$emp_id'";
-                                $emp_result = $conn->query($emp_sql);
-                                if ($emp_result->num_rows > 0) {
-                                    $emp = $emp_result->fetch_assoc();
-                                }
-                        ?>
-                                <tr>
-                                    <td><?php echo $emp['FIRST_NAME'] . " " . $emp['LAST_NAME'] ?></td>
-                                    <td><?php echo $row['LOG_TYPE'] ?></td>
-                                    <td><?php echo $row['LOG_DATE'] ?></td>
-                                    <td><?php echo date('h:i A', strtotime($row['LOG_TIME'])); ?></td>
-                                </tr>
-                        <?php
-                            }
-                        }
-                        ?>
+
                     </tbody>
                 </table>
             </div>
+
+            <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
 
             <div class="message-container">
                 <?php
@@ -339,6 +350,7 @@ if (isset($_SESSION['id'])) {
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/logs-employee.js"></script>
 
     <?php else : ?>
         <div class="access-denied">
