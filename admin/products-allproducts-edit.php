@@ -254,15 +254,15 @@ if (isset($_SESSION['id'])) {
                                 </div>
                                 <div class="product-name-meas">
                                     <div class="contents-input-container unit-meas">
-                                        <input type="number" class="form-control" name="g" value="<?php echo $product['G'] ?>">
+                                        <input type="number" step="any" class="form-control" name="g" value="<?php echo $product['G'] ?>">
                                         <label class="product-edit-label">g</label>
                                     </div>
                                     <div class="contents-input-container unit-meas">
-                                        <input type="number" class="form-control" name="mg" value="<?php echo $product['MG'] ?>">
+                                        <input type="number" step="any" class="form-control" name="mg" value="<?php echo $product['MG'] ?>">
                                         <label class="product-edit-label">mg</label>
                                     </div>
                                     <div class="contents-input-container unit-meas">
-                                        <input type="number" class="form-control" name="ml" value="<?php echo $product['ML'] ?>">
+                                        <input type="number" step="any" class="form-control" name="ml" value="<?php echo $product['ML'] ?>">
                                         <label class="product-edit-label">ml</label>
                                     </div>
                                 </div>

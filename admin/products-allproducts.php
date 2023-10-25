@@ -296,15 +296,15 @@ if (isset($_SESSION['id'])) {
                 </div>
                 <div class="add-product-s-row">
                     <div class="contents-input-container unit-meas-add">
-                        <input class="form-control" type="number" name="mg">
+                        <input step="any" class="form-control" type="number" name="mg">
                         <label class="product-add-label">mg</label>
                     </div>
                     <div class="contents-input-container unit-meas-add">
-                        <input class="form-control" type="number" name="g">
+                        <input step="any" class="form-control" type="number" name="g">
                         <label class="product-add-label">g</label>
                     </div>
                     <div class="contents-input-container unit-meas-add">
-                        <input class="form-control" type="number" name="ml">
+                        <input step="any" class="form-control" type="number" name="ml">
                         <label class="product-add-label">ml</label>
                     </div>
                     <div class="contents-input-container critical-level-add">
@@ -359,6 +359,10 @@ if (isset($_SESSION['id'])) {
                         <div class="form-check form-switch pres-vat">
                             <input class="form-check-input" type="checkbox" id="discountable" name="discountable">
                             <label class="form-check-label" for="discountable">Discountable</label>
+                        </div>
+                        <div class="form-check form-switch pres-vat">
+                            <input class="form-check-input" type="checkbox" id="SellInGorder" name="SellInGorder">
+                            <label class="form-check-label" for="SellInGorder">Sell Online</label>
                         </div>
                         <div class="upload-pic">
                             <input type="file" class="form-control" name="product_image" id="customFile">

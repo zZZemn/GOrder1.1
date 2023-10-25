@@ -58,9 +58,9 @@ if (isset($_SESSION['id'])) {
         $product_name = filter_input(INPUT_POST, 'product_name', FILTER_SANITIZE_STRING);
         $product_code = filter_input(INPUT_POST, 'product_code', FILTER_SANITIZE_STRING);
         $unit_meas = filter_input(INPUT_POST, 'product_meas', FILTER_SANITIZE_STRING);
-        $g = filter_input(INPUT_POST, 'g', FILTER_SANITIZE_NUMBER_FLOAT);
-        $mg = filter_input(INPUT_POST, 'mg', FILTER_SANITIZE_NUMBER_FLOAT);
-        $ml = filter_input(INPUT_POST, 'ml', FILTER_SANITIZE_NUMBER_FLOAT);
+        $g = filter_input(INPUT_POST, 'g', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $mg = filter_input(INPUT_POST, 'mg', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+        $ml = filter_input(INPUT_POST, 'ml', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $critical_level = filter_input(INPUT_POST, 'critical_level', FILTER_SANITIZE_NUMBER_INT);
         $selling_price = filter_input(INPUT_POST, 'selling_price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $category_id = filter_input(INPUT_POST, 'cat', FILTER_SANITIZE_NUMBER_INT);
