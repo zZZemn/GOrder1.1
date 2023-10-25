@@ -302,6 +302,15 @@ if (isset($_SESSION['id'])) {
                                                                                                                                 ?>>
                                         <label class="form-check-label" for="discountable">Discountable</label>
                                     </div>
+
+                                    <div class="form-check form-switch pres-vat">
+                                        <input class="form-check-input" type="checkbox" id="SellInGorder" name="SellInGorder" <?php
+                                                                                                                                if ($product['SELL_IN_GORDER'] == 1) {
+                                                                                                                                    echo "checked";
+                                                                                                                                }
+                                                                                                                                ?>>
+                                        <label class="form-check-label" for="SellInGorder">Sell Online</label>
+                                    </div>
                                 </div>
                                 <input type="hidden" id="product_id" name="product_id" value="<?php echo $product['PRODUCT_ID']; ?>">
                                 <div class="s-row-s-right">

@@ -253,21 +253,21 @@ function products($cust_id_search)
         if ($cheking_cust_id_result->num_rows > 0) {
             if ($cust_id_search['pro_search'] != null) {
                 $pro_search = $cust_id_search['pro_search'];
-                $products_query = "SELECT * FROM products WHERE PRODUCT_NAME LIKE '%$pro_search%'";
+                $products_query = "SELECT * FROM products WHERE PRODUCT_NAME LIKE '%$pro_search%' AND `SELL_IN_GORDER` = '1' AND `PRODUCT_STATUS` = 'active'";
             } else {
                 if ($cust_id_search['category'] != null || $cust_id_search['sub_cat'] != null) {
                     $category = $cust_id_search['category'];
                     $sub_cat = $cust_id_search['sub_cat'];
                     if ($category === 'all') {
-                        $products_query = "SELECT * FROM products";
+                        $products_query = "SELECT * FROM products WHERE `SELL_IN_GORDER` = '1' AND `PRODUCT_STATUS` = 'active'";
                     } else {
                         if ($sub_cat === 'all') {
                             $products_query = "SELECT products.* FROM products
                                                INNER JOIN sub_category ON products.SUB_CAT_ID = sub_category.SUB_CAT_ID
                                                INNER JOIN category ON sub_category.CAT_ID = category.CAT_ID
-                                               WHERE category.CAT_ID = '$category'";
+                                               WHERE category.CAT_ID = '$category' AND products.SELL_IN_GORDER = '1' AND products.PRODUCT_STATUS = 'active'";
                         } else {
-                            $products_query = "SELECT * FROM products WHERE `SUB_CAT_ID` = '$sub_cat'";
+                            $products_query = "SELECT * FROM products WHERE `SUB_CAT_ID` = '$sub_cat' AND `SELL_IN_GORDER` = '1' AND `PRODUCT_STATUS` = 'active'";
                         }
                     }
                 } else {
