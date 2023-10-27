@@ -168,6 +168,7 @@ if (isset($_SESSION['id'])) {
                                     <option value="Delivered">Delivered</option>
                                     <option value="Ready To Pick Up">Ready To Pick Up</option>
                                     <option value="Picked Up">Picked Up</option>
+                                    <option value="Refund Online Payment">Refund Online Payment</option>
                                 </select>
                             </center>
                         </th>

@@ -173,6 +173,21 @@ if (isset($_SESSION['id'])) {
 
                     </div>
 
+                    <?php if ($order_status == "Rejected" && $order['PAYMENT_TYPE'] != "Cash" && $order['REFUND_PHOTO'] == NULL) {
+                    ?>
+                        <form class="card container m-5 p-4 frmUploadRefun" id="frmUploadRefund" enctype="multipart/form-data">
+                            <h3>
+                                <center class="card-title">Refund</center>
+                            </h3>
+                            <div class="uploadRefundPhotoContainer">
+                                <label for="uploadRefundPhoto">Upload Refund Photo</label>
+                                <input type="file" id="uploadRefundPhoto" name="refundPhoto" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-2">Upload</button>
+                        </form>
+                    <?php
+                    } ?>
+
                     <?php
                     if ($order_status !== 'Rejected' && $order_status !== 'Delivered' && $order_status !== 'Cancelled') {
                     ?>

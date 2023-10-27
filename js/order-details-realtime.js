@@ -250,4 +250,39 @@ $(document).ready(function () {
       ? cancelOrder(orderId, txtReason)
       : console.log("Please Input Reason!");
   });
+
+  // upload refund
+  $("#frmUploadRefund").submit(function (e) {
+    e.preventDefault();
+
+    var orderId = $("#transaction_id").val();
+    var formData = new FormData(this);
+    formData.append("transaction_id", orderId);
+
+    $.ajax({
+      type: "POST",
+      url: "../ajax-url/upload-refund.php",
+      data: formData, // Use the FormData object directly
+      processData: false,
+      contentType: false,
+      success: function (response) {
+        if (response === "200") {
+          $(".alert-success").css("opacity", 1).text("Upload Success!");
+          setTimeout(function () {
+            $(".alert-success").css("opacity", 0).text("");
+          }, 2000);
+          $("#btnCancelOrder").css("display", "none");
+          loadXMLDoc();
+          orderSelect();
+          loadOrderDetails();
+          $("#frmUploadRefund").css("display", "none");
+        } else {
+          $(".alert-danger").css("opacity", 1).text("Somthing Went Wrong.");
+          setTimeout(function () {
+            $(".alert-danger").css("opacity", 0).text("");
+          }, 2000);
+        }
+      },
+    });
+  });
 });

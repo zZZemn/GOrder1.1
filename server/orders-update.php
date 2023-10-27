@@ -14,10 +14,19 @@ if (isset($_SESSION['id'])) {
     $emp_type = $emp['EMP_TYPE'];
     $emp_status = $emp['EMP_STATUS'];
 
-    if(isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") {
+    if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") {
         if (isset($_GET['filter'])) {
             $filter = $_GET['filter'];
-            $orders_sql = "SELECT * FROM `order` WHERE STATUS = '$filter' ORDER BY `DATE` DESC, `TIME` DESC";
+            if ($filter === 'Refund Online Payment') {
+                $orders_sql = "SELECT * FROM `order` 
+                               WHERE `STATUS` = 'Rejected' 
+                               AND `PAYMENT_TYPE` != 'Cash' 
+                               AND `PROOF_OF_PAYMENT` IS NOT NULL
+                               AND `REFUND_PHOTO` IS NULL
+                               ORDER BY `DATE` DESC, `TIME` DESC";
+            } else {
+                $orders_sql = "SELECT * FROM `order` WHERE `STATUS` = '$filter' ORDER BY `DATE` DESC, `TIME` DESC";
+            }
             $orders_result = $conn->query($orders_sql);
             if ($orders_result->num_rows > 0) {
                 while ($order_row = $orders_result->fetch_assoc()) {
@@ -79,7 +88,8 @@ if (isset($_SESSION['id'])) {
                 ?>
                 <tr>
                     <th colspan="8">
-                        <center>No Order/s Found (<?php echo $filter ?>)</center>
+                        <center>No Order/s Found (<?php echo urldecode($filter) ?>)</center>
+                        <?= $orders_sql ?>
                     </th>
                 </tr>
 <?php

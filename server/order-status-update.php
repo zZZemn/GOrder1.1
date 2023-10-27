@@ -42,21 +42,23 @@ if (isset($_SESSION['id'])) {
                         $progressBar_percentage = 0;
                         $circle_percentage = 0;
                     }
+                    if ($order_status !== 'Rejected') {
 ?>
-                    <div class="progress" style="height: 8px; width: 600px">
-                        <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="progress-circle">
-                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo ($order_status === 'Waiting') ? 'Pending' : $order_status ?></span></div>
-                    </div>
-                    <div class="progress-photo-container">
-                        <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
-                        <i class="fa-solid fa-check bg-primary text-light" id="accepted"></i>
-                        <i class="fa-solid fa-box-open bg-primary text-light" id="for-delivery"></i>
-                        <i class="fa-solid fa-motorcycle bg-primary text-light" id="shipped"></i>
-                        <i class="fa-solid fa-house-circle-check bg-primary text-light" id="delivered"></i>
-                    </div>
-                <?php
+                        <div class="progress" style="height: 8px; width: 600px">
+                            <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="progress-circle">
+                            <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo ($order_status === 'Waiting') ? 'Pending' : $order_status ?></span></div>
+                        </div>
+                        <div class="progress-photo-container">
+                            <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
+                            <i class="fa-solid fa-check bg-primary text-light" id="accepted"></i>
+                            <i class="fa-solid fa-box-open bg-primary text-light" id="for-delivery"></i>
+                            <i class="fa-solid fa-motorcycle bg-primary text-light" id="shipped"></i>
+                            <i class="fa-solid fa-house-circle-check bg-primary text-light" id="delivered"></i>
+                        </div>
+                    <?php
+                    }
                 } elseif ($order_type === 'Pick Up') {
                     $progressBar_percentage = 0;
                     $circle_percentage = 0;
@@ -76,20 +78,22 @@ if (isset($_SESSION['id'])) {
                         $progressBar_percentage = 0;
                         $circle_percentage = 0;
                     }
-                ?>
-                    <div class="progress" style="height: 8px; width: 600px">
-                        <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                    <div class="progress-circle">
-                        <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo ($order_status === 'Waiting') ? 'Pending' : $order_status ?></span></div>
-                    </div>
-                    <div class="progress-photo-container">
-                        <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
-                        <i class="fa-solid fa-check bg-primary text-light" id="accepted-pickup"></i>
-                        <i class="fa-solid fa-box-open bg-primary text-light" id="ready-to-pickup"></i>
-                        <i class="fa-solid fa-user-check bg-primary text-light" id="picked-up"></i>
-                    </div>
+                    if ($order_status !== 'Rejected') {
+                    ?>
+                        <div class="progress" style="height: 8px; width: 600px">
+                            <div class="progress-bar" role="progressbar" style="width: <?php echo $progressBar_percentage ?>%;" aria-valuenow="<?php echo $progressBar_percentage ?>" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <div class="progress-circle">
+                            <div class="circle bg-primary" style=" left: <?php echo $circle_percentage ?>%;"><span class="bg-primary"><?php echo ($order_status === 'Waiting') ? 'Pending' : $order_status ?></span></div>
+                        </div>
+                        <div class="progress-photo-container">
+                            <i class="fa-solid fa-location-dot bg-primary text-light" id="waiting"></i>
+                            <i class="fa-solid fa-check bg-primary text-light" id="accepted-pickup"></i>
+                            <i class="fa-solid fa-box-open bg-primary text-light" id="ready-to-pickup"></i>
+                            <i class="fa-solid fa-user-check bg-primary text-light" id="picked-up"></i>
+                        </div>
 <?php
+                    }
                 } else {
                     echo "
                     <head>

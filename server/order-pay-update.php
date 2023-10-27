@@ -166,7 +166,23 @@ if (isset($_SESSION['id'])) {
                                 </td>
                             </tr>
                             </tr>
+                            <?php
+                            if ($order['REFUND_PHOTO'] != NULL) {
+                            ?>
+                                <tr>
+                                    <th colspan="8">
+                                        <center>Refund Photo</center>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td colspan="8">
+                                        <center>
+                                            <img src="../img/refunds/<?= $order['REFUND_PHOTO'] ?>">
+                                        </center>
+                                    </td>
+                                </tr>
                         <?php
+                            }
                         }
                         ?>
                         <input type="hidden" id="payment_type" value="<?php echo $payment_type ?>">

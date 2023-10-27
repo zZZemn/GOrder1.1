@@ -17,9 +17,8 @@ body {
   min-height: 180px;
   background-color: white;
   box-shadow: 1px 1px 3px rgb(233, 233, 233);
-
-  position: sticky;
-  top: 0;
+  /* position: sticky;
+  top: 0; */
   z-index: 10;
 }
 
@@ -306,6 +305,13 @@ body {
   margin: 10px;
 }
 
+.frmUploadRefun {
+  position: absolute;
+  margin: auto;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .btnCancelOrder {
   position: fixed;
   bottom: 0;
@@ -383,6 +389,10 @@ body {
   }
 
   .btnCancelOrder {
+    display: none !important;
+  }
+
+  #uploadRefundPhoto {
     display: none !important;
   }
 
