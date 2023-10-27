@@ -130,6 +130,13 @@ if (isset($_SESSION['id'])) {
                             <input type="text" class="form-control" readonly value="Delivered">
                             <label>Current Status</label>
                         </div>
+                    <?php
+                    } elseif ($order_status === 'Rejected') {
+                    ?>
+                        <div class="change-stat-div">
+                            <input type="text" class="form-control" readonly value="Rejected">
+                            <label>Current Status</label>
+                        </div>
                         <?php
                     }
                 } else {
@@ -237,6 +244,13 @@ if (isset($_SESSION['id'])) {
                         ?>
                         <div class="change-stat-div">
                             <input type="text" readonly class="form-control" value="Picked Up">
+                            <label>Current Status</label>
+                        </div>
+                    <?php
+                    } elseif ($order_status === 'Rejected') {
+                    ?>
+                        <div class="change-stat-div">
+                            <input type="text" class="form-control" readonly value="Rejected">
                             <label>Current Status</label>
                         </div>
 <?php

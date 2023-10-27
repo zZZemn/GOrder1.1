@@ -306,6 +306,13 @@ body {
   margin: 10px;
 }
 
+.btnCancelOrder {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  margin: 10px;
+}
+
 @media print {
   * {
     font-family: Arial, sans-serif;
@@ -373,6 +380,10 @@ body {
 
   #btn-print {
     display: none;
+  }
+
+  .btnCancelOrder {
+    display: none !important;
   }
 
   .hide-me-print {

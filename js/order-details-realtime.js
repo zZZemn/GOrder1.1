@@ -195,4 +195,59 @@ $(document).ready(function () {
       window.print();
     }
   });
+
+  // cancel order
+  const closeFrmCancelOrder = () => {
+    $("#frmCancelOrder").modal("hide");
+    $("#frmCancelOrder").trigger("hidden.bs.modal");
+    $("#txtReason").val("");
+  };
+
+  const cancelOrder = (id, reason) => {
+    closeFrmCancelOrder();
+    $.ajax({
+      type: "POST",
+      url: "../ajax-url/cancel-order.php",
+      data: {
+        order_id: id,
+        reason: reason,
+      },
+      success: function (response) {
+        console.log(response);
+        if (response === "200") {
+          $(".alert-success").css("opacity", 1).text("Order Cancelled!");
+          setTimeout(function () {
+            $(".alert-success").css("opacity", 0).text("");
+          }, 2000);
+          $("#btnCancelOrder").css("display", "none");
+          loadXMLDoc();
+          orderSelect();
+        } else {
+          $(".alert-danger").css("opacity", 1).text("Somthing Went Wrong.");
+          setTimeout(function () {
+            $(".alert-danger").css("opacity", 0).text("");
+          }, 2000);
+        }
+      },
+    });
+  };
+
+  $("#btnCancelOrder").click(function (e) {
+    e.preventDefault();
+    $("#frmCancelOrder").modal("show");
+  });
+
+  $("#frmCancelOrder").on("click", "#closeModal", () => {
+    closeFrmCancelOrder();
+  });
+
+  $("#cancelOrderModalSaveChanges").click(function (e) {
+    e.preventDefault();
+    var txtReason = $("#txtReason").val();
+    var orderId = $("#transaction_id").val();
+
+    txtReason !== ""
+      ? cancelOrder(orderId, txtReason)
+      : console.log("Please Input Reason!");
+  });
 });

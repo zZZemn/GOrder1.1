@@ -52,7 +52,8 @@ if (isset($_SESSION['id'])) {
                     <div class="alert alert-transaction-complete bg-success">
                         Transaction Completed.
                     </div>
-                    <div class="alert alert-danger bg-danger text-light">asd</div>
+                    <div class="alert alert-danger bg-danger text-light"></div>
+                    <div class="alert alert-success bg-success text-light"></div>
 
 
                     <div class="top-contents-container">
@@ -164,7 +165,6 @@ if (isset($_SESSION['id'])) {
                         <div class="third-container">
                             <div class="order-input-container">
                                 <textarea class="form-control" readonly><?= $full_address ?></textarea>
-                                <!-- <input type="text" class="form-control" readonly value=""> -->
                                 <label>Address</label>
                             </div>
                         </div>
@@ -173,55 +173,40 @@ if (isset($_SESSION['id'])) {
 
                     </div>
 
+                    <?php
+                    if ($order_status !== 'Rejected' && $order_status !== 'Delivered' && $order_status !== 'Cancelled') {
+                    ?>
+                        <button type="button" class="btn btn-primary btnCancelOrder" id="btnCancelOrder" data-toggle="modal" data-target="#frmCancelOrder">
+                            Cancel this order
+                        </button>
+                    <?php
+                    }
+                    ?>
                     <button type="button" id="btn-print" class="btn btn-success">Print Waybill</button>
 
-                    <!-- <div class="waybill-main-container">
-                        <center>
-                            <article>Golden Gate Drugstore</article>
-                            <article>Patubig, Marilao, Bulacan</article>
-                            <article>TEL NO : 09123456789</article>
-                            <article>------------------------</article>
-                        </center>
-                        <div class="waybill-details-container">
-                            <article>Order By</article>
-                            <article id="waybillOrderBy"></article>
+                    <form class="frmCancelOrder modal" tabindex="-1" role="dialog" id="frmCancelOrder">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Cancel Order</h5>
+                                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button> -->
+                                </div>
+                                <div class="modal-body">
+                                    <p>Are you sure you want to cancel this order?</p>
+                                    <div class="input-container">
+                                        <label for="txtReason" aria-required="true">Reason / Message</label>
+                                        <textarea class="form-control" id="txtReason"></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="cancelOrderModalSaveChanges">Save Changes</button>
+                                    <button type="button" class="btn btn-secondary" id="closeModal" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="waybill-details-container">
-                            <article>Delivery Type</article>
-                            <article id="waybillDeliveryType"></article>
-                        </div>
-                        <div class="waybill-details-container">
-                            <article>Payment Type</article>
-                            <article id="waybillPaymentType"></article>
-                        </div>
-                        <div class="waybill-details-container">
-                            <article>Order Date</article>
-                            <article id="waybillOrderDate"></article>
-                        </div>
-                        <div class="waybill-details-container">
-                            <article>Order Time</article>
-                            <article id="waybillOrderTime"></article>
-                        </div>
-                        <div class="waybill-details-container">
-                            <article>Rider</article>
-                            <article id="waybillRider"></article>
-                        </div>
-                        <div class="waybill-details-container">
-                            <article>Address</article>
-                            <article id="waybillAddress"></article>
-                        </div>
-                        <div class="products-waybill-container">
-                            <table>
-                                <tr>
-                                    <td>Product</td>
-                                    <td>Price</td>
-                                    <td>Qty</td>
-                                    <td>Amt</td>
-                                </tr>
-
-                            </table>
-                        </div>
-                    </div> -->
+                    </form>
 
                     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
                     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>

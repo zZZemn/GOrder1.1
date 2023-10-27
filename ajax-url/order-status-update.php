@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
     $result  = $conn->query($sql);
     $emp = $result->fetch_assoc();
 
-    if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" && $emp['EMP_STATUS'] == "active") {
+    if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") {
         if (isset($_POST['new_status']) && isset($_POST['transaction_id']) && isset($_POST['action'])) {
             $new_status = $_POST['new_status'];
             $transaction_id = $_POST['transaction_id'];
@@ -110,6 +110,8 @@ if (isset($_SESSION['id'])) {
                     } else {
                         echo 'not_ok';
                     }
+                } else {
+                    echo 'Somthing Went Wrong';
                 }
             } else {
                 if ($action === 'accept-prescription') {
