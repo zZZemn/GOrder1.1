@@ -89,7 +89,6 @@ if (isset($_SESSION['id'])) {
                 <tr>
                     <th colspan="8">
                         <center>No Order/s Found (<?php echo urldecode($filter) ?>)</center>
-                        <?= $orders_sql ?>
                     </th>
                 </tr>
 <?php
