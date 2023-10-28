@@ -24,11 +24,11 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/nav.css">
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
     <link rel="stylesheet" href="../css/loading.css">
+    <link rel="stylesheet" href="../css/maintenance-discount.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder</title>
+    <title>GOrder | Maintenance</title>
 </head>
 
 <body>
@@ -139,7 +139,7 @@ if (isset($_SESSION['id'])) {
 
             <hr class="mobile-only">
 
-            <a href="dashboard.php" class="nav-active"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
+            <a href="dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
 
             <hr>
 
@@ -195,7 +195,7 @@ if (isset($_SESSION['id'])) {
                 <a href="maintenance-category.php"><i class="fa-solid fa-list"></i>Category</a>
                 <a href="maintenance-address.php"><i class="fa-solid fa-location-dot"></i>Address</a>
                 <a href="maintenance-branch.php"><i class="fa-solid fa-code-branch"></i>Branch</a>
-                <a href="maintenance-payment-types.php"><i class="fa-solid fa-code-branch"></i>Payment Types</a>
+                <a href="maintenance-payment-types.php" class="nav-active"><i class="fa-solid fa-code-branch"></i>Payment Types</a>
             </div>
 
             <hr>
@@ -215,175 +215,106 @@ if (isset($_SESSION['id'])) {
         </div>
 
         <div class="main">
+            <div class="alert alert-danger bg-danger">
+            </div>
+            <div class="alert alert-success bg-success">
+            </div>
 
-            <div class="loading-overlay">
+            <!-- <div class="loading-overlay">
                 <div class="loading-spinner"></div>
+            </div> -->
+            <center class="discount-center">Payment Types</center>
+            <div class="table-container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Bank / Wallet</th>
+                            <th>Bank no.</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentTypesContainer">
+
+                    </tbody>
+                </table>
             </div>
 
+        </div>
 
-            <div class="dash-board-container">
-
-                <div class="dashboard-f-row">
-                    <div class="f-row-f-content-container content-container">
-                        <div id="f-inv-status-container" class="status-container">
-                            <div class="specific-element1">
-                                <center>
-                                    <i class="fa-solid fa-person"></i>
-                                    <h4 class="text-dark">
-                                        0
-                                    </h4>
-                                    <h5>No of Sales Today</h5>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="vdr-container1 vdr-container">
-                            <a href="reports-daily-sales.php">View Detailed Report >>></a>
-                        </div>
-                    </div>
-
-                    <div class="f-row-s-content-container content-container">
-                        <div id="s-inv-status-container" class="status-container">
-                            <div class="specific-element2">
-                                <center>
-                                    <i class="fa-solid fa-money-bill"></i>
-                                    <h4 class="text-dark">
-                                        ₱ 0
-                                    </h4>
-                                    <h5>Today's Sales</h5>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="vdr-container2 vdr-container">
-                            <a href="reports-daily-sales.php">View Detailed Report >>></a>
-                        </div>
-                    </div>
-
-                    <div class="f-row-t-content-container content-container">
-                        <div id="t-inv-status-container" class="status-container">
-                            <div class="specific-element3">
-                                <center>
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                    <h4 class="text-dark">
-                                        0
-                                    </h4>
-                                    <h5>Pending Order</h5>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="vdr-container3 vdr-container">
-                            <a href="../sales/orders.php">View Orders >>></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-s-row">
-
-                    <div class="content-container">
-                        <div class="s-row-top">
-                            <h5>Customers</h5>
-                            <a href="#">View Detailed Report >></a>
-                        </div>
-                        <div class="s-row-bottom">
-                            <div class="s-row-bottom-left">
-                                <h4 id="cust_tot"></h4>
-                                <p>Total no of Customers</p>
-                            </div>
-                            <div class="s-row-bottom-right">
-                                <h4 id="freqBItem"></h4>
-                                <p>Frequently bought item</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="content-container">
-                        <div class="s-row-top">
-                            <h5>Product</h5>
-                            <a href="#">View Detailed Report >></a>
-                        </div>
-                        <div class="s-row-bottom">
-                            <div class="s-row-bottom-left">
-                                <h4 id="ret_items"></h4>
-                                <p>Returned Items</p>
-                            </div>
-                            <div class="s-row-bottom-right">
-                                <h4 id="freqRItem"></h4>
-                                <p>Most common return reason</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dashboard-t-row">
-                    <div id="chartContainer" class="chartContainer">
-
-                    </div>
-                </div>
-
+        <div class="add-discount">
+            <center id="edit-bank-no-title">Edit</center>
+            <a href="#" class="close-add-discount"><i class="fa-solid fa-xmark"></i></a>
+            <input type="hidden" id="bankId">
+            <div class="input">
+                <input type="text" name="new_discount_name" id="walletNumber" class="form-control">
+                <label>Bank / Wallet Number</label>
             </div>
+            <input type="submit" id="saveNewBankNumber" value="Save" class="btn btn-primary">
+        </div>
 
 
-            <div class="message-container">
-                <?php
-                $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
-                $messages_result = $conn->query($messages);
-                if ($messages_result->num_rows > 0) {
-                    while ($messages_row = $messages_result->fetch_assoc()) {
-                        $mess_id = $messages_row['MESS_ID'];
+        <div class="message-container">
+            <?php
+            $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
+            $messages_result = $conn->query($messages);
+            if ($messages_result->num_rows > 0) {
+                while ($messages_row = $messages_result->fetch_assoc()) {
+                    $mess_id = $messages_row['MESS_ID'];
 
-                        $customer = "SELECT * FROM customer_user WHERE CUST_ID = $mess_id";
-                        $customer_result = $conn->query($customer);
-                        $customer_row = $customer_result->fetch_assoc();
-                ?>
+                    $customer = "SELECT * FROM customer_user WHERE CUST_ID = $mess_id";
+                    $customer_result = $conn->query($customer);
+                    $customer_row = $customer_result->fetch_assoc();
+            ?>
 
-                        <div class="message-content <?php echo "message".$customer_row['CUST_ID'] . "message" ?>">
-                            <div class="message-header">
-                                <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
-                                <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
-                                <button class="close-message"><i class="fa-solid fa-circle-xmark"></i></button>
-                            </div>
-                            <div id="message-container" class="message-text">
-                                <?php
+                    <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
+                        <div class="message-header">
+                            <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
+                            <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
+                            <button class="close-message"><i class="fa-solid fa-circle-xmark"></i></button>
+                        </div>
+                        <div id="message-container" class="message-text">
+                            <?php
 
-                                $messages_content = "SELECT * FROM message WHERE MESS_ID = $mess_id ORDER BY TIMESTAMP ASC";
-                                $messages_content_result = $conn->query($messages_content);
+                            $messages_content = "SELECT * FROM message WHERE MESS_ID = $mess_id ORDER BY TIMESTAMP ASC";
+                            $messages_content_result = $conn->query($messages_content);
 
-                                if ($messages_content_result->num_rows > 0) {
-                                    while ($messages_content_row = $messages_content_result->fetch_assoc()) {
-                                        if ($messages_content_row['MESS_ID'] === $messages_content_row['SENDER_ID']) {
-                                            $messageFrom = "SELECT * FROM customer_user WHERE CUST_ID = {$messages_content_row['MESS_ID']}";
-                                            $messageFrom_result = $conn->query($messageFrom);
-                                            $senderCustomer = $messageFrom_result->fetch_assoc();
+                            if ($messages_content_result->num_rows > 0) {
+                                while ($messages_content_row = $messages_content_result->fetch_assoc()) {
+                                    if ($messages_content_row['MESS_ID'] === $messages_content_row['SENDER_ID']) {
+                                        $messageFrom = "SELECT * FROM customer_user WHERE CUST_ID = {$messages_content_row['MESS_ID']}";
+                                        $messageFrom_result = $conn->query($messageFrom);
+                                        $senderCustomer = $messageFrom_result->fetch_assoc();
 
-                                            $sender = $senderCustomer['FIRST_NAME'] . " " . $senderCustomer['LAST_NAME'];
-                                        } else {
-                                            $sender = "GOrder";
-                                        }
-                                ?>
-                                        <div>
-                                            <article><?php echo $sender ?></article>
-                                            <p><?php echo $messages_content_row['MESSAGE_BODY'] ?></p>
-                                        </div>
-
-                                <?php
-
+                                        $sender = $senderCustomer['FIRST_NAME'] . " " . $senderCustomer['LAST_NAME'];
+                                    } else {
+                                        $sender = "GOrder";
                                     }
+                            ?>
+                                    <div>
+                                        <article><?php echo $sender ?></article>
+                                        <p><?php echo $messages_content_row['MESSAGE_BODY'] ?></p>
+                                    </div>
+
+                            <?php
+
                                 }
+                            }
 
-                                ?>
-                            </div>
-                            <form class="send-message send-message-form" id="send-message">
-                                <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
-                                <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
-                                <input type="text" name="message" class="textfield">
-                                <button type="submit" name="send" class="send"><i class="fa-solid fa-paper-plane"></i></button>
-                            </form>
+                            ?>
                         </div>
+                        <form class="send-message send-message-form" id="send-message">
+                            <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
+                            <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
+                            <input type="text" name="message" class="textfield">
+                            <button type="submit" name="send" class="send"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
 
-                <?php
-                    }
+            <?php
                 }
-                ?>
-            </div>
+            }
+            ?>
+        </div>
 
         </div>
 
@@ -401,8 +332,8 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/dashboard.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/maintenance-payment-types.js"></script>
         <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
         <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 

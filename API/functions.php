@@ -2119,6 +2119,8 @@ function orders($user)
                 $status = 'Shipped';
             } elseif ($order_status === 'Delivered') {
                 $status = 'Delivered';
+            } elseif ($order_status === 'Rejected') {
+                $status = 'Rejected';
             } else {
                 $data = [
                     'status' => 405,
@@ -2137,6 +2139,8 @@ function orders($user)
                 $status = 'Ready To Pick Up';
             } elseif ($order_status === 'Picked Up') {
                 $status = 'Picked Up';
+            } elseif ($order_status === 'Rejected') {
+                $status = 'Rejected';
             } else {
                 $data = [
                     'status' => 405,
