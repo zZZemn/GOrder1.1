@@ -38,6 +38,7 @@ function login($email, $password)
                     $login_log = "INSERT INTO `emp_log`(`EMP_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) 
                                             VALUES ('$emp_id','Login (Rider App)','$currentDate','$currentTime')";
                     if ($conn->query($login_log) === TRUE) {
+                        insertLog($emp_id, 'Log In');
                         $data = [
                             'status' => 200,
                             'message' => 'Login Success',

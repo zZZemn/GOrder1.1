@@ -113,6 +113,15 @@ function getPaymentTypes()
     return $conn->query($sql);
 }
 
+function insertLog($id, $message)
+{
+    global $conn;
+    global $currentDate;
+    global $currentTime;
+    $sql = "INSERT INTO `cust_log`(`CUST_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) VALUES ('$id','$message','$currentDate','$currentTime')";
+    return $conn->query($sql);
+}
+
 // end
 
 function login($email, $password)
@@ -1360,7 +1369,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                 if ($conn->query($delete_cartItems_sql) !== TRUE) {
                 }
 
-                if ($delivery_type === 'Deliver') {
+                if ($delivery_type === 'Deliver' && insertLog($cust_id, 'Placed Order')) {
                     $data = [
                         'status' => 200,
                         'message' => 'Order Success',
@@ -1383,7 +1392,7 @@ function placeorder($cust_id, $payment_type, $delivery_type, $unit_st, $bgy_id)
                     ];
                     header("HTTP/1.0 200 OK");
                     return json_encode($data);
-                } elseif ($delivery_type === 'Pick Up') {
+                } elseif ($delivery_type === 'Pick Up' && insertLog($cust_id, 'Placed Order')) {
                     $data = [
                         'status' => 200,
                         'message' => 'Order Success',
@@ -1597,7 +1606,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                             if ($conn->query($delete_cartItems_sql) !== TRUE) {
                             }
 
-                            if ($delivery_type === 'Deliver') {
+                            if ($delivery_type === 'Deliver' && insertLog($cust_id, 'Placed Order')) {
                                 $data = [
                                     'status' => 200,
                                     'message' => 'Order Success',
@@ -1620,7 +1629,7 @@ function placeorderWithPOF($cust_id, $payment_type, $delivery_type, $unit_st, $b
                                 ];
                                 header("HTTP/1.0 200 OK");
                                 return json_encode($data);
-                            } elseif ($delivery_type === 'Pick Up') {
+                            } elseif ($delivery_type === 'Pick Up' && insertLog($cust_id, 'Placed Order')) {
                                 $data = [
                                     'status' => 200,
                                     'message' => 'Order Success',
@@ -1854,7 +1863,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                             if ($conn->query($delete_cartItems_sql) !== TRUE) {
                             }
 
-                            if ($delivery_type === 'Deliver') {
+                            if ($delivery_type === 'Deliver' && insertLog($cust_id, 'Placed Order')) {
                                 $data = [
                                     'status' => 200,
                                     'message' => 'Order Success',
@@ -1877,7 +1886,7 @@ function placeorderWithPrescription($cust_id, $payment_type, $delivery_type, $un
                                 ];
                                 header("HTTP/1.0 200 OK");
                                 return json_encode($data);
-                            } elseif ($delivery_type === 'Pick Up') {
+                            } elseif ($delivery_type === 'Pick Up' && insertLog($cust_id, 'Placed Order')) {
                                 $data = [
                                     'status' => 200,
                                     'message' => 'Order Success',
@@ -2602,7 +2611,7 @@ function returnRequest($data)
         $return_sql = "INSERT INTO `return`(`RETURN_ID`, `TRANSACTION_ID`, `RETURN_DATE`, `RETURN_AMOUNT`, `RETURN_REASON`, `STATUS`) 
                                     VALUES ('$return_id','$transaction_id', NOW(),'$retAmount','$return_reason','Pending')";
 
-        if ($conn->query($return_sql)) {
+        if ($conn->query($return_sql) && insertLog($data->user_id, 'Request Return')) {
             $insert_rItemsErr = false;
             foreach ($data->returns as $ret) {
                 $inv_id = $ret->inv_id;
@@ -2744,7 +2753,7 @@ function cancelOrder($data)
             $order = $order_sql->fetch_assoc();
             if ($order['STATUS'] === 'Waiting') {
                 $cancel_sql = "UPDATE `order` SET `STATUS` = 'Cancelled' WHERE `TRANSACTION_ID` = '$order_id'";
-                if ($conn->query($cancel_sql)) {
+                if ($conn->query($cancel_sql) && insertLog($user_id, 'Cancel Order ' . $order_id)) {
                     $data = [
                         'status' => 200,
                         'message' => 'Order cancelation success'
@@ -2808,7 +2817,7 @@ function uploadValidId($user_id, $valid_id)
                     }
                 }
 
-                if ($conn->query($update_sql)) {
+                if ($conn->query($update_sql) && insertLog($userId, 'Upload ID')) {
                     $data = [
                         'status' => 200,
                         'message' => 'Success!'
@@ -2933,7 +2942,7 @@ function editProfile($data)
         }
 
         $sql = "UPDATE `customer_user` SET `FIRST_NAME`='$firstName',`LAST_NAME`='$lastName',`MIDDLE_INITIAL`='$mi',`SUFFIX`='$suffix',`SEX`='$sex',`CONTACT_NO`='$contactNo', `BIRTHDAY`='$birthday' WHERE `CUST_ID` = '$id'";
-        if ($conn->query($sql)) {
+        if ($conn->query($sql) && insertLog($id, 'Edit Profile')) {
             $data = [
                 'status' => 200,
                 'message' => 'Editing Success!'
