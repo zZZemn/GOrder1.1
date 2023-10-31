@@ -199,6 +199,7 @@ if(isset($_SESSION['id']))
             <a href="maintenance-discount.php"><i class="fa-solid fa-percent"></i>Discount</a>
             <a href="maintenance-category.php"><i class="fa-solid fa-list"></i>Category</a>
             <a href="maintenance-address.php"><i class="fa-solid fa-location-dot"></i>Address</a>
+            <a href="maintenance-payment-types.php"><i class="fa-solid fa-money-bill-transfer"></i>Payment Types</a>
         </div>
 
         <hr>
