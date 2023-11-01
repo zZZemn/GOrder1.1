@@ -953,6 +953,78 @@ if (isset($_SESSION['id'])) {
                                     }
                                     ?>
                                 </table>
+                            <?php
+                            }
+                        } else {
+                            accessDenied();
+                        }
+                    } elseif ($_GET['rpt_type'] === 'CustLogs') {
+                        if (isset($_GET['log_type'])) {
+                            $logType = $_GET['log_type'];
+
+                            $sql = "SELECT cl.*, c.* FROM `cust_log` cl JOIN `customer_user` c ON cl.CUST_ID = c.CUST_ID";
+
+                            if ($logType != 'all') {
+                                $sql .= " WHERE cl.LOG_TYPE LIKE '%$logType%'";
+                            }
+
+                            $logTypeFinal = 'All';
+                            if ($logType == 'login') {
+                                $logTypeFinal = 'Login / Log out';
+                            } elseif ($logType == 'place') {
+                                $logTypeFinal = 'Place Order';
+                            } elseif ($logType == 'cancel') {
+                                $logTypeFinal = 'Cancel Order';
+                            } elseif ($logType == 'return') {
+                                $logTypeFinal = 'Request Return';
+                            } elseif ($logType == 'edit') {
+                                $logTypeFinal = 'Edit Profile';
+                            } elseif ($logType == 'upload') {
+                                $logTypeFinal = 'Upload Valid ID';
+                            }
+
+                            if ($result = $conn->query($sql)) {
+                            ?>
+                                <table class="table">
+                                    <tr>
+                                        <th colspan="7">
+                                            <center><img class="logo" src="img/ggd-logo.png"></center>
+                                            <center>Golden Gate Drugstore</center>
+                                            <center>Patubig, Marilao, Bulacan</center>
+                                            <center class="m-2">
+                                                <p class="report-details">
+                                                    Employee Logs
+                                                    <?= ($logTypeFinal !== 'All') ? '<br>Log Type: ' . $logTypeFinal : '' ?>
+                                                </p>
+                                            </center>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Log Type</th>
+                                        <th>Date</th>
+                                        <th>Time</th>
+                                    </tr>
+                                    <?php
+                                    if ($result->num_rows > 0) {
+                                        while ($row = $result->fetch_assoc()) {
+                                    ?>
+                                            <tr>
+                                                <td><?= $row['FIRST_NAME'] . ' ' . $row['LAST_NAME'] ?></td>
+                                                <td><?= $row['LOG_TYPE'] ?></td>
+                                                <td><?= $row['LOG_DATE'] ?></td>
+                                                <td><?= date('h:i A', strtotime($row['LOG_TIME'])) ?></td>
+                                            </tr>
+                                    <?php
+                                        }
+                                        echo '<tr><td colspan="7"><center>End</center></td></tr>';
+                                    } else {
+                                        echo "<tr>
+                                                <td colspan='7'><center>No data found.</center></td>
+                                              </tr>";
+                                    }
+                                    ?>
+                                </table>
                     <?php
                             }
                         } else {

@@ -19,5 +19,14 @@ $(document).ready(function () {
     getLogs();
   });
 
+  //Print Report
+  $("#printReport").click(function (e) {
+    e.preventDefault();
+    var logType = $("#logType").val();
+
+    var url = "../print.php?rpt_type=CustLogs&log_type=" + logType;
+    window.open(url, "_blank");
+  });
+
   getLogs();
 });
