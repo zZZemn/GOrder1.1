@@ -523,11 +523,11 @@ if (isset($_SESSION['id'])) {
 
 
                             if ($cat == 'all' && $sub_cat == '') {
-                                $sql = "SELECT i.*, p.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID";
+                                $sql = "SELECT i.*, p.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID WHERE i.QUANTITY > 0";
                             } elseif ($sub_cat == '') {
-                                $sql = "SELECT i.*, p.*, c.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID JOIN sub_category sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID JOIN category c ON sc.CAT_ID = c.CAT_ID WHERE c.CAT_ID = '$cat'";
+                                $sql = "SELECT i.*, p.*, c.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID JOIN sub_category sc ON p.SUB_CAT_ID = sc.SUB_CAT_ID JOIN category c ON sc.CAT_ID = c.CAT_ID WHERE c.CAT_ID = '$cat' AND i.QUANTITY > 0";
                             } else {
-                                $sql = "SELECT i.*,p.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID WHERE p.SUB_CAT_ID = '$sub_cat'";
+                                $sql = "SELECT i.*,p.* FROM inventory i JOIN products p ON i.PRODUCT_ID = p.PRODUCT_ID WHERE p.SUB_CAT_ID = '$sub_cat' AND i.QUANTITY > 0";
                             }
 
                             $result = $conn->query($sql);
