@@ -48,6 +48,13 @@ if (isset($_SESSION['id'])) {
                 <a href="orders.php" class="top-navigations-active">Orders</a>
                 <a href="sales.php">Sales</a>
                 <a href="return.php">Return</a>
+                <?php
+                if ($emp['EMP_TYPE'] === 'Admin') {
+                ?>
+                    <a href="../admin/dashboard.php">Dashboard</a>
+                <?php
+                }
+                ?>
             </div>
 
             <ul>
@@ -123,6 +130,12 @@ if (isset($_SESSION['id'])) {
                             Pharmacy Assistant
                         </em>
                     <?php
+                    } elseif ($emp['EMP_TYPE'] === 'Pharmacists') {
+                    ?>
+                        <em class="admin-em" style="font-size: 12px; margin-right: 5px;">
+                            Pharmacists
+                        </em>
+                    <?php
                     } else {
                     ?>
                         <em class="admin-em">
@@ -137,17 +150,7 @@ if (isset($_SESSION['id'])) {
                 <div class="avatar-dropdown-container">
                     <a href="
                     <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>
-                    <hr>
-                    <a href="<?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-settings.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-gear"></i>Settings</a>
-                    <hr>
-                    <?php
-                    if ($emp['EMP_TYPE'] === 'Admin') {
-                    ?>
-                        <a href="../admin/dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        <hr>
-                    <?php
-                    }
-                    ?>
+                    <hr>-
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>

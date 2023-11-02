@@ -36,7 +36,7 @@ if (isset($_SESSION['id'])) {
 </head>
 
 <body>
-<?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") : ?>
+    <?php if (isset($emp) && $emp["EMP_TYPE"] == "Admin" || $emp['EMP_TYPE'] == "PA" || $emp['EMP_TYPE'] == "Pharmacists" && $emp['EMP_STATUS'] == "active") : ?>
         <nav class="top-nav bg-dark">
 
             <i class="fa-solid fa-bars menu"></i>
@@ -48,6 +48,13 @@ if (isset($_SESSION['id'])) {
                 <a href="orders.php">Orders</a>
                 <a href="sales.php" class="top-navigations-active">Sales</a>
                 <a href="return.php">Return</a>
+                <?php
+                if ($emp['EMP_TYPE'] === 'Admin') {
+                ?>
+                    <a href="../admin/dashboard.php">Dashboard</a>
+                <?php
+                }
+                ?>
             </div>
 
             <ul>
@@ -105,7 +112,7 @@ if (isset($_SESSION['id'])) {
                 <li class="notification-dropdown dropdown">
                     <i class="fa-solid fa-bell"></i>
                     <div id="notifications-count">
-                        
+
                     </div>
 
                     <?php
@@ -123,6 +130,12 @@ if (isset($_SESSION['id'])) {
                             Pharmacy Assistant
                         </em>
                     <?php
+                    } elseif ($emp['EMP_TYPE'] === 'Pharmacists') {
+                    ?>
+                        <em class="admin-em" style="font-size: 12px; margin-right: 5px;">
+                            Pharmacists
+                        </em>
+                    <?php
                     } else {
                     ?>
                         <em class="admin-em">
@@ -138,16 +151,6 @@ if (isset($_SESSION['id'])) {
                     <a href="
                     <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>
                     <hr>
-                    <a href="<?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-settings.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-gear"></i>Settings</a>
-                    <hr>
-                    <?php
-                    if ($emp['EMP_TYPE'] === 'Admin') {
-                    ?>
-                        <a href="../admin/dashboard.php"><i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        <hr>
-                    <?php
-                    }
-                    ?>
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>
@@ -165,7 +168,7 @@ if (isset($_SESSION['id'])) {
                         </th>
                     </tr>
                     <tr id="total-sales-today">
-                        
+
                     </tr>
                     <tr>
                         <th>Transaction ID</th>
@@ -193,7 +196,7 @@ if (isset($_SESSION['id'])) {
 
         <div class="main">
 
-        <div class="message-container">
+            <div class="message-container">
                 <?php
                 $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
                 $messages_result = $conn->query($messages);
@@ -206,7 +209,7 @@ if (isset($_SESSION['id'])) {
                         $customer_row = $customer_result->fetch_assoc();
                 ?>
 
-                        <div class="message-content <?php echo "message".$customer_row['CUST_ID'] . "message" ?>">
+                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
                             <div class="message-header">
                                 <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
                                 <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
