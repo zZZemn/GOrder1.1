@@ -149,8 +149,8 @@ if (isset($_SESSION['id'])) {
                 </li>
                 <div class="avatar-dropdown-container">
                     <a href="
-                    <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : ($emp['EMP_TYPE'] === 'PA' ? '#' : '#') ?>"><i class="fa-solid fa-user"></i>Profile</a>
-                    <hr>-
+                    <?php echo $emp['EMP_TYPE'] === 'Admin' ? '../admin/avatar-profile.php' : 'profile.php' ?>"><i class="fa-solid fa-user"></i>Profile</a>
+                    <hr>
                     <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
                 </div>
             </ul>

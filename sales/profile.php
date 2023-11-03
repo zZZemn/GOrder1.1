@@ -29,10 +29,10 @@ if (isset($_SESSION['id'])) {
     <link rel="stylesheet" href="../css/access-denied.css">
     <link rel="stylesheet" href="../css/message.css">
     <link rel="stylesheet" href="../css/pos-nav.css">
-    <link rel="stylesheet" href="../css/sales.css">
+    <link rel="stylesheet" href="../css/profile.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="shortcut icon" href="../img/ggd-logo-plain.png" type="image/x-icon">
-    <title>GOrder | Product Return</title>
+    <title>GOrder | Profile</title>
 </head>
 
 <body>
@@ -47,7 +47,7 @@ if (isset($_SESSION['id'])) {
                 <a href="pos.php">POS</a>
                 <a href="orders.php">Orders</a>
                 <a href="sales.php">Sales</a>
-                <a href="return.php" class="top-navigations-active">Return</a>
+                <a href="return.php">Return</a>
                 <?php
                 if ($emp['EMP_TYPE'] === 'Admin') {
                 ?>
@@ -101,7 +101,6 @@ if (isset($_SESSION['id'])) {
                             }
                         }
                     } else {
-
                         ?>
                         <center class="text-light">No message found</center>
                     <?php
@@ -121,7 +120,6 @@ if (isset($_SESSION['id'])) {
                 <div class="notification-dropdown-container" id="notification-dropdown-container">
 
                 </div>
-
 
                 <li class="avatar-dropdown dropdown">
                     <?php
@@ -159,109 +157,96 @@ if (isset($_SESSION['id'])) {
 
         </nav>
 
-        <div class="table-container">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th colspan="6">
-                            <div class="search-select-container">
-                                <a class="btn btn-dark" href="gorder-return-requests.php">Return Requests</a>
-                                <select class="today-this-week-sales form-control" id="sales-filter">
-                                    <option value="today">Today</option>
-                                    <option value="this-week">This Week</option>
-                                </select>
-                                <div class="return-search">
-                                    <input type="text" id="txt-return-search" class="form-control" placeholder="Search Transaction ID">
-                                    <button class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                </div>
-                            </div>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th>Transaction ID</th>
-                        <th>Transaction Type</th>
-                        <th class="time-date">Time</th>
-                        <th>Total</th>
-                        <th>Process By</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
+        <div class="alert"></div>
 
-                <tbody id="sales-results">
+        <div class="main profile-container container">
 
-                </tbody>
-            </table>
         </div>
 
-
-        <div class="main">
-
-            <div class="message-container">
-                <?php
-                $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
-                $messages_result = $conn->query($messages);
-                if ($messages_result->num_rows > 0) {
-                    while ($messages_row = $messages_result->fetch_assoc()) {
-                        $mess_id = $messages_row['MESS_ID'];
-
-                        $customer = "SELECT * FROM customer_user WHERE CUST_ID = $mess_id";
-                        $customer_result = $conn->query($customer);
-                        $customer_row = $customer_result->fetch_assoc();
-                ?>
-
-                        <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
-                            <div class="message-header">
-                                <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
-                                <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
-                                <button class="close-message"><i class="fa-solid fa-circle-xmark"></i></button>
-                            </div>
-                            <div id="message-container" class="message-text">
-                                <?php
-
-                                $messages_content = "SELECT * FROM message WHERE MESS_ID = $mess_id ORDER BY TIMESTAMP ASC";
-                                $messages_content_result = $conn->query($messages_content);
-
-                                if ($messages_content_result->num_rows > 0) {
-                                    while ($messages_content_row = $messages_content_result->fetch_assoc()) {
-                                        if ($messages_content_row['MESS_ID'] === $messages_content_row['SENDER_ID']) {
-                                            $messageFrom = "SELECT * FROM customer_user WHERE CUST_ID = {$messages_content_row['MESS_ID']}";
-                                            $messageFrom_result = $conn->query($messageFrom);
-                                            $senderCustomer = $messageFrom_result->fetch_assoc();
-
-                                            $sender = $senderCustomer['FIRST_NAME'] . " " . $senderCustomer['LAST_NAME'];
-                                        } else {
-                                            $sender = "GOrder";
-                                        }
-                                ?>
-                                        <div>
-                                            <article><?php echo $sender ?></article>
-                                            <p><?php echo $messages_content_row['MESSAGE_BODY'] ?></p>
-                                        </div>
-
-                                <?php
-
-                                    }
-                                }
-
-                                ?>
-                            </div>
-                            <form class="send-message send-message-form" id="send-message">
-                                <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
-                                <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
-                                <input type="text" name="message" class="textfield">
-                                <button type="submit" name="send" class="send"><i class="fa-solid fa-paper-plane"></i></button>
-                            </form>
-                        </div>
-
-                <?php
-                    }
-                }
-                ?>
+        <form class="frm-change-pw card p-3" id="frm-change-pw">
+            <center>Change Password</center>
+            <div class="input-container">
+                <input type="password" id="old-pw" name="old-pw" class="form-control" required>
+                <label for="old-pw">Old Password</label>
             </div>
+            <div class="input-container">
+                <input type="password" id="new-pw" name="new-pw" class="form-control" required>
+                <label for="new-pw">New Password</label>
+            </div>
+            <div class="change-pw-btns">
+                <button type="reset" id="close-frm-change-pw" class="btn btn-dark">Cancel</button>
+                <input type="submit" value="Change" class="btn btn-success">
+            </div>
+        </form>
 
+        <div class="buttons">
+            <button type="button" id="open-frm-edit-profile" class="btn-edit-profile btn btn-primary">Edit Profile</button>
+            <button type="button" id="open-frm-change-pw" class="btn-change-pw btn btn-primary">Change Password</button>
         </div>
 
-        <p class="emptype-name"><?php echo $emp['EMP_TYPE'] . " : " . $emp['FIRST_NAME'] . " " . $emp["MIDDLE_INITIAL"] . " " . $emp['LAST_NAME'] ?></p>
+        <div class="message-container">
+            <?php
+            $messages = "SELECT * FROM messages ORDER BY LATEST_MESS_TIMESTAMP DESC";
+            $messages_result = $conn->query($messages);
+            if ($messages_result->num_rows > 0) {
+                while ($messages_row = $messages_result->fetch_assoc()) {
+                    $mess_id = $messages_row['MESS_ID'];
+
+                    $customer = "SELECT * FROM customer_user WHERE CUST_ID = $mess_id";
+                    $customer_result = $conn->query($customer);
+                    $customer_row = $customer_result->fetch_assoc();
+            ?>
+
+                    <div class="message-content <?php echo "message" . $customer_row['CUST_ID'] . "message" ?>">
+                        <div class="message-header">
+                            <img src="../img/userprofile/<?php echo $customer_row['PICTURE'] ?>" alt="avatar">
+                            <p><?php echo $customer_row['FIRST_NAME'] . " " . $customer_row['LAST_NAME'] ?></p>
+                            <button class="close-message"><i class="fa-solid fa-circle-xmark"></i></button>
+                        </div>
+                        <div id="message-container" class="message-text">
+                            <?php
+
+                            $messages_content = "SELECT * FROM message WHERE MESS_ID = $mess_id ORDER BY TIMESTAMP ASC";
+                            $messages_content_result = $conn->query($messages_content);
+
+                            if ($messages_content_result->num_rows > 0) {
+                                while ($messages_content_row = $messages_content_result->fetch_assoc()) {
+                                    if ($messages_content_row['MESS_ID'] === $messages_content_row['SENDER_ID']) {
+                                        $messageFrom = "SELECT * FROM customer_user WHERE CUST_ID = {$messages_content_row['MESS_ID']}";
+                                        $messageFrom_result = $conn->query($messageFrom);
+                                        $senderCustomer = $messageFrom_result->fetch_assoc();
+
+                                        $sender = $senderCustomer['FIRST_NAME'] . " " . $senderCustomer['LAST_NAME'];
+                                    } else {
+                                        $sender = "GOrder";
+                                    }
+                            ?>
+                                    <div>
+                                        <article><?php echo $sender ?></article>
+                                        <p><?php echo $messages_content_row['MESSAGE_BODY'] ?></p>
+                                    </div>
+
+                            <?php
+
+                                }
+                            }
+
+                            ?>
+                        </div>
+                        <form class="send-message send-message-form" id="send-message">
+                            <input type="hidden" value="<?php echo $emp['EMP_ID'] ?>" name="sender_id">
+                            <input type="hidden" value="<?php echo $mess_id ?>" name="message_id">
+                            <input type="text" name="message" class="textfield">
+                            <button type="submit" name="send" class="send"><i class="fa-solid fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+
+            <?php
+                }
+            }
+            ?>
+        </div>
+        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
@@ -274,8 +259,9 @@ if (isset($_SESSION['id'])) {
         <script src="../js/message.js"></script>
         <script src="../js/mess-send.js"></script>
         <script src="../js/mess-scroll.js"></script>
-        <script src="../js/pos-sales.js"></script>
         <script src="../js/notifications.js"></script>
+        <script src="../js/profile.js"></script>
+
 
     <?php else : ?>
         <div class="access-denied">
