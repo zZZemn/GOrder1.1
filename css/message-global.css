@@ -1,0 +1,116 @@
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+
+.top-nav a,
+.top-nav button {
+  text-decoration: none;
+  color: rgb(39, 39, 39);
+  font-size: 20px;
+  font-weight: 600;
+  background: none;
+  border: none;
+}
+
+.top-nav button {
+  font-size: 30px;
+}
+
+/* side-nav */
+.users-messages-container {
+  position: absolute;
+  background-color: white;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 100vh;
+  overflow-y: auto;
+  transition: all 0.5s;
+}
+
+.users-messages-container button {
+  background-color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.users-messages-container button:hover {
+  background-color: rgb(32, 32, 32);
+  color: white;
+}
+
+.users-messages-container button img {
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/*  */
+
+/* messages proper */
+.message-profile-container {
+  display: flex;
+  align-items: center !important;
+  height: 100px;
+}
+
+.message-profile-container p {
+  font-size: 20px;
+  margin-top: 12px;
+  margin-left: 10px;
+  font-weight: 600;
+}
+
+.message-profile-container img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+/*  */
+
+.messages-content-container {
+  height: 75vh;
+  overflow-y: auto;
+}
+
+.message-container-1by1 article {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.message-container-1by1 p {
+  font-size: 20px;
+}
+
+.left-message {
+  text-align: left;
+}
+
+.right-message {
+  text-align: right;
+}
+
+/* send message */
+
+.send-message-container {
+  display: flex;
+}
+
+#messageTextTxt {
+  margin-right: 10px;
+}
+
+#sendMessageBtn {
+  border: none;
+  font-size: 20px;
+  height: 50px;
+  width: 50px;
+}
