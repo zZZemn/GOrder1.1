@@ -50,6 +50,8 @@
 .users-messages-container button img {
   border-radius: 50%;
   margin-right: 10px;
+  height: 45px;
+  width: 45px;
 }
 
 /*  */
