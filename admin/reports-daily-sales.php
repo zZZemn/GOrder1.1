@@ -127,8 +127,7 @@ if (isset($_SESSION['id'])) {
             </button>
             <div class="dropdown-container">
                 <a href="avatar-profile.php"><i class="fa-solid fa-user-tie"></i>Profile</a>
-                <a href="messages.php"><i class="fa-solid fa-message"></i>Messages</a>
-                <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
+                <a href="../message.php"><i class="fa-solid fa-message"></i>Messages</a>
                 <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>
             </div>
 
@@ -298,7 +297,7 @@ if (isset($_SESSION['id'])) {
                     </tbody>
                 </table>
             </div>
-            
+
             <button type="button" id="printReport" class="btn btn-primary">Print Report</button>
 
 

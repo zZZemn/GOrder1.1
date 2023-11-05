@@ -126,9 +126,8 @@ if (isset($_SESSION['id'])) {
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-container">
-                <a href="avatar-profile.php" class="nav-active"><i class="fa-solid fa-user-tie"></i>Profile</a>
-                <a href="messages.php"><i class="fa-solid fa-message"></i>Messages</a>
-                <a href="avatar-settings.php"><i class="fa-solid fa-gear"></i>Settings</a>
+                <a href="avatar-profile.php"><i class="fa-solid fa-user-tie"></i>Profile</a>
+                <a href="../message.php"><i class="fa-solid fa-message"></i>Messages</a>
                 <a href="../process/logout.php"><i class="fa-solid fa-right-from-bracket"></i>Log Out</a>
             </div>
 
