@@ -472,7 +472,6 @@ select {
 }
 
 .input-container input {
-  width: 250px;
   margin: auto;
   text-align: center;
   letter-spacing: 20px;
