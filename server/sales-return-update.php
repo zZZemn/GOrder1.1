@@ -266,7 +266,12 @@ if (isset($_SESSION['id'])) {
                                                         $product = $product_result->fetch_assoc();
                                                     ?>
                                                         <tr>
-                                                            <td colspan="2"><?php echo $product['PRODUCT_NAME'].' '.$product['UNIT_MEASUREMENT'] ?></td>
+                                                            <td colspan="2">
+                                                                <?php echo $product['PRODUCT_NAME'];
+                                                                echo ($product['MG'] > 0) ? ' ' . $product['MG'] . 'mg' : '';
+                                                                echo ($product['G'] > 0) ? ' ' . $product['G'] . 'g' : '';
+                                                                echo ($product['ML'] > 0) ? ' ' . $product['ML'] . 'ml' : '';
+                                                                ?></td>
                                                             <td><?php echo $product['SELLING_PRICE'] ?></td>
                                                             <td><?php echo $replace['QUANTITY'] ?></td>
                                                             <td><?php echo $replace['AMOUNT'] ?></td>
