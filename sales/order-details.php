@@ -123,7 +123,6 @@ if (isset($_SESSION['id'])) {
                                 </div>
                         <?php
                             }
-                        } else {
                         }
                         ?>
                     </div>

@@ -130,7 +130,7 @@ if (isset($_SESSION['id'])) {
                         if ($payment_type === 'Cash') {
                             if ($order_prescription != null) {
                             ?>
-                                <tr>
+                                <tr class="hide-me-print">
                                     <th colspan="4">
                                         <center>Prescription</center>
                                     </th>
