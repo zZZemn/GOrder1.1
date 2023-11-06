@@ -135,7 +135,7 @@ if (isset($_SESSION['id'])) {
                                         <center>Prescription</center>
                                     </th>
                                 </tr>
-                                <tr>
+                                <tr class="hide-me-print">
                                     <td colspan="4">
                                         <center>
                                             <img src="../img/prescriptions/<?php echo $order_prescription ?>">
