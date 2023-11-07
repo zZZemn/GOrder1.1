@@ -25,7 +25,7 @@ if (isset($_SESSION['id'])) {
 
                     <tr>
                         <td><?php echo $discount_row['DISCOUNT_NAME'] ?></td>
-                        <td class="td-discount-input"><span>%</span><input type="number" class="form-control discount-input" value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"></td>
+                        <td class="td-discount-input"><span></span><input type="number" class="form-control discount-input" value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"></td>
                         <td>
                             <input type="submit" class="save-discount btn btn-primary" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Save">
                             <input type="submit" class="delete-discount btn btn-danger" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Disable">
