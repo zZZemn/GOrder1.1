@@ -256,7 +256,7 @@ if (isset($_SESSION['id'])) {
                     <thead>
                         <tr>
                             <th>Discount Name</th>
-                            <th>Discount Percentage</th>
+                            <th>Discount Rate</th>
                             <th>Action</th>
                         </tr>
                     </thead>

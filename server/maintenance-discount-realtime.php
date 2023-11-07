@@ -36,7 +36,7 @@ if (isset($_SESSION['id'])) {
                 ?>
                     <tr>
                         <td class="text-danger"><?php echo $discount_row['DISCOUNT_NAME'] ?></td>
-                        <td class="td-discount-input"><span>%</span><input type="number" class="form-control discount-input" value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"></td>
+                        <td class="td-discount-input"><span></span><input type="number" class="form-control discount-input" value="<?php echo $discount_row['DISCOUNT_PERCENTAGE'] ?>"></td>
                         <td>
                             <input type="submit" class="save-discount btn btn-primary" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Save">
                             <input type="submit" class="enable-discount btn btn-success" id="<?php echo $discount_row['DISCOUNT_ID'] ?>" value="Enable">
