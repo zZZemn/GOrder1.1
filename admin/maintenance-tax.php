@@ -223,7 +223,7 @@ if (isset($_SESSION['id'])) {
                                                                                                     $tax = $tax_result->fetch_assoc();
                                                                                                     echo $tax['TAX_PERCENTAGE'];
                                                                                                     ?>" oninput="this.value=this.value.replace(/[^0-9.]/g,'');">
-                    <label for="tax_rate">%</label>
+                    <!-- <label for="tax_rate">%</label> -->
                 </div>
                 <input type="submit" name="save_tax_rate" value="Save" class="btn btn-primary">
             </form>
