@@ -21,11 +21,12 @@ if (isset($_SESSION['id'])) {
             } else {
                 $emp_sql = "UPDATE `employee` SET `EMP_STATUS` = 'active' WHERE `EMP_ID` = '$id'";
             }
-            
-            if ($conn->query($emp_sql)) {
-                echo ($action === 'deactivate') ? 'Account Deactivated' : 'Account Activated';
-            } else {
-                echo '405';
+            if ($id != 11111) {
+                if ($conn->query($emp_sql)) {
+                    echo ($action === 'deactivate') ? 'Account Deactivated' : 'Account Activated';
+                } else {
+                    echo '405';
+                }
             }
         } else {
             echo <<<HTML
