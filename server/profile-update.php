@@ -15,14 +15,14 @@ if (isset($_SESSION['id'])) {
 
         <div class="top-right-contents">
             <?php if ($emp['SEX'] === "m") {
-                $sex = "Male"; 
+                $sex = "Male";
             } else {
                 $sex = "Female";
             } ?>
             <h5 class="full-name"><?php echo $emp['FIRST_NAME'] . " " . $emp['MIDDLE_INITIAL'] . " " . $emp['LAST_NAME'] . " " . $emp['SUFFIX'] . "<em class='sex'>" . $sex . "</em>" ?></h5>
 
 
-            <p class="emptype"><?php echo $emp['EMP_TYPE']; ?></p>
+            <p class="emptype"><?= ($emp['EMP_ID'] == '11111') ? 'Super Admin' : $emp['EMP_TYPE']; ?></p>
 
         </div>
     </div>
