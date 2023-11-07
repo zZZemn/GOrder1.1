@@ -243,7 +243,7 @@ if (isset($_SESSION['id'])) {
             </div>
             <div class="input">
                 <input type="number" name="new_discount_percentage" id="new_discount_percentage" class="form-control">
-                <label>Discount Percentage</label>
+                <label>Discount Rate</label>
             </div>
             <input type="submit" id="add_new_discount" value="Add" class="btn btn-primary">
         </div>
