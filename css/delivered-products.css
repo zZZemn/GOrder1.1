@@ -1,211 +1,214 @@
 body {
-    background-color: white !important;
-    font-family: 'poppins', sans-serif !important;
-    overflow: hidden;
+  background-color: white !important;
+  font-family: "poppins", sans-serif !important;
+  overflow: hidden;
 }
 
 .delivery-back {
-    position: absolute;
-    top: 5px;
-    left: 0px;
-    color: rgb(37, 37, 37);
-    font-size: 20px;
-    border-radius: 50%;
-    padding-left: 10px;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
+  position: absolute;
+  top: 5px;
+  left: 0px;
+  color: rgb(37, 37, 37);
+  font-size: 20px;
+  border-radius: 50%;
+  padding-left: 10px;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
 }
 
 .delivery-back span {
-    font-size: 10px;
+  font-size: 10px;
 }
 
 .input {
-    position: relative;
-    margin-top: 20px;
-    margin-left: 20px;
+  position: relative;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .input input,
 select {
-    height: 40px;
-    outline: none;
-    font-size: 13px;
+  height: 40px;
+  outline: none;
+  font-size: 13px;
 }
 
 .input select {
-    text-align: center;
+  text-align: center;
 }
 
 .input input {
-    padding-left: 10px;
+  padding-left: 10px;
 }
 
 .input label {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    font-size: 12px;
-    background-color: white;
-    transform: translateY(-10px);
-    padding: 0 10px;
+  position: absolute;
+  top: 0;
+  left: 10px;
+  font-size: 12px;
+  background-color: white;
+  transform: translateY(-10px);
+  padding: 0 10px;
 }
 
 .delivered-container {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    padding: 10px 80px;
+  padding: 10px 80px;
 
-    border-bottom: 1px solid rgba(0, 0, 0, 0.274);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.274);
 }
 
 .top-left {
-    background-color: white;
-    height: 200px;
-    padding: 20px;
+  background-color: white;
+  height: 200px;
+  padding: 20px;
 
-    font-size: 15px;
+  font-size: 15px;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    box-shadow: 1px 1px 5px rgb(202, 202, 202);
+  box-shadow: 1px 1px 5px rgb(202, 202, 202);
 }
 
 .top-right {
-    background-color: white;
-    padding: 20px;
-    height: 200px;
-    width: 600px;
+  background-color: white;
+  padding: 20px;
+  height: 200px;
+  width: 600px;
 
-    box-shadow: 1px 1px 5px rgb(202, 202, 202);
+  box-shadow: 1px 1px 5px rgb(202, 202, 202);
 }
 
 .top-right .f-row {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .top-right .s-row {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .add-btn {
-    margin-top: 20px;
-    margin-left: 40px;
+  margin-top: 20px;
+  margin-left: 40px;
 }
 
 .delivered-products-table-container {
-    overflow: auto;
-    height: 70vh;
+  overflow: auto;
+  height: 70vh;
 }
 
 .delivered-products-table thead {
-    position: sticky;
-    top: 0;
-    background-color: white;
+  position: sticky;
+  top: 0;
+  background-color: white;
 }
 
 .delivered-products-table thead tr th {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .delivered-products-table tbody tr td a {
-    color: black;
+  color: black;
 }
 
-
 .delivered-products-table thead {
-    font-size: 13px;
+  font-size: 13px;
 }
 
 .delivered-products-table tbody {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .lessThanZeroMarkUp {
-    color: red !important;
+  color: red !important;
 }
 
 .actions a {
-    font-size: 11px;
+  font-size: 11px;
 }
 
 .actions a i {
-    padding: 0;
+  padding: 0;
 }
 
 /* Edit Delivered Product */
 .edit-product-container {
-    background-color: white;
-    width: 300px;
-    margin: auto;
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px;
-    padding-top: 40px;
-    padding-bottom: 15px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 5px rgb(190, 190, 190);
-    display: none;
+  background-color: white;
+  width: 300px;
+  margin: auto;
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px;
+  padding-top: 40px;
+  padding-bottom: 15px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgb(190, 190, 190);
+  display: none;
 }
 
 .edit-product-container .input {
-    margin: 20px 0px;
+  margin: 20px 0px;
 }
 
 .edit-product-container .input input {
-    width: 200px;
-    margin: auto;
-} 
+  width: 200px;
+  margin: auto;
+}
 
 .edit-product-container .input label {
-    left: 50px;
+  left: 50px;
 }
 
 .edit-product-container #inv-id {
-    position: absolute;
-    left: 10px;
-    top: 10px;
-    font-size: 11px !important;
-} 
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 11px !important;
+}
 
 .edit-product-container #product-name {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .edit-product-container #closeEditInventory {
-    border: none;
-    background-color: rgba(255, 255, 255, 0);
-    position: absolute;
-    right: 0;
-    top: 7px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0);
+  position: absolute;
+  right: 0;
+  top: 7px;
 }
 
 .edit-product-container #save-change {
-    margin-left: 50%;
-    transform: translateX(-50%);
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
 .alert {
-    position: absolute !important;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 15px;
-    color: white !important;
+  position: absolute !important;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 15px;
+  color: white !important;
 
-    height: 50px;
-    width: auto;
-    font-size: 12px;
+  height: 50px;
+  width: auto;
+  font-size: 12px;
 
-    z-index: 100000;
+  z-index: 100000;
 
-    opacity: 0;
-    transition: opacity 0.6s;
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+#delivered-containainer {
+  overflow-y: auto;
 }
