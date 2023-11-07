@@ -43,18 +43,20 @@ if (isset($_SESSION['id'])) {
                         <td class="emp_actions">
                             <a href="#" id="btn-edit" class="btn btn-primary" data-id="<?= $emp_row['EMP_ID'] ?>" data-fname="<?= $emp_row['FIRST_NAME'] ?>" data-lname="<?= $emp_row['LAST_NAME'] ?>" data-mi="<?= $emp_row['MIDDLE_INITIAL'] ?>" data-suffix="<?= $emp_row['SUFFIX'] ?>" data-sex="<?= $emp_row['SEX'] ?>" data-bday="<?= $emp_row['BIRTHDAY'] ?>" data-email="<?= $emp_row['EMAIL'] ?>" data-role="<?= $emp_row['EMP_TYPE'] ?>" data-contactno="<?= $emp_row['CONTACT_NO'] ?>" data-address="<?= $emp_row['ADDRESS'] ?>" data-username="<?= $emp_row['USERNAME'] ?>"><i class="fa-regular fa-pen-to-square"></i></a>
                             <?php
-                            if ($emp_row['EMP_STATUS'] === 'active') {
+                            if ($emp_row['EMP_ID'] !== 11111) {
+                                if ($emp_row['EMP_STATUS'] === 'active') {
                             ?>
-                                <a href="#" class="btn btn-danger" id="deactivate-user" data-action="deactivate" data-id="<?= $emp_row['EMP_ID'] ?>">
-                                    Deactivate
-                                </a>
+                                    <a href="#" class="btn btn-danger" id="deactivate-user" data-action="deactivate" data-id="<?= $emp_row['EMP_ID'] ?>">
+                                        Deactivate
+                                    </a>
+                                <?php
+                                } else {
+                                ?>
+                                    <a href="#" class="btn btn-success" id="deactivate-user" data-action="activate" data-id="<?= $emp_row['EMP_ID'] ?>">
+                                        Activate
+                                    </a>
                             <?php
-                            } else {
-                            ?>
-                                <a href="#" class="btn btn-success" id="deactivate-user" data-action="activate" data-id="<?= $emp_row['EMP_ID'] ?>">
-                                    Activate
-                                </a>
-                            <?php
+                                }
                             }
                             ?>
                         </td>
