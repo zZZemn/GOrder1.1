@@ -19,6 +19,15 @@ function checkRider($id)
     return $conn->query($sql);
 }
 
+function insertLog($id, $message)
+{
+    global $conn;
+    global $currentDate;
+    global $currentTime;
+    $sql = "INSERT INTO `cust_log`(`CUST_ID`, `LOG_TYPE`, `LOG_DATE`, `LOG_TIME`) VALUES ('$id','$message','$currentDate','$currentTime')";
+    return $conn->query($sql);
+}
+
 function login($email, $password)
 {
     global $conn;
