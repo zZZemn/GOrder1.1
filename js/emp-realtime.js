@@ -248,12 +248,23 @@ $(document).ready(function () {
       },
       success: function (response) {
         empUpdate();
-        setTimeout(() => {
-          $(".alert-success").css("opacity", 1).text(response);
-          setTimeout(function () {
-            $(".alert-success").css("opacity", 0).text("");
+        if (response == "405") {
+          setTimeout(() => {
+            $(".alert-danger")
+              .css("opacity", 1)
+              .text("You can't deactivate this account!");
+            setTimeout(function () {
+              $(".alert-danger").css("opacity", 0).text("");
+            }, 1000);
           }, 1000);
-        }, 1000);
+        } else {
+          setTimeout(() => {
+            $(".alert-success").css("opacity", 1).text(response);
+            setTimeout(function () {
+              $(".alert-success").css("opacity", 0).text("");
+            }, 1000);
+          }, 1000);
+        }
       },
     });
   });
