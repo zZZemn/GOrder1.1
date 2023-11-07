@@ -36,7 +36,7 @@ if (isset($_SESSION['id'])) {
 ?>
                     <tr>
                         <td><?php echo $emp_row['LAST_NAME'] . ', ' . $emp_row['FIRST_NAME'] . ' ' . $emp_row['MIDDLE_INITIAL']; ?></td>
-                        <td><? ($emp_row['EMP_ID'] == '11111') ? 'Super Admin' : $emp_row['EMP_TYPE'] ?></td>
+                        <td><?= ($emp_row['EMP_ID'] == '11111') ? 'Super Admin' : $emp_row['EMP_TYPE'] ?></td>
                         <td><?php echo $emp_row['CONTACT_NO'] ?></td>
                         <td><?php echo $emp_row['EMAIL'] ?></td>
                         <td><?php echo $emp_row['ADDRESS'] ?></td>
