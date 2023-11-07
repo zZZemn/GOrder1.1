@@ -27,6 +27,8 @@ if (isset($_SESSION['id'])) {
                 } else {
                     echo '405';
                 }
+            } else {
+                echo '405';
             }
         } else {
             echo <<<HTML
