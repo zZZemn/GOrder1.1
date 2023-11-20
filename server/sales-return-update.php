@@ -132,7 +132,7 @@ if (isset($_SESSION['id'])) {
                                             <option disabled selected>Select Reason</option>
                                             <option value="Wrong Product">Wrong Product</option>
                                             <option value="Product Defective">Product Defective</option>
-                                            <option value="Product Expired">Product Expired</option>
+                                            <!-- <option value="Product Expired">Product Expired</option> -->
                                         </select>
                                     </td>
                                 </tr>
