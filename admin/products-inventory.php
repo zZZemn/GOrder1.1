@@ -257,6 +257,7 @@ if (isset($_SESSION['id'])) {
                     <thead>
                         <tr>
                             <th>Inventory ID</th>
+                            <th>Batch #</th>
                             <th>Product</th>
                             <th>g</th>
                             <th>mg</th>

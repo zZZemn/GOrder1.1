@@ -133,6 +133,11 @@ if (isset($_GET['del_id'])) {
                             <input type="date" class="form-control" name="expiration_date" id="expiration_date" required>
                             <label for="expriration_date">Expiration Date</label>
                         </div>
+
+                        <div class="input">
+                            <input type="number" class="form-control" name="batch_no" id="batch_no" required placeholder="Enter Batch Number">
+                            <label for="batch_no">Batch No.</label>
+                        </div>
                     </div>
                     <div class="s-row">
                         <div class="input">
@@ -158,6 +163,7 @@ if (isset($_GET['del_id'])) {
                 <thead>
                     <tr>
                         <th>Product</th>
+                        <th>Batch #</th>
                         <th>Supplier Price</th>
                         <th>Selling Price</th>
                         <th>Mark up</th>

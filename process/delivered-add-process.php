@@ -26,6 +26,7 @@ if (isset($_SESSION['id'])) {
         $expiration_date = filter_var($_POST['expiration_date'], FILTER_SANITIZE_STRING);
         $supp_price = filter_var($_POST['supp_price'], FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
         $del_qty = filter_var($_POST['del_qty'], FILTER_SANITIZE_NUMBER_INT);
+        $batchNumber = filter_var($_POST['batchNumber'], FILTER_SANITIZE_NUMBER_INT);
 
         ($expiration_date === "") ? $expiration_date = null : $expiration_date = $expiration_date;
 
@@ -41,8 +42,8 @@ if (isset($_SESSION['id'])) {
 
                     $mark_up = $selling_price - $supp_price;
 
-                    $insert_new_delivered = "INSERT INTO `inventory`(`INV_ID`, `DELIVERY_ID`, `PRODUCT_ID`, `SUPPLIER_PRICE`, `QUANTITY`, `EXP_DATE`, `DEL_QUANTITY`, `MARK_UP`) 
-                                    VALUES ('$inv_id','$del_id','$product_id','$supp_price','$qty','$expiration_date','$del_qty','$mark_up')";
+                    $insert_new_delivered = "INSERT INTO `inventory`(`INV_ID`, `DELIVERY_ID`, `PRODUCT_ID`, `SUPPLIER_PRICE`, `QUANTITY`, `EXP_DATE`, `BATCH_NO`,`DEL_QUANTITY`, `MARK_UP`) 
+                                    VALUES ('$inv_id','$del_id','$product_id','$supp_price','$qty','$expiration_date','$batchNumber','$del_qty','$mark_up')";
 
                     $del_price = $supp_price * $del_qty;
 
@@ -53,7 +54,6 @@ if (isset($_SESSION['id'])) {
                     } else {
                         echo 'adding_failed';
                     }
-
                 } else {
                     echo 'not_exist';
                 }

@@ -59,6 +59,7 @@ if (isset($_SESSION['id'])) {
 ?>
                     <tr>
                         <td><?php echo $row['INV_ID'] ?></td>
+                        <td><?php echo $row['BATCH_NO'] ?></td>
                         <td><?php echo $product['PRODUCT_NAME'] ?></td>
                         <td><?php echo $product['G'] ?></td>
                         <td><?php echo $product['MG'] ?></td>
@@ -74,7 +75,7 @@ if (isset($_SESSION['id'])) {
             } else {
                 ?>
                 <tr>
-                    <td colspan="8" class="text-center text-danger p-5 m-5" style="font-size: 15px;">Empty</td>
+                    <td colspan="9" class="text-center text-danger p-5 m-5" style="font-size: 15px;">Empty</td>
                 </tr>
 <?php
             }

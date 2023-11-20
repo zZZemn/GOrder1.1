@@ -26,6 +26,7 @@ if (isset($_SESSION['id'])) {
 ?>
                     <tr>
                         <td><?php echo $product['PRODUCT_NAME'] ?></td>
+                        <td><?php echo $row['BATCH_NO'] ?></td>
                         <td><?php echo $row['SUPPLIER_PRICE'] ?></td>
                         <td><?php echo $product['SELLING_PRICE'] ?></td>
                         <td class="
