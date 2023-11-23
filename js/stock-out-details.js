@@ -100,17 +100,19 @@ $(document).ready(function () {
   });
 
   //   delete
-  $(document).on("click", ".btn-delete", function (e) {
-    var inv_id = $(this).attr("data-invid"); //update qty of this
-    var qty = $(this).attr("data-qty"); //qty
-    var sodid = $(this).attr("data-sodid"); //delete this
-    var soid = $(this).attr("data-soid"); // update qty of this
-    var selling_price = $(this).attr("data-sellingprice");
-    // console.log(inv_id);
-    // console.log(qty);
-    // console.log(sodid);
-    // console.log(soid);
+  const closeModal = (modalId) => {
+    if (modalId == "deleteModal") {
+      $("#delete-this-so").data("sodid", "");
+      $("#delete-this-so").data("soid", "");
+      $("#delete-this-so").data("invid", "");
+      $("#delete-this-so").data("qty", "");
+      $("#delete-this-so").data("sellingprice", "");
 
+      $("#deleteModal").modal("hide");
+    }
+  };
+
+  const deleteStockOut = (inv_id, qty, soid, sodid, selling_price) => {
     $.ajax({
       type: "POST",
       url: "../ajax-url/delete-sod.php",
@@ -123,6 +125,7 @@ $(document).ready(function () {
       },
       success: function (response) {
         console.log(response);
+        closeModal("deleteModal");
         updateSODTable();
         if (response == "Deletion Success!") {
           $(".alert-success").css("opacity", 1).text(response);
@@ -137,6 +140,44 @@ $(document).ready(function () {
         }
       },
     });
+  };
+
+  $(document).on("click", ".btn-delete", function (e) {
+    var inv_id = $(this).attr("data-invid"); //update qty of this
+    var qty = $(this).attr("data-qty"); //qty
+    var sodid = $(this).attr("data-sodid"); //delete this
+    var soid = $(this).attr("data-soid"); // update qty of this
+    var selling_price = $(this).attr("data-sellingprice");
+
+    $("#delete-this-so").data("sodid", sodid);
+    $("#delete-this-so").data("soid", soid);
+    $("#delete-this-so").data("invid", inv_id);
+    $("#delete-this-so").data("qty", qty);
+    $("#delete-this-so").data("sellingprice", selling_price);
+
+    $("#deleteModal").modal("show");
+  });
+
+  $("#delete-this-so").click(function (e) {
+    e.preventDefault();
+    var inv_id = $(this).data("invid"); //update qty of this
+    var qty = $(this).data("qty"); //qty
+    var sodid = $(this).data("sodid"); //delete this
+    var soid = $(this).data("soid"); // update qty of this
+    var selling_price = $(this).data("sellingprice");
+
+    console.log(inv_id);
+    console.log(qty);
+    console.log(sodid);
+    console.log(soid);
+    console.log(selling_price);
+
+    deleteStockOut(inv_id, qty, soid, sodid, selling_price);
+  });
+
+  $("#close-delete-this-so").click(function (e) {
+    e.preventDefault();
+    closeModal("deleteModal");
   });
 
   updateSODTable();
