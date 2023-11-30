@@ -107,6 +107,16 @@ if (isset($_POST['login'])) {
             <a href="signup.php" class="create-new-account btn">Create new account</a>
         </div>
     </form>
+
+    <div class="btnDownloadsContainer">
+        <a href="app/GOrder.apk" download class="btn btn-dark">
+            <i class="fa-solid fa-download"></i> GOrder
+        </a>
+        <a href="app/GOrder.apk" download class="btn btn-success">
+            <i class="fa-solid fa-download"></i> Rider App
+        </a>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://kit.fontawesome.com/c6c8edc460.js" crossorigin="anonymous"></script>
     <script src="js/login.js"></script>
