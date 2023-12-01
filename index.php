@@ -112,7 +112,7 @@ if (isset($_POST['login'])) {
         <a href="app/GOrder.apk" download class="btn btn-dark">
             <i class="fa-solid fa-download"></i> GOrder
         </a>
-        <a href="app/GOrder.apk" download class="btn btn-success">
+        <a href="app/gorder-delivery-app.apk" download class="btn btn-success">
             <i class="fa-solid fa-download"></i> Rider App
         </a>
     </div>
