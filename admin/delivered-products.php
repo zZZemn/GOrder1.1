@@ -95,7 +95,7 @@ if (isset($_GET['del_id'])) {
                     $supp = $supp_result->fetch_assoc();
                 }
                 ?>
-                <p>Delivery Date: <?php echo $supp['NAME'] ?></p>
+                <p>Supplier: <?php echo $supp['NAME'] ?></p>
                 <p>Delivery Date: <?php echo $del['DELIVERY_DATE'] ?></p>
                 <p>Delivery Price: <span id="del_price"></span></p>
             </div>
