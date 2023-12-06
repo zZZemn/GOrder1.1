@@ -12,6 +12,13 @@ if (isset($_SESSION['id'])) {
     $emp_status = $emp['EMP_STATUS'];
 
     if ($emp_status === 'active') {
+        $uploadIdSql = "SELECT * FROM `customer_user` WHERE `ID_PICTURE` IS NOT NULL AND `DISCOUNT_TYPE` = NULL OR `DISCOUNT_TYPE` = '763'";
+        $uploadIdResult = $conn->query($uploadIdSql);
+        while ($uploadIdNotif = $uploadIdResult->fetch_assoc()) {
+?>
+            <p class="text-light"><span class="text-warning">*</span><?php echo 'You need to check the valid ID of ' . $uploadIdNotif['FIRST_NAME'] . ' ' . $uploadIdNotif['MIDDLE_INITIAL'] . ' ' . $uploadIdNotif['LAST_NAME'] . ' and update the discount type.'; ?></p>
+            <?php
+        }
 
         $product_sql = "SELECT PRODUCT_ID, PRODUCT_NAME, CRITICAL_LEVEL FROM products";
         $product_result = $conn->query($product_sql);
@@ -26,9 +33,9 @@ if (isset($_SESSION['id'])) {
                 $inventory_expiration_result = $conn->query($inventory_expiration_sql);
                 if ($inventory_expiration_result->num_rows > 0) {
                     while ($inventory_expiration_row = $inventory_expiration_result->fetch_assoc()) {
-                       ?>
-                        <p class="text-light"><span class="text-warning">*</span><?php echo $product_name.' need to be dispose. (INV-'.$inventory_expiration_row['INV_ID'].')' ?></p>
-                       <?php
+            ?>
+                        <p class="text-light"><span class="text-warning">*</span><?php echo $product_name . ' need to be dispose. (INV-' . $inventory_expiration_row['INV_ID'] . ')' ?></p>
+                    <?php
                     }
                 }
 
@@ -36,7 +43,7 @@ if (isset($_SESSION['id'])) {
                 $inventory_sql = "SELECT SUM(QUANTITY) AS total_qty FROM inventory WHERE PRODUCT_ID = '$product_id'";
                 $inventory_result = $conn->query($inventory_sql);
                 if ($inventory_result->num_rows > 0) {
-?>
+                    ?>
                     <?php
                     $inventory = $inventory_result->fetch_assoc();
                     $product_qty = $inventory ? $inventory['total_qty'] : 0;
