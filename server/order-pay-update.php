@@ -62,7 +62,12 @@ if (isset($_SESSION['id'])) {
                                     <input type="hidden" id="product_id" value="<?php echo $product_id ?>">
                                     <input type="hidden" id="qty" value="<?php echo $order_row['QTY'] ?>">
                                     <input type="hidden" id="amount" value="<?php echo $order_row['AMOUNT'] ?>">
-                                    <td><?php echo $product['PRODUCT_NAME'] ?></td>
+                                    <td>
+                                        <?php echo $product['PRODUCT_NAME'] ?>
+                                        <?= ($product['MG'] > 0) ? $product['MG'] . 'mg' : '' ?>
+                                        <?= ($product['G'] > 0) ? $product['G'] . 'g' : '' ?>
+                                        <?= ($product['ML'] > 0) ? $product['ML'] . 'ml' : '' ?>
+                                    </td>
                                     <td><?php echo $product['SELLING_PRICE'] ?></td>
                                     <td><?php echo $order_row['QTY'] ?></td>
                                     <td><?php echo $order_row['AMOUNT'] ?></td>
